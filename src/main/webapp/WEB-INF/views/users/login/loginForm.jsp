@@ -27,24 +27,56 @@
     border-top: 1px solid #e4e4e4;
     margin-top: 30px;
   }
+
 </style>
 
+
+<!-- <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+	function login() {
+		var id =$("#id").val();
+		var password=$("password").val();
+		 if(id == "") {
+			$('#checkid-msg').text("아이디가 존재하지 않습니다.").css("color", "red");
+			$("#id").focus();
+			  return false;
+		 
+					
+		 }if(!password){
+			$('#checkpass-msg').text("비밀번호가 틀렸습니다.").css("color", "red");
+			$("#password").focus();
+			  return false;
+		
+		}
+		 return true;
+	}
+	
+	$(function () {
+		   $('#loginForm').submit(function() {
+			
+				  });
+	});
+		
+		
+</script>  -->
 <div class="w45 login_wr">      
   <div class="logo"><img src="./images/logo3.svg" alt=""></div>
-  <form action="/login" method="POST" id="" class="login_form">
+  <form action="./login" method="POST" id="loginForm" class="login_form" onsubmit ="return login()">
     
     <div class="f_row">
-      <input type="text" placeholder="ID" name="id"/>
-      <input type="password" placeholder="비밀번호"/ name="password">
+      <input type="text" placeholder="ID" name="id" id="id" required="required"/>
+         <p><small id="checkid-msg" class="form-error"></small></p>
+      <input type="password" placeholder="비밀번호" name="password" id="password" required="required">
+         <p><small id="checkpass-msg" class="form-error"></small></p>
     </div>
      <input type="submit" class="pet_btn login_btn transition02" value= "로그인"/>
   </form>
   <div class="info_area">
     <p>
       <label class="fcCbox1"><input type="checkbox"><span>로그인상태유지</span></label>
-      <a href="#"> 아이디 / 비밀번호 찾기</a>
+      <a href="./findId" >아이디</a>/<a href="./findPass">비밀번호찾기</a>
     </p>
     <p class="login_option"><span class="pet_btn login_btn kakao_btn">카카오톡계정으로 로그인하기</span></p>
-    <p><a href="#">펫트너회원가입</a></p>
+    <p><a href="./join">펫트너회원가입</a></p>
   </div>
 </div>

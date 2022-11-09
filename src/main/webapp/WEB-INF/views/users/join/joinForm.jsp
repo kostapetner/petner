@@ -218,7 +218,7 @@
 	   		}
 	   		$.ajax({
 	   			type:"post",
-	   			url:"http://localhost:8088/checkId",
+	   			url:"http://localhost:8088/petner/checkId",
 	   			data:{id:id},   //id(key):id(value)
 	   			success:function(data,textStatus) {
 	   				if(data=="true") {
@@ -246,7 +246,7 @@
 
     <div class="login_form w50">      
       <h3 class="form_title">회원가입</h3>
-      <form id= "joinForm" action="/joinpet" method="POST" class="join_form" onsubmit = "return check()">
+      <form id= "joinForm" action="./joinpet" method="POST" class="join_form" onsubmit = "return check()">
       
         <div class="f_row">
           <p class="fc_title">어쩌고저쩌고</p>

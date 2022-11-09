@@ -1,20 +1,20 @@
 package com.kosta.petner.service;
 
 
-import com.kosta.petner.bean.UsersVo;
+
+
+import com.kosta.petner.bean.Users;
 
 public interface UsersService {
 	//회원가입
-	public void joinUsers(UsersVo usersVo) throws Exception;
+	public void joinUsers(Users users) throws Exception;
 	
 	//중복체크
 	public boolean isDoubleId(String id) throws Exception;
 	
 	//로그인
-	public UsersVo getUsers(UsersVo usersVo) throws Exception;
+	public Users getUsers(Users users);
 	
-	//로그인 개수
-		public int doLoginCnt(UsersVo usersVo) throws Exception;
-		
-	
+	//아이디 찾기
+	public Users getId(Users users);
 }

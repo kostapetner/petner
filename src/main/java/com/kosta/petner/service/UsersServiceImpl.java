@@ -1,10 +1,12 @@
 package com.kosta.petner.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.kosta.petner.bean.UsersVo;
+import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 
 @Service
@@ -15,11 +17,11 @@ public class UsersServiceImpl implements UsersService {
 	
 	
 	@Override
-	public void joinUsers(UsersVo usersVo) throws Exception {
-		System.out.println("service:" +usersVo);
-		UsersVo users = usersDAO.selectId(usersVo.getId());
-		if(users!=null) throw new Exception("아이디 중복");
-		usersDAO.insertUsers(usersVo);
+	public void joinUsers(Users users) throws Exception {
+		System.out.println("service:" +users);
+		Users usersvo = usersDAO.selectId(users.getId());
+		if(usersvo!=null) throw new Exception("아이디 중복");
+		usersDAO.insertUsers(users);
 		
 	}
 
@@ -27,26 +29,30 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public boolean isDoubleId(String id) throws Exception {
 		
-		UsersVo users = usersDAO.selectId(id);
+		Users users = usersDAO.selectId(id);
 		if(users==null) return false;
 		return true;
 	}
 
 
+	
 	@Override
-	public UsersVo getUsers(UsersVo usersVo) throws Exception {
-		return usersDAO.getUsers(usersVo);
-	}
+	public Users getUsers(Users users) {
+		return usersDAO.getUsers(users.getId(), users.getPassword());
+			}
 
 
 	@Override
-	public int doLoginCnt(UsersVo usersVo) throws Exception {
-		return usersDAO.doLoginCnt(usersVo);
-	}
-	
-	
-
-
-	
-
+	public Users getId(Users users) {
+		return usersDAO.getId(users);
+			}
 }
+
+
+
+	
+	
+	
+
+
+	

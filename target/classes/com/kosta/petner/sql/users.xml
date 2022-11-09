@@ -3,7 +3,7 @@
 
 <mapper namespace="mapper.users">
 		<!-- 회원가입 -->
-	<insert id="insertUsers" parameterType="com.kosta.petner.bean.UsersVo">
+	<insert id="insertUsers" parameterType="com.kosta.petner.bean.Users">
 		<![CDATA[
 			insert into users(userNo, userType, id, password,email,name,nickname,gender,address, joindate)
 			values(userNo_seq.nextval, #{userType},#{id}, #{password},#{email},#{name}, #{nickname}, #{gender},#{address}, sysdate)					
@@ -11,27 +11,28 @@
 	</insert>
 	
 	
-	<select id= "selectId" parameterType = "String" resultType= "com.kosta.petner.bean.UsersVo" >
+	<select id= "selectId" parameterType = "String" resultType= "com.kosta.petner.bean.Users" >
 	<![CDATA[
 	select * from users where id =#{id}
 	]]>	
 	</select>
 	
 	
-	<select id="doLogin" parameterType="String" resultType="com.kosta.petner.bean.UsersVo">
+	<select id="getByIdAndPassword" parameterType="map" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
-		select userNo, userType, id, password,email,name,nickname,gender,address, joindate
+		select *
 		from users 
 		where id=#{id} and password=#{password}
 	]]>
 	</select>
 	
-		<select id="doLoginCnt" parameterType="com.kosta.petner.bean.UsersVo" resultType="int"> 
+	<select id="getId" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
-		SELECT count(*)
-		FROM USERS 
-		WHERE ID = #{id} and password = #{password}
+		select *
+		from users
+		where name=#{name} and email=#{email}
 	]]>
 	</select>
+
 	
 </mapper>
