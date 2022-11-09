@@ -30,31 +30,51 @@
 <!-- HEADER BASIC -->
 <header id="header">
   <div class="header_inner">
-    <h1><img src="${imgPath}/header_logo.png" alt="logo"></h1>
+    <h1><a href="/petner"><img src="${imgPath}/header_logo.png" alt="logo"></a></h1>
     <nav id="gnb">
+      <c:choose>
+      <c:when  test="${empty authUser}">
       <ul>
         <li><a href="/petner/findSitter">펫시터 찾기</a></li>
-        <li><a href="/petner/findAnimal">돌봐줄 동물 찾기</a></li>
-        <li><a href="/petner/notice">공지사항</a></li>
+        <li><a href="/petner/findPet">돌봐줄 동물 찾기</a></li>
+        <li><a href="#">공지사항</a></li>
       </ul>
+      </c:when>
+      
+      <c:otherwise>
+      <ul>
+      	<li><a href="#">펫시터 찾기</a></li>
+        <li><a href="#">돌봐줄 동물 찾기</a></li>
+        <li><a href="#">공지사항</a></li>
+      </ul>
+      </c:otherwise>
+      </c:choose>
     </nav>
     <div class="login_menu">
+      
       <ul>
         <!-- 세션있을때  -->
+        <c:if test="${not empty authUser}">
+        <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-heart"></i></a></li>
         <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-comment-dots"></i></a></li>
         <li class="in_session"><a class="alert transition02" href="#"><i class="fa-solid fa-bell"></i></a></li>
         <li class="in_session mypage"><a a class="my transition02" href="#"><i class="fa-solid fa-user"></i> </a></li>
-
+		</c:if>
         <!-- 세션없을때 로그인 -->
-        <li><a class="login" href="#">로그인</a></li>
+        <c:if test="${empty authUser}">
+
+        <li><a class="login" href="./login">로그인</a></li>
+
+ 
+        </c:if>
       </ul>
     </div>
     <!-- 마이페이지 플로트메뉴 / 로그아웃 -->
     <div class="float_mymenu">
       <div>
-        <p class="pb10"><b >petpetid123</b></pc>
+        <p class="pb10"><b >${authUser.id}</b></p>
         <p class="flex_between">
-          <span class="second">pet1234@gmail.com</span>
+          <span class="second">${authUser.email}</span>
           <a style="font-weight: 300;" class="second" href="#">마이페이지</a>
         </p>
       </div>
@@ -62,14 +82,20 @@
       <div class="flex_between">
         <div>
           <p class="second pb4">닉네임</p>
-          <p>코스타펫스타</p>
+          <p>${authUser.nickname}</p>
         </div>
         <div>
           <p class="second pb4">등급</p>
           <p>VIP</p>
         </div>
       </div>
-      <div><a href="#">로그아웃</a></div>
+      <!-- <div>
+        <ul>
+          <li><a href="#">팔로우/팔로워</a></li>
+          <li><a href="#">리뷰관리</a></li>
+        </ul>
+      </div> -->
+      <div><a href="./logout">로그아웃</a></div>
     </div>
   </div>
 </header>
