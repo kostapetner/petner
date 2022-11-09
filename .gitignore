@@ -15,6 +15,7 @@ local.properties
 .recommenders
 .MF
 *.MF
+.properties
 
 # External tool builders
 .externalToolBuilders/

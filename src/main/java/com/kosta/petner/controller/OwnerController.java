@@ -23,7 +23,7 @@ public class OwnerController {
 	OwnerService ownerService;
 	
 	//펫 정보등록 페이지
-	@RequestMapping(value = "/petner/petForm", method = RequestMethod.GET)
+	@RequestMapping(value = "/petForm", method = RequestMethod.GET)
 	String sitterForm(Model model) {
 		model.addAttribute("title", "펫정보등록");
 		model.addAttribute("page", "mypage/petForm");

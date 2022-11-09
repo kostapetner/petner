@@ -12,13 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.SitterInfo;
-import com.kosta.petner.service.SitterFormService;
+import com.kosta.petner.service.SitterService;
 
 @Controller
 public class SitterController {
 
 	@Autowired
-	SitterFormService sitterFormService;
+	SitterService sitterService;
 
 	//펫시터 정보등록 페이지
 	@RequestMapping(value = "/sitterForm", method = RequestMethod.GET)
@@ -43,7 +43,7 @@ public class SitterController {
 				mav.setViewName("redirect:/");
 				System.out.println(sitterInfo.toString());
 			}
-			sitterFormService.regist(sitterInfo);
+			sitterService.regist(sitterInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
