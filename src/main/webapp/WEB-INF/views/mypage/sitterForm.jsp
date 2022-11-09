@@ -291,5 +291,5 @@ $(document).ready(function() {
 	$(".submit_btn").click(function() {
 		$("#sitterForm").submit();
 	})
-})
+});
 </script>
