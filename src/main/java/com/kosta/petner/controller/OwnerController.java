@@ -38,7 +38,7 @@ public class OwnerController {
 			//파일
 			MultipartFile file = petInfo.getImageFile(); //파일 자체를 가져옴
 			if(!file.isEmpty()) {
-				String path = "D:\\javaStudy\\workspace\\stsWorkspace\\Petner\\src\\main\\webapp\\resources\\upload";
+				String path = "D:\\teamProject\\petner\\src\\main\\webapp\\resources\\upload";
 				File destFile = new File(path +"\\"+ file.getOriginalFilename());//file을 destFile로 옮겨라.
 				file.transferTo(destFile);
 				petInfo.setProfile(file.getOriginalFilename());//파일의 이름을 넣어주기위해 따로 설정

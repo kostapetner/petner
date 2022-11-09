@@ -2,7 +2,7 @@
 
 <div class="content">
 <h3 class="form_title fs24">나의 반려동물 정보</h3>
-<form action="/petForm/register" method="POST" id="petForm" class="mypage_form" enctype="multipart/form-data">
+<form action="/petner/petForm/register" method="POST" id="petForm" class="mypage_form" enctype="multipart/form-data">
 	<div class="tip tip1 mb25">
 		펫시터를 구하기 위해 보호자님의<br>소중한 반려동물의 정보가 필요해요.<br /> 딱맞는 펫시터를 찾아드릴게요
 	</div>

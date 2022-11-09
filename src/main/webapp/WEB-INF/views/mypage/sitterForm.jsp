@@ -2,17 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e2d6fc6008c147d8c5d81603f2166c5d&libraries=services"></script>
-<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/064a55beb6.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/resources/css/common.css">
-<link rel="stylesheet" href="/resources/css/form_component.css">
-<link rel="stylesheet" href="/resources/css/mypage_form.css">
 <title>시터정보입력</title>
- <style>
+<style>
     .map_wrap {position:relative;width:100%;height:350px;}
     .title {font-weight:bold;display:block;}
     .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
@@ -22,8 +14,7 @@
 </head>
 <div class="content">
 	<h3 class="form_title fs24">펫시터 정보 등록</h3>
-
-	<form action="/sitterForm/register" method="POST" id="sitterForm" class="mypage_form" enctype="multipart/form-data">
+	<form action="/petner/sitterForm/register" method="POST" id="sitterForm" class="mypage_form" enctype="multipart/form-data">
 		<div class="tip tip1 mb25">펫시터 활동을 위한 추가 정보 등록이 필요해요</div>
 		<!-- 사진등록 -->
 		<div class="f_row profile_upload">

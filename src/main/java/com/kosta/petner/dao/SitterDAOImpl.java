@@ -14,7 +14,7 @@ public class SitterDAOImpl implements SitterDAO {
 	
 	@Override
 	public void regist(SitterInfo sitterInfo) {
-		sqlSession.insert("mapper.sitterForm.regist", sitterInfo);
+		sqlSession.insert("mapper.sitter.regist", sitterInfo);
 	}
 
 }

@@ -14,7 +14,7 @@ public class OwnerDAOImpl implements OwnerDAO {
 	
 	@Override
 	public void regist(PetInfo petInfo) throws Exception {
-		sqlSession.insert("mapper.petForm.regist", petInfo);
+		sqlSession.insert("mapper.owner.regist", petInfo);
 
 	}
 
