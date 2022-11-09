@@ -32,7 +32,7 @@ public class UsersController {
 	//회원가입폼으로
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	String joinForm() {
-		return "users/join/joinForm";
+		return "users/joinForm";
 	}
 	
 	//회원가입 
