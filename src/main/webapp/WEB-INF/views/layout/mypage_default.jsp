@@ -9,6 +9,38 @@
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
 	<title>${title}</title>
 </head>
+
+<script>
+$(document).ready(function(){
+    $(".toggle input").click(function(){      
+      $(".text1").toggleClass("active");
+      $(".text2").toggleClass("active");
+
+      if( $(this).is(':checked') ){ // check가 보호자임        
+        var owner_menu1 = ""; 
+            owner_menu1 += "<a href='#'>나의정보보기</a>"
+                    +  "<a href='#'>나의반려동물정보</a>";
+        
+        var owner_menu2 = ""; 
+           owner_menu2 += "<a href='#'>서비스 요청하기</a>"
+                        +  "<a href='#'>요청한 서비스보기</a>";
+        $(".toggle_menu1").html(owner_menu1);
+        $(".toggle_menu2").html(owner_menu2);
+
+      }else{ // 시터일경우
+        var sitter_menu1 = ""; 
+            sitter_menu1 += "<a href='#'>나의정보보기</a>"
+                         +  "<a href='#'>나의시터정보보기</a>";
+        
+        var sitter_menu2 = ""; 
+            sitter_menu2 += "<a href='#'>내가받은요청</a>"
+                         +  "<a href='#'>내가찜한요청</a>";
+        $(".toggle_menu1").html (sitter_menu1);
+        $(".toggle_menu2").html (sitter_menu2);
+      }
+    })
+ })
+</script>
 <body>
   <div id="wrapper">
     <!-- HEADER BASIC -->
@@ -55,27 +87,18 @@
             <ul>
               <li>
                 <p class="first_menu">내정보</p>
-                <div class="second_menu">
+                <div class="second_menu toggle_menu1">
                   <a href="#">나의정보보기</a>
-                  <a href="#" class="coconut">나의 시터정보 관리</a>
-                  <!-- 보호자일경우
-                    <a href="#">나의펫정보관리</a>
-                  -->
+                  <a href="#">나의 시터정보 관리</a>
                 </div>
               </li>
-
               <li>
                 <p class="first_menu">나의 서비스</p>
-                <div class="second_menu">
+                <div class="second_menu toggle_menu2">
                   <a href="#">내가 받은 요청</a>
                   <a href="#">내가 찜한 요청</a>
-                  <!-- 보호자일경우
-                    <a href="#">서비스 요청하기</a>
-                    <a href="#">신청한 서비스 보기</a>
-                  -->
                 </div>
-              </li>
-              
+              </li>              
               <li>
                 <p class="first_menu">리뷰관리</p>
                 <div class="second_menu">
@@ -84,14 +107,12 @@
                   <a href="#">내가 받은 리뷰</a>
                 </div>
               </li>
-
               <li>
                 <p class="first_menu">고객센터</p>
                 <div class="second_menu">
                   <a href="#">1:1문의</a>
                 </div>
-              </li>
-             
+              </li>             
             </ul>
           </div>
           <div class="cont_view">
