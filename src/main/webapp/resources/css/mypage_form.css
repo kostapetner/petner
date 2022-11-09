@@ -1,0 +1,31 @@
+  /*--------------- SITTER FORM / PET FORM CSS ---------------*/
+  .mypage_form{text-align: center; width:460px; margin:0 auto 40px;}
+  .mypage_form .f_row{margin-bottom:32px;}
+  .mypage_form .fc_title{padding-bottom:15px !important}
+  .mypage_form select{min-width: 442px;;}
+  .mypage_form .select_all{font-weight: 300; font-size:1.4rem;}
+  .mypage_form .days span{padding:0 15px !important}
+  
+  .profile_upload{padding-top:20px;}
+  .profile_upload .prof_img{position: relative; margin:0 auto; width:150px;}
+  .profile_upload .img{
+    width:130px; 
+    height:130px; 
+    margin:0 auto;
+    background-color:pink; 
+    border-radius: 50%; 
+    overflow: hidden;
+
+  }
+  .profile_upload img{width:100%;}
+  .profile_upload .edit_btn{
+    width: 40px;
+    height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right:6px; bottom:4px;
+  }

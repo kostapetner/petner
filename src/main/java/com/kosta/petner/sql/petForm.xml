@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.petForm">
+	
+	<insert id="regist" parameterType="com.kosta.petner.bean.PetInfo">
+		insert into pet_info( userNo
+								,profile
+								,pet_kind
+								,pet_specie
+								,pet_name
+								,pet_age
+								,pet_weight
+								,pet_sex
+								,pet_neutral
+								,info
+		) values(#{userNo, jdbcType=INTEGER}
+				,#{profile, jdbcType=VARCHAR}
+				,#{pet_kind, jdbcType=VARCHAR}
+				,#{pet_specie, jdbcType=VARCHAR}
+				,#{pet_name, jdbcType=VARCHAR}
+				,#{pet_age, jdbcType=INTEGER}
+				,#{pet_weight, jdbcType=INTEGER}
+				,#{pet_sex, jdbcType=VARCHAR}
+				,#{pet_neutral, jdbcType=VARCHAR}
+				,#{info, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+</mapper>
