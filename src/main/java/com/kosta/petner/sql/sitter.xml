@@ -14,7 +14,7 @@
 								,addr
 								,addr_detail
 								,sitter_info
-		) values(user_no_seq.nextval
+		) values(#{user_no, jdbcType=INTEGER}
 				,#{file_no, jdbcType=INTEGER}
 				,#{pet_kind, jdbcType=VARCHAR}
 				,#{pet_specie, jdbcType=VARCHAR}

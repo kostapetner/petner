@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +33,6 @@ public class SitterController {
 	
 	@Autowired
 	SitterService sitterService;
-	
-	@Autowired
-	HttpSession session;
 
 	//펫시터 정보등록 페이지
 	@RequestMapping(value = "/sitterForm", method = RequestMethod.GET)
@@ -49,15 +44,8 @@ public class SitterController {
 	
 	//DB insert
 	@RequestMapping(value = "/sitterForm/register", method = RequestMethod.POST)
-	public ModelAndView register(Model model, @ModelAttribute SitterInfo sitterInfo, HttpServletRequest request) {
+	public ModelAndView register(Model model, @ModelAttribute SitterInfo sitterInfo) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("---------------------------------");
-		sitterInfo = (SitterInfo)request.getSession().getAttribute("id");
-		System.out.println("aaaaszaaaaaa:    "+sitterInfo);
-		
-		
-		System.out.println("---------------------------------");
-		
 		try {
 			//파일
 			MultipartFile file = sitterInfo.getImageFile(); //파일 자체를 가져옴
@@ -99,7 +87,7 @@ public class SitterController {
 				Integer file_no = fileService.getFileNo(server_filename);
 				sitterInfo.setFile_no(file_no);
 				System.out.println(sitterInfo.toString());
-				//sitterService.regist(sitterInfo);
+				sitterService.regist(sitterInfo);
 				
 				mav.setViewName("redirect:/");
 			}
