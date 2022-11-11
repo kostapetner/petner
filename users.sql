@@ -36,3 +36,11 @@ values(seq_user_no.nextval, 1, '1234', '펫트너', 'petner@petner.com', '1234',
 -----조회-----
 SELECT * FROM users;
 
+
+------------비밀번호수정-------
+
+ update users 
+	    set password = '1234'
+	    where id = '1234'
+	    and   name = '펫트너'
+	    and   email = 'petner@petner.com';
