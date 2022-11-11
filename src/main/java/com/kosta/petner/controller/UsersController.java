@@ -114,7 +114,7 @@ public class UsersController {
 		
 		//아이디 찾기
 		@RequestMapping(value="/findId",method = RequestMethod.POST)              
-		public String findId(Users users, Model model) throws Exception {				
+		public String findId(@ModelAttribute Users users, Model model) throws Exception {				
 
 			System.out.println("users.getName():    "+ users.getName());
 			System.out.println("users.getEmail():    "+ users.getEmail());
@@ -127,7 +127,7 @@ public class UsersController {
 				return "users/login/resultId";	
 			}
 			//
-			model.addAttribute("searchId", searchId);
+			session.setAttribute("searchId", searchId);
 			System.out.println(searchId);
 			return "users/login/resultId";
 			}
@@ -140,7 +140,7 @@ public class UsersController {
 			
 		//비밀번호 찾기
 			@RequestMapping(value="/findPass",method = RequestMethod.POST)              
-			public String findPassword(Users users, Model model) throws Exception {				
+			public String findPassword(@ModelAttribute Users users, Model model) throws Exception {				
 				
 				System.out.println("users.getId():    	"+ users.getId());
 				System.out.println("users.getName():    "+ users.getName());
@@ -159,7 +159,26 @@ public class UsersController {
 				
 			}
 		//비밀번호 수정
+			@RequestMapping(value = "/modifyPass", method = RequestMethod.POST)
+			String modifyPass(@ModelAttribute Users users, Model model) {
+				Users user = usersService.findPassword(users);
+				System.out.println(user);
+				System.out.println("새 비밀번호:" + users.getPassword());
+				try{
+					
+					System.out.println(user);
+					if(user != users)
+					usersService.ModifyPassword(users);
+					model.addAttribute("page","users/login/modifySuccess");
 			
-			
+				} catch(Exception e) {
+					e.printStackTrace();
+					model.addAttribute("err", "비밀번호수정 오류");
+					model.addAttribute("page", "err");
+				}
+				
+				return "users/login/modifySuccess";
+				
+			}
 	}
 

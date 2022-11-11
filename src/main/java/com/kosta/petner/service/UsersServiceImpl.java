@@ -57,7 +57,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public void ModifyPassword(Users users) {
-		usersDAO.passwordUpdate(users);
+		usersDAO.passwordUpdate(users); 
 	}
 
 			

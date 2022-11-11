@@ -63,25 +63,25 @@
 	</select>
 	
 	<select id="getPassword" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
-<![CDATA[
-    select  *
-    from users
-    where id = #{id}
-    and   name = #{name}
-    and   email = #{email}
-]]>    
-</select>
+	<![CDATA[
+	    select  *
+	    from users
+	    where id = #{id}
+	    and   name = #{name}
+	    and   email = #{email}
+	]]>    
+	</select>
  
     
-<update id="updatePassoword" parameterType="com.kosta.petner.bean.Users" >
-<![CDATA[
-    update users 
-    set password = #{password}
-    where id = #{id}
-    and   name = #{name}
-    and   email = #{email}
-]]>    
-</update>
+	<update id="updatePassword" parameterType="com.kosta.petner.bean.Users">
+	<![CDATA[
+	    update users 
+	    set password = #{password,jdbcType=VARCHAR}
+	    where id = #{id,jdbcType=VARCHAR}
+	    and   name = #{name,jdbcType=VARCHAR}
+	    and   email = #{email,jdbcType=VARCHAR}
+	]]>    
+	</update>
 
 	
 </mapper>
