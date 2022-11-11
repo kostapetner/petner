@@ -6,4 +6,13 @@
 			SELECT * FROM USERS WHERE ID = #{id}
 		]]>
 	</select>
+	
+	<update id="updateMyInfo" parameterType="com.kosta.petner.bean.Member">
+		<![CDATA[
+			UPDATE USERS 
+			SET 
+			EMAIL = 'ㄷㅇㅇㅇ'
+			WHERE id = 'cheddar'
+		]]>
+	</update>
 </mapper>

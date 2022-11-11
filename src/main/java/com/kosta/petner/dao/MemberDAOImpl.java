@@ -15,6 +15,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public Member getMyinfo(String id){		
 		return sqlSession.selectOne("mapper.member.getMyinfo", id);
 	}
+
+	@Override
+	public Member updateMyinfo(Member member) {
+		sqlSession.update("mapper.member.updateMyInfo", member);
+		return null;
+	}
 	
 	
 }
