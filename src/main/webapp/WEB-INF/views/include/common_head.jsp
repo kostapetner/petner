@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="${cssPath}/common.css">
 <link rel="stylesheet" href="${cssPath}/form_component.css">
 <link rel="stylesheet" href="${cssPath}/mypage_default.css">
+<link rel="stylesheet" href="${cssPath}/mypage_form.css">
 
 <!-- JS -->
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>

@@ -2,8 +2,8 @@ package com.kosta.petner.bean;
 
 
 public class Users {
-	private int userNo;
-	private int userType;
+	private int user_no;
+	private int user_type;
 	private String id;
 	private String nickname;
 	private String email;
@@ -11,20 +11,24 @@ public class Users {
 	private String name;
 	private String joindate;
 	private String gender;
-	private String address;
+	private String zipcode;
+	private String addr;
+	private String addr_detail;
+	private String user_level;
+	private int user_auth;
+	private int file_no;
 	
-	
-	public int getUserNo() {
-		return userNo;
+	public int getUser_no() {
+		return user_no;
 	}
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUser_no(int user_no) {
+		this.user_no = user_no;
 	}
-	public int getUserType() {
-		return userType;
+	public int getUser_type() {
+		return user_type;
 	}
-	public void setUserType(int userType) {
-		this.userType = userType;
+	public void setUser_type(int user_type) {
+		this.user_type = user_type;
 	}
 	public String getId() {
 		return id;
@@ -68,17 +72,48 @@ public class Users {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getAddress() {
-		return address;
+	public String getZipcode() {
+		return zipcode;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
 	}
-	public Users(int userNo, int userType, String id, String nickname, String email, String password, String name,
-			String joindate, String gender, String address) {
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public String getAddr_detail() {
+		return addr_detail;
+	}
+	public void setAddr_detail(String addr_detail) {
+		this.addr_detail = addr_detail;
+	}
+	public String getUser_level() {
+		return user_level;
+	}
+	public void setUser_level(String user_level) {
+		this.user_level = user_level;
+	}
+	public int getUser_auth() {
+		return user_auth;
+	}
+	public void setUser_auth(int user_auth) {
+		this.user_auth = user_auth;
+	}
+	public int getFile_no() {
+		return file_no;
+	}
+	public void setFile_no(int file_no) {
+		this.file_no = file_no;
+	}
+	public Users(int user_no, int user_type, String id, String nickname, String email, String password, String name,
+			String joindate, String gender, String zipcode, String addr, String addr_detail, String user_level,
+			int user_auth, int file_no) {
 		super();
-		this.userNo = userNo;
-		this.userType = userType;
+		this.user_no = user_no;
+		this.user_type = user_type;
 		this.id = id;
 		this.nickname = nickname;
 		this.email = email;
@@ -86,20 +121,18 @@ public class Users {
 		this.name = name;
 		this.joindate = joindate;
 		this.gender = gender;
-		this.address = address;
+		this.zipcode = zipcode;
+		this.addr = addr;
+		this.addr_detail = addr_detail;
+		this.user_level = user_level;
+		this.user_auth = user_auth;
+		this.file_no = file_no;
 	}
+	
 	public Users() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public String toString() {
-		return "UsersVo [userNo=" + userNo + ", userType=" + userType + ", id=" + id + ", nickname=" + nickname
-				+ ", email=" + email + ", password=" + password + ", name=" + name + ", joindate=" + joindate
-				+ ", gender=" + gender + ", address=" + address + "]";
-	}
-	
-	
 }
-
-
+	
+	

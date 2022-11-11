@@ -4,26 +4,28 @@
 <mapper namespace="mapper.owner">
 	
 	<insert id="regist" parameterType="com.kosta.petner.bean.PetInfo">
-		insert into pet_info(userNo
-							,profile
+		insert into pet_info(pet_no
+							,user_no
+							,file_no
 							,pet_kind
 							,pet_specie
 							,pet_name
 							,pet_age
 							,pet_weight
-							,pet_sex
+							,pet_gender
 							,pet_neutral
-							,info
-		) values( userNo_seq.nextval
-				,#{profile, jdbcType=VARCHAR}
+							,pet_info
+		) values(pet_no_seq.nextval 
+				,user_no_seq.nextval
+				,#{file_no, jdbcType=INTEGER}
 				,#{pet_kind, jdbcType=VARCHAR}
 				,#{pet_specie, jdbcType=VARCHAR}
 				,#{pet_name, jdbcType=VARCHAR}
 				,#{pet_age, jdbcType=INTEGER}
 				,#{pet_weight, jdbcType=INTEGER}
-				,#{pet_sex, jdbcType=VARCHAR}
+				,#{pet_gender, jdbcType=VARCHAR}
 				,#{pet_neutral, jdbcType=VARCHAR}
-				,#{info, jdbcType=VARCHAR}
+				,#{pet_info, jdbcType=VARCHAR}
 		)
 	</insert>
 	

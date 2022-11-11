@@ -86,7 +86,7 @@
         </div>
         <div>
           <p class="second pb4">등급</p>
-          <p>VIP</p>
+          <p>${authUser.user_level}</p>
         </div>
       </div>
       <!-- <div>

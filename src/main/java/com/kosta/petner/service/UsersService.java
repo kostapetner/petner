@@ -16,5 +16,5 @@ public interface UsersService {
 	public Users getUsers(Users users);
 	
 	//아이디 찾기
-	public Users getId(Users users);
+	public Users findId(Users users);
 }

@@ -6,20 +6,21 @@
 	<div class="tip tip1 mb25">
 		펫시터를 구하기 위해 보호자님의<br>소중한 반려동물의 정보가 필요해요.<br /> 딱맞는 펫시터를 찾아드릴게요
 	</div>
+	
 	<!-- 사진등록 -->
 	<div class="f_row profile_upload">
 		<p class="fc_title">프로필 사진을 올려주세요</p>
 		<p class="tip">프로필 사진이 있으면 펫시터에게 연락올 확률이 높아져요</p>
 		<div class="profile_upload">
 			<div class="prof_img">
-				<img id="rep" class="img_wrap img"/> <br>
+				<img id="rep" class="img_wrap img"> <br>
 				<label for="file" class="pet_btn edit_btn"> 
 					<i class="fa-solid fa-pen" id="pen"></i>
 				</label> 
 				<input type="file" id="file" name="imageFile" hidden="hidden"></input>
 			</div>
 		</div>
-         </div>
+	</div>
 
 	<!-- 동물체크 -->
 	<div class="f_row">
@@ -73,8 +74,8 @@
 	<!-- 성별 -->
 	<div class="f_row">
 		<p class="fc_title">반려동물의 성별을 알려주세요</p>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_sex" value="w"><span>암컷</span></label>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_sex" value="m"><span>수컷</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="w"><span>암컷</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="m"><span>수컷</span></label>
 	</div>
 
 	<!-- 중성화 -->
@@ -87,7 +88,7 @@
 	<div class="f_row">
 		<p class="fc_title">펫시터가 알아야할 정보를 알려주세요</p>
 		<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
-		<textarea class="fcc_textarea" name="info"></textarea>
+		<textarea class="fcc_textarea" name="pet_info"></textarea>
 	</div>
 
 	<span class="pet_btn submit_btn transition02">나의 반려동물 정보 등록하기</span>
