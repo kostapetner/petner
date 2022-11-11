@@ -5,8 +5,36 @@
 		<!-- 회원가입 -->
 	<insert id="insertUsers" parameterType="com.kosta.petner.bean.Users">
 		<![CDATA[
-			insert into users(userNo, userType, id, password,email,name,nickname,gender,address, joindate)
-			values(userNo_seq.nextval, #{userType},#{id}, #{password},#{email},#{name}, #{nickname}, #{gender},#{address}, sysdate)					
+			INSERT INTO USERS(user_no, 
+							 user_type, 
+							 id, 
+							 nickname, 
+							 email, 
+							 password, 
+							 name, 
+							 joindate, 
+							 gender, 
+							 zipcode, 
+							 addr, 
+							 addr_detail, 
+							 user_level, 
+							 user_auth, 
+							 file_no)
+				values(seq_user_no.nextval, 
+							#{user_type}, 
+							#{id},
+							#{nickname}, 
+							#{email}, 
+							#{password},
+							#{name},
+							 sysdate, 
+							#{gender}, 
+							#{zipcode},
+							#{addr}, 
+							#{addr_detail},
+							'bronze',
+							 1,
+							 0)					
 		]]>
 	</insert>
 	
@@ -26,11 +54,11 @@
 	]]>
 	</select>
 	
-	<select id="getId" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
+	<select id="getId" parameterType="map" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 		select *
 		from users
-		where name=#{name} and email=#{email}
+		where name=#{name,jdbcType=VARCHAR} and email=#{email}
 	]]>
 	</select>
 

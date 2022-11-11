@@ -25,10 +25,11 @@ public class UsersServiceImpl implements UsersService {
 		
 	}
 
-
+ 
 	@Override
 	public boolean isDoubleId(String id) throws Exception {
-		
+
+		//userDAO를 통해 xml에서 가져온 id 값을 users에 담는다.
 		Users users = usersDAO.selectId(id);
 		if(users==null) return false;
 		return true;
@@ -43,9 +44,11 @@ public class UsersServiceImpl implements UsersService {
 
 
 	@Override
-	public Users getId(Users users) {
-		return usersDAO.getId(users);
-			}
+	public Users findId(Users users){
+		return usersDAO.getId(users.getName(), users.getEmail());
+	}
+
+			
 }
 
 
