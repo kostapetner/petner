@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.kosta.petner.bean.Users;
+import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.UsersService;
 
 
@@ -25,6 +26,9 @@ public class UsersController {
 	
 	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	UsersDAO usersDAO;
 	
 	
 		
@@ -80,7 +84,6 @@ public class UsersController {
 			System.out.println("users.getId():    "+ users.getId());
 			System.out.println("users.getPassword():    "+ users.getPassword());
 		
-			
 			Users authUser = usersService.getUsers(users);
 
 			if(authUser ==null) {
@@ -88,11 +91,9 @@ public class UsersController {
 				model.addAttribute("result", "fail");
 				return "users/login/loginForm";	
 			}
-			
 			//user정보를 authUser라는 세션에 담음
 			session.setAttribute("authUser", authUser);
 			System.out.println(authUser);
-			
 			return "redirect:/";
 			}
 
@@ -112,25 +113,35 @@ public class UsersController {
 		
 		//아이디 찾기
 		@RequestMapping(value="/findId",method = RequestMethod.POST)              
-		public String findId(@ModelAttribute Users users, Model model) throws Exception {				
+		public String findId(Users users, Model model) throws Exception {				
+
 			System.out.println("users.getName():    "+ users.getName());
 			System.out.println("users.getEmail():    "+ users.getEmail());
 		
-			Users userInfo = usersService.getId(users);
+			Users searchId = usersService.findId(users);
 
-			if(userInfo ==null) {
-				System.out.println("입력값 오류");
+			if(searchId ==null) {
+				System.out.println("아이디찾기 실패");
 				model.addAttribute("result", "fail");
-				return "users/login/findId";	
+				return "users/login/resultId";	
 			}
-			//user정보를 userInfo 라는 세션에 담음
-			model.addAttribute("result", 0);
-			model.addAttribute("id", users.getId());
-			System.out.println(users.getId());
-			
-			return "redirect:/";
+			//
+			model.addAttribute("searchId", searchId);
+			System.out.println(searchId);
+			return "users/login/resultId";
 			}
-
+		/*
+		 * try { Users usersId = usersService.findId(users);
+		 * 
+		 * model.addAttribute("usersId", usersId);
+		 * 
+		 * } catch (Exception e) { System.out.println(e.toString());
+		 * model.addAttribute("msg", "오류가 발생되었습니다."); }
+		 * 
+		 * return "/users/login/reusltId"; }
+		 */
+		
+		
 		
 		
 		

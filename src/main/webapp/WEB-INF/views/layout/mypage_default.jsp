@@ -12,14 +12,15 @@
 
 <script>
 $(document).ready(function(){
-    $(".toggle input").click(function(){      
+    $(".toggle input").click(function(){  
+    	
       $(".text1").toggleClass("active");
       $(".text2").toggleClass("active");
 
       if( $(this).is(':checked') ){ // check가 보호자임        
         var owner_menu1 = ""; 
-            owner_menu1 += "<a href='#'>나의정보보기</a>"
-                    +  "<a href='#'>나의반려동물정보</a>";
+            owner_menu1 += "<a href='${pageContext.request.contextPath}/mypage/myBasicInfo'>나의정보보기</a>"
+                    		+  "<a href='#'>나의반려동물정보</a>";
         
         var owner_menu2 = ""; 
            owner_menu2 += "<a href='#'>서비스 요청하기</a>"
@@ -29,7 +30,7 @@ $(document).ready(function(){
 
       }else{ // 시터일경우
         var sitter_menu1 = ""; 
-            sitter_menu1 += "<a href='#'>나의정보보기</a>"
+            sitter_menu1 += "<a href='${pageContext.request.contextPath}/mypage/myBasicInfo'>나의정보보기</a>"
                          +  "<a href='#'>나의시터정보보기</a>";
         
         var sitter_menu2 = ""; 
@@ -88,7 +89,7 @@ $(document).ready(function(){
               <li>
                 <p class="first_menu">내정보</p>
                 <div class="second_menu toggle_menu1">
-                  <a href="#">나의정보보기</a>
+                  <a href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의정보보기</a>
                   <a href="#">나의 시터정보 관리</a>
                 </div>
               </li>

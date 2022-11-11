@@ -252,8 +252,8 @@
           <p class="fc_title">어쩌고저쩌고</p>
           <p class="tip"><i class="fa-solid fa-asterisk"></i> 회원가입후 추가로 정보를 등록할 수 있어요</p>
           <div class="flex_col">
-            <label class="fcRadio1 mb10"><input type="radio" name="userType" id="userType" value= "1" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )</span></label>
-            <label class="fcRadio1"><input type="radio" name="userType" value= "2"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
+            <label class="fcRadio1 mb10"><input type="radio" name="user_type" id="user_type" value= "1" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )</span></label>
+            <label class="fcRadio1"><input type="radio" name="user_type" value= "2"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
           </div>          
         </div>
         <!-- TEXT/PASSWORD -->
@@ -314,10 +314,10 @@
           <p class="fc_title">주소입력</p>
           <div class="flex_col">
             <p class="mb10">
-              <input class="mr12" type="text" id="add1" name="address" readonly/><input type="button" class="pet_btn second_btn transition02" onclick="Zipcode()" value= "주소찾기"/>
+              <input class="mr12" type="text" id="add1" name="zipcode" readonly/><input type="button" class="pet_btn second_btn transition02" onclick="Zipcode()" value= "주소찾기"/>
             </p>            
-            <input class="mb10" type="text" id ="add2" name="address" readonly/>
-            <input class="mb10" type="text" id ="add3" name="address" placeholder="상세주소입력"/>
+            <input class="mb10" type="text" id ="add2" name="addr" readonly/>
+            <input class="mb10" type="text" id ="add3" name="addr_detail" placeholder="상세주소입력"/>
             <input type="hidden" id="add4" name="address" placeholder="참고항목">
              <p><small id="checkaddress-msg" class="form-error"></small></p>
           </div>

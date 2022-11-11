@@ -41,10 +41,13 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	//아이디찾기
 	@Override
-	public Users getId(Users users) {
-		return sqlSession.selectOne("mapper.users.getId", users);
+	public Users getId(String name, String email) {
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("email", email);
+		Users users = sqlSession.selectOne("mapper.users.getId",map);
 		
-		
+		return users;
 	}
 	
 	
