@@ -21,19 +21,19 @@ public class MyPageController {
    //마이페이지 메인화면 
    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
    String main(Model model) {
-      model.addAttribute("page", "mypage/myinfo");
+      model.addAttribute("page", "mypage/myinfo/myBasicInfo");
       return "/layout/mypage_default";
    }
    
    // 마이페이지 나의 기본정보 보기
-   @RequestMapping("/mypage/myinfo")
-   public String myinfo(HttpSession session, Model model) {
+   @RequestMapping("/mypage/myBasicInfo")
+   public String myBasicInfo(HttpSession session, Model model) {
       // 세션에서 id값 가져오기로 수정
       Member member = mypageService.getMyinfo("cheddar");
       
       System.out.println("member정보"+member);
       
-      model.addAttribute("page", "mypage/myinfo");
+      model.addAttribute("page", "mypage/myinfo/myBasicInfo");
       model.addAttribute("title", "나의정보보기");
       model.addAttribute("member", member);
       return "/layout/mypage_default";
@@ -41,7 +41,7 @@ public class MyPageController {
    
    @RequestMapping("/mypage/myinfoEdit")
    public String myinfoEdit(HttpSession session, Model model) {
-      model.addAttribute("page", "mypage/myinfo");
+      model.addAttribute("page", "mypage/myinfo/myinfoEdit");
       model.addAttribute("title", "나의정보수정");
       return "/layout/mypage_default";
    }
