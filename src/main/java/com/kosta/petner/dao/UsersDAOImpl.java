@@ -49,6 +49,15 @@ public class UsersDAOImpl implements UsersDAO{
 		
 		return users;
 	}
+	@Override
+	public Users getPassword(Users users) {
+		return sqlSession.selectOne("mapper.users.getPassword", users);
+	}
+	@Override
+	public void passwordUpdate(Users users) {
+		sqlSession.update("mapper.users.updatePassword", users);
+		
+	}
 	
 	
 	

@@ -48,6 +48,18 @@ public class UsersServiceImpl implements UsersService {
 		return usersDAO.getId(users.getName(), users.getEmail());
 	}
 
+
+	@Override
+	public Users findPassword(Users users) {
+		return usersDAO.getPassword(users);
+	}
+
+
+	@Override
+	public void ModifyPassword(Users users) {
+		usersDAO.passwordUpdate(users);
+	}
+
 			
 }
 
