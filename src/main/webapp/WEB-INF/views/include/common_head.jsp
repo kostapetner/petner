@@ -14,7 +14,10 @@
 <link rel="stylesheet" href="${cssPath}/mypage_default.css">
 
 <!-- JS -->
+<script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+<!-- 다음 주소 API -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <!-- PLUGINS  -->
 

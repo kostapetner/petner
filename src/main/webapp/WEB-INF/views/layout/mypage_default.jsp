@@ -34,7 +34,8 @@ $(document).ready(function(){
                          +  "<a href='#'>나의시터정보보기</a>";
         
         var sitter_menu2 = ""; 
-            sitter_menu2 += "<a href='#'>내가받은요청</a>"
+            sitter_menu2 += "<a href='#'>나의펫시팅활동</a>"
+                         +  "<a href='#'>내가받은요청</a>"
                          +  "<a href='#'>내가찜한요청</a>";
         $(".toggle_menu1").html (sitter_menu1);
         $(".toggle_menu2").html (sitter_menu2);
@@ -96,6 +97,7 @@ $(document).ready(function(){
               <li>
                 <p class="first_menu">나의 서비스</p>
                 <div class="second_menu toggle_menu2">
+                  <a href="#">나의펫시팅활동</a>
                   <a href="#">내가 받은 요청</a>
                   <a href="#">내가 찜한 요청</a>
                 </div>

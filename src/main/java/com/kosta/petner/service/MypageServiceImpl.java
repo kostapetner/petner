@@ -17,4 +17,9 @@ public class MypageServiceImpl implements MypageService {
 		return memberDAO.getMyinfo(id);
 	}
 
+	@Override
+	public Member updateMyinfo(Member member) {
+		return memberDAO.updateMyinfo(member);
+	}
+
 }

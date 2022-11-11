@@ -5,7 +5,7 @@
 <div class="content">
   <p class="menu_title">
   	나의정보보기
-  	<a href="#" class="icon"><i class="fa-solid fa-pen-to-square"></i></a>
+  	<a href="${pageContext.request.contextPath}/mypage/myinfoEdit" class="icon"><i class="fa-solid fa-pen-to-square"></i></a>
   </p>
   <div class="data">
     <p><span class="key">이름</span><span class="value">${member.name}</span></p>

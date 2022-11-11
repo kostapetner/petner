@@ -201,6 +201,7 @@
 
   .flex_between{display:flex; justify-content: space-between; flex-wrap: wrap;}
   .flex_agn_center{display: flex; align-items: center;}
+  .flex_start{align-items:flex-start}
   .flex_col{display: flex; flex-direction: column;}
 
 
@@ -230,7 +231,7 @@
   /* 작은확인용버튼 */
   .second_btn{height:36px;}
   .second_btn:hover{background-color: #535353;}
-
+	
 
   .submit_btn, .login_btn{
     display:inline-flex;
@@ -247,7 +248,8 @@
     /* margin-top:20px; */
   }
   .submit_btn:hover{background-color: #f59f66;}
-
+	
+	.btn_auto{width:fit-content; }
   /* tip */
   .tip{
     color:#848484; 
