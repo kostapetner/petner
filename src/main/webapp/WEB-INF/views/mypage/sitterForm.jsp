@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,12 @@
 <div class="content">
 	<h3 class="form_title fs24">펫시터 정보 등록</h3>
 	<form action="/petner/sitterForm/register" method="POST" id="sitterForm" class="mypage_form" enctype="multipart/form-data">
+		<input type="hidden" value="${authUser.user_no}" name="user_no">
+		<input type="hidden" value="${authUser.zipcode}" name="zipcode">
+		<input type="hidden" value="${authUser.addr}" name="addr">
+		<input type="hidden" value="${authUser.addr_detail}" name="addr_detail">
 		<div class="tip tip1 mb25">펫시터 활동을 위한 추가 정보 등록이 필요해요</div>
+		
 		<!-- 사진등록 -->
 		<div class="f_row profile_upload">
 			<p class="fc_title">프로필 사진을 올려주세요</p>
@@ -109,8 +115,7 @@
 
 		<div class="f_row">
 			<p class="fc_title">활동가능한 지역</p>
-			user테이블의 지역 가져오기
-			zipcode, addr, addr_detail
+			<p class="fc_title">[${authUser.zipcode}] ${authUser.addr} ${authUser.addr_detail}</p>
 		</div>
 
 		<div class="f_row">
