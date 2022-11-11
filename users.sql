@@ -1,3 +1,5 @@
+
+-----------유저테이블---------------------------------by.동인
 CREATE TABLE users(
 user_no NUMBER PRIMARY KEY NOT null,
 user_type NUMBER,

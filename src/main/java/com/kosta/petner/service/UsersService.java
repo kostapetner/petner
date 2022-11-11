@@ -17,4 +17,11 @@ public interface UsersService {
 	
 	//아이디 찾기
 	public Users findId(Users users);
+	
+	//비밀번호 찾기
+	public Users findPassword(Users users);
+	
+	//비밀번호 수정
+	public void ModifyPassword(Users users);
+	
 }
