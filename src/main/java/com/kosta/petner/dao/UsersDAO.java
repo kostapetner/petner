@@ -15,4 +15,10 @@ public interface UsersDAO {
 	
 	//이름+이메일로 아이디 찾기
 	Users getId(String name, String email);
+	
+	//이름+아이디+이메일로 비밀번호 찾기
+	Users getPassword(Users users);
+	
+	//비밀번호 수정
+	void passwordUpdate(Users users);
 }

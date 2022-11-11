@@ -2,6 +2,7 @@ package com.kosta.petner.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -130,24 +131,35 @@ public class UsersController {
 			System.out.println(searchId);
 			return "users/login/resultId";
 			}
-		/*
-		 * try { Users usersId = usersService.findId(users);
-		 * 
-		 * model.addAttribute("usersId", usersId);
-		 * 
-		 * } catch (Exception e) { System.out.println(e.toString());
-		 * model.addAttribute("msg", "오류가 발생되었습니다."); }
-		 * 
-		 * return "/users/login/reusltId"; }
-		 */
 		
-		
-		
-		
-		
-		//비밀번호 찾기
+		//비밀번호 찾기로 이동
 		@RequestMapping(value = "/findPass", method = RequestMethod.GET)
 		String findPass() {
 			return "users/login/findPass";
 		}
-}
+			
+		//비밀번호 찾기
+			@RequestMapping(value="/findPass",method = RequestMethod.POST)              
+			public String findPassword(Users users, Model model) throws Exception {				
+				
+				System.out.println("users.getId():    	"+ users.getId());
+				System.out.println("users.getName():    "+ users.getName());
+				System.out.println("users.getEmail():   "+ users.getEmail());
+			
+				Users searchPass = usersService.findPassword(users);
+
+				if(searchPass == null) {
+					System.out.println("비밀번호찾기 실패");
+					model.addAttribute("result", "fail");
+					return "users/login/resultPass";	
+				}
+				model.addAttribute("searchPass", searchPass);
+				System.out.println(searchPass);
+				return "users/login/resultPass";
+				
+			}
+		//비밀번호 수정
+			
+			
+	}
+

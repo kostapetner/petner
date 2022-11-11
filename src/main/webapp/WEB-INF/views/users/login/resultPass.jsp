@@ -8,31 +8,35 @@
 <head>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
 	<title>아이디 찾기</title>
+
 </head>
 <body>
   <div id="wrapper">
     <!-- HEADER BASIC -->
     <c:import url='/WEB-INF/views/include/header.jsp'/>
     <!-- CONTAINER -->
-    
-    <div class="container">
-    
-     <form action="./findPass" id = "findPass" method="POST">
-    <p>*회원가입시 작성한 아이디,이름, 이메일을 기입해주세요*</p>
-    <p></p>
-    <div class="f_row">
-      <input type="text" placeholder="ID" name="id" id="id">
-      <input type="text" placeholder="이름" name="name" id="name"/>
-      <input type="text" placeholder="E-mail" name="email" id="email"/>
-      <input type= "submit" class="pet_btn second_btn transition02" id="findPass" value="비밀번호 찾기">
-    </div>
 
-  </form>
-     	
-    </div>
-		
-		
-	
+		<div class="container">
+
+			<div class="text-center">
+				
+				<br>
+				<br>
+				<c:choose>
+					<c:when test="${empty searchId}">
+					<p class="h4 text-gray-900 mb-2">이름과 이메일을 확인해주세요</p>
+					</c:when>
+					<c:otherwise>
+					<p class="h4 text-gray-900 mb-2">회원님의 ID는 ${searchId.id} 입니다.<p>
+					<a href="./findPass">비밀번호찾기</a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+
+		</div>
+
+
+
 		<!-- FOOTER BASIC -->
     <c:import url='/WEB-INF/views/include/footer.jsp'/>
     

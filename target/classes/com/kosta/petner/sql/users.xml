@@ -61,6 +61,27 @@
 		where name=#{name,jdbcType=VARCHAR} and email=#{email}
 	]]>
 	</select>
+	
+	<select id="getPassword" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
+<![CDATA[
+    select  *
+    from users
+    where id = #{id}
+    and   name = #{name}
+    and   email = #{email}
+]]>    
+</select>
+ 
+    
+<update id="updatePassoword" parameterType="com.kosta.petner.bean.Users" >
+<![CDATA[
+    update users 
+    set password = #{password}
+    where id = #{id}
+    and   name = #{name}
+    and   email = #{email}
+]]>    
+</update>
 
 	
 </mapper>
