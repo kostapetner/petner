@@ -20,12 +20,8 @@
 		<div class="f_row profile_upload">
 			<p class="fc_title">프로필 사진을 올려주세요</p>
 			<p class="tip">프로필 사진이 있으면 보호자에게 연락올 확률이 높아져요</p>
-
 			<div class="profile_upload">
 				<div class="prof_img">
-					<!-- <p class="img">
-						<img src="#" alt="사진이없을경우 이미지" name="imageFile">
-					</p> -->
 					<img id="rep" class="img_wrap img"/> <br>
 					<label for="file" class="pet_btn edit_btn">
 						<i class="fa-solid fa-pen" id="pen"></i>
@@ -112,17 +108,14 @@
 		</div>
 
 		<div class="f_row">
-			<p class="fc_title">활동가능한 지역을 알려주세요</p>
-			<select class="fcc_select" name="" id="">
-				<option value="">셀렉트옵션</option>
-				<option value="">셀렉트옵션</option>
-				<option value="">셀렉트옵션</option>
-			</select>
+			<p class="fc_title">활동가능한 지역</p>
+			user테이블의 지역 가져오기
+			zipcode, addr, addr_detail
 		</div>
 
 		<div class="f_row">
 			<p class="fc_title">자기소개를 간단하게 해주세요. 펫시터 경험을 써주셔도 좋아요</p>
-			<textarea name="info" id="" class="fcc_textarea"></textarea>
+			<textarea name="sitter_info" id="" class="fcc_textarea"></textarea>
 		</div>
 
 		<span class="pet_btn submit_btn transition02">펫시터정보등록하기</span>
