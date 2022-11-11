@@ -26,8 +26,10 @@
 						<button
 							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
 							data-bs-toggle="collapse" aria-expanded="false">
-							<span data-feather="layers" class="align-text-bottom"></span> 권한
-							관리
+							<span data-feather="layers" class="align-text-bottom"></span> 
+							<!-- <a href="./admin_authority">권한관리</a>
+							 -->
+							권한관리
 						</button>
 					</li>
 					<li class="mb-2">
@@ -47,7 +49,7 @@
 						</button>
 						<div class="collapse" id="user-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="#"
+								<li><a href="./admin_user"
 									class="link-dark d-inline-flex text-decoration-none rounded">회원정보관리</a></li>
 								<li><a href="#"
 									class="link-dark d-inline-flex text-decoration-none rounded">블랙리스트</a></li>
@@ -83,7 +85,7 @@
 						</button>
 						<div class="collapse" id="table-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="#"
+								<li><a href="./boardList"
 									class="link-dark d-inline-flex text-decoration-none rounded">공지사항관리</a></li>
 								<li><a href="#"
 									class="link-dark d-inline-flex text-decoration-none rounded">리뷰관리</a></li>
