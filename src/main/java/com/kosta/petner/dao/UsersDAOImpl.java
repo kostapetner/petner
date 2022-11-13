@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kosta.petner.bean.Member;
 import com.kosta.petner.bean.Users;
 
 @Repository
@@ -57,6 +58,16 @@ public class UsersDAOImpl implements UsersDAO{
 	public void passwordUpdate(Users users) {
 		sqlSession.update("mapper.users.updatePassword", users);
 		
+	}
+	
+	// user정보 가져오기 221113-조다솜
+	public Users getMyinfo(String id){		
+		return sqlSession.selectOne("mapper.users.getMyinfo", id);
+	}
+	@Override
+	public int updateMyinfo(Users users) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("mapper.users.updateMyinfo", users);
 	}
 	
 	

@@ -75,7 +75,7 @@
         <p class="pb10"><b >${authUser.id}</b></p>
         <p class="flex_between">
           <span class="second">${authUser.email}</span>
-          <a style="font-weight: 300;" class="second" href="#">마이페이지</a>
+          <a style="font-weight: 300;" class="second" href="${pageContext.request.contextPath}/mypage">마이페이지</a>
         </p>
       </div>
 

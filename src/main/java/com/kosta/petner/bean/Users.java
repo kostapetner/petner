@@ -23,7 +23,6 @@ public class Users {
 	private String user_level;
 	private int user_auth;
 	private int file_no;
-	
 
 }
 	

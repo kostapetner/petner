@@ -82,6 +82,27 @@
 	    and   email = #{email,jdbcType=VARCHAR}
 	]]>    
 	</update>
+	
+	<!-- 마이페이지 나의 정보 221113DSC 추가 -->
+	<select id="getMyinfo" resultType="com.kosta.petner.bean.Users">
+		<![CDATA[
+		    select  *
+		    from users
+		    where id = #{id}		    
+		]]> 
+	</select>
+	<update id="updateMyinfo" parameterType="com.kosta.petner.bean.Users">
+	<![CDATA[
+	    update users 
+	    set nickname = #{nickname,jdbcType=VARCHAR},
+	    		email = #{email},
+	    		zipcode = #{zipcode},
+	    		addr = #{addr},
+	    		addr_detail = #{addr_detail}	    		
+	    where id = #{id,jdbcType=VARCHAR}
+	    
+	]]>    
+	</update>
 
 	
 </mapper>

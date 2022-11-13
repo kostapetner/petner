@@ -21,4 +21,11 @@ public interface UsersDAO {
 	
 	//비밀번호 수정
 	void passwordUpdate(Users users);
+	
+	// 유저정보가져오기
+	Users getMyinfo(String id);
+	
+	
+	// 유저정보업데이트
+	int updateMyinfo(Users users);
 }

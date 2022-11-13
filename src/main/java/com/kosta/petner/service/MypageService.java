@@ -1,12 +1,12 @@
 package com.kosta.petner.service;
 
-import com.kosta.petner.bean.Member;
+import com.kosta.petner.bean.Users;
 
 
 public interface MypageService {
 	// 나의 기본정보
-	Member getMyinfo(String id);
+	Users getMyinfo(String id);
 	// 나의정보 수정
-	Member updateMyinfo(Member member);
+	int updateMyinfo(Users users);
 	
 } 
