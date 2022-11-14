@@ -9,8 +9,8 @@
   </p>
   <div class="data">
     <p><span class="key">이름</span><span class="value">${member.name}</span></p>
-    <p><span class="key">별명</span><span class="value">${member.id}</span></p>
+    <p><span class="key">별명</span><span class="value">${member.nickname}</span></p>
     <p><span class="key">이메일</span><span class="value">${member.email}</span></p>
-    <p><span class="key">주소</span><span class="value">${member.address}</span></p>
+    <p><span class="key">주소</span><span class="value">${member.addr} ${member.addr_detail} [${member.zipcode}]</span></p>
   </div>   
 </div>

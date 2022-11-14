@@ -16,7 +16,7 @@
 							,pet_neutral
 							,pet_info
 		) values(pet_no_seq.nextval 
-				,user_no_seq.nextval
+				,#{user_no, jdbcType=INTEGER}
 				,#{file_no, jdbcType=INTEGER}
 				,#{pet_kind, jdbcType=VARCHAR}
 				,#{pet_specie, jdbcType=VARCHAR}

@@ -17,7 +17,18 @@ public interface UsersDAO {
 	Users getId(String name, String email);
 	
 	//비밀번호 수정
+<<<<<<< HEAD
 	void updatePw(Users users) throws Exception;
 	
 	
+=======
+	void passwordUpdate(Users users);
+	
+	// 유저정보가져오기
+	Users getMyinfo(String id);
+	
+	
+	// 유저정보업데이트
+	int updateMyinfo(Users users);
+>>>>>>> 65f0f729fe214b597b093506aad9949f4fbd411e
 }

@@ -72,8 +72,8 @@ public class OwnerController {
 				}
 				
 				//2. 파일정보 파일테이블에 넣기
-				fileVO.setUser_no(1);//회원가입이 아직 안끝나서 user_no가져오지 못하므로 하드코딩으로 박음
-				fileVO.setBoard_no(5);
+				fileVO.setUser_no(petInfo.getUser_no());
+				fileVO.setBoard_no(4);
 				fileVO.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
 				//2-1. 서버에 올라갈 랜덤한 파일 이름을 만든다
 				String generatedString = RandomStringUtils.randomAlphanumeric(10);

@@ -32,7 +32,7 @@
 	rel="stylesheet">
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
-<title>Petner 관리자 페이지</title>
+<title>${title}</title>
 <script>
     /* global bootstrap: false */
     (() => {

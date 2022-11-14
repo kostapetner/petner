@@ -3,23 +3,23 @@ package com.kosta.petner.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kosta.petner.bean.Member;
-import com.kosta.petner.dao.MemberDAO;
+import com.kosta.petner.bean.Users;
+import com.kosta.petner.dao.UsersDAO;
 
 @Service
 public class MypageServiceImpl implements MypageService {
 	
 	@Autowired
-	MemberDAO memberDAO;
+	UsersDAO usersDAO;
 	
 	@Override
-	public Member getMyinfo(String id) {
-		return memberDAO.getMyinfo(id);
+	public Users getMyinfo(String id) {
+		return usersDAO.getMyinfo(id);
 	}
 
 	@Override
-	public Member updateMyinfo(Member member) {
-		return memberDAO.updateMyinfo(member);
+	public int updateMyinfo(Users users) {
+		return usersDAO.updateMyinfo(users);
 	}
 
 }
