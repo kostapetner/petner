@@ -54,10 +54,10 @@ max-height: 150px;
 	</section>
 	</section>
 	<section id="commandList">
-		<a href="replyform?board_num=${article.board_num}&page=${page}"> [답변] </a> 
+		<a href="replyform?board_num=${article.board_num}"> [답변] </a> 
 		<a href="modifyform?board_num=${article.board_num}"> [수정] </a> 
-		<a href="deleteform?board_num=${article.board_num}&page=${page}"> [삭제] </a>
-		<a href="./boardList?page=${page}"> [목록]</a>
+		<a href="deleteform?board_num=${article.board_num}"> [삭제] </a>
+		<a href="./boardList"> [목록]</a>
 		<a href="./boardList"> [목록]</a>&nbsp;&nbsp;
 	</section>
 	</div>

@@ -67,11 +67,11 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.insertBoard(board);
 	}
 	@Override
-	public void deleteBoard(Integer boardNum, String password) throws Exception {
+	public void deleteBoard(Integer boardNum) throws Exception {
 		Board board = getBoard(boardNum);
 		System.out.println("Service:"+boardNum);
 		System.out.println("Service:"+board);
-		if(!board.getBoard_pass().equals(password)) throw new Exception("삭제 권한 없음");
+		// if(!board.getBoard_pass().equals(password)) throw new Exception("삭제 권한 없음");
 		boardDAO.deleteBoard(boardNum);
 	}
 }

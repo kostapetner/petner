@@ -21,14 +21,14 @@
 <input type = "hidden" name = "board_num" value = '${board_num}'/>
 <input type = "hidden" name = "page" value = '${page }'/>
 <table>
-<tr>
+<!-- <tr>
 	<td>
 		<label>글 비밀번호 : </label>
 	</td>
 	<td>
 		<input name="board_pass" type="password">
 	</td>
-</tr>
+</tr> -->
 <tr>
 	<td>
 		<input type="submit" value = "삭제"/>

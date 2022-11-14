@@ -11,5 +11,5 @@ public interface BoardService {
 	Board getBoard(Integer boardNum) throws Exception;
 	void modifyBoard(Board board) throws Exception;
 	void boardReply(Board board) throws Exception;
-	void deleteBoard(Integer boardNum, String password) throws Exception;
+	void deleteBoard(Integer boardNum) throws Exception;
 }

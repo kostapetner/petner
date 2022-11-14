@@ -46,11 +46,11 @@ table {
 					<td class="td_right"><input type="text" name="board_name"
 						id="board_name" /></td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td class="td_left"><label for="board_pass">비밀번호</label></td>
 					<td class="td_right"><input name="board_pass" type="password"
 						id="board_pass" /></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td class="td_left"><label for="board_subject">제 목</label></td>
 					<td class="td_right"><input name="board_subject" type="text"
