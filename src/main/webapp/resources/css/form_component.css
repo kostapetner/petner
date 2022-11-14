@@ -222,7 +222,7 @@
 
   }
   input[type=text].date-picker{
-    height: auto;
+    height: 38px;
     min-width: inherit;
     width: 100px;
     text-indent: 0;
