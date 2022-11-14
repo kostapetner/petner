@@ -95,7 +95,7 @@
           <li><a href="#">리뷰관리</a></li>
         </ul>
       </div> -->
-      <div><a href="${pageContext.request.contextPath}">로그아웃</a></div>
+      <div><a href="./logout">로그아웃</a></div>
     </div>
   </div>
 </header>
