@@ -99,11 +99,13 @@ public class OwnerController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/petner/findSitter", method = RequestMethod.GET)
-	String findSitter(Model model) {
-		model.addAttribute("title", "펫시터찾기");
-		model.addAttribute("page", "find/findSitter");
-		return "/layout/main";
+	//펫케어 서비스 신청
+	@RequestMapping(value = "/requireService", method = RequestMethod.GET)
+	String requireService(Model model) {
+		model.addAttribute("title", "펫정보등록");
+		model.addAttribute("page", "mypage/myService/requireService");
+		return "/layout/mypage_default";
 	}
+	
 	
 }

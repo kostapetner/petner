@@ -5,6 +5,25 @@
 
 <!DOCTYPE html>
 <html>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+	$(function(){
+		$("#findBtn").click(function(){
+			$.ajax({
+				url : "http://localhost:8088/petner/findPass",
+				type : "POST",
+				data : {
+					id : $("#id").val(),
+					email : $("#email").val()
+				},
+				success : function(result) {
+					alert(result);
+				},
+			})
+		});
+	});
+</script>
+
 <head>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
 	<title>아이디 찾기</title>
@@ -17,20 +36,25 @@
     
     <div class="container">
     
-     <form action="./findPass" id = "findPass" method="POST">
-    <p>*회원가입시 작성한 아이디,이름, 이메일을 기입해주세요*</p>
-    <p></p>
-    <div class="f_row">
-      <input type="text" placeholder="ID" name="id" id="id">
-      <input type="text" placeholder="이름" name="name" id="name"/>
-      <input type="text" placeholder="E-mail" name="email" id="email"/>
-      <input type= "submit" class="pet_btn second_btn transition02" id="findPass" value="비밀번호 찾기">
-    </div>
+   <div class="w3-center w3-large w3-margin-top">
+				<h3>비밀번호 찾기</h3>
+			</div>
+			<div>
+				<p>
+					<label>아이디</label>
+					<input class="w3-input" type="text" id="id" name="id" placeholder="회원가입한 아이디를 입력하세요" required>
+				</p>
+				<p>
+					<label>이메일</label>
+					<input class="w3-input" type="text" id="email" name="email" placeholder="회원가입한 이메일주소를 입력하세요" required>
+				</p>
+				<p class="w3-center">
+					<button type="button" id="findBtn" class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">찾기</button>
+					<button type="button" onclick="history.go(-1);" class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">로그인으로</button>
+				</p>
+			</div>
+		</div>
 
-  </form>
-     	
-    </div>
-		
 		
 	
 		<!-- FOOTER BASIC -->
