@@ -75,7 +75,7 @@
 		<!-- 지역 -->
 		<div class="f_row">
 			<p class="fc_title">지역</p>
-			<input type="text" name="zipcode" width="20%"/>
+			<input type="text" name="zipcode" style="width: 200px"/>
 			<input type="text" name="addr" width="80%"/>
 			<input type="text" name="addr_detail" width="10%"/>
 		</div>
