@@ -48,12 +48,12 @@ textarea {
 					aria-describedby="addon-wrapping">
 			</div>
 
-			<div class="input-group flex-nowrap">
+			<!-- <div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">비밀번호</span> <input
 					type="password" class="form-control" name="board_pass"
 					id="board_pass" required="required" placeholder="****"
 					aria-label="****" aria-describedby="addon-wrapping">
-			</div>
+			</div> -->
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">제 목</span> <input

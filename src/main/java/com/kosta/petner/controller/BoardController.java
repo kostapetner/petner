@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,13 +32,13 @@ public class BoardController {
 	@RequestMapping(value="/writeform", method=RequestMethod.GET)
 	public String writeform(Model model) {
 		model.addAttribute("page", "board/writeform");
-		model.addAttribute("title", "공지사항 글쓰기");
+//		model.addAttribute("title", "공지사항 글쓰기");
 		return "/layout/admin_main";
 	}
 	
 	@RequestMapping(value="/boardwrite", method=RequestMethod.POST)
-	public ModelAndView boardwrite(@ModelAttribute Board board) {
-		ModelAndView mav = new ModelAndView();
+	public String boardwrite(@ModelAttribute Board board,BindingResult result, Model model) {
+		// ModelAndView mav = new ModelAndView();
 		try {
 			MultipartFile file = board.getFile();
 			if(!file.isEmpty()) {
@@ -49,16 +50,19 @@ public class BoardController {
 			}
 			
 			boardService.resistBoard(board);
-			mav.setViewName("redirect:/boardList");
+			model.addAttribute("redirect:/boardList");
+//			model.addAttribute("page","/board/boardList");
 		} catch(Exception e) {
 			e.printStackTrace();
-			mav.setViewName("/board/err");
+			model.addAttribute("/board/err");
 		}
-		return mav;
+		return "redirect:/boardList";
 	}	
 	
+
+	
 	@RequestMapping(value="/boardList", method= {RequestMethod.GET, RequestMethod.POST})
-	String boardList(@RequestParam(value="page", required=false, defaultValue="1") Integer page, Model model) {
+	public String boardList(@RequestParam(value="page", required=false, defaultValue="1") Integer page, Model model) {
 //		ModelAndView mav = new ModelAndView();
 		PageInfo pageInfo = new PageInfo();
 		try {
@@ -106,25 +110,45 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/boardmodify", method=RequestMethod.POST)
-	public ModelAndView boardmodify(@ModelAttribute Board board) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			boardService.modifyBoard(board);
-			mav.addObject("board_num", board.getBoard_num());
-			mav.setViewName("redirect:/boarddetail");
-		} catch(Exception e) {
-			e.printStackTrace();
-			mav.addObject("err", e.getMessage());
-			mav.setViewName("/board/err");
-		}
-		return mav;
-	}
-	
-	@RequestMapping(value="/replyform", method=RequestMethod.GET)
-	String replyform(@RequestParam("board_num") Integer boardNum, 
-			@RequestParam(value="page",required=false,defaultValue="1") Integer page, Model model) {
+	public String boardmodify(@ModelAttribute Board board ,Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
+			boardService.modifyBoard(board);
+			model.addAttribute("board_num", board.getBoard_num());
+			model.addAttribute("redirect:/boarddetail");
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/board/err");
+		}
+		return "redirect:/boarddetail";
+	}
+	
+//	@RequestMapping(value="/replyform", method=RequestMethod.GET)
+//	public ModelAndView replyform(@RequestParam("board_num") Integer boardNum, 
+//			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
+//		ModelAndView mav = new ModelAndView();
+//		
+//		try {
+//			mav.setViewName("/layout/admin_main");
+//			mav.addObject("boardNum", boardNum);
+//			mav.addObject("age", page);
+//			mav.setViewName("/board/replyform");
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			mav.addObject("err", e.getMessage());
+//			mav.setViewName("/board/err");
+//		}
+//		return mav;
+//	}
+	
+	@RequestMapping(value="/replyform", method=RequestMethod.GET)
+	public String replyform(@RequestParam("board_num") Integer boardNum, 
+			@RequestParam(value="page",required=false,defaultValue="1") Integer page, Model model) {
+		// ModelAndView mav = new ModelAndView();
+		
+		try {
+//			model.addAttribute("/layout/admin_main");
 			model.addAttribute("boardNum", boardNum);
 			model.addAttribute("age", page);
 			model.addAttribute("page","/board/replyform");
@@ -135,21 +159,22 @@ public class BoardController {
 		}
 		return "/layout/admin_main";
 	}
+
 	
 	@RequestMapping(value="/boardreply", method=RequestMethod.POST)
-	public ModelAndView boardreply(@ModelAttribute Board board, 
-			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
-		ModelAndView mav = new ModelAndView();
+	public String boardreply(@ModelAttribute Board board, 
+			 Model model) {
+		//ModelAndView mav = new ModelAndView();
 		try {
 			boardService.boardReply(board);
-			mav.addObject("page", page);
-			mav.setViewName("redirect:/boardList");
+//			model.addAttribute("page", page);
+			model.addAttribute("redirect:/boardList");
 		} catch(Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", e.getMessage());
-			mav.setViewName("/board/err");
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/board/err");
 		}
-		return mav;
+		return "redirect:/boardList";
 	}
 	
 	@RequestMapping(value="/deleteform", method=RequestMethod.GET)
@@ -164,12 +189,13 @@ public class BoardController {
 	
 	@RequestMapping(value="/boarddelete", method=RequestMethod.POST)
 	public ModelAndView boarddelete(@RequestParam("board_num") Integer boardNum,
-			@RequestParam(value="board_pass") String password,
+//			@RequestParam(value="board_pass") String password,
 			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
 		System.out.println("Controller:"+boardNum);
 		ModelAndView mav = new ModelAndView();
 		try {
-			boardService.deleteBoard(boardNum, password);
+//			boardService.deleteBoard(boardNum, password);
+			boardService.deleteBoard(boardNum);
 			mav.addObject("page", page);
 			mav.setViewName("redirect:/boardList");
 		} catch(Exception e) {
