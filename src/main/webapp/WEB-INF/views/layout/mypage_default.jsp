@@ -23,7 +23,7 @@ $(document).ready(function(){
                     		+  "<a href='#'>나의반려동물정보</a>";
         
         var owner_menu2 = ""; 
-           owner_menu2 += "<a href='#'>서비스 요청하기</a>"
+           owner_menu2 += "<a href='/petner/requireService'>서비스 요청하기</a>"
                         +  "<a href='#'>요청한 서비스보기</a>";
         $(".toggle_menu1").html(owner_menu1);
         $(".toggle_menu2").html(owner_menu2);
@@ -34,8 +34,7 @@ $(document).ready(function(){
                          +  "<a href='#'>나의시터정보보기</a>";
         
         var sitter_menu2 = ""; 
-            sitter_menu2 += "<a href='#'>나의펫시팅활동</a>"
-                         +  "<a href='#'>내가받은요청</a>"
+            sitter_menu2 += "<a href='#'>내가받은요청</a>"
                          +  "<a href='#'>내가찜한요청</a>";
         $(".toggle_menu1").html (sitter_menu1);
         $(".toggle_menu2").html (sitter_menu2);
