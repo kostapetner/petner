@@ -73,15 +73,16 @@
 	</select>
  
     
-	<update id="updatePassword" parameterType="com.kosta.petner.bean.Users">
-	<![CDATA[
+	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
+	<![CDATA[ 
 	    update users 
 	    set password = #{password,jdbcType=VARCHAR}
 	    where id = #{id,jdbcType=VARCHAR}
-	    and   name = #{name,jdbcType=VARCHAR}
-	    and   email = #{email,jdbcType=VARCHAR}
+	    and email = #{email}
+	 
 	]]>    
 	</update>
-
+	
+	
 	
 </mapper>

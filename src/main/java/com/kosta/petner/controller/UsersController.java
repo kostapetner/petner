@@ -1,5 +1,6 @@
 package com.kosta.petner.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -127,7 +128,7 @@ public class UsersController {
 				return "users/login/resultId";	
 			}
 			//
-			session.setAttribute("searchId", searchId);
+			model.addAttribute("searchId", searchId);
 			System.out.println(searchId);
 			return "users/login/resultId";
 			}
@@ -139,46 +140,12 @@ public class UsersController {
 		}
 			
 		//비밀번호 찾기
-			@RequestMapping(value="/findPass",method = RequestMethod.POST)              
-			public String findPassword(@ModelAttribute Users users, Model model) throws Exception {				
-				
-				System.out.println("users.getId():    	"+ users.getId());
-				System.out.println("users.getName():    "+ users.getName());
-				System.out.println("users.getEmail():   "+ users.getEmail());
+		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
+		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
+			System.out.println("id:" + users.getId());
+			System.out.println("Email:" + users.getEmail());
 			
-				Users searchPass = usersService.findPassword(users);
-
-				if(searchPass == null) {
-					System.out.println("비밀번호찾기 실패");
-					model.addAttribute("result", "fail");
-					return "users/login/resultPass";	
-				}
-				model.addAttribute("searchPass", searchPass);
-				System.out.println(searchPass);
-				return "users/login/resultPass";
-				
-			}
-		//비밀번호 수정
-			@RequestMapping(value = "/modifyPass", method = RequestMethod.POST)
-			String modifyPass(@ModelAttribute Users users, Model model) {
-				Users user = usersService.findPassword(users);
-				System.out.println(user);
-				System.out.println("새 비밀번호:" + users.getPassword());
-				try{
-					
-					System.out.println(user);
-					if(user != users)
-					usersService.ModifyPassword(users);
-					model.addAttribute("page","users/login/modifySuccess");
-			
-				} catch(Exception e) {
-					e.printStackTrace();
-					model.addAttribute("err", "비밀번호수정 오류");
-					model.addAttribute("page", "err");
-				}
-				
-				return "users/login/modifySuccess";
-				
-			}
+			usersService.findPass(response, users);
+		}
 	}
 
