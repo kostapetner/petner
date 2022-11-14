@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 
 
@@ -8,5 +9,8 @@ public interface MypageService {
 	Users getMyinfo(String id);
 	// 나의정보 수정
 	int updateMyinfo(Users users);
+	
+	// 나의 시터정보 가져오기
+	SitterInfo getMySitterinfo(int user_no);
 	
 } 

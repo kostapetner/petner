@@ -27,4 +27,11 @@
 		)
 	</insert>
 	
+	<select id="getSitterInfo" parameterType="int" resultType="com.kosta.petner.bean.SitterInfo">
+		<![CDATA[
+			SELECT * FROM SITTER_INFO
+			WHERE USER_NO = #{user_no}
+		]]> 
+	</select>
+	
 </mapper>

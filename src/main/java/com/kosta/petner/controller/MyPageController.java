@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.MypageService;
 
@@ -72,10 +73,30 @@ public class MyPageController {
    @RequestMapping(value="/mypage/myinfoEdit", method = RequestMethod.POST)
    public String myinfoUpdate(@ModelAttribute Users users, BindingResult result, Model model) { 
 		System.out.println("폼값:" + users);
-		mypageService.updateMyinfo(users);
-		
-		return "redirect:/mypage";
-	
-	}
-
+		mypageService.updateMyinfo(users);		
+		return "redirect:/mypage";	
+   }
+   
+   // 내가 펫시터일 경우의 컨트롤러
+   @RequestMapping(value = "/mypage/mySitterInfo", method = RequestMethod.GET)
+   public String mySitterInfo(HttpSession session, Model model){
+	   
+	   Users sessionInfo = (Users) session.getAttribute("authUser");
+	   int user_no = sessionInfo.getUser_no();
+	  
+	   try {
+		   SitterInfo sitterInfo = mypageService.getMySitterinfo(user_no);	      
+		   System.out.println("시터정보"+sitterInfo);
+	      
+		   model.addAttribute("page", "mypage/sitter/mySitterInfo");
+		   model.addAttribute("title", "나의펫시터정보보기");
+		   model.addAttribute("data", sitterInfo);
+	   }catch(Exception e) {
+		   e.printStackTrace();
+		   System.out.println("coconut");
+		   model.addAttribute("page", "mypage/sitter/mySitterInfo");
+	   }
+	  
+	   return "/layout/mypage_default";
+   }
 }

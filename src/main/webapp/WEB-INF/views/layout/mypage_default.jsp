@@ -115,9 +115,8 @@
 									<li>
 										<p class="first_menu">내정보</p>
 										<div class="second_menu toggle_menu1">
-											<a
-												href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의정보보기</a>
-											<a href="#">나의 시터정보 관리</a>
+											<a href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의정보보기</a>
+											<a href="${pageContext.request.contextPath}/mypage/mySitterInfo">나의 시터정보 관리</a>
 										</div>
 									</li>
 									<li>
@@ -130,7 +129,6 @@
 								</c:when>
 
 								<c:when test="${authUser.user_type==2}">
-
 									<!-- 보호자일경우 -->
 									<li>
 										<p class="first_menu">내정보</p>
@@ -153,7 +151,7 @@
 										<div class="second_menu toggle_menu1">
 											<a
 												href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의정보보기</a>
-											<a href="#">나의 시터정보 관리</a>
+											<a href="${pageContext.request.contextPath}/mypage/mySitterInfo">나의 시터정보 관리</a>
 										</div>
 									</li>
 									<li>

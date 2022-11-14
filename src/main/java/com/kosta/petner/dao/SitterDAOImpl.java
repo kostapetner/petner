@@ -17,4 +17,9 @@ public class SitterDAOImpl implements SitterDAO {
 		sqlSession.insert("mapper.sitter.regist", sitterInfo);
 	}
 
+	@Override //221114-DSC 시터정보가져오기
+	public SitterInfo getSitterInfo(int user_no) {
+		return sqlSession.selectOne("mapper.sitter.getSitterInfo", user_no);		
+	}
+
 }
