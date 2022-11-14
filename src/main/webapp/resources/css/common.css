@@ -226,6 +226,7 @@
     cursor: pointer;
     font-family: 'Noto Sans KR', '맑은 고딕', 'Apple Sd Gothic Neo', sans-serif;
     font-size: 1.2rem;
+    text-align:center;
   }
   
   /* 작은확인용버튼 */

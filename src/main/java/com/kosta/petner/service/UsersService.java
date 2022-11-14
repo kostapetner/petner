@@ -3,6 +3,8 @@ package com.kosta.petner.service;
 
 
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.kosta.petner.bean.Users;
 
 public interface UsersService {
@@ -18,10 +20,11 @@ public interface UsersService {
 	//아이디 찾기
 	public Users findId(Users users);
 	
-	//비밀번호 찾기
-	public Users findPassword(Users users);
-	
-	//비밀번호 수정
-	public void ModifyPassword(Users users);
+	//이메일발송
+	public void sendEmail(Users users, String div) throws Exception;
+
+	//비밀번호찾기
+	public void findPass(HttpServletResponse response, Users users) throws Exception;
+
 	
 }

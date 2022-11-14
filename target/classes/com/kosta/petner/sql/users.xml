@@ -73,16 +73,19 @@
 	</select>
  
     
-	<update id="updatePassword" parameterType="com.kosta.petner.bean.Users">
-	<![CDATA[
+	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
+	<![CDATA[ 
 	    update users 
 	    set password = #{password,jdbcType=VARCHAR}
 	    where id = #{id,jdbcType=VARCHAR}
-	    and   name = #{name,jdbcType=VARCHAR}
-	    and   email = #{email,jdbcType=VARCHAR}
+	    and email = #{email}
+	 
 	]]>    
 	</update>
 	
+<<<<<<< HEAD
+	
+=======
 	<!-- 마이페이지 나의 정보 221113DSC 추가 -->
 	<select id="getMyinfo" resultType="com.kosta.petner.bean.Users">
 		<![CDATA[
@@ -104,5 +107,6 @@
 	]]>    
 	</update>
 
+>>>>>>> 65f0f729fe214b597b093506aad9949f4fbd411e
 	
 </mapper>

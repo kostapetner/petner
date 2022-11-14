@@ -27,7 +27,7 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	//아이디 중복체크
 	@Override
-	public Users selectId(String id) throws Exception {
+	public Users selectId(String id) {
 		return sqlSession.selectOne("mapper.users.selectId", id);
 	}
 	//로그인
@@ -51,14 +51,13 @@ public class UsersDAOImpl implements UsersDAO{
 		return users;
 	}
 	@Override
-	public Users getPassword(Users users) {
-		return sqlSession.selectOne("mapper.users.getPassword", users);
-	}
-	@Override
-	public void passwordUpdate(Users users) {
-		sqlSession.update("mapper.users.updatePassword", users);
+	public void updatePw(Users users) {
+		 sqlSession.selectOne("mapper.users.updatePw", users);
 		
 	}
+<<<<<<< HEAD
+
+=======
 	
 	// user정보 가져오기 221113-조다솜
 	public Users getMyinfo(String id){		
@@ -70,6 +69,7 @@ public class UsersDAOImpl implements UsersDAO{
 		return sqlSession.update("mapper.users.updateMyinfo", users);
 	}
 	
+>>>>>>> 65f0f729fe214b597b093506aad9949f4fbd411e
 	
 	
 	

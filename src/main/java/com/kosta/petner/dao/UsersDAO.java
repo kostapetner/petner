@@ -16,10 +16,12 @@ public interface UsersDAO {
 	//이름+이메일로 아이디 찾기
 	Users getId(String name, String email);
 	
-	//이름+아이디+이메일로 비밀번호 찾기
-	Users getPassword(Users users);
-	
 	//비밀번호 수정
+<<<<<<< HEAD
+	void updatePw(Users users) throws Exception;
+	
+	
+=======
 	void passwordUpdate(Users users);
 	
 	// 유저정보가져오기
@@ -28,4 +30,5 @@ public interface UsersDAO {
 	
 	// 유저정보업데이트
 	int updateMyinfo(Users users);
+>>>>>>> 65f0f729fe214b597b093506aad9949f4fbd411e
 }
