@@ -32,23 +32,11 @@
   <div class="header_inner">
     <h1><a href="/petner"><img src="${imgPath}/header_logo.png" alt="logo"></a></h1>
     <nav id="gnb">
-      <c:choose>
-      <c:when  test="${empty authUser}">
       <ul>
-        <li><a href="/petner/findSitter">펫시터 찾기</a></li>
-        <li><a href="/petner/findPet">돌봐줄 동물 찾기</a></li>
-        <li><a href="#">공지사항</a></li>
+        <li><a href="${pageContext.request.contextPath}/findSitter">펫시터 찾기</a></li>
+        <li><a href="${pageContext.request.contextPath}/findPet">돌봐줄 동물 찾기</a></li>
+        <li><a href="${pageContext.request.contextPath}/notice">공지사항</a></li>
       </ul>
-      </c:when>
-      
-      <c:otherwise>
-      <ul>
-      	<li><a href="/petner/findSitter">펫시터 찾기</a></li>
-        <li><a href="/petner/findPet">돌봐줄 동물 찾기</a></li>
-        <li><a href="#">공지사항</a></li>
-      </ul>
-      </c:otherwise>
-      </c:choose>
     </nav>
     <div class="login_menu">
       
@@ -62,10 +50,7 @@
 		</c:if>
         <!-- 세션없을때 로그인 -->
         <c:if test="${empty authUser}">
-
-        <li><a class="login" href="${pageContext.request.contextPath}/login">로그인</a></li>
-
- 
+        <li><a class="login" href="${pageContext.request.contextPath}/login">로그인</a></li> 
         </c:if>
       </ul>
     </div>
@@ -88,14 +73,8 @@
           <p class="second pb4">등급</p>
           <p>${authUser.user_level}</p>
         </div>
-      </div>
-      <!-- <div>
-        <ul>
-          <li><a href="#">팔로우/팔로워</a></li>
-          <li><a href="#">리뷰관리</a></li>
-        </ul>
-      </div> -->
-      <div><a href="${pageContext.request.contextPath}">로그아웃</a></div>
+      </div>      
+      <div><a href="${pageContext.request.contextPath}/logout">로그아웃</a></div>
     </div>
   </div>
 </header>
