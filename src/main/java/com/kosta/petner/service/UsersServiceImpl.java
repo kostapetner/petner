@@ -108,12 +108,12 @@ public class UsersServiceImpl implements UsersService {
 		PrintWriter out = response.getWriter();
 		// 가입된 아이디가 없으면
 		if(usersDAO.selectId(users.getId()) == null) {
-			out.print("등록되지 않은 아이디입니다.");
+			out.print("아이디 정보가 일치하지 않습니다.");
 			out.close();
 		}
 		// 가입된 이메일이 아니면
 		else if(!users.getEmail().equals(vo.getEmail()))  {
-			out.print("등록되지 않은 이메일입니다.");
+			out.print( "이메일 정보가 일치하지 않습니다.");
 			out.close();
 		}else {
 			// 임시 비밀번호 생성
@@ -127,7 +127,7 @@ public class UsersServiceImpl implements UsersService {
 			// 비밀번호 변경 메일 발송
 			sendEmail(users, "findPass");
 
-			out.print("이메일로 임시 비밀번호를 발송하였습니다.");
+			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
 			out.close();
 		}
 	}

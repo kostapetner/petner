@@ -50,13 +50,12 @@
 				<div class="f_row">
 					<p class="fc_title">이메일</p>
 					<div class="flex_between">
-						<input type="text" placeholder="E-mail" name="email" id="email" class="mr12">
-						<span class="pet_btn second_btn transition02 find_id">인증번호받기</span>
+						<input type="text" placeholder="E-mail" name="email" id="email" class="mr12"/>
+						
 					</div>
 				</div>
-				<input type="text" placeholder="인증번호 6자리 숫자입력"/>
 				<div class="f_row" style="text-align:center; margin-top:20px">
-					<input type="submit" class="pet_btn subit_btn transition02" value="ID찾기"/>
+					<input type="submit" class="pet_btn submit_btn transition02" value="ID찾기"/>
 				</div>				
 			</form>
 			

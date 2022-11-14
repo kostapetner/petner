@@ -10,6 +10,13 @@
 	<title>아이디 찾기</title>
 
 </head>
+<style>
+	#findId input[type=text]{width:100%;}
+	.desc{text-align:center; margin-bottom:35px;}
+	.find_id{width:120px !important; text-align:center;}
+	.flex_between{flex-wrap:nowrap}
+	.submit_btn{position: relative; top:180px;}
+</style>
 <body>
   <div id="wrapper">
     <!-- HEADER BASIC -->
@@ -17,22 +24,24 @@
     <!-- CONTAINER -->
 
 		<div class="container">
-
-			<div class="text-center">
-				
-				<br>
-				<br>
+			<div class="w45">
+				<h3 class="form_title">아이디찾기</h3>
+				<div class="desc">
 				<c:choose>
 					<c:when test="${empty searchId}">
-					<p class="h4 text-gray-900 mb-2">이름과 이메일을 확인해주세요</p>
+					<p class="mb10" style="color: red;">&#x1F645! 이름과 이메일을 다시 확인해주세요! &#x1F645</p>
 					</c:when>
 					<c:otherwise>
-					<p class="h4 text-gray-900 mb-2">회원님의 ID는 ${searchId.id} 입니다.<p>
-					<a href="./findPass">비밀번호찾기</a>
+					<p class="mb10"style="color: green;">&#x1F646 회원님의 ID는 ${searchId.id} 입니다. &#x1F646<p>
+					<p></p>
+					<a href="./findPass" class="pet_btn submit_btn transition02">비밀번호 찾기</a>
 					</c:otherwise>
 				</c:choose>
+					
+				</div>
+				
+			
 			</div>
-
 		</div>
 
 

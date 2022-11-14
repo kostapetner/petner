@@ -7,7 +7,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kosta.petner.bean.Member;
 import com.kosta.petner.bean.Users;
 
 @Repository
@@ -50,14 +49,11 @@ public class UsersDAOImpl implements UsersDAO{
 		
 		return users;
 	}
+	//임시비밀번호발급
 	@Override
 	public void updatePw(Users users) {
-		 sqlSession.selectOne("mapper.users.updatePw", users);
-		
+		 sqlSession.selectOne("mapper.users.updatePw", users);		
 	}
-<<<<<<< HEAD
-
-=======
 	
 	// user정보 가져오기 221113-조다솜
 	public Users getMyinfo(String id){		
@@ -65,12 +61,14 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	@Override
 	public int updateMyinfo(Users users) {
-		// TODO Auto-generated method stub
 		return sqlSession.update("mapper.users.updateMyinfo", users);
 	}
-	
->>>>>>> 65f0f729fe214b597b093506aad9949f4fbd411e
-	
+	@Override
+	public void passwordUpdate(Users users) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
