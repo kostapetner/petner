@@ -43,8 +43,8 @@
       
       <c:otherwise>
       <ul>
-      	<li><a href="#">펫시터 찾기</a></li>
-        <li><a href="#">돌봐줄 동물 찾기</a></li>
+      	<li><a href="/petner/findSitter">펫시터 찾기</a></li>
+        <li><a href="/petner/findPet">돌봐줄 동물 찾기</a></li>
         <li><a href="#">공지사항</a></li>
       </ul>
       </c:otherwise>
@@ -63,7 +63,7 @@
         <!-- 세션없을때 로그인 -->
         <c:if test="${empty authUser}">
 
-        <li><a class="login" href="./login">로그인</a></li>
+        <li><a class="login" href="${pageContext.request.contextPath}/login">로그인</a></li>
 
  
         </c:if>
@@ -95,7 +95,7 @@
           <li><a href="#">리뷰관리</a></li>
         </ul>
       </div> -->
-      <div><a href="./logout">로그아웃</a></div>
+      <div><a href="${pageContext.request.contextPath}">로그아웃</a></div>
     </div>
   </div>
 </header>
