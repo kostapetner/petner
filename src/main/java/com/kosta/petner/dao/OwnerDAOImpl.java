@@ -35,4 +35,9 @@ public class OwnerDAOImpl implements OwnerDAO {
 		return sqlSession.selectOne("mapper.owner.getPetByPetNo", pet_no);
 	}
 
+	@Override
+	public String getFileByPetNo(Integer pet_no) {
+		return sqlSession.selectOne("mapper.owner.getFileByPetNo", pet_no);
+	}
+
 }

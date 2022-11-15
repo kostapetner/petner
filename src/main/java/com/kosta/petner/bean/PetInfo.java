@@ -25,7 +25,7 @@ public class PetInfo {
 	
 	private MultipartFile imageFile;
 	
-	private String image;
+	private String file_name;
 
 	
 }

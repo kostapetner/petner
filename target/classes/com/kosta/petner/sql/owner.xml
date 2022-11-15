@@ -15,6 +15,7 @@
 							,pet_gender
 							,pet_neutral
 							,pet_info
+							,file_name
 		) values(pet_no_seq.nextval 
 				,#{user_no, jdbcType=INTEGER}
 				,#{file_no, jdbcType=INTEGER}
@@ -26,6 +27,7 @@
 				,#{pet_gender, jdbcType=VARCHAR}
 				,#{pet_neutral, jdbcType=VARCHAR}
 				,#{pet_info, jdbcType=VARCHAR}
+				,#{file_name, jdbcType=VARCHAR}
 		)
 	</insert>
 	
@@ -36,7 +38,6 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
-	
 	
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
 	<![CDATA[
@@ -50,4 +51,11 @@
 	]]>	
 	</select>
 	
+	<select id= "getFileByPetNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
+	<![CDATA[
+	SELECT ORIGIN_FILENAME
+	FROM FILE_TB ft, PET_INFO pi
+	WHERE pi.pet_no = #{pet_no} and ft.FILE_NO  = pi.file_no
+	]]>	
+	</select>
 </mapper>

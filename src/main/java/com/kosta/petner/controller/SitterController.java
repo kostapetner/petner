@@ -54,19 +54,22 @@ public class SitterController {
 				FileVO fileVO = new FileVO();
 				String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
 				String filename = file.getOriginalFilename();
+				File fileLocation = new File(path);
 				File destFile = new File(path+filename);
-				if (!destFile.exists()) {
-					try{
-						Path directoryPath = Paths.get(path);
-						//System.out.println(directoryPath);
+				System.out.println(destFile);
+				if (fileLocation.exists()) {
+					System.out.println("이미 폴더가 생성되어 있습니다.");
+					file.transferTo(destFile);
+			    }else {
+			    	try{
+			    		Path directoryPath = Paths.get(path);
+						System.out.println(directoryPath);
 						Files.createDirectory(directoryPath);//폴더생성
-					    System.out.println("폴더가 생성되었습니다.");
-					    file.transferTo(destFile);
-				    }catch(Exception e){
+						System.out.println("폴더가 생성되었습니다.");
+						file.transferTo(destFile);
+					}catch(Exception e){
 					    e.getStackTrace();
 					}        
-			      }else {
-					System.out.println("이미 폴더가 생성되어 있습니다.");
 				}
 				
 				//2. 파일정보 파일테이블에 넣기

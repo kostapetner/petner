@@ -106,6 +106,7 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				petInfo.setFile_no(file_no);
+				petInfo.setFile_name(real_filename+ ext);
 				System.out.println(petInfo.toString());
 				ownerService.regist(petInfo);
 				
@@ -157,12 +158,14 @@ public class OwnerController {
 	
 	
 	//이미지 파일 화면에 가져오기
-//	@RequestMapping("/images/{filename}", method = RequestMethod.GET)
+//	@RequestMapping(value = "/{filename}", method = RequestMethod.GET)
 //	public void viewImages(@PathVariable String filename, HttpServletResponse response) {
-//		String path = servletContext.getRealPath("/images/");
+//		System.out.println("filename:  "+filename);
+//		String path = servletContext.getRealPath("/resources/upload/");
+//		System.out.println("path:  "+path);
 //		FileInputStream fis = null;
 //		try {
-//			fis = new FileInputStream(path + filename);
+//			fis = new FileInputStream(path + filename+".jpg");
 //			OutputStream out = response.getOutputStream();
 //			FileCopyUtils.copy(fis, out);
 //		} catch (Exception e) {
@@ -176,7 +179,28 @@ public class OwnerController {
 //		}
 //	}
 	
-	
+	@RequestMapping(value = "/{petNo}", method = RequestMethod.GET)
+	public void viewImages(@PathVariable String petNo, HttpServletResponse response) {
+		System.out.println("선택한 petNo:  "+petNo);
+		String path = servletContext.getRealPath("/resources/upload/");
+		System.out.println("path:  "+path);
+		FileInputStream fis = null;
+		try {
+			Integer pet_no = Integer.parseInt(petNo);
+			String filename = ownerService.getFileByPetNo(pet_no);
+			fis = new FileInputStream(path + filename+".jpg");
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(fis, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(fis != null) {
+				try {
+					fis.close();
+				} catch (Exception e) {} 
+			}
+		}
+	}
 	
 	
 	

@@ -119,7 +119,8 @@ $(document).ready(function(){
 						</label>
 						<input type="hidden" value="${petInfo.pet_no}"> 
 					</div>
-					<img src="images/${petInfo.image}" id="productImage"/>
+					<%-- <img src="${pageContext.request.contextPath}/${petInfo.file_name}" id="productImage"/> --%>
+					<img src="${pageContext.request.contextPath}/${petInfo.file_no}" id="productImage"/>
 				</c:forEach>
 			</div>
 		</div>

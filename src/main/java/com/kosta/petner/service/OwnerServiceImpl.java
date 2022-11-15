@@ -30,4 +30,9 @@ public class OwnerServiceImpl implements OwnerService {
 		return ownerDAO.getPetByPetNo(pet_no);
 	}
 
+	@Override
+	public String getFileByPetNo(Integer pet_no) {
+		return ownerDAO.getFileByPetNo(pet_no);
+	}
+
 }

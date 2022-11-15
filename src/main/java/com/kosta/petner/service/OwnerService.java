@@ -13,5 +13,7 @@ public interface OwnerService {
 
 	PetInfo getPetByPetNo(Integer pet_no);
 
+	String getFileByPetNo(Integer pet_no);
+
 	
 }
