@@ -23,7 +23,7 @@ public class NoticeServiceImpl implements NoticeService {
 //		board.setBoard_re_ref(boardNum);
 //		board.setBoard_re_lev(0);
 //		board.setBoard_re_seq(0);
-		notice.setNotice_readcount(0);
+		notice.setNotice_hit(0);
 		noticeDAO.insertNotice(notice);
 	}
 	@Override

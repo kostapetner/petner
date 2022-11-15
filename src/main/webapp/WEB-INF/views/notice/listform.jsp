@@ -40,10 +40,10 @@
 												<c:otherwise>▶</c:otherwise>
 											</c:choose> <a
 											href="./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}">
-												${article.notice_subject}</a></td>
-										<td class="col-2">${article.notice_name }</td>
-										<td class="col-2">${article.notice_date }</td>
-										<td class="col-1">${article.notice_readcount }</td>
+												${article.notice_title}</a></td>
+										<td class="col-2">${article.user_id }</td>
+										<td class="col-2">${article.reg_date }</td>
+										<td class="col-1">${article.notice_hit }</td>
 									</div>
 								</tr>
 							</c:forEach>

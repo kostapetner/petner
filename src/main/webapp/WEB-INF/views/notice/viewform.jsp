@@ -43,7 +43,7 @@ max-height: 150px;
 	<section id="articleForm">
 		<h2 class="card-title">글 내용 상세보기</h2>
 		<section id="basicInfoArea"> 
-			제 목 : ${article.notice_subject }
+			제 목 : ${article.notice_title }
 			첨부파일 :
 			<c:if test="${article.notice_file!=null }">
 				<a href="file_down?downFile=${article.notice_file}"> ${article.notice_file} </a>

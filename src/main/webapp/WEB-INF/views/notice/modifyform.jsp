@@ -23,7 +23,7 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
-					type="text" class="form-control" name="notice_name" id="notice_name"
+					type="text" class="form-control" name="user_id" id="user_id"
 					required="required" placeholder="${article.notice_no}"
 					aria-label="이름" aria-describedby="addon-wrapping">
 			</div>
@@ -37,10 +37,10 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">제 목</span> <input
-					type="text" class="form-control" name="notice_subject"
-					id="notice_subject" required="required"
-					placeholder="${article.notice_subject}" aria-label="제 목"
-					aria-describedby="addon-wrapping" value="${article.notice_subject}">
+					type="text" class="form-control" name="notice_title"
+					id="notice_title" required="required"
+					placeholder="${article.notice_title}" aria-label="제 목"
+					aria-describedby="addon-wrapping" value="${article.notice_title}">
 			</div>
 
 			<div class="input-group flex-nowrap">
@@ -52,7 +52,7 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
-					type="text" class="form-control" name="notice_name" id="notice_name"
+					type="text" class="form-control" name="user_id" id="user_id"
 					required="required" placeholder="${article.notice_no}"
 					aria-label="이름" aria-describedby="addon-wrapping">
 			</div>

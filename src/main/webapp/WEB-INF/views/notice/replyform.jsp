@@ -41,9 +41,9 @@ table {
 			<input type="hidden" name="notice_no" value="${noticeNum}">
 			<table>
 				<tr>
-					<td class="td_left"><label for="notice_name">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="notice_name"
-						id="notice_name" /></td>
+					<td class="td_left"><label for="user_id">글쓴이</label></td>
+					<td class="td_right"><input type="text" name="user_id"
+						id="user_id" /></td>
 				</tr>
 				<!-- <tr>
 					<td class="td_left"><label for="board_pass">비밀번호</label></td>
@@ -51,9 +51,9 @@ table {
 						id="board_pass" /></td>
 				</tr> -->
 				<tr>
-					<td class="td_left"><label for="notice_subject">제 목</label></td>
-					<td class="td_right"><input name="notice_subject" type="text"
-						id="notice_subject" /></td>
+					<td class="td_left"><label for="notice_title">제 목</label></td>
+					<td class="td_right"><input name="notice_title" type="text"
+						id="notice_title" /></td>
 				</tr>
 				<tr>
 					<td class="td_left"><label for="notice_content">내 용</label></td>

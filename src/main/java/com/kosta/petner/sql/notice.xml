@@ -5,9 +5,9 @@
 <mapper namespace="mapper.notice">
 	<insert id="insertNotice" parameterType="com.kosta.petner.bean.Notice">
 		<![CDATA[
-			insert into notice (notice_no,notice_name,notice_subject,notice_content,notice_file, notice_re_ref, notice_re_lev, notice_re_seq, notice_readcount, notice_date)
-			values(notice_seq.nextval,#{notice_name},#{notice_subject},#{notice_content},#{notice_file, jdbcType=VARCHAR},
-				#{notice_re_ref},#{notice_re_lev},#{notice_re_seq},#{notice_readcount},sysdate)
+			insert into notice (notice_no,user_id,notice_title,notice_content,file_no, notice_re_ref, notice_re_lev, notice_re_seq, notice_hit, reg_date)
+			values(notice_seq.nextval,#{user_id},#{notice_title},#{notice_content},#{file_no, jdbcType=VARCHAR},
+				#{notice_re_ref},#{notice_re_lev},#{notice_re_seq},#{notice_hit},sysdate)
 		]]>
 	</insert>
 	
@@ -19,8 +19,8 @@
 	
 	<select id="selectNoticeList" resultType="com.kosta.petner.bean.Notice" parameterType="Integer">
 		<![CDATA[
-			select notice_no,notice_name,notice_subject,notice_content,notice_file,notice_re_ref,
-				notice_re_lev,notice_re_seq,notice_readcount,notice_date 
+			select notice_no,user_id,notice_title,notice_content,file_no,notice_re_ref,
+				notice_re_lev,notice_re_seq,notice_hit,reg_date 
 			from (select row_number() over (order by notice_re_ref desc, notice_re_seq asc) num, B.*
 					from notice B order by notice_re_ref desc, notice_re_seq asc)
 			where num between #{row} and #{row}+9
@@ -41,7 +41,7 @@
 	
 	<update id="updateNotice" parameterType="com.kosta.petner.bean.Notice">
 		<![CDATA[
-			update notice set notice_subject=#{notice_subject}, notice_content=#{notice_content}
+			update notice set notice_title=#{notice_title}, notice_content=#{notice_content}
 			where notice_no=#{notice_no}
 		]]>
 	</update>
