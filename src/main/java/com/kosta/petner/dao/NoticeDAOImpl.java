@@ -53,4 +53,11 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public void deleteNotice(Integer noticeNum) throws Exception {
 		sqlSession.update("mapper.notice.deleteNotice", noticeNum);
 	}
+
+	// 조회수 증가
+	@Override
+	public void notice_read(int notice_no) throws Exception {
+		sqlSession.update("mapper.notice.read", notice_no);
+		
+	}
 }

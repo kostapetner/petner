@@ -12,4 +12,5 @@ public interface NoticeService {
 	void modifyNotice(Notice notice) throws Exception;
 	void noticeReply(Notice notice) throws Exception;
 	void deleteNotice(Integer noticeNum) throws Exception;
+	void notice_read(int notice_id) throws Exception; // 조회수 증가
 }

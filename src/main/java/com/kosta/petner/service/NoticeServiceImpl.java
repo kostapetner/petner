@@ -73,4 +73,11 @@ public class NoticeServiceImpl implements NoticeService {
 		System.out.println("Service:"+notice);
 		noticeDAO.deleteNotice(noticeNum);
 	}
+	
+	// 조회수 증가
+	@Override
+	public void notice_read(int notice_id) throws Exception {
+		noticeDAO.notice_read(notice_id);
+	}
+	
 }

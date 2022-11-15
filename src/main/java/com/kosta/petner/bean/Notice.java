@@ -75,7 +75,7 @@ public class Notice {
 		return file_no;
 	}
 //	public String getOpen_yn() {
-//		return open_yn;
+//		return open_yn
 //	}
 	public int getNotice_re_ref() {
 		return notice_re_ref;

@@ -46,6 +46,12 @@
 		]]>
 	</update>
 	
+	<update id="read">
+		<![CDATA[
+			UPDATE notice SET notice_hit = notice_hit + 1 WHERE notice_no=#{notice_no}
+		]]>
+	</update>
+	
 	<update id="updateNoticeReReq" parameterType="com.kosta.petner.bean.Notice">
 		<![CDATA[
 			update notice set notice_re_seq=notice_re_seq+1

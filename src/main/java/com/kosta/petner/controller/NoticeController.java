@@ -74,6 +74,8 @@ public class NoticeController {
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
+			// 조회수 증가
+			noticeService.notice_read(noticeNum);
 			Notice notice = noticeService.getNotice(noticeNum);
 			model.addAttribute("article", notice);
 			model.addAttribute("page", page);

@@ -69,7 +69,7 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
-					type="file" class="form-control" name="file" id="notice_file"
+					type="file" class="form-control" name="file" id="file_no"
 					required="required" placeholder="Username" aria-label="파일첨부"
 					aria-describedby="addon-wrapping">
 			</div>

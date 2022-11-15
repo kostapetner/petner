@@ -15,4 +15,5 @@ public interface NoticeDAO {
 	void updateNotice(Notice notice) throws Exception;
 	void updateNoticeReReq(Notice notice) throws Exception;
 	void deleteNotice(Integer noticeNum) throws Exception;
+	void notice_read(int notice_no) throws Exception; // 조회수 증가
 }
