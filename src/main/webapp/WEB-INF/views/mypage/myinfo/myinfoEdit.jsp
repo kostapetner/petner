@@ -10,7 +10,7 @@
 </style>
 
 <div class="content">
-  <p class="menu_title">나의정보수정</p>
+  <p class="menu_title">나의 정보 수정</p>
   <form action="${pageContext.request.contextPath}/mypage/myinfoEdit" method="POST" class="data edit_form">
 		<input type="hidden" value="${member.id}" name="id"/>
 		<div>
@@ -42,8 +42,7 @@
 	</form>
 </div>
 <script>
-	$(document).ready(function(){
-		
+	$(document).ready(function(){		
 		$(".submit_btn").click(function(){
 			$(".edit_form").submit();
 		})

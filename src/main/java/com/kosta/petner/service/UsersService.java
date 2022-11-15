@@ -32,5 +32,8 @@ public interface UsersService {
 	//카카오회원정보조회
 	public Users getUserInfo(String access_Token); 
 
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	public Users getUserByUserNo(Integer user_no);
+
 	
 }

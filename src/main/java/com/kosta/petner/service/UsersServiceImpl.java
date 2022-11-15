@@ -11,15 +11,16 @@ import java.net.URL;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 
@@ -143,6 +144,7 @@ public class UsersServiceImpl implements UsersService {
 			out.close();
 		}
 	}
+
 	
 	
 	//카카오 로그인
@@ -235,6 +237,14 @@ public class UsersServiceImpl implements UsersService {
 			}
 	        
 		}
+
+
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	@Override
+	public Users getUserByUserNo(Integer user_no) {
+		return usersDAO.getUserByUserNo(user_no);
+	}
+
 		
 			
 	}

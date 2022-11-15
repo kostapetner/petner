@@ -51,7 +51,9 @@ CREATE TABLE sitter_info(
 	,sitter_info 	varchar(500)
 );
 
-SELECT * FROM sitter_info;
+SELECT * FROM pet_info;
+SELECT * FROM users;
+SELECT * FROM FILE_TB ft ;
 
 --게시판 번호 테이블
 --혜경

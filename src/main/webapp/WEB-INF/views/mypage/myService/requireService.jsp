@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
 $(document).ready(function(){
 	//datepicker
@@ -31,7 +31,7 @@ $(document).ready(function(){
 	      });
 	  }
 	}).data('datepicker');
-	//---------------------------------------------
+
 	//이미지 미리보기
 	$(function() {
 		$('#file').change(function(event) {
@@ -59,7 +59,44 @@ $(document).ready(function(){
 			$("#service_chkAll").prop("checked", false);
 		}else $("#service_chkAll").prop("checked", true); 
 	});
+	//--------------------펫 선택시 정보 불러오기-------------------------
 	
+	$(document).on("click", "a[id='petImg']", function () {
+		//pet_no가져오기
+	    var pet_no = $(this).closest('div').children('input').attr('value');
+	    console.log("clicked pet_no: "+pet_no);
+		
+		// contentType: "application/json" 꼭 써주기
+ 		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/getPetInfo",
+			type : "POST",
+			dataType: "json",
+			contentType: "application/json",
+		    data: JSON.stringify({
+		    	"pet_no":pet_no
+		    }),
+			success : function(petInfo) {
+				$("#petInfo_name").attr('value',petInfo.pet_name);
+				$("#petInfo_gender").attr('value',petInfo.pet_gender);
+				$("#petInfo_specie").attr('value',petInfo.pet_specie);
+				$("#petInfo_weight").attr('value',petInfo.pet_weight);
+				$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
+				$("#petInfo_info").attr('value',petInfo.pet_info);
+				
+				
+				
+			},
+			error : function(xhr, error) { //xmlHttpRequest?
+				console.error("error : " + error);
+			}
+		});
+	});
+	
+	
+	
+	
+	
+	//----------------------------------------------
 	//submit 
 	$(".submit_btn").click(function(){
 	  $("#petForm").submit();
@@ -74,18 +111,16 @@ $(document).ready(function(){
 		<div class="f_row">
 			<p class="fc_title">펫을 선택해주세요</p>
 			<div class="profile_upload_small">
-				<div class="prof_img_small">
-					<img id="rep" class="img_wrap img"> <br> 
-					<label for="rep" class="pet_btn check_btn"> 
-					<i class="fa-solid fa-check" id="pen"></i>
-					</label>
-				</div>
-				<div class="prof_img_small">
-					<img id="rep" class="img_wrap img"> <br> 
-					<label for="rep" class="pet_btn check_btn"> 
-					<i class="fa-solid fa-check" id="pen"></i>
-					</label>
-				</div>
+				<c:forEach var="petInfo" items="${petInfo}">
+					<div class="prof_img_small">
+						<a id="petImg"><img id="rep" class="img_wrap img"></a>
+						<label for="rep" class="pet_btn check_btn"> 
+						<i class="fa-solid fa-check" id="pen"></i>
+						</label>
+						<input type="hidden" value="${petInfo.pet_no}"> 
+					</div>
+					<img src="images/${petInfo.image}" id="productImage"/>
+				</c:forEach>
 			</div>
 		</div>
 		
@@ -101,34 +136,46 @@ $(document).ready(function(){
 					<tr>
 						<td colspan="2">
 							<div class="img_area">
-								<img src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg" alt="이미지">
+								<img src="" alt="이미지">
 							</div>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">이름</td>
-						<td class="td-inner">체다(고양이)</td>
+						<td class="td-inner" >
+							<input type="text" id="petInfo_name" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">성별</td>
-						<td class="td-inner">암</td>
+						<td class="td-inner">
+							<input type="text" id="petInfo_gender" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">종류</td>
-						<td class="td-inner">샴</td>
+						<td class="td-inner">
+							<input type="text" id="petInfo_specie" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">체중</td>
-						<td class="td-inner">3kg</td>
+						<td class="td-inner">
+							<input type="text" id="petInfo_weight" readonly>kg
+						</td>
 					</tr>
 					<tr class="tr-left" style="border-top:1px #777 dotted">
 						<td class="pdr40">중성화</td>
-						<td class="td-inner">x</td>
+						<td class="td-inner">
+							<input type="text" id="petInfo_neutral" readonly>
+						</td>
 					</tr>
 				</table>
 				<div style="padding: 20px 0px;">
 					<p class="p-style">특이사항</p>
-					<P class="p-style-content">으아아아ㅏ앙 졸라귀여우어아아아아아ㅏ아</P>
+					<P class="p-style-content">
+						<input type="text" id="petInfo_info" readonly>
+					</P>
 				</div>
 			</div>
 		</div>
@@ -140,9 +187,9 @@ $(document).ready(function(){
 		<!-- 지역 -->
 		<div class="f_row">
 			<p class="fc_title">지역</p>
-			<input type="text" name="zipcode" style="width:100px; min-width: auto;" placeholder="우편번호"/>
-			<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소"/>
-			<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소"/>
+			<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}"/>
+			<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}"/>
+			<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}"/>
 		</div>
 	
 		<!-- 날짜 -->

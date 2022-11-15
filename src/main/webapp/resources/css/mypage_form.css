@@ -89,6 +89,19 @@
 		width: 100%;
 	}
 	
+	.card_list_type input{
+		border:0 solid black;
+	}
+	
+	.card_list_type input:focus{
+		outline: none;
+		cursor: default;
+	}
+	
+	.card_list_type input:hover{
+		cursor: default;
+	}
+	
 	.pdr40{padding-right: 40px;}
 	.p-style{
 		text-align: left;
@@ -102,3 +115,9 @@
 		padding-top: 20px;
 		font-size: 14px;
 	}
+	
+	#rep{
+		cursor:pointer;
+	}
+	
+	

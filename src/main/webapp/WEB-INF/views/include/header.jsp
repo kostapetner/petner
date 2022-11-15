@@ -3,18 +3,18 @@
 <c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
 <c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
 <script>
-  // common js 로 분리할 부분
-  $(document).ready(function(){
-  
-    $(document)
-    .on("click", ".login_menu .mypage", function(){
-      $(".float_mymenu").css({        
-        "left" : $(".login_menu").offset().left + 10 + "px",
-        "top":$(this).offset().top + $(this).height()+ 16 + "px",
-        "transform" : "translateX(-50%)"
-      })
-      $(".float_mymenu").fadeToggle("200");
+// common js 로 분리할 부분
+$(document).ready(function(){
+
+  $(document)
+  .on("click", ".login_menu .mypage", function(){
+    $(".float_mymenu").css({        
+      "left" : $(".login_menu").offset().left + 10 + "px",
+      "top":$(this).offset().top + $(this).height()+ 16 + "px",
+      "transform" : "translateX(-50%)"
     })
+    $(".float_mymenu").fadeToggle("200");
+  })
 
    
    
@@ -43,7 +43,6 @@
       <ul>
         <!-- 세션있을때  -->
         <c:if test="${not empty authUser}">
-        <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-heart"></i></a></li>
         <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-comment-dots"></i></a></li>
         <li class="in_session"><a class="alert transition02" href="#"><i class="fa-solid fa-bell"></i></a></li>
         <li class="in_session mypage"><a a class="my transition02" href="#"><i class="fa-solid fa-user"></i> </a></li>
@@ -81,9 +80,14 @@
           <li><a href="#">리뷰관리</a></li>
         </ul>
       </div> -->
-      <div><a href="./logout">로그아웃</a></div>
+      <div><a href="${pageContext.request.contextPath}/logout">로그아웃</a></div>
+
 
       </div>      
      
 </div>  
+
+    </div>
+  </div>
+
 </header>
