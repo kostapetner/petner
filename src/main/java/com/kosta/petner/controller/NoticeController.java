@@ -17,191 +17,173 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.Board;
+import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.service.BoardService;
+import com.kosta.petner.service.NoticeService;
 
 @Controller
-public class BoardController {
+public class NoticeController {
 	
 	@Autowired
-	BoardService boardService;
+	NoticeService noticeService;
 
 	@Autowired
 	ServletContext servletContext;
 	
 	@RequestMapping(value="/writeform", method=RequestMethod.GET)
 	public String writeform(Model model) {
-		model.addAttribute("page", "board/writeform");
+		model.addAttribute("page", "notice/writeform");
 //		model.addAttribute("title", "공지사항 글쓰기");
 		return "/layout/admin_main";
 	}
 	
-	@RequestMapping(value="/boardwrite", method=RequestMethod.POST)
-	public String boardwrite(@ModelAttribute Board board,BindingResult result, Model model) {
+	@RequestMapping(value="/noticewrite", method=RequestMethod.POST)
+	public String noticewrite(@ModelAttribute Notice notice,BindingResult result, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
-			MultipartFile file = board.getFile();
+			MultipartFile file = notice.getFile();
 			if(!file.isEmpty()) {
 				//String path = servletContext.getRealPath("/upload/");
 				String path = "/Users/yoo-jinkim/git/petner/src/main/webapp/resources/upload/board/";
 				File destFile = new File(path+file.getOriginalFilename());
 				file.transferTo(destFile);
-				board.setBoard_file(file.getOriginalFilename());
+				notice.setNotice_file(file.getOriginalFilename());
 			}
 			
-			boardService.resistBoard(board);
-			model.addAttribute("redirect:/boardList");
-//			model.addAttribute("page","/board/boardList");
+			noticeService.resistNotice(notice);
+			model.addAttribute("redirect:/noticeList");
+//			model.addAttribute("page","/notice/noticeList");
 		} catch(Exception e) {
 			e.printStackTrace();
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
-		return "redirect:/boardList";
+		return "redirect:/noticeList";
 	}	
 	
 
 	
-	@RequestMapping(value="/boardList", method= {RequestMethod.GET, RequestMethod.POST})
-	public String boardList(@RequestParam(value="page", required=false, defaultValue="1") Integer page, Model model) {
+	@RequestMapping(value="/noticeList", method= {RequestMethod.GET, RequestMethod.POST})
+	public String noticeList(@RequestParam(value="page", required=false, defaultValue="1") Integer page, Model model) {
 //		ModelAndView mav = new ModelAndView();
 		PageInfo pageInfo = new PageInfo();
 		try {
-			List<Board> articleList = boardService.getBoardList(page, pageInfo);
+			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
 			model.addAttribute("articleList", articleList);
 			model.addAttribute("pageInfo", pageInfo);
-			model.addAttribute("page","/board/listform");
+			model.addAttribute("page","/notice/listform");
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
 		return "/layout/admin_main";
 	}
 	
-	@RequestMapping(value="/boarddetail", method=RequestMethod.GET)
-	String boarddetail(@RequestParam("board_num") Integer boardNum, 
+	@RequestMapping(value="/noticedetail", method=RequestMethod.GET)
+	String noticedetail(@RequestParam("notice_no") Integer noticeNum, 
 			@RequestParam(value="page",required=false,defaultValue="1") Integer page, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
-			Board board = boardService.getBoard(boardNum);
-			model.addAttribute("article", board);
+			Notice notice = noticeService.getNotice(noticeNum);
+			model.addAttribute("article", notice);
 			model.addAttribute("page", page);
-			model.addAttribute("page","/board/viewform");
+			model.addAttribute("page","/notice/viewform");
 		} catch(Exception e) {
 			e.printStackTrace();
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
 		return "/layout/admin_main";
 	}
 	
 	@RequestMapping(value="/modifyform", method=RequestMethod.GET)
-	String modifyform(@RequestParam("board_num") Integer boardNum, Model model) {
+	String modifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
-			Board board = boardService.getBoard(boardNum);
-			model.addAttribute("article", board);
-			model.addAttribute("page","/board/modifyform");
+			Notice notice = noticeService.getNotice(noticeNum);
+			model.addAttribute("article", notice);
+			model.addAttribute("page","/notice/modifyform");
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", "조회 실패");
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
 		return "/layout/admin_main";
 	}
 	
-	@RequestMapping(value="/boardmodify", method=RequestMethod.POST)
-	public String boardmodify(@ModelAttribute Board board ,Model model) {
+	@RequestMapping(value="/noticemodify", method=RequestMethod.POST)
+	public String boardmodify(@ModelAttribute Notice notice ,Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
-			boardService.modifyBoard(board);
-			model.addAttribute("board_num", board.getBoard_num());
-			model.addAttribute("redirect:/boarddetail");
+			noticeService.modifyNotice(notice);
+			model.addAttribute("notice_no", notice.getNotice_no());
+			model.addAttribute("redirect:/noticedetail");
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
-		return "redirect:/boarddetail";
+		return "redirect:/noticedetail";
 	}
 	
-//	@RequestMapping(value="/replyform", method=RequestMethod.GET)
-//	public ModelAndView replyform(@RequestParam("board_num") Integer boardNum, 
-//			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
-//		ModelAndView mav = new ModelAndView();
-//		
-//		try {
-//			mav.setViewName("/layout/admin_main");
-//			mav.addObject("boardNum", boardNum);
-//			mav.addObject("age", page);
-//			mav.setViewName("/board/replyform");
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//			mav.addObject("err", e.getMessage());
-//			mav.setViewName("/board/err");
-//		}
-//		return mav;
-//	}
-	
 	@RequestMapping(value="/replyform", method=RequestMethod.GET)
-	public String replyform(@RequestParam("board_num") Integer boardNum, 
+	public String replyform(@RequestParam("notice_no") Integer noticeNum, 
 			@RequestParam(value="page",required=false,defaultValue="1") Integer page, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		
 		try {
 //			model.addAttribute("/layout/admin_main");
-			model.addAttribute("boardNum", boardNum);
+			model.addAttribute("noticeNum", noticeNum);
 			model.addAttribute("age", page);
-			model.addAttribute("page","/board/replyform");
+			model.addAttribute("page","/notice/replyform");
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
 		return "/layout/admin_main";
 	}
 
 	
-	@RequestMapping(value="/boardreply", method=RequestMethod.POST)
-	public String boardreply(@ModelAttribute Board board, 
+	@RequestMapping(value="/noticereply", method=RequestMethod.POST)
+	public String noticereply(@ModelAttribute Notice notice, 
 			 Model model) {
-		//ModelAndView mav = new ModelAndView();
 		try {
-			boardService.boardReply(board);
-//			model.addAttribute("page", page);
-			model.addAttribute("redirect:/boardList");
+			noticeService.noticeReply(notice);
+			model.addAttribute("redirect:/noticeList");
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/board/err");
+			model.addAttribute("/notice/err");
 		}
-		return "redirect:/boardList";
+		return "redirect:/noticeList";
 	}
 	
 	@RequestMapping(value="/deleteform", method=RequestMethod.GET)
-	public ModelAndView deleteform(@RequestParam("board_num") Integer boardNum,
+	public ModelAndView deleteform(@RequestParam("notice_no") Integer noticeNum,
 			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("board_num", boardNum);
+		mav.addObject("notice_no", noticeNum);
 		mav.addObject("page", page);
-		mav.setViewName("/board/deleteform");
+		mav.setViewName("/notice/deleteform");
 		return mav;
 	}
 	
-	@RequestMapping(value="/boarddelete", method=RequestMethod.POST)
-	public ModelAndView boarddelete(@RequestParam("board_num") Integer boardNum,
+	@RequestMapping(value="/noticedelete", method=RequestMethod.POST)
+	public ModelAndView boarddelete(@RequestParam("notice_no") Integer noticeNum,
 //			@RequestParam(value="board_pass") String password,
 			@RequestParam(value="page",required=false,defaultValue="1") Integer page) {
-		System.out.println("Controller:"+boardNum);
+		System.out.println("Controller:"+noticeNum);
 		ModelAndView mav = new ModelAndView();
 		try {
 //			boardService.deleteBoard(boardNum, password);
-			boardService.deleteBoard(boardNum);
+			noticeService.deleteNotice(noticeNum);
 			mav.addObject("page", page);
-			mav.setViewName("redirect:/boardList");
+			mav.setViewName("redirect:/noticeList");
 		} catch(Exception e) {
 			e.printStackTrace();
 			mav.addObject("err", e.getMessage());
-			mav.setViewName("/board/err");
+			mav.setViewName("/notice/err");
 		}
 		return mav;
 	}
