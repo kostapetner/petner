@@ -6,15 +6,15 @@
   
   <c:if test="${empty data}"> 
   	<div>
-  		<p class="mb25">등록된 펫시터 정보가 없어요.</p>
-  		<a href="${pageContext.request.contextPath}/sitterForm" class="pet_btn">펫시터 정보 등록하기</a>
+  		<p class="mb25">등록된 반려동물 정보가 없어요.</p>
+  		<a href="${pageContext.request.contextPath}/petForm" class="pet_btn">반려동물 정보 등록하기</a>
   	</div>
   	
 	</c:if>
 	
 	<c:if test="${not empty data}"> 
 		<p class="menu_title">
-	  	나의 펫시터 정보
+	  	<span>나의 반려동물 정보</span>
 	  	<a href="${pageContext.request.contextPath}/mypage/mySitterInfoEdit" class="icon"><i class="fa-solid fa-pen-to-square"></i></a>
 	  </p>
 	  <div class="data">

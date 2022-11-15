@@ -18,4 +18,9 @@ public class OwnerDAOImpl implements OwnerDAO {
 
 	}
 
+	@Override // 보호자의 반려동물 정보가져오기 221115_DSC
+	public PetInfo getPetInfo(int user_no) {
+		return sqlSession.selectOne("mapper.owner.getPetInfo", user_no);
+	}
+
 }

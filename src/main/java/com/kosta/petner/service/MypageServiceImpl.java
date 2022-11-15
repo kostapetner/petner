@@ -3,8 +3,10 @@ package com.kosta.petner.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
+import com.kosta.petner.dao.OwnerDAO;
 import com.kosta.petner.dao.SitterDAO;
 import com.kosta.petner.dao.UsersDAO;
 
@@ -13,8 +15,13 @@ public class MypageServiceImpl implements MypageService {
 	
 	@Autowired
 	UsersDAO usersDAO;
+	
 	@Autowired
 	SitterDAO sitterDAO;
+	
+	@Autowired
+	OwnerDAO ownerDAO;
+	
 	
 	@Override
 	public Users getMyinfo(String id) {
@@ -29,6 +36,11 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public SitterInfo getMySitterinfo(int user_no) {
 		return sitterDAO.getSitterInfo(user_no);
+	}
+
+	@Override
+	public PetInfo getMyPetinfo(int user_no) {
+		return ownerDAO.getPetInfo(user_no);
 	}
 
 }

@@ -29,4 +29,14 @@
 		)
 	</insert>
 	
+	<!-- 221115_DSC  -->
+	<select id="getPetInfo" parameterType="int" resultType="com.kosta.petner.bean.PetInfo">
+		<![CDATA[
+			SELECT * FROM PET_INFO
+			WHERE USER_NO = #{user_no}
+		]]> 
+	</select>
+	
+	
+	
 </mapper>

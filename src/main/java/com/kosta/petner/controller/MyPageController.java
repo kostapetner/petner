@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.MypageService;
 
 //나의정보출력/수정관리/리뷰
 @Controller
+
 public class MyPageController {
 	
 	@Autowired
@@ -97,6 +99,43 @@ public class MyPageController {
 		   model.addAttribute("page", "mypage/sitter/mySitterInfo");
 	   }
 	  
+	   return "/layout/mypage_default";
+   }
+   
+   // 시터정보수정
+   @RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.GET)
+   public String mySitterInfoEdit(HttpSession session, Model model){
+	   Users sessionInfo = (Users) session.getAttribute("authUser");
+	   int user_no = sessionInfo.getUser_no();
+	   SitterInfo sitterInfo = mypageService.getMySitterinfo(user_no);
+	   
+	   model.addAttribute("data", sitterInfo);
+	   model.addAttribute("page", "mypage/sitter/mySitterInfoEdit");
+	   model.addAttribute("title", "나의펫시터정보수정");
+	   //model.addAttribute("data", sitterInfo);
+	   return "/layout/mypage_default";
+   }
+   
+   
+   // 내가 보호자일일 경우의 컨트롤러
+   // 내 반려동물 정보 가져오기
+   @RequestMapping(value = "/mypage/myPetInfo", method = RequestMethod.GET)
+   public String myPetInfo(HttpSession session, Model model){
+	   Users sessionInfo = (Users) session.getAttribute("authUser");
+	   int user_no = sessionInfo.getUser_no();
+	   
+	   try {
+		   PetInfo petInfo = mypageService.getMyPetinfo(user_no);	      
+		   System.out.println("나의동물정모"+petInfo);
+	      
+		   model.addAttribute("page", "mypage/owner/myPetInfo");
+		   model.addAttribute("title", "나의반려동물");
+		   model.addAttribute("data", petInfo);
+	   }catch(Exception e) {
+		   e.printStackTrace();
+		   System.out.println("반려동물정보없어!!!");
+		   model.addAttribute("page", "mypage/owner/myPetInfo");
+	   }
 	   return "/layout/mypage_default";
    }
 }
