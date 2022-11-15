@@ -20,40 +20,31 @@
 				<tr>
 					<th scope="col">회원번호</th>
 					<th scope="col">이름</th>
-					<th scope="col">신고대상</th>
-					<th scope="col">내용</th>
-					<th scope="col" style="text-align: end;">상태</th>
+					<th scope="col">email</th>
+					<th scope="col">타입</th>
+					<th scope="col">주소</th>
+					<th scope="col" style="text-align: end;">상세보기</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<div class="row">
-						<td class="col-2">2022.11.09
+						<td class="col">
+						<p><span class="value">${member.user_no}</span></p>
 						</td>
-						<td class="col-2">Mark</td>
-						<td class="col-2">Otto</td>
-						<td class="col-4">@mdo</td>
-						<td class="col-2" style="text-align: end;">@mdo</td>
-					</div>
-				</tr>
-				<tr>
-					<div class="row">
-						<td class="col-2">2022.11.09
-						</th>
-						<td class="col-2">Mark</td>
-						<td class="col-2">Otto</td>
-						<td class="col-4">@mdo</td>
-						<td class="col-2" style="text-align: end;">@mdo</td>
-					</div>
-				</tr>
-				<tr>
-					<div class="row">
-						<td class="col-2">2022.11.09
-						</th>
-						<td class="col-2">Mark</td>
-						<td class="col-2">Otto</td>
-						<td class="col-4">@mdo</td>
-						<td class="col-2" style="text-align: end;">@mdo</td>
+						<td class="col">
+						<p><span class="value">${member.name}</span></p>
+						</td>
+						<td class="col">
+						<p><span class="value">${member.email}</span></p>
+						</td>
+						<td class="col">
+						<p><span class="value">${member.user_type}</span></p>
+						</td>
+						<td class="col">
+						<p><span class="value">${member.addr}</span></p>
+						</td>
+						<td class="col" style="text-align: end;"><a>상세보기</a></td>
 					</div>
 				</tr>
 			</tbody>
