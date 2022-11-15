@@ -20,12 +20,11 @@ public class OwnerDAOImpl implements OwnerDAO {
 
 	}
 
-<<<<<<< HEAD
 	@Override // 보호자의 반려동물 정보가져오기 221115_DSC
 	public PetInfo getPetInfo(int user_no) {
 		return sqlSession.selectOne("mapper.owner.getPetInfo", user_no);
-=======
-	//user_no에 맞는 pet정보를 가져옴
+	}
+		//user_no에 맞는 pet정보를 가져옴
 	@Override
 	public List<PetInfo> getPetByUserNo(Integer user_no) {
 		return sqlSession.selectList("mapper.owner.getPetByUserNo", user_no);
@@ -34,7 +33,6 @@ public class OwnerDAOImpl implements OwnerDAO {
 	@Override
 	public PetInfo getPetByPetNo(Integer pet_no) {
 		return sqlSession.selectOne("mapper.owner.getPetByPetNo", pet_no);
->>>>>>> 2a3fdc56a2a53caf11d59b5eb1a1ea114c46341d
 	}
 
 }

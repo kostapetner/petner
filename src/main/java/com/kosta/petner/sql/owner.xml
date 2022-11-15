@@ -29,7 +29,6 @@
 		)
 	</insert>
 	
-<<<<<<< HEAD
 	<!-- 221115_DSC  -->
 	<select id="getPetInfo" parameterType="int" resultType="com.kosta.petner.bean.PetInfo">
 		<![CDATA[
@@ -39,7 +38,6 @@
 	</select>
 	
 	
-=======
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
 	<![CDATA[
 	select * from pet_info where user_no = #{user_no}
@@ -51,6 +49,5 @@
 	select * from pet_info where pet_no = #{pet_no}
 	]]>	
 	</select>
->>>>>>> 2a3fdc56a2a53caf11d59b5eb1a1ea114c46341d
 	
 </mapper>

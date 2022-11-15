@@ -186,9 +186,6 @@
 			<artifactId>commons-email</artifactId>
 			<version>1.5</version>
 		</dependency>
-
-<<<<<<< HEAD
-=======
 	<dependency>
 		<groupId>org.apache.commons</groupId>
 		<artifactId>commons-email</artifactId>
@@ -201,8 +198,14 @@
 		<artifactId>jackson-databind</artifactId>
 		<version>2.9.6</version>
 	</dependency>
-		  
->>>>>>> 2a3fdc56a2a53caf11d59b5eb1a1ea114c46341d
+	
+	<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>${org.aspectj-version}</version>
+	</dependency>
+	
 	</dependencies>
 	<build>
 		<plugins>
