@@ -3,18 +3,18 @@
 <c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
 <c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
 <script>
-  // common js 로 분리할 부분
-  $(document).ready(function(){
-  
-    $(document)
-    .on("click", ".login_menu .mypage", function(){
-      $(".float_mymenu").css({        
-        "left" : $(".login_menu").offset().left + 10 + "px",
-        "top":$(this).offset().top + $(this).height()+ 16 + "px",
-        "transform" : "translateX(-50%)"
-      })
-      $(".float_mymenu").fadeToggle("200");
+// common js 로 분리할 부분
+$(document).ready(function(){
+
+  $(document)
+  .on("click", ".login_menu .mypage", function(){
+    $(".float_mymenu").css({        
+      "left" : $(".login_menu").offset().left + 10 + "px",
+      "top":$(this).offset().top + $(this).height()+ 16 + "px",
+      "transform" : "translateX(-50%)"
     })
+    $(".float_mymenu").fadeToggle("200");
+  })
 
    
    
@@ -72,6 +72,7 @@
           <p class="second pb4">등급</p>
           <p>${authUser.user_level}</p>
         </div>
+
       </div>
       <!-- <div>
         <ul>
@@ -79,7 +80,14 @@
           <li><a href="#">리뷰관리</a></li>
         </ul>
       </div> -->
-      <div><a href="./logout">로그아웃</a></div>
+      <div><a href="${pageContext.request.contextPath}/logout">로그아웃</a></div>
+
+
+      </div>      
+     
+</div>  
+
     </div>
   </div>
+
 </header>

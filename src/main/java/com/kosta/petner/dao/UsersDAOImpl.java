@@ -55,6 +55,21 @@ public class UsersDAOImpl implements UsersDAO{
 		 sqlSession.selectOne("mapper.users.updatePw", users);		
 	}
 	
+	// 카카오 정보 저장
+	public void kakaoinsert(HashMap<String, Object> userInfo) {
+		sqlSession.insert("mapper.users.kakaoInsert",userInfo);
+	}
+
+	// 카카오 정보 확인
+	public Users findkakao(HashMap<String, Object> userInfo) {
+		System.out.println("RN:"+userInfo.get("nickname"));
+		System.out.println("RE:"+userInfo.get("email"));
+		return sqlSession.selectOne("mapper.users.findKakao", userInfo);
+	}
+	
+	
+	
+	
 	// user정보 가져오기 221113-조다솜
 	public Users getMyinfo(String id){		
 		return sqlSession.selectOne("mapper.users.getMyinfo", id);

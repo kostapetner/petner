@@ -32,6 +32,7 @@
 <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
 
+
 function login() {
 	var id =$("#id").val();
 	var password=$("password").val();
@@ -107,7 +108,9 @@ $(function () {
       <label class="fcCbox1"><input type="checkbox" ><span>로그인 유지하기</span></label>
       <a href="./findId" >아이디</a>/<a href="./findPass">비밀번호찾기</a>
     </p>
-    <p class="login_option"><span class="pet_btn login_btn kakao_btn">카카오톡계정으로 로그인하기</span></p>
-    <p><a href="./join">펫트너회원가입</a></p>
+    	<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=7d545fe4f1b025d4ae839deae7232c74&redirect_uri=http://localhost:8088/petner/kakaoLogin&response_type=code">
+	<p class="login_option"><span class="pet_btn login_btn kakao_btn">카카오톡계정으로 로그인하기</span></p>
+    </a>		
+    <p class="login_option"><a href="./join">펫트너회원가입</a></p>
   </div>
 </div>

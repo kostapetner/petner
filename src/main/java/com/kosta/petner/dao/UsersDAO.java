@@ -1,5 +1,7 @@
 package com.kosta.petner.dao;
 
+import java.util.HashMap;
+
 import com.kosta.petner.bean.Users;
 
 public interface UsersDAO {
@@ -27,6 +29,12 @@ public interface UsersDAO {
 	
 	// 유저정보업데이트
 	int updateMyinfo(Users users);
+	
+	//카카오유저 정보 저장
+	void kakaoinsert(HashMap<String, Object> userInfo);
+	
+	//카카오유저 정보확인
+	Users findkakao(HashMap<String, Object> userInfo);
 
 	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
 	Users getUserByUserNo(Integer user_no);
