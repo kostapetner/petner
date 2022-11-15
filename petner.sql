@@ -93,6 +93,8 @@ CREATE TABLE file_tb(
 SELECT * FROM file_tb;
 SELECT * FROM pet_info;
 
+DELETE FROM pet_info; 
+
 DELETE pet_info;
 
 DROP TABLE users;
@@ -131,8 +133,25 @@ DROP SEQUENCE seq_user_no;
 
 INSERT INTO USERS(user_no, user_type, id, nickname, email, password, name, joindate, gender, zipcode, addr, addr_detail, user_level, user_auth, file_no)
 values(seq_user_no.nextval, 1, '1234', '펫트너', 'petner@petner.com', '1234','펫트너', sysdate, '미정', '12345', '가디역', '호서대벤처타워', 'VIP', 1, 0);
+INSERT INTO USERS(user_no, user_type, id, nickname, email, password, name, joindate, gender, zipcode, addr, addr_detail, user_level, user_auth)
+values(2, 1, 'admin', '관리자', 'admin@petner.com', '1234','관리자', sysdate, '여', '00645', '서울시 금천구', '호서대벤처타워 9층', 'VIP', 1);
 
+
+INSERT INTO USERS(user_no, user_type, id, nickname, email, password, name, joindate, gender, zipcode, addr, addr_detail, user_level, user_auth)
+values(3, 1, 'sitter', '시터test', 'sitter@petner.com', '1234','시터test', sysdate, '여', '00645', '서울시 금천구', '호서대벤처타워 9층', 'VIP', 1);
+
+
+INSERT INTO USERS(user_no, user_type, id, nickname, email, password, name, joindate, gender, zipcode, addr, addr_detail, user_level, user_auth)
+values(4, 2, 'owner', '보호자test', 'owner@petner.com', '1234','보호자test', sysdate, '여', '00645', '서울시 금천구', '호서대벤처타워 9층', 'VIP', 1);
 
 -----조회-----
 SELECT * FROM users;
+SELECT * FROM PET_INFO;
+SELECT * FROM FILE_TB;
 
+
+SELECT ORIGIN_FILENAME , SERVER_FILENAME 
+FROM FILE_TB ft, PET_INFO pi
+WHERE pi.pet_no=28 and ft.FILE_NO  = pi.file_no;
+
+ALTER TABLE pet_info ADD file_name varchar(500);
