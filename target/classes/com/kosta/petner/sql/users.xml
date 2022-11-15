@@ -45,6 +45,11 @@
 	]]>	
 	</select>
 	
+	<select id= "getUserByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.Users" >
+	<![CDATA[
+	select * from users where user_no = #{user_no}
+	]]>	
+	</select>
 	
 	<select id="getByIdAndPassword" parameterType="map" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[

@@ -72,8 +72,14 @@
           <p class="second pb4">등급</p>
           <p>${authUser.user_level}</p>
         </div>
-      </div>      
-      <div><a href="${pageContext.request.contextPath}/logout">로그아웃</a></div>
+      </div>
+      <!-- <div>
+        <ul>
+          <li><a href="#">팔로우/팔로워</a></li>
+          <li><a href="#">리뷰관리</a></li>
+        </ul>
+      </div> -->
+      <div><a href="./logout">로그아웃</a></div>
     </div>
   </div>
 </header>

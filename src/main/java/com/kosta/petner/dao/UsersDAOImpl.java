@@ -66,7 +66,12 @@ public class UsersDAOImpl implements UsersDAO{
 	@Override
 	public void passwordUpdate(Users users) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	@Override
+	public Users getUserByUserNo(Integer user_no) {
+		return sqlSession.selectOne("mapper.users.getUserByUserNo", user_no);
 	}
 
 	

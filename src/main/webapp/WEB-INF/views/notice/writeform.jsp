@@ -11,7 +11,6 @@ table {
 	margin: auto;
 	width: 450px;
 }
-
 .td_left {
 	width: 150px;
 	background: orange;
@@ -38,12 +37,12 @@ textarea {
 <div class="card ad_card mb-4">
 	<div class="card-body">
 		<h2 class="card-title">공지사항 글 등록</h2>
-		<form action="./boardwrite" method="post"
-			enctype="multipart/form-data" name="boardform">
+		<form action="./noticewrite" method="post"
+			enctype="multipart/form-data" name="noticeform">
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
-					type="text" class="form-control" name="board_name" id="board_name"
+					type="text" class="form-control" name="user_id" id="user_id"
 					required="required" placeholder="Username" aria-label="이름"
 					aria-describedby="addon-wrapping">
 			</div>
@@ -57,20 +56,20 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">제 목</span> <input
-					type="text" class="form-control" name="board_subject"
-					id="board_subject" required="required" placeholder="title"
+					type="text" class="form-control" name="notice_title"
+					id="notice_title" required="required" placeholder="title"
 					aria-label="제 목" aria-describedby="addon-wrapping">
 			</div>
 
 			<div class="input-group flex-nowrap">
-				<textarea id="board_content" name="board_content" cols="40"
+				<textarea id="notice_content" name="notice_content" cols="40"
 					rows="15" required="required">
 				</textarea>
 			</div>
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
-					type="file" class="form-control" name="file" id="board_file"
+					type="file" class="form-control" name="file" id="notice_file"
 					required="required" placeholder="Username" aria-label="파일첨부"
 					aria-describedby="addon-wrapping">
 			</div>

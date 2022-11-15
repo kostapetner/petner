@@ -6,46 +6,26 @@
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
 
-<style type="text/css">
-table {
-	margin: auto;
-	width: 450px;
-}
-
-.td_left {
-	width: 150px;
-	background: orange;
-}
-
-.td_right {
-	width: 300px;
-	background: skyblue;
-}
-
-#commandCell {
-	text-align: center;
-}
-
+<style>
 textarea {
 	width: 100%;
 	border: 1px solid #ced4da;
 	border-radius: 0.375rem;
 	max-height: 150px;
-}
+} 
 </style>
-
-<!-- 공지사항 글 등록 -->
+<!-- 게시판 등록 -->
 <div class="card ad_card mb-4">
 	<div class="card-body">
-		<h2 class="card-title">공지사항 글 등록</h2>
-		<form action="./boardwrite" method="post"
-			enctype="multipart/form-data" name="boardform">
+		<h2 class="card-title">공지사항 글수정</h2>
+		<form action="noticemodify" method="post" name="modifyform">
+			<input type="hidden" name="notice_no" value="${article.notice_no}" />
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
-					type="text" class="form-control" name="board_name" id="board_name"
-					required="required" placeholder="Username" aria-label="이름"
-					aria-describedby="addon-wrapping">
+					type="text" class="form-control" name="user_id" id="user_id"
+					required="required" placeholder="${article.notice_no}"
+					aria-label="이름" aria-describedby="addon-wrapping">
 			</div>
 
 			<!-- <div class="input-group flex-nowrap">
@@ -57,28 +37,35 @@ textarea {
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">제 목</span> <input
-					type="text" class="form-control" name="board_subject"
-					id="board_subject" required="required" placeholder="title"
-					aria-label="제 목" aria-describedby="addon-wrapping">
+					type="text" class="form-control" name="notice_title"
+					id="notice_title" required="required"
+					placeholder="${article.notice_title}" aria-label="제 목"
+					aria-describedby="addon-wrapping" value="${article.notice_title}">
 			</div>
 
 			<div class="input-group flex-nowrap">
-				<textarea id="board_content" name="board_content" cols="40"
+				<textarea id="notice_content" name="notice_content" cols="40"
 					rows="15" required="required">
+					${article.notice_content}
 				</textarea>
 			</div>
 
 			<div class="input-group flex-nowrap">
-				<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
-					type="file" class="form-control" name="file" id="board_file"
-					required="required" placeholder="Username" aria-label="파일첨부"
-					aria-describedby="addon-wrapping">
+				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
+					type="text" class="form-control" name="user_id" id="user_id"
+					required="required" placeholder="${article.notice_no}"
+					aria-label="이름" aria-describedby="addon-wrapping">
 			</div>
+
 
 			<section id="commandCell">
 				<div class="d-grid gap-2 d-md-block">
-					<button type="submit" class="btn btn-outline-secondary">등록</button>
-					<button type="reset" class="btn btn-outline-secondary">다시쓰기</button>
+					<button type="submit" class="btn btn-outline-secondary">
+						<a href="javascript:modifynotice()">수정</a>
+					</button>
+					<button type="reset" class="btn btn-outline-secondary">
+						<a href="javascript:history.go(-1)">뒤로</a>
+					</button>
 				</div>
 			</section>
 		</form>
