@@ -76,24 +76,15 @@ $(document).ready(function(){
 		    	"pet_no":pet_no
 		    }),
 			success : function(petInfo) {
-				alert("abcv");
-				console.log("petInfo : "+ petInfo.pet_no)
-			/* $(".blog-list").empty(); // 해결!
-	            var str = '<ul>';
-	            $.each(results , function(i){
-	            	// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
-			        $("#container").load("/jblog/"+id+"/admin/category div");
-	            	
-	            	
-	            	
-	             str += '<li id="나왔다li">';
-	                str += '<input type="hidden" name="postNo" value="'+results[i].postNo+'\">';
-	                str += '<a id="postTitle">' + results[i].postTitle + '</a>';
-	                str += '<span>'+ results[i].regDate +'</span>';
-	                str += '</li>';
-	                str += '</ul>'; 
-	           });*/
-	           //$(".blog-list").append(str);
+				$("#petInfo_name").attr('value',petInfo.pet_name);
+				$("#petInfo_gender").attr('value',petInfo.pet_gender);
+				$("#petInfo_specie").attr('value',petInfo.pet_specie);
+				$("#petInfo_weight").attr('value',petInfo.pet_weight);
+				$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
+				$("#petInfo_info").attr('value',petInfo.pet_info);
+				
+				
+				
 			},
 			error : function(xhr, error) { //xmlHttpRequest?
 				console.error("error : " + error);
@@ -122,12 +113,13 @@ $(document).ready(function(){
 			<div class="profile_upload_small">
 				<c:forEach var="petInfo" items="${petInfo}">
 					<div class="prof_img_small">
-						<a href="#" id="petImg"><img id="rep" class="img_wrap img"></a>
+						<a id="petImg"><img id="rep" class="img_wrap img"></a>
 						<label for="rep" class="pet_btn check_btn"> 
 						<i class="fa-solid fa-check" id="pen"></i>
 						</label>
-						<input type="text" value="${petInfo.pet_no}"> 
+						<input type="hidden" value="${petInfo.pet_no}"> 
 					</div>
+					<img src="images/${petInfo.image}" id="productImage"/>
 				</c:forEach>
 			</div>
 		</div>
@@ -144,34 +136,46 @@ $(document).ready(function(){
 					<tr>
 						<td colspan="2">
 							<div class="img_area">
-								<img src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg" alt="이미지">
+								<img src="" alt="이미지">
 							</div>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">이름</td>
-						<%-- <td class="td-inner">${petInfo.pet_name}</td> --%>
+						<td class="td-inner" >
+							<input type="text" id="petInfo_name" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">성별</td>
-						<%-- <td class="td-inner">${petInfo.pet_gender}</td> --%>
+						<td class="td-inner">
+							<input type="text" id="petInfo_gender" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">종류</td>
-						<%-- <td class="td-inner">${petInfo.pet_specie}</td> --%>
+						<td class="td-inner">
+							<input type="text" id="petInfo_specie" readonly>
+						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">체중</td>
-						<%-- <td class="td-inner">${petInfo.pet_weight}kg</td> --%>
+						<td class="td-inner">
+							<input type="text" id="petInfo_weight" readonly>kg
+						</td>
 					</tr>
 					<tr class="tr-left" style="border-top:1px #777 dotted">
 						<td class="pdr40">중성화</td>
-						<%-- <td class="td-inner">${petInfo.pet_neutral}</td> --%>
+						<td class="td-inner">
+							<input type="text" id="petInfo_neutral" readonly>
+						</td>
 					</tr>
 				</table>
 				<div style="padding: 20px 0px;">
 					<p class="p-style">특이사항</p>
-					<%-- <P class="p-style-content">${petInfo.pet_info}</P> --%>
+					<P class="p-style-content">
+						<input type="text" id="petInfo_info" readonly>
+					</P>
 				</div>
 			</div>
 		</div>

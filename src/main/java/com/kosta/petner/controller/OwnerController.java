@@ -1,6 +1,8 @@
 package com.kosta.petner.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,12 +10,15 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,19 +71,22 @@ public class OwnerController {
 				FileVO fileVO = new FileVO();
 				String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
 				String filename = file.getOriginalFilename();
+				File fileLocation = new File(path);
 				File destFile = new File(path+filename);
-				if (!destFile.exists()) {
-					try{
-						Path directoryPath = Paths.get(path);
-						//System.out.println(directoryPath);
+				System.out.println(destFile);
+				if (fileLocation.exists()) {
+					System.out.println("이미 폴더가 생성되어 있습니다.");
+					file.transferTo(destFile);
+			    }else {
+			    	try{
+			    		Path directoryPath = Paths.get(path);
+						System.out.println(directoryPath);
 						Files.createDirectory(directoryPath);//폴더생성
-					    System.out.println("폴더가 생성되었습니다.");
-					    file.transferTo(destFile);
-				    }catch(Exception e){
+						System.out.println("폴더가 생성되었습니다.");
+						file.transferTo(destFile);
+					}catch(Exception e){
 					    e.getStackTrace();
 					}        
-			      }else {
-					System.out.println("이미 폴더가 생성되어 있습니다.");
 				}
 				
 				//2. 파일정보 파일테이블에 넣기
@@ -126,16 +134,10 @@ public class OwnerController {
 		List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);
 		model.addAttribute("petInfo", petInfo);
 		
-		//4. pet_no에 따른 정보 가져와야한다...
-		
-		
-		
-		
-		
 		//날짜, 서비스, 요청사항을 포함해서 insert수행
 		
 		
-		model.addAttribute("title", "펫정보등록");
+		model.addAttribute("title", "펫케어 서비스 신청");
 		model.addAttribute("page", "mypage/myService/requireService");
 		return "/layout/mypage_default";
 	}
@@ -154,7 +156,25 @@ public class OwnerController {
 	}
 	
 	
-	
+	//이미지 파일 화면에 가져오기
+//	@RequestMapping("/images/{filename}", method = RequestMethod.GET)
+//	public void viewImages(@PathVariable String filename, HttpServletResponse response) {
+//		String path = servletContext.getRealPath("/images/");
+//		FileInputStream fis = null;
+//		try {
+//			fis = new FileInputStream(path + filename);
+//			OutputStream out = response.getOutputStream();
+//			FileCopyUtils.copy(fis, out);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			if(fis != null) {
+//				try {
+//					fis.close();
+//				} catch (Exception e) {} 
+//			}
+//		}
+//	}
 	
 	
 	
