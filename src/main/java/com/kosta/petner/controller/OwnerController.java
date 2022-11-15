@@ -4,23 +4,30 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.OwnerService;
+import com.kosta.petner.service.UsersService;
 
 //서비스신청 / 펫시터찾기
 //클라이언트 : 반려동물보호자
@@ -35,6 +42,9 @@ public class OwnerController {
 	
 	@Autowired
 	OwnerService ownerService;
+	
+	@Autowired
+	UsersService usersService;
 	
 	//펫 정보등록 페이지
 	@RequestMapping(value = "/petForm", method = RequestMethod.GET)
@@ -101,11 +111,53 @@ public class OwnerController {
 	
 	//펫케어 서비스 신청
 	@RequestMapping(value = "/requireService", method = RequestMethod.GET)
-	String requireService(Model model) {
+	String requireService(Model model, HttpServletRequest request) {
+		
+		//1. user_no가져오기
+		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+		Integer user_no = users.getUser_no();
+		
+		//2. user_no에 맞는 펫사진, 펫정보(이름, 성별, 종류, 체중, 중성화, 특이사항), 지역 가져오기
+		//지역
+		Users userInfo = usersService.getUserByUserNo(user_no);
+		model.addAttribute("userInfo", userInfo);
+		
+		//3. 펫정보
+		List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);
+		model.addAttribute("petInfo", petInfo);
+		
+		//4. pet_no에 따른 정보 가져와야한다...
+		
+		
+		
+		
+		
+		//날짜, 서비스, 요청사항을 포함해서 insert수행
+		
+		
 		model.addAttribute("title", "펫정보등록");
 		model.addAttribute("page", "mypage/myService/requireService");
 		return "/layout/mypage_default";
 	}
+	
+	//펫정보 가져오기 ajax
+	@ResponseBody
+	@RequestMapping(value = "/getPetInfo", method = RequestMethod.POST)
+	public PetInfo getPetInfo(@RequestBody PetInfo petInfo) throws Exception{
+		try {
+			Integer pet_no = petInfo.getPet_no();
+			petInfo = ownerService.getPetByPetNo(pet_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return petInfo;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }

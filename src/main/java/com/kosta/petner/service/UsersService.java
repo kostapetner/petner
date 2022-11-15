@@ -26,5 +26,8 @@ public interface UsersService {
 	//비밀번호찾기
 	public void findPass(HttpServletResponse response, Users users) throws Exception;
 
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	public Users getUserByUserNo(Integer user_no);
+
 	
 }

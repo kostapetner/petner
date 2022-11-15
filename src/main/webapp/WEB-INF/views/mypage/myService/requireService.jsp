@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
 $(document).ready(function(){
 	//datepicker
@@ -31,7 +31,7 @@ $(document).ready(function(){
 	      });
 	  }
 	}).data('datepicker');
-	//---------------------------------------------
+
 	//이미지 미리보기
 	$(function() {
 		$('#file').change(function(event) {
@@ -59,7 +59,53 @@ $(document).ready(function(){
 			$("#service_chkAll").prop("checked", false);
 		}else $("#service_chkAll").prop("checked", true); 
 	});
+	//--------------------펫 선택시 정보 불러오기-------------------------
 	
+	$(document).on("click", "a[id='petImg']", function () {
+		//pet_no가져오기
+	    var pet_no = $(this).closest('div').children('input').attr('value');
+	    console.log("clicked pet_no: "+pet_no);
+		
+		// contentType: "application/json" 꼭 써주기
+ 		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/getPetInfo",
+			type : "POST",
+			dataType: "json",
+			contentType: "application/json",
+		    data: JSON.stringify({
+		    	"pet_no":pet_no
+		    }),
+			success : function(petInfo) {
+				alert("abcv");
+				console.log("petInfo : "+ petInfo.pet_no)
+			/* $(".blog-list").empty(); // 해결!
+	            var str = '<ul>';
+	            $.each(results , function(i){
+	            	// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
+			        $("#container").load("/jblog/"+id+"/admin/category div");
+	            	
+	            	
+	            	
+	             str += '<li id="나왔다li">';
+	                str += '<input type="hidden" name="postNo" value="'+results[i].postNo+'\">';
+	                str += '<a id="postTitle">' + results[i].postTitle + '</a>';
+	                str += '<span>'+ results[i].regDate +'</span>';
+	                str += '</li>';
+	                str += '</ul>'; 
+	           });*/
+	           //$(".blog-list").append(str);
+			},
+			error : function(xhr, error) { //xmlHttpRequest?
+				console.error("error : " + error);
+			}
+		});
+	});
+	
+	
+	
+	
+	
+	//----------------------------------------------
 	//submit 
 	$(".submit_btn").click(function(){
 	  $("#petForm").submit();
@@ -74,18 +120,15 @@ $(document).ready(function(){
 		<div class="f_row">
 			<p class="fc_title">펫을 선택해주세요</p>
 			<div class="profile_upload_small">
-				<div class="prof_img_small">
-					<img id="rep" class="img_wrap img"> <br> 
-					<label for="rep" class="pet_btn check_btn"> 
-					<i class="fa-solid fa-check" id="pen"></i>
-					</label>
-				</div>
-				<div class="prof_img_small">
-					<img id="rep" class="img_wrap img"> <br> 
-					<label for="rep" class="pet_btn check_btn"> 
-					<i class="fa-solid fa-check" id="pen"></i>
-					</label>
-				</div>
+				<c:forEach var="petInfo" items="${petInfo}">
+					<div class="prof_img_small">
+						<a href="#" id="petImg"><img id="rep" class="img_wrap img"></a>
+						<label for="rep" class="pet_btn check_btn"> 
+						<i class="fa-solid fa-check" id="pen"></i>
+						</label>
+						<input type="text" value="${petInfo.pet_no}"> 
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 		
@@ -107,28 +150,28 @@ $(document).ready(function(){
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">이름</td>
-						<td class="td-inner">체다(고양이)</td>
+						<%-- <td class="td-inner">${petInfo.pet_name}</td> --%>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">성별</td>
-						<td class="td-inner">암</td>
+						<%-- <td class="td-inner">${petInfo.pet_gender}</td> --%>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">종류</td>
-						<td class="td-inner">샴</td>
+						<%-- <td class="td-inner">${petInfo.pet_specie}</td> --%>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">체중</td>
-						<td class="td-inner">3kg</td>
+						<%-- <td class="td-inner">${petInfo.pet_weight}kg</td> --%>
 					</tr>
 					<tr class="tr-left" style="border-top:1px #777 dotted">
 						<td class="pdr40">중성화</td>
-						<td class="td-inner">x</td>
+						<%-- <td class="td-inner">${petInfo.pet_neutral}</td> --%>
 					</tr>
 				</table>
 				<div style="padding: 20px 0px;">
 					<p class="p-style">특이사항</p>
-					<P class="p-style-content">으아아아ㅏ앙 졸라귀여우어아아아아아ㅏ아</P>
+					<%-- <P class="p-style-content">${petInfo.pet_info}</P> --%>
 				</div>
 			</div>
 		</div>
@@ -140,9 +183,9 @@ $(document).ready(function(){
 		<!-- 지역 -->
 		<div class="f_row">
 			<p class="fc_title">지역</p>
-			<input type="text" name="zipcode" style="width:100px; min-width: auto;" placeholder="우편번호"/>
-			<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소"/>
-			<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소"/>
+			<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}"/>
+			<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}"/>
+			<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}"/>
 		</div>
 	
 		<!-- 날짜 -->

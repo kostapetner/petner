@@ -3,12 +3,10 @@ package com.kosta.petner.service;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
@@ -130,6 +128,12 @@ public class UsersServiceImpl implements UsersService {
 			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
 			out.close();
 		}
+	}
+
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	@Override
+	public Users getUserByUserNo(Integer user_no) {
+		return usersDAO.getUserByUserNo(user_no);
 	}
 		
 	

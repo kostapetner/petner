@@ -28,4 +28,7 @@ public interface UsersDAO {
 	// 유저정보업데이트
 	int updateMyinfo(Users users);
 
+	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
+	Users getUserByUserNo(Integer user_no);
+
 }
