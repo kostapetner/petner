@@ -14,7 +14,7 @@
     <!-- HEADER BASIC -->
     <c:import url='/WEB-INF/views/include/header.jsp'/>
     <!-- CONTAINER -->
-    <c:if test= "${empty authUser}">
+    		 <c:if test= "${empty authUser}">
     <div class="container">
      	로그인 전 화면(No 세션)
     </div>
@@ -25,6 +25,8 @@
      	로그인 후 화면 (with 세션)
     </div>
 		</c:if>
+		
+		
 		<!-- FOOTER BASIC -->
     <c:import url='/WEB-INF/views/include/footer.jsp'/>
     

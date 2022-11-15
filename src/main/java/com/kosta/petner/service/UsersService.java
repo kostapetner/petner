@@ -25,6 +25,12 @@ public interface UsersService {
 
 	//비밀번호찾기
 	public void findPass(HttpServletResponse response, Users users) throws Exception;
+	
+	//카카오토큰받기
+	public String getAccessToken (String authorize_code);
+	
+	//카카오회원정보조회
+	public Users getUserInfo(String access_Token); 
 
 	
 }

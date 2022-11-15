@@ -32,20 +32,20 @@
 							#{zipcode},
 							#{addr}, 
 							#{addr_detail},
-							'bronze',
+							'BRONZE',
 							 1,
 							 0)					
 		]]>
 	</insert>
 	
-	
+	<!-- 중복체크 -->
 	<select id= "selectId" parameterType = "String" resultType= "com.kosta.petner.bean.Users" >
 	<![CDATA[
 	select * from users where id =#{id}
 	]]>	
 	</select>
 	
-	
+	<!-- 로그인 -->
 	<select id="getByIdAndPassword" parameterType="map" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 		select *
@@ -54,6 +54,7 @@
 	]]>
 	</select>
 	
+	<!-- 아이디찾기 -->
 	<select id="getId" parameterType="map" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 		select *
@@ -62,6 +63,7 @@
 	]]>
 	</select>
 	
+	<!-- 비밀번호찾기 -->
 	<select id="getPassword" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 	    select  *
@@ -72,16 +74,43 @@
 	]]>    
 	</select>
  
-    
+    <!-- 비밀번호수정 -->
 	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[ 
 	    update users 
 	    set password = #{password,jdbcType=VARCHAR}
 	    where id = #{id,jdbcType=VARCHAR}
 	    and email = #{email}
-	 
-	]]>    
+	 ]]>    
 	</update>
+	
+	<!-- 카카오 정보 찾기 -->
+	<select id="findKakao" parameterType="java.util.HashMap" resultType="com.kosta.petner.bean.Users">
+		<![CDATA[
+		select *
+		from users 
+		where nickname=#{nickname} and email=#{email}
+		]]>    
+	</select>
+
+	<!-- 카카오 정보 저장 (일반회원에 비해 저장되는 값이 적음) -->
+	<insert id="kakaoInsert" parameterType="java.util.HashMap">
+		<![CDATA[
+		insert into 
+			users(user_no,
+					nickname, 
+					email,
+					user_level
+					user_auth, 
+					joindate)
+			values(seq_user_no.nextval,
+					#{nickname},
+					#{email},
+					'BRONZE',
+					2,
+					sysdate)
+			]]>    
+	</insert>
 	
 
 	<!-- 마이페이지 나의 정보 221113DSC 추가 -->
