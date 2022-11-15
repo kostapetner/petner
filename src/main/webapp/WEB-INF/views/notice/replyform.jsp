@@ -15,7 +15,6 @@ table {
 	margin: auto;
 	width: 450px;
 }
-
 .td_left {
 	width: 150px;
 	background: orange;
@@ -37,14 +36,14 @@ table {
 
 	<section id="writeForm">
 		<h2>게시판글등록</h2>
-		<form action="boardreply" method="post" name="boardform">
+		<form action="noticereply" method="post" name="noticeform">
 			<input type="hidden" name="page" value="${page}" /> 
-			<input type="hidden" name="board_num" value="${boardNum}">
+			<input type="hidden" name="notice_no" value="${noticeNum}">
 			<table>
 				<tr>
-					<td class="td_left"><label for="board_name">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="board_name"
-						id="board_name" /></td>
+					<td class="td_left"><label for="notice_name">글쓴이</label></td>
+					<td class="td_right"><input type="text" name="notice_name"
+						id="notice_name" /></td>
 				</tr>
 				<!-- <tr>
 					<td class="td_left"><label for="board_pass">비밀번호</label></td>
@@ -52,13 +51,13 @@ table {
 						id="board_pass" /></td>
 				</tr> -->
 				<tr>
-					<td class="td_left"><label for="board_subject">제 목</label></td>
-					<td class="td_right"><input name="board_subject" type="text"
-						id="board_subject" /></td>
+					<td class="td_left"><label for="notice_subject">제 목</label></td>
+					<td class="td_right"><input name="notice_subject" type="text"
+						id="notice_subject" /></td>
 				</tr>
 				<tr>
-					<td class="td_left"><label for="board_content">내 용</label></td>
-					<td><textarea id="board_content" name="board_content"
+					<td class="td_left"><label for="notice_content">내 용</label></td>
+					<td><textarea id="notice_content" name="notice_content"
 							cols="40" rows="15"></textarea></td>
 				</tr>
 			</table>

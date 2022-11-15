@@ -3,6 +3,7 @@ package com.kosta.petner.controller;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,6 +79,8 @@ public class UsersController {
 			return "/layout/main";
 		}
 		
+		
+		
 		//로그인
 		@RequestMapping(value="/login",method = RequestMethod.POST)              
 		public String login(@ModelAttribute Users users, Model model) throws Exception {				
@@ -89,9 +92,12 @@ public class UsersController {
 			if(authUser ==null) {
 				System.out.println("로그인 실패");
 				model.addAttribute("result", "fail");
-				return "users/login/loginForm";	
+				model.addAttribute("page", "users/login/loginForm");
+				return "/layout/main";
+
 			}
 			//user정보를 authUser라는 세션에 담음
+			model.addAttribute("result", "success");
 			session.setAttribute("authUser", authUser);
 			System.out.println(authUser);
 			return "redirect:/";
@@ -100,7 +106,6 @@ public class UsersController {
 		//로그아웃
 		@RequestMapping(value="/logout",method = RequestMethod.GET)
 		public String logout() {
-			
 			session.removeAttribute("authUser");
 			return "redirect:/";
 		}
@@ -137,7 +142,7 @@ public class UsersController {
 			return "users/login/findPass";
 		}
 			
-		//비밀번호 찾기
+		//이메일로 비밀번호 찾기
 		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
 		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
 			System.out.println("id:" + users.getId());

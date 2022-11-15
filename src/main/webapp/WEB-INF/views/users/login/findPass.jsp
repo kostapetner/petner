@@ -26,9 +26,9 @@
 
 <head>
 <style>
-	#findPass input[type=text]{width:100%;}
+	#findId input[type=text]{width:100%;}
 	.desc{text-align:center; margin-bottom:35px;}
-	.find_pass{width:120px !important; text-align:center;}
+	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
 </style>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
