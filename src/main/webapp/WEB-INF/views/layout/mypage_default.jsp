@@ -26,7 +26,7 @@
 											+ "<a href='${pageContext.request.contextPath}/mypage/myPetInfo'>나의반려동물정보</a>";
 
 					var owner_menu2 = "";
-					owner_menu2 += "<a href='#'>서비스 요청하기</a>"
+					owner_menu2 += "<a href='${pageContext.request.contextPath}/mypage/myService/requireServic'>서비스 요청하기</a>"
 							+ "<a href='#'>요청한 서비스보기</a>";
 					$(".toggle_menu1").html(
 							owner_menu1);
@@ -137,7 +137,8 @@
 									<li>
 										<p class="first_menu">나의 서비스</p>
 										<div class="second_menu toggle_menu2">
-											<a href="#">서비스 요청하기</a> <a href="#">요청한 서비스 보기</a>
+											<a href="${pageContext.request.contextPath}/mypage/myService/requireService">서비스 요청하기</a>
+											<a href="#">요청한 서비스 보기</a>
 										</div>
 									</li>
 								</c:when>

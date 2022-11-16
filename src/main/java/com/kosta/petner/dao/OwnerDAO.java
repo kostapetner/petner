@@ -2,6 +2,7 @@ package com.kosta.petner.dao;
 
 import java.util.List;
 
+import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
 
 public interface OwnerDAO {
@@ -17,5 +18,7 @@ public interface OwnerDAO {
 	PetInfo getPetByPetNo(Integer pet_no);
 
 	String getFileByPetNo(Integer pet_no);
+
+	void insertRequireServiceFrom(CareService careService);
 
 }

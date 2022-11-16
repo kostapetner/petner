@@ -47,15 +47,21 @@ public class SitterController {
 	public ModelAndView register(Model model, @ModelAttribute SitterInfo sitterInfo) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			//파일
+			// 파일
 			MultipartFile file = sitterInfo.getImageFile(); //파일 자체를 가져옴
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");//확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);//확장자분리
+			String server_filename = real_filename + generatedString + ext;
 			if(!file.isEmpty()) {
 				//1.폴더생성
 				FileVO fileVO = new FileVO();
 				String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
-				String filename = file.getOriginalFilename();
 				File fileLocation = new File(path);
-				File destFile = new File(path+filename);
+				File destFile = new File(path+server_filename);
 				System.out.println(destFile);
 				if (fileLocation.exists()) {
 					System.out.println("이미 폴더가 생성되어 있습니다.");
@@ -71,17 +77,11 @@ public class SitterController {
 					    e.getStackTrace();
 					}        
 				}
-				
+					
 				//2. 파일정보 파일테이블에 넣기
 				fileVO.setUser_no(sitterInfo.getUser_no());
 				fileVO.setBoard_no(5);
 				fileVO.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
-				//2-1. 서버에 올라갈 랜덤한 파일 이름을 만든다
-				String generatedString = RandomStringUtils.randomAlphanumeric(10);
-				int idx = filename.lastIndexOf(".");//확장자 위치
-				String ext = filename.substring(filename.lastIndexOf("."));
-				String real_filename = filename.substring(0, idx);//확장자분리
-				String server_filename = real_filename + generatedString + ext;
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
 				

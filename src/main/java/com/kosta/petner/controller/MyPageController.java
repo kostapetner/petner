@@ -138,4 +138,5 @@ public class MyPageController {
 	   }
 	   return "/layout/mypage_default";
    }
+  
 }

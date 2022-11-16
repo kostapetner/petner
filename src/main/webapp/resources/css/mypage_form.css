@@ -83,7 +83,7 @@
 		margin: 0 auto;
 	}
 	.card_list_type table img{width:100%; height:100%}
-	.card_list_type table .tr-left{text-align: left;}
+	.card_list_type table .tr-left{text-align: left; }
 	.card_list_type table .td-inner{
 		display: table-cell;
 		width: 100%;
@@ -102,7 +102,7 @@
 		cursor: default;
 	}
 	
-	.pdr40{padding-right: 40px;}
+	.pdr40{padding-right: 40px; wid}
 	.p-style{
 		text-align: left;
 		border-top: 2px solid var(--fcc-font02);
@@ -120,4 +120,12 @@
 		cursor:pointer;
 	}
 	
-	
+	#textareaId{
+		width: 90%;
+		word-break:break-all;
+		height: 200px;
+		resize:none;
+		border: none;
+		cursor: default;
+		outline: none;
+	}
