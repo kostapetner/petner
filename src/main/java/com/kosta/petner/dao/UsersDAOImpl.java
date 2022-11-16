@@ -88,6 +88,12 @@ public class UsersDAOImpl implements UsersDAO{
 	public Users getUserByUserNo(Integer user_no) {
 		return sqlSession.selectOne("mapper.users.getUserByUserNo", user_no);
 	}
+	
+	// 마이페이지에서 물고 다녀야 하는 모든 정보 221116-DSC
+	@Override
+	public Object getMyAllInfo(int user_no) {
+		return sqlSession.selectOne("mapper.users.getMyAllInfo", user_no);
+	}
 
 	
 	
