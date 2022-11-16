@@ -184,4 +184,11 @@ public class OwnerController {
 		
 	}
 	
+	//요청한 서비스 보기 화면
+	@RequestMapping(value = "/mypage/myService/requireServiceList", method = RequestMethod.GET)
+	String requireServiceList(Model model, HttpServletRequest request) {
+		model.addAttribute("title", "요청한 서비스 보기");
+		model.addAttribute("page", "mypage/myService/requireServiceList");
+		return "/layout/mypage_default";
+	}
 }
