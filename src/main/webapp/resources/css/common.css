@@ -95,6 +95,22 @@
   #header nav li{display: inline-block; margin:0 15px;}
   #header nav li a{font-size:1.5rem}
   
+  /* 관리자 페이지 이동 버튼 */
+  #header .admin_btn {
+  	border-radius: 100px;
+  }
+   #header .admin_btn:hover {
+  	background-color: #000;
+  }
+  #header .admin_btn a {
+  	display: flex;
+    padding: 10px 15px;
+  }
+  #header .admin_btn a:hover {
+  	color: #fff;
+  }
+  /*  */
+  
   #header .login_menu li{display: inline-block;}
   #header .login_menu li.in_session{
     margin-left: 8px;

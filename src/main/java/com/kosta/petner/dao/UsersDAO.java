@@ -1,6 +1,7 @@
 package com.kosta.petner.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.kosta.petner.bean.Users;
 
@@ -41,5 +42,8 @@ public interface UsersDAO {
 	
 	// 마이페이지에서 물고 다녀야 하는 모든 정보 221116-DSC
 	Object getMyAllInfo(int user_no);
+	
+	// users 의 전체 정보
+	List<Users> selectAllUsers() throws Exception;
 
 }

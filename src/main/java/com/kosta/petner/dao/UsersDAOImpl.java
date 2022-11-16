@@ -1,6 +1,7 @@
 package com.kosta.petner.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -93,6 +94,12 @@ public class UsersDAOImpl implements UsersDAO{
 	@Override
 	public Object getMyAllInfo(int user_no) {
 		return sqlSession.selectOne("mapper.users.getMyAllInfo", user_no);
+	}
+	
+	// users 의 전체 정보
+	@Override
+	public List<Users> selectAllUsers() throws Exception {
+		return sqlSession.selectList("mapper.users.selectAllUsers");
 	}
 
 	

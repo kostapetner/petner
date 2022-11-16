@@ -152,6 +152,13 @@
 				WHERE u.USER_NO = #{user_no}    
 		]]> 
 	</select>
+	
+	<!-- 전체 users 조회 -->
+	<select id="selectAllUsers" resultType="com.kosta.petner.bean.Users">
+		<![CDATA[
+			select * from users
+		]]>
+	</select>
 
 
 	
