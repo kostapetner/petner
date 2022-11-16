@@ -64,15 +64,21 @@ public class OwnerController {
 	public ModelAndView register(Model model, @ModelAttribute PetInfo petInfo) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			//파일
+			// 파일
 			MultipartFile file = petInfo.getImageFile(); //파일 자체를 가져옴
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");//확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);//확장자분리
+			String server_filename = real_filename + generatedString + ext;
 			if(!file.isEmpty()) {
 				//1.폴더생성
 				FileVO fileVO = new FileVO();
 				String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
-				String filename = file.getOriginalFilename();
 				File fileLocation = new File(path);
-				File destFile = new File(path+filename);
+				File destFile = new File(path+server_filename);
 				System.out.println(destFile);
 				if (fileLocation.exists()) {
 					System.out.println("이미 폴더가 생성되어 있습니다.");
@@ -93,12 +99,6 @@ public class OwnerController {
 				fileVO.setUser_no(petInfo.getUser_no());
 				fileVO.setBoard_no(4);
 				fileVO.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
-				//2-1. 서버에 올라갈 랜덤한 파일 이름을 만든다
-				String generatedString = RandomStringUtils.randomAlphanumeric(10);
-				int idx = filename.lastIndexOf(".");//확장자 위치
-				String ext = filename.substring(filename.lastIndexOf("."));
-				String real_filename = filename.substring(0, idx);//확장자분리
-				String server_filename = real_filename + generatedString + ext;
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
 				
@@ -106,7 +106,6 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				petInfo.setFile_no(file_no);
-				petInfo.setFile_name(real_filename+ ext);
 				System.out.println(petInfo.toString());
 				ownerService.regist(petInfo);
 				
@@ -118,8 +117,8 @@ public class OwnerController {
 		return mav;
 	}
 	
-	//펫케어 서비스 신청
-	@RequestMapping(value = "/requireService", method = RequestMethod.GET)
+	//펫케어 서비스 신청 화면
+	@RequestMapping(value = "/mypage/myService/requireService", method = RequestMethod.GET)
 	String requireService(Model model, HttpServletRequest request) {
 		
 		//1. user_no가져오기
@@ -156,39 +155,15 @@ public class OwnerController {
 		return petInfo;
 	}
 	
-	
-	//이미지 파일 화면에 가져오기
-//	@RequestMapping(value = "/{filename}", method = RequestMethod.GET)
-//	public void viewImages(@PathVariable String filename, HttpServletResponse response) {
-//		System.out.println("filename:  "+filename);
-//		String path = servletContext.getRealPath("/resources/upload/");
-//		System.out.println("path:  "+path);
-//		FileInputStream fis = null;
-//		try {
-//			fis = new FileInputStream(path + filename+".jpg");
-//			OutputStream out = response.getOutputStream();
-//			FileCopyUtils.copy(fis, out);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			if(fis != null) {
-//				try {
-//					fis.close();
-//				} catch (Exception e) {} 
-//			}
-//		}
-//	}
-	
+	//이미지 파일 화면에 띄우기
 	@RequestMapping(value = "/{petNo}", method = RequestMethod.GET)
 	public void viewImages(@PathVariable String petNo, HttpServletResponse response) {
-		System.out.println("선택한 petNo:  "+petNo);
 		String path = servletContext.getRealPath("/resources/upload/");
-		System.out.println("path:  "+path);
 		FileInputStream fis = null;
 		try {
 			Integer pet_no = Integer.parseInt(petNo);
-			String filename = ownerService.getFileByPetNo(pet_no);
-			fis = new FileInputStream(path + filename+".jpg");
+			String server_filename = ownerService.getFileByPetNo(pet_no);
+			fis = new FileInputStream(path + server_filename);
 			OutputStream out = response.getOutputStream();
 			FileCopyUtils.copy(fis, out);
 		} catch (Exception e) {
