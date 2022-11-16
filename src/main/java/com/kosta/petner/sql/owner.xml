@@ -45,17 +45,46 @@
 	
 	<select id= "getPetByPetNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
 	<![CDATA[
-	select * from pet_info where pet_no = #{pet_no}
+		select * from pet_info where pet_no = #{pet_no}
 	]]>	
 	</select>
 	
 	<select id= "getFileByPetNo" parameterType = "Integer" resultType= "String" >
 	<![CDATA[
-	SELECT SERVER_FILENAME
-	FROM FILE_TB ft, PET_INFO pi
-	WHERE pi.pet_no = #{pet_no} and ft.FILE_NO  = pi.file_no
+		SELECT SERVER_FILENAME
+		FROM FILE_TB ft, PET_INFO pi
+		WHERE pi.pet_no = #{pet_no} and ft.FILE_NO  = pi.file_no
 	]]>	
 	</select>
 	
+	<insert id="insertRequireServiceFrom" parameterType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		insert into care_service(
+			 service_no
+			,user_no
+			,pet_no
+			,zipcode
+			,addr
+			,addr_detail
+			,service
+			,st_date
+			,end_date
+			,request_detail
+			,status
+		)values(
+			 service_no_seq.nextval 
+			,#{user_no, jdbcType=INTEGER}
+			,#{pet_no, jdbcType=INTEGER}
+			,#{zipcode, jdbcType=INTEGER}
+			,#{addr, jdbcType=VARCHAR}
+			,#{addr_detail, jdbcType=VARCHAR}
+			,#{service, jdbcType=VARCHAR}
+			,#{st_date}
+			,#{end_date}
+			,#{request_detail, jdbcType=VARCHAR}
+			,#{status, jdbcType=VARCHAR}
+		)
+	]]>	
+	</insert>
 	
 </mapper>

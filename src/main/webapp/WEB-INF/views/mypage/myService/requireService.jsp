@@ -114,10 +114,10 @@ $(document).ready(function(){
 				<c:forEach var="petInfo" items="${petInfo}">
 					<div class="prof_img_small" id="img_small">
 						<a id="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
-<!--  						<label for="rep" class="pet_btn check_btn"> 
+<!--  					<label for="rep" class="pet_btn check_btn"> 
 						<i class="fa-solid fa-check" id="pen"></i>
 						</label> -->
-						<input type="hidden" value="${petInfo.pet_no}"> 
+						<input type="hidden" value="${petInfo.pet_no}" name="pet_no"> 
 					</div>
 				</c:forEach>
 			</div>
@@ -137,38 +137,38 @@ $(document).ready(function(){
 					<tr class="tr-left">
 						<td class="pdr40">이름</td>
 						<td class="td-inner" >
-							<input type="text" id="petInfo_name" readonly>
+							<input type="text" id="petInfo_name" name="pet_name" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">성별</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_gender" readonly>
+							<input type="text" id="petInfo_gender" name="pet_gender" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">종류</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_specie" readonly>
+							<input type="text" id="petInfo_specie" name="pet_specie" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">체중</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_weight" readonly>kg
+							<input type="text" id="petInfo_weight" name="pet_weight" readonly>kg
 						</td>
 					</tr>
 					<tr class="tr-left" style="border-top:1px #777 dotted">
 						<td class="pdr40" width="30%">중성화</td>
 						<td class="td-inner" width="70%">
-							<input type="text" id="petInfo_neutral" readonly>
+							<input type="text" id="petInfo_neutral" name="pet_neutral" readonly>
 						</td>
 					</tr>
 				</table>
 				<div style="padding: 20px 0px;">
 					<p class="p-style">특이사항</p>
 					<P class="p-style-content">
-					<textarea id="textareaId" readonly></textarea>
+					<textarea id="textareaId" name="pet_info" readonly></textarea>
 					</P>
 				</div>
 			</div>
@@ -189,8 +189,8 @@ $(document).ready(function(){
 		<!-- 날짜 -->
 	 	<div class="f_row">
 	 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
-            <input type="text" class="date-picker" id="date_start">&nbsp;~&nbsp;
-            <input type="text" class="date-picker" id="date_end">
+            <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
+            <input type="text" class="date-picker" id="date_end" name="end_date">
         </div>
 	
 		<!-- 서비스 -->
@@ -217,7 +217,7 @@ $(document).ready(function(){
 		<div class="f_row">
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
-			<textarea class="fcc_textarea" name="pet_info"></textarea>
+			<textarea class="fcc_textarea" name="request_detail"></textarea>
 		</div>
 		
 		<span class="pet_btn submit_btn transition02">서비스 신청하기</span>

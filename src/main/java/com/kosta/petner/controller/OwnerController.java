@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.Users;
@@ -120,29 +121,23 @@ public class OwnerController {
 	//펫케어 서비스 신청 화면
 	@RequestMapping(value = "/mypage/myService/requireService", method = RequestMethod.GET)
 	String requireService(Model model, HttpServletRequest request) {
-		
 		//1. user_no가져오기
 		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
 		Integer user_no = users.getUser_no();
 		
-		//2. user_no에 맞는 펫사진, 펫정보(이름, 성별, 종류, 체중, 중성화, 특이사항), 지역 가져오기
-		//지역
+		//2. 지역 가져오기
 		Users userInfo = usersService.getUserByUserNo(user_no);
 		model.addAttribute("userInfo", userInfo);
 		
 		//3. 펫정보
 		List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);
 		model.addAttribute("petInfo", petInfo);
-		
-		//날짜, 서비스, 요청사항을 포함해서 insert수행
-		
-		
 		model.addAttribute("title", "펫케어 서비스 신청");
 		model.addAttribute("page", "mypage/myService/requireService");
 		return "/layout/mypage_default";
 	}
 	
-	//펫정보 가져오기 ajax
+	//펫정보(이름, 성별, 종류, 체중, 중성화, 특이사항) 가져오기 ajax
 	@ResponseBody
 	@RequestMapping(value = "/getPetInfo", method = RequestMethod.POST)
 	public PetInfo getPetInfo(@RequestBody PetInfo petInfo) throws Exception{
@@ -155,7 +150,7 @@ public class OwnerController {
 		return petInfo;
 	}
 	
-	//이미지 파일 화면에 띄우기
+	//펫 이미지 파일 화면에 띄우기
 	@RequestMapping(value = "/{petNo}", method = RequestMethod.GET)
 	public void viewImages(@PathVariable String petNo, HttpServletResponse response) {
 		String path = servletContext.getRealPath("/resources/upload/");
@@ -177,6 +172,16 @@ public class OwnerController {
 		}
 	}
 	
-	
+	//펫케어 서비스 신청 insert
+	@RequestMapping(value = "/mypage/myService/requireServiceFrom", method = RequestMethod.POST)
+	public String requireServiceFrom(@ModelAttribute CareService careService, Model model, HttpServletRequest request) {
+		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+		Integer user_no = users.getUser_no();
+		careService.setUser_no(user_no);
+		careService.setStatus("매칭중");
+		ownerService.insertRequireServiceFrom(careService);
+		return "redirect:/mypage";
+		
+	}
 	
 }
