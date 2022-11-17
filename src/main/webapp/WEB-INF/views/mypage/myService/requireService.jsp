@@ -213,7 +213,17 @@ $(document).ready(function(){
 			</label>
 		</div>
 		
+		<!-- 금액 -->
+		<div class="f_row">
+			<p class="fc_title">해당 요청서의 금액을 책정해주세요</p>
+			<input type="text" name="request_money" style="width:96%; min-width: auto; margin-top: 10px;"/>원
+		</div>
+		
 		<!-- 요쳥사항 -->
+		<div class="f_row">
+			<p class="fc_title">요청서의 제목을 입력해주세요</p>
+			<input type="text" name="request_title" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="제목" value=""/>
+		</div>
 		<div class="f_row">
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>

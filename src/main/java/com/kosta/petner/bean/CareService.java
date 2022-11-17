@@ -18,6 +18,8 @@ public class CareService {
 	private String service;
 	private String st_date;
 	private String end_date;
+	private Integer request_money;
+	private String request_title;
 	private String request_detail;
 	private String status;
 }

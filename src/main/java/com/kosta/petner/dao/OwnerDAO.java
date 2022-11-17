@@ -21,4 +21,8 @@ public interface OwnerDAO {
 
 	void insertRequireServiceFrom(CareService careService);
 
+	List<CareService> getServiceList(Integer user_no);
+
+	Integer csListCount(Integer user_no);
+
 }

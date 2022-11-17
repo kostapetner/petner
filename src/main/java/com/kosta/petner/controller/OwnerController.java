@@ -54,7 +54,7 @@ public class OwnerController {
 	
 	//펫 정보등록 페이지
 	@RequestMapping(value = "/petForm", method = RequestMethod.GET)
-	String sitterForm(Model model) {
+	String petForm(Model model) {
 		model.addAttribute("title", "펫정보등록");
 		model.addAttribute("page", "mypage/petForm");
 		return "/layout/mypage_default";
@@ -107,9 +107,8 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				petInfo.setFile_no(file_no);
-				System.out.println(petInfo.toString());
+
 				ownerService.regist(petInfo);
-				
 				mav.setViewName("redirect:/");
 			}
 		} catch (Exception e) {
@@ -186,7 +185,18 @@ public class OwnerController {
 	
 	//요청한 서비스 보기 화면
 	@RequestMapping(value = "/mypage/myService/requireServiceList", method = RequestMethod.GET)
-	String requireServiceList(Model model, HttpServletRequest request) {
+	String requireServiceList(CareService careService, Model model, HttpServletRequest request) {
+		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+		Integer user_no = users.getUser_no();
+		
+		//care_service테이블에서 데이터 가져오기
+		List<CareService> csList = ownerService.getServiceList(user_no);
+		
+		//게시판 수
+		Integer csListCount = ownerService.csListCount(user_no);
+		
+		model.addAttribute("csListCount", csListCount);
+		model.addAttribute("csList", csList);
 		model.addAttribute("title", "요청한 서비스 보기");
 		model.addAttribute("page", "mypage/myService/requireServiceList");
 		return "/layout/mypage_default";

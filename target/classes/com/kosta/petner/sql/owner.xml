@@ -69,6 +69,8 @@
 			,service
 			,st_date
 			,end_date
+			,request_money
+			,request_title
 			,request_detail
 			,status
 		)values(
@@ -81,10 +83,27 @@
 			,#{service, jdbcType=VARCHAR}
 			,#{st_date}
 			,#{end_date}
+			,#{request_money, jdbcType=INTEGER}
+			,#{request_title, jdbcType=VARCHAR}
 			,#{request_detail, jdbcType=VARCHAR}
 			,#{status, jdbcType=VARCHAR}
 		)
 	]]>	
 	</insert>
 	
+	<select id="getServiceList" parameterType="Integer" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select *
+		from care_service
+		where user_no = #{user_no}
+	]]>	
+	</select>
+	
+	<select id="csListCount" parameterType="Integer" resultType="Integer">
+	<![CDATA[
+		select count(*)
+		from care_service
+		where user_no = #{user_no}
+	]]>	
+	</select>
 </mapper>
