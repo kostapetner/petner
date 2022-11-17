@@ -1,13 +1,20 @@
 package com.kosta.petner.aspect;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.Users;
+import com.kosta.petner.service.MypageService;
+
 
 @Aspect
 @Component
@@ -15,35 +22,41 @@ public class CheckAuth {
 
 	// 로그인이 되었다면 세션에서 ID 값으로 각각의 컨트롤러에서 공통적으로 필요한 정보를 묶어서 담아보내준다
 	// 마이페이지의 경우
-	/*
-	 * 나의 프로필 나의 시터/ 보호자일 경우 동물정보 팔로워수 정보가 쿼리 하나로 조인되서 보여져야 한다.
-	 */
-	@Around("execution(* com.kosta.petner.controller.MyPageController.*(..)) ") 
-	//("execution(public * com.pamyferret.test.controller.*.*(..)")
-	//@Before("@annotation(com.kosta.petner.aop.CheckAuth) && @annotation(CheckAuth)")
+	
+	@Autowired
+	MypageService mypageService;
+	
+	@Around("execution(* com.kosta.petner.controller.MyPageController.*(..)) ")
+	// ("execution(public * com.pamyferret.test.controller.*.*(..)")
 	public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
-//		System.out.println("advice");
-//		HttpServletRequest request = null;
-//		Model m = null;
-//		String method = joinPoint.getSignature().getName();
-//		
-//		StopWatch stopWatch = new StopWatch();
-//		stopWatch.start();
+		System.out.println("====CheckAuth 시작====");
 		
-		//HttpSession session = null;
+		HttpSession session = ((ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes())).getRequest().getSession();
+		//System.out.println("session+++++++"+session);
 		
-//		boolean is_login = false;
-//		Users sessionVo = (Users) session.getAttribute("authUser");
-//		String id = sessionVo.getId();
-//
-//		if (id != null) {
-//			is_login = true;
-//		}else {
-//			System.out.print("로그인필요함");
-//			//throw new IllegalStateException("로그인(유저)이 필요합니다.");
-//		}
+		Users sessionVO = (Users) session.getAttribute("authUser");
+		
+		System.out.println("세션정보=>"+sessionVO);
+		
+		if(sessionVO != null) {
+			//마이페이지에서 필요한 정보 만들거야
+			/* 닉네임, 팔로잉수, 나의 프로필 이미지 
+			 * 유저타입 , 팔로워수, 유저레벨등
+			 * 여러 테이블을 조인한 정보 필요함
+			 * bean => MypageSession.java에 필드값 추가
+			 * xml => users.xml에 getMyAllInfo 수정
+			 */
+			int user_no = sessionVO.getUser_no();
+			MypageSession mypageSessionInfo = (MypageSession) mypageService.getMyAllInfo(user_no);
+			
+			session.setAttribute("mypageSession", mypageSessionInfo);
+			System.out.println("mypageSession: "+session.getAttribute("mypageSession"));
+			
+		}else {
+			System.out.print("로그인필요함");
+			return "redirect:/login";
+		}
 
-		System.out.println("뭘까이게도대체");
 		return joinPoint.proceed();
 
 	}

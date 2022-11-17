@@ -145,6 +145,24 @@
 	    
 	]]>    
 	</update>
+	
+	
+	<select id="getMyAllInfo" parameterType="int" resultType="com.kosta.petner.bean.MypageSession">
+		<![CDATA[
+		   	SELECT 	u.USER_NO, u.ID , u.NICKNAME, u.USER_TYPE ,
+				ft.SERVER_FILENAME
+				FROM USERS u
+				LEFT JOIN FILE_TB ft ON u.FILE_NO = ft.FILE_NO 
+				WHERE u.USER_NO = #{user_no}    
+		]]> 
+	</select>
+	
+	<!-- 전체 users 조회 -->
+	<select id="selectAllUsers" resultType="com.kosta.petner.bean.Users">
+		<![CDATA[
+			select * from users
+		]]>
+	</select>
 
 
 	

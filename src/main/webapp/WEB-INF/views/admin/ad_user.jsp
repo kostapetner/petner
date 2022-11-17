@@ -27,26 +27,28 @@
 				</tr>
 			</thead>
 			<tbody>
+			<c:forEach var="users" items="${list}">
 				<tr>
 					<div class="row">
 						<td class="col">
-						<p><span class="value">${member.user_no}</span></p>
+						<p><span class="value">${users.user_no}</span></p>
 						</td>
 						<td class="col">
-						<p><span class="value">${member.name}</span></p>
+						<p><span class="value">${users.name}</span></p>
 						</td>
 						<td class="col">
-						<p><span class="value">${member.email}</span></p>
+						<p><span class="value">${users.email}</span></p>
 						</td>
 						<td class="col">
-						<p><span class="value">${member.user_type}</span></p>
+						<p><span class="value">${users.user_type}</span></p>
 						</td>
 						<td class="col">
-						<p><span class="value">${member.addr}</span></p>
+						<p><span class="value">${users.addr}</span></p>
 						</td>
 						<td class="col" style="text-align: end;"><a>상세보기</a></td>
 					</div>
 				</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

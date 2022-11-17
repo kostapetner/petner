@@ -110,6 +110,7 @@ public class UsersController {
 		@RequestMapping(value="/logout",method = RequestMethod.GET)
 		public String logout() {
 			session.removeAttribute("authUser");
+			session.removeAttribute("mypageSession");
 			return "redirect:/";
 		}
 		

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
 
 @Repository
@@ -24,7 +25,8 @@ public class OwnerDAOImpl implements OwnerDAO {
 	public PetInfo getPetInfo(int user_no) {
 		return sqlSession.selectOne("mapper.owner.getPetInfo", user_no);
 	}
-		//user_no에 맞는 pet정보를 가져옴
+	
+	//user_no에 맞는 pet정보를 가져옴
 	@Override
 	public List<PetInfo> getPetByUserNo(Integer user_no) {
 		return sqlSession.selectList("mapper.owner.getPetByUserNo", user_no);
@@ -38,6 +40,11 @@ public class OwnerDAOImpl implements OwnerDAO {
 	@Override
 	public String getFileByPetNo(Integer pet_no) {
 		return sqlSession.selectOne("mapper.owner.getFileByPetNo", pet_no);
+	}
+
+	@Override
+	public void insertRequireServiceFrom(CareService careService) {
+		sqlSession.insert("mapper.owner.insertRequireServiceFrom", careService);
 	}
 
 }
