@@ -138,4 +138,11 @@ public class MyPageController {
 	   }
 	   return "/layout/mypage_default";
    }
+   
+   //mypage 1:1문의 페이지
+   @RequestMapping("/mypage/inquiry")
+   public String inquiry(Model model) {
+      model.addAttribute("page", "mypage/inquiry");
+      return "/layout/mypage_default";
+   }
 }
