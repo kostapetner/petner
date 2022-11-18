@@ -18,7 +18,7 @@
 }
 
 .card_list_type_B .pet_img {
-	width: 100px;
+	width: 120px;
 	height: 100px;
 	overflow: hidden;
 	border-radius: 50%;
@@ -79,10 +79,44 @@
 	text-align: end;
 }
 </style>
+<script>
+$(document).ready(function(){
+	//각 게시글마다 태그 띄우기
+	var html = '';
+	var data = new Array();
+	var arrSpTag ='';
+	var tagList = '';
+	//^: ~로 시작하는 엘리먼트 접근하는 정규식
+	$("input[id^='tagList']").each(function(){
+		tagList = this.value;
+		data.push(tagList);
+	})
+	
+	for(var i=0; i<data.length; i++){
+		//console.log(data[i]);
+		if(data[i].match(",")){
+			arrSpTag = data[i].split(",");
+			html="";
+			for(var j=0; j<arrSpTag.length; j++){
+				//console.log("arrSpTag["+j+"]:  "+arrSpTag[j]);
+				html += '<span class="pet">'+arrSpTag[j]+'</span>';
+			}
+		}else{
+			html = '<span class="pet">'+data[i]+'</span>';
+		}
+		$("#tagIcons"+(i+1)).empty();
+		$("#tagIcons"+(i+1)).append(html);
+	}
+	
+	
+	
+	
+})
+</script>
 <div class="content_view">
 	<p class="list_title">신청한서비스보기</p>
-	<div class="list_count">${csListCount}개</div>
-	<c:forEach var="csList" items="${csList}">
+	<div class="list_count" id="csListCount" >${csListCount}개</div>
+	<c:forEach var="csList" items="${csList}" varStatus="status">
 		<!-- 카드형 리스트 B : 보호자가 신청한 서비스  -->
 		<div class="card_list_type_B">
 			<ul>
@@ -93,9 +127,8 @@
 							<img src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg" alt="이미지">
 						</div>
 						<!-- 텍스트정보 영역 -->
-						<div class="text_area">
+						<div class="text_area" style="width: 100%">
 							<div class="matching_status">
-								<div>
 								<c:if test="${csList.status == '매칭중' }">
 									<span class="status">매칭중</span>
 								</c:if>
@@ -104,8 +137,7 @@
 									<span class="sitter_name">매칭된 시터 : 열정의 펫시터</span>
 								</c:if>
 									
-								</div>
-								<div>금액부분</div>
+								<div>금액: ${csList.request_money }원</div>
 							</div>
 							<div class="hire_detail">
 								<p>${csList.request_title }</p>
@@ -114,10 +146,9 @@
 						</div>
 					</div>
 					<div class="data2">
-						<p class="date_info">신청한 날짜</p>
-						<div class="icons">
-							<span class="pet">강아지</span> <span class="service">강아지</span> <span
-								class="coconut">강아지</span>
+						<p class="date_info">${csList.reg_date }</p>
+						<div class="icons" id="tagIcons${status.count }">
+							<input type="hidden" id="tagList${status.count -1}" value="${csList.service }">
 						</div>
 					</div>
 	

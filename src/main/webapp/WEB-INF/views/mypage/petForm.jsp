@@ -30,23 +30,23 @@
 	<div class="f_row">
 		<p class="fc_title">반려동물의 종류를 알려주세요</p>
 		<label class="fcRadio1 mr12"> 
-			<input type="radio" name="pet_kind" value="dog">
-			<span>강아지</span>
+			<input type="radio" name="pet_kind" value="개">
+			<span>개</span>
 		</label>
 		<label class="fcRadio1 mr12"> 
-			<input type="radio" name="pet_kind" value="cat">
+			<input type="radio" name="pet_kind" value="고양이">
 			<span>고양이</span>
 		</label> 
 		<label class="fcRadio1 mr12"> 
-			<input type="radio" name="pet_kind" value="fish">
+			<input type="radio" name="pet_kind" value="관상어">
 			<span>관상어</span>
 		</label> 
 		<label class="fcRadio1 mr12"> 
-			<input type="radio" name="pet_kind" value="bird">
+			<input type="radio" name="pet_kind" value="새">
 			<span>새</span>
 		</label> 
 		<label class="fcRadio1"> 
-			<input type="radio" name="pet_kind" value="reptile">
+			<input type="radio" name="pet_kind" value="파충류">
 			<span>파충류</span>
 		</label>
 	</div>
@@ -78,15 +78,15 @@
 	<!-- 성별 -->
 	<div class="f_row">
 		<p class="fc_title">반려동물의 성별을 알려주세요</p>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="w"><span>암컷</span></label>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="m"><span>수컷</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="암컷"><span>암컷</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_gender" value="수컷"><span>수컷</span></label>
 	</div>
 
 	<!-- 중성화 -->
 	<div class="f_row">
 		<p class="fc_title">중성화 여부를 알려주세요</p>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="y"><span>O</span></label>
-		<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="n"><span>X</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="YES"><span>O</span></label>
+		<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="NO"><span>X</span></label>
 	</div>
 
 	<div class="f_row">
