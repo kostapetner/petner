@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
 $(document).ready(function(){
-	//datepicker
+	$("#card_list_type").hide();
+	//air-datepicker
 	var date = new Date();
 	var dp = $('#date_start').datepicker({
 	  //년-월-일
@@ -32,17 +33,6 @@ $(document).ready(function(){
 	  }
 	}).data('datepicker');
 
-	//이미지 미리보기
-	$(function() {
-		$('#file').change(function(event) {
-			let reader = new FileReader();
-			reader.onload = function(e) {
-				$('#rep').attr('src', e.target.result);
-			};
-			reader.readAsDataURL(event.target.files[0]);	
-		});
-	});
- 
 	//체크박스 전체선택 활동가능 요일
 	$("#service_chkAll").click(function() {
 		if($("#service_chkAll").is(":checked")) {
@@ -62,10 +52,11 @@ $(document).ready(function(){
 	//--------------------펫 선택시 정보 불러오기-------------------------
 	
 	$(document).on("click", "a[id='petImg']", function () {
+		$("#card_list_type").show();
+		
 		//pet_no가져오기
 	    var pet_no = $(this).closest('div').children('input').attr('value');
 	    console.log("clicked pet_no: "+pet_no);
-		
 		// contentType: "application/json" 꼭 써주기
  		$.ajax({
 			url : "${pageContext.servletContext.contextPath}/getPetInfo",
@@ -77,11 +68,26 @@ $(document).ready(function(){
 		    }),
 			success : function(petInfo) {
 				$("#petInfo_name").attr('value',petInfo.pet_name);
-				$("#petInfo_gender").attr('value',petInfo.pet_gender);
+				
+				if(petInfo.pet_gender == 'w'){
+					$("#petInfo_gender").attr('value','여');
+				}else{
+					$("#petInfo_gender").attr('value','남');
+				}
+				
+				if(petInfo.pet_neutral == 'y'){
+					$("#petInfo_neutral").attr('value','YES');
+				}else{
+					$("#petInfo_neutral").attr('value','NO');
+				}
+				
 				$("#petInfo_specie").attr('value',petInfo.pet_specie);
 				$("#petInfo_weight").attr('value',petInfo.pet_weight);
-				$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
-				$("#petInfo_info").attr('value',petInfo.pet_info);
+				//$("#petInfo_info").attr('value',petInfo.pet_info);
+				$("#pet_img_area").attr('src',"${pageContext.request.contextPath}/" + petInfo.pet_no);
+				
+				var txt = petInfo.pet_info;
+				$("#textareaId").val(txt);
 				
 				
 				
@@ -92,89 +98,77 @@ $(document).ready(function(){
 		});
 	});
 	
-	
-	
-	
-	
-	//----------------------------------------------
 	//submit 
 	$(".submit_btn").click(function(){
-	  $("#petForm").submit();
+	  $("#requireServiceFrom").submit();
 	});
 });
 </script>
 <div class="content">
 	<h3 class="form_title fs24">펫케어 서비스 신청</h3>
-	<form action="/petner/petForm/register" method="POST" id="petForm" class="mypage_form" enctype="multipart/form-data">
-
+	<form action="/petner/mypage/myService/requireServiceFrom" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
 		<!-- 펫 선택 -->
 		<div class="f_row">
 			<p class="fc_title">펫을 선택해주세요</p>
 			<div class="profile_upload_small">
 				<c:forEach var="petInfo" items="${petInfo}">
-					<div class="prof_img_small">
-						<a id="petImg"><img id="rep" class="img_wrap img"></a>
-						<label for="rep" class="pet_btn check_btn"> 
+					<div class="prof_img_small" id="img_small">
+						<a id="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
+<!--  					<label for="rep" class="pet_btn check_btn"> 
 						<i class="fa-solid fa-check" id="pen"></i>
-						</label>
-						<input type="hidden" value="${petInfo.pet_no}"> 
+						</label> -->
+						<input type="hidden" value="${petInfo.pet_no}" name="pet_no"> 
 					</div>
-					<img src="images/${petInfo.image}" id="productImage"/>
 				</c:forEach>
 			</div>
 		</div>
 		
 		<div class="f_row">
 			<!-- 카드형 리스트 -->
-			<div class="card_list_type">
+			<div class="card_list_type" id="card_list_type">
 				<table>
-					<tr>
-						<td colspan="2" style="text-align: right;">
-							<i class="fa-solid fa-pen-to-square"></i>
-						</td>
-					</tr>
 					<tr>
 						<td colspan="2">
 							<div class="img_area">
-								<img src="" alt="이미지">
+								<img id="pet_img_area" >
 							</div>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">이름</td>
 						<td class="td-inner" >
-							<input type="text" id="petInfo_name" readonly>
+							<input type="text" id="petInfo_name" name="pet_name" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">성별</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_gender" readonly>
+							<input type="text" id="petInfo_gender" name="pet_gender" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">종류</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_specie" readonly>
+							<input type="text" id="petInfo_specie" name="pet_specie" readonly>
 						</td>
 					</tr>
 					<tr class="tr-left">
 						<td class="pdr40">체중</td>
 						<td class="td-inner">
-							<input type="text" id="petInfo_weight" readonly>kg
+							<input type="text" id="petInfo_weight" name="pet_weight" readonly>kg
 						</td>
 					</tr>
 					<tr class="tr-left" style="border-top:1px #777 dotted">
-						<td class="pdr40">중성화</td>
-						<td class="td-inner">
-							<input type="text" id="petInfo_neutral" readonly>
+						<td class="pdr40" width="30%">중성화</td>
+						<td class="td-inner" width="70%">
+							<input type="text" id="petInfo_neutral" name="pet_neutral" readonly>
 						</td>
 					</tr>
 				</table>
 				<div style="padding: 20px 0px;">
 					<p class="p-style">특이사항</p>
 					<P class="p-style-content">
-						<input type="text" id="petInfo_info" readonly>
+					<textarea id="textareaId" name="pet_info" readonly></textarea>
 					</P>
 				</div>
 			</div>
@@ -195,8 +189,8 @@ $(document).ready(function(){
 		<!-- 날짜 -->
 	 	<div class="f_row">
 	 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
-            <input type="text" class="date-picker" id="date_start">&nbsp;~&nbsp;
-            <input type="text" class="date-picker" id="date_end">
+            <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
+            <input type="text" class="date-picker" id="date_end" name="end_date">
         </div>
 	
 		<!-- 서비스 -->
@@ -219,11 +213,21 @@ $(document).ready(function(){
 			</label>
 		</div>
 		
+		<!-- 금액 -->
+		<div class="f_row">
+			<p class="fc_title">해당 요청서의 금액을 책정해주세요</p>
+			<input type="text" name="request_money" style="width:96%; min-width: auto; margin-top: 10px;"/>원
+		</div>
+		
 		<!-- 요쳥사항 -->
+		<div class="f_row">
+			<p class="fc_title">요청서의 제목을 입력해주세요</p>
+			<input type="text" name="request_title" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="제목" value=""/>
+		</div>
 		<div class="f_row">
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
-			<textarea class="fcc_textarea" name="pet_info"></textarea>
+			<textarea class="fcc_textarea" name="request_detail"></textarea>
 		</div>
 		
 		<span class="pet_btn submit_btn transition02">서비스 신청하기</span>

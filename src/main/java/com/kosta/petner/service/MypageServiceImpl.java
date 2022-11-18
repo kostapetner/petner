@@ -43,4 +43,10 @@ public class MypageServiceImpl implements MypageService {
 		return ownerDAO.getPetInfo(user_no);
 	}
 
+	@Override
+	public Object getMyAllInfo(int user_no) {
+		// 마이페이지에서 물고 다녀야 하는 모든 정보
+		return usersDAO.getMyAllInfo(user_no);
+	}
+
 }

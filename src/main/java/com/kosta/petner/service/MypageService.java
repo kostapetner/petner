@@ -17,4 +17,7 @@ public interface MypageService {
 	// 나의 반려동물 정보 가져오기
 	PetInfo getMyPetinfo(int user_no);
 	
+	// 마이페이지 ALL INFO
+	Object getMyAllInfo(int user_no);
+	
 } 

@@ -2,6 +2,7 @@ package com.kosta.petner.dao;
 
 import java.util.List;
 
+import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
 
 public interface OwnerDAO {
@@ -15,5 +16,13 @@ public interface OwnerDAO {
 	List<PetInfo> getPetByUserNo(Integer user_no);
 
 	PetInfo getPetByPetNo(Integer pet_no);
+
+	String getFileByPetNo(Integer pet_no);
+
+	void insertRequireServiceFrom(CareService careService);
+
+	List<CareService> getServiceList(Integer user_no);
+
+	Integer csListCount(Integer user_no);
 
 }

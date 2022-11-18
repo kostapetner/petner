@@ -4,7 +4,6 @@ package com.kosta.petner.controller;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kosta.petner.bean.ChatSession;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.UsersService;
@@ -32,7 +32,9 @@ public class UsersController {
 	@Autowired
 	UsersDAO usersDAO;
 	
-	
+	/* Chat session _ 홍시원 추가 _ 2022.11.11 */
+	@Autowired
+	private ChatSession cSession;
 		
 	//회원가입 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
@@ -108,6 +110,7 @@ public class UsersController {
 		@RequestMapping(value="/logout",method = RequestMethod.GET)
 		public String logout() {
 			session.removeAttribute("authUser");
+			session.removeAttribute("mypageSession");
 			return "redirect:/";
 		}
 		

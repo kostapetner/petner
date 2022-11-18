@@ -41,6 +41,17 @@ $(document).ready(function(){
     <div class="login_menu">
       
       <ul>
+      
+      <!-- 관리자 페이지 이동 버튼 -->
+      <c:if test="${authUser.user_type >= 9}">
+      	<button class="admin_btn">
+      			<a href="${pageContext.request.contextPath}/admin">
+      				admin
+      			</a>
+      	</button>
+      	</c:if>
+      
+      
         <!-- 세션있을때  -->
         <c:if test="${not empty authUser}">
         <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-comment-dots"></i></a></li>
