@@ -3,6 +3,8 @@
 <c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
 <c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
 
+
+
 <style>
   .login_wr .logo{text-align: center; padding:30px 0;}
   .login_form{margin-bottom:12px;}
@@ -31,81 +33,37 @@
 </style>
 <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-
-
-function login() {
-	var id =$("#id").val();
-	var password=$("password").val();
-	 if(id == "") {
-		$('#checkid-msg').text("아이디가 존재하지 않습니다.").css("color", "red");
-		$("#id").focus();
-		  return;
-	 
-				
-	 }if(password ==""){
-		$('#checkpass-msg').text("비밀번호가 틀렸습니다.").css("color", "red");
-		$("#password").focus();
-		  return;
+$('#myModal').on('shown.bs.modal', function () {
+	  $('#myInput').trigger('focus')
+	})
 	
+	function login() {
+		loginForm.submit();
 	}
-}
 
-
-$(function () {
-	$('.login_btn').click(function() {
-   		var id = $("#id").val();  //사용자가 입력한 아이디를 변수 id에 담음
-   		var password = $("#password").val();
-   		
-   	
-
-   		if(id=="") {
-   			$('#checkid-msg').text("아이디를 입력해주세요").css("color", "red");
-   			$("#id").focus();
-   			return;
-   		}
-   		if(password=="") {
-   	   		$('#checkpass-msg').text("비밀번호를 입력해주세요").css("color", "red");
-   	   		$("#password").focus();
-   	   		return;
-	 		}
-   		$.ajax({
-   			type:"post",
-   			url:"http://localhost:8088/petner/login",
-   			data:{id:id, password:password},   //id(key):id(value)
-   			success:function(data,textStatus) {
-   				if(data=="fail") {
-   					alert("비밀번호 불일치");
-   				}if(data=="success"){ 
-   					alert("비밀번호 일치");
-   				 $('#loginForm').submit(function() {
-    		  });
-   				}	
-   				
-   			} 
-		}) //ajax 끝
-	}); // 중복체크 끝
-
-}); 
-	
 </script>
-	
-		
 
 <div class="w45 login_wr">      
   <div class="logo"><img src="./images/logo3.svg" alt=""></div>
-  <form action="./login" method="POST" id="loginForm" class="login_form" onsubmit="return login()" >
+  <form action="./login" method="POST" id="loginForm" class="login_form">
     
     <div class="f_row">
-      <input type="text" placeholder="ID" name="id" id="id" required>
-         <p><small id="checkid-msg" class="form-error"></small></p>
-      <input type="password" placeholder="비밀번호" name="password" id="password" required>
-         <p><small id="checkpass-msg" class="form-error"></small></p>
+      <input type="text" placeholder="ID" name="id" id="id" >
+      <input type="password" placeholder="비밀번호" name="password" id="password">
     </div>
-     <input type ="submit" class="pet_btn login_btn transition02" value= "로그인"/>
+     <input type ="submit" class="pet_btn login_btn transition02" value= "로그인" onsubmit="login()"/>
   </form>
-  <div class="info_area">
+
+	<div class="form-label-group">
+		<c:if test="${check == 1}">
+		<script>
+			alert("${message}");
+			</script>
+		</c:if>
+	</div>
+	<div class="info_area">
     <p>
-      <label class="fcCbox1"><input type="checkbox" ><span>로그인 유지하기</span></label>
+      <label class="fcCbox1"><input type="checkbox" id="remember-me" name="remember-me" ><span>로그인 유지하기</span></label>
       <span>
       	<a href="./findId" >아이디</a>&nbsp;/&nbsp;<a href="./findPass">비밀번호찾기</a>
       </span>

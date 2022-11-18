@@ -198,7 +198,6 @@
 			<artifactId>commons-email</artifactId>
 			<version>1.5</version>
 		</dependency>
-<<<<<<< HEAD
 
 
 	<dependency>
@@ -220,15 +219,14 @@
 		<artifactId>jackson-databind</artifactId>
 		<version>2.9.6</version>
 	</dependency>
-=======
-		
+
 		<!-- spring 에서 json을 다루는 라이브러리 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.6</version>
 		</dependency>
->>>>>>> 9ab297cf2f9b9400ecb67c09c618fd911d3ee011
+
 	
 	   <dependency>
 	      <groupId>com.googlecode.json-simple</groupId>

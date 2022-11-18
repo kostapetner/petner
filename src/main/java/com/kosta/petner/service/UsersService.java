@@ -15,7 +15,7 @@ public interface UsersService {
 	public boolean isDoubleId(String id) throws Exception;
 	
 	//로그인
-	public Users getUsers(Users users);
+	public Users login(Users users) throws Exception;
 	
 	//아이디 찾기
 	public Users findId(Users users);
