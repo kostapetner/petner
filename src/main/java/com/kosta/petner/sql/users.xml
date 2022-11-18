@@ -46,9 +46,9 @@
 	</select>
 	
 	<!-- 유저리스트_ 2022.11.16 홍시원 -->
-	<select id="selectUserList" resultMap="com.kosta.petner.bean.Users">
+<!-- 	<select id="selectUserList" resultMap="com.kosta.petner.bean.Users">
 		SELECT * FROM CHATUSER ORDER BY nickname
-	</select>
+	</select> -->
 
 	
 	<select id= "getUserByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.Users" >
