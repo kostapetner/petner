@@ -22,4 +22,5 @@ public class CareService {
 	private String request_title;
 	private String request_detail;
 	private String status;
+	private String reg_date;
 }

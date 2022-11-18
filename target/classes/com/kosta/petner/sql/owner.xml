@@ -73,6 +73,7 @@
 			,request_title
 			,request_detail
 			,status
+			,reg_date
 		)values(
 			 service_no_seq.nextval 
 			,#{user_no, jdbcType=INTEGER}
@@ -87,6 +88,7 @@
 			,#{request_title, jdbcType=VARCHAR}
 			,#{request_detail, jdbcType=VARCHAR}
 			,#{status, jdbcType=VARCHAR}
+			,#{reg_date}
 		)
 	]]>	
 	</insert>

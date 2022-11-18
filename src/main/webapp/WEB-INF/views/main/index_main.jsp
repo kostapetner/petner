@@ -24,10 +24,10 @@
 				<!-- Container.1 -->
 				<div class="container_1">
 					<!-- video -->
-					<video autoplay controls loop muted poster="aaa" preload="bbb"
+					<video autoplay controls loop muted poster="" preload="auto"
 						width="100%" height="auto" src="${imgPath}/petner_main_video.mp4">
 						<source src="xxx" type="yyy">
-						동영상
+						<!-- 동영상 -->
 					</video>
 					<div class="section">
 						<h1>
