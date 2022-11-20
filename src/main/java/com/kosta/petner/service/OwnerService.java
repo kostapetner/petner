@@ -25,5 +25,17 @@ public interface OwnerService {
 	 */
 	void insertRequireServiceFrom(CareService careService);
 
+	/* 날짜:22.11.17
+	 * 작성자: 김혜경
+	 * 내용: 시터 서비스 신청 list가져오기
+	 */
+	List<CareService> getServiceList(Integer user_no);
+	
+	/* 날짜:22.11.17
+	 * 작성자: 김혜경
+	 * 내용: 시터 서비스 신청 list 수 가져오기
+	 */
+	Integer csListCount(Integer user_no);
+
 	
 }

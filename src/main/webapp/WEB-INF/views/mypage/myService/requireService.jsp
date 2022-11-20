@@ -56,7 +56,9 @@ $(document).ready(function(){
 		
 		//pet_no가져오기
 	    var pet_no = $(this).closest('div').children('input').attr('value');
-	    console.log("clicked pet_no: "+pet_no);
+	    $('input[name=pet_no]').attr('value', pet_no);
+	    //console.log("clicked pet_no: "+pet_no);
+	    
 		// contentType: "application/json" 꼭 써주기
  		$.ajax({
 			url : "${pageContext.servletContext.contextPath}/getPetInfo",
@@ -68,29 +70,13 @@ $(document).ready(function(){
 		    }),
 			success : function(petInfo) {
 				$("#petInfo_name").attr('value',petInfo.pet_name);
-				
-				if(petInfo.pet_gender == 'w'){
-					$("#petInfo_gender").attr('value','여');
-				}else{
-					$("#petInfo_gender").attr('value','남');
-				}
-				
-				if(petInfo.pet_neutral == 'y'){
-					$("#petInfo_neutral").attr('value','YES');
-				}else{
-					$("#petInfo_neutral").attr('value','NO');
-				}
-				
+				$("#petInfo_gender").attr('value',petInfo.pet_gender);
+				$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
 				$("#petInfo_specie").attr('value',petInfo.pet_specie);
 				$("#petInfo_weight").attr('value',petInfo.pet_weight);
-				//$("#petInfo_info").attr('value',petInfo.pet_info);
 				$("#pet_img_area").attr('src',"${pageContext.request.contextPath}/" + petInfo.pet_no);
-				
 				var txt = petInfo.pet_info;
 				$("#textareaId").val(txt);
-				
-				
-				
 			},
 			error : function(xhr, error) { //xmlHttpRequest?
 				console.error("error : " + error);
@@ -107,6 +93,8 @@ $(document).ready(function(){
 <div class="content">
 	<h3 class="form_title fs24">펫케어 서비스 신청</h3>
 	<form action="/petner/mypage/myService/requireServiceFrom" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
+		<!-- 선택한 pet_no보내기 -->
+		<input type="hidden" name="pet_no">
 		<!-- 펫 선택 -->
 		<div class="f_row">
 			<p class="fc_title">펫을 선택해주세요</p>
@@ -117,7 +105,7 @@ $(document).ready(function(){
 <!--  					<label for="rep" class="pet_btn check_btn"> 
 						<i class="fa-solid fa-check" id="pen"></i>
 						</label> -->
-						<input type="hidden" value="${petInfo.pet_no}" name="pet_no"> 
+						<input type="hidden" value="${petInfo.pet_no}">
 					</div>
 				</c:forEach>
 			</div>
@@ -200,20 +188,30 @@ $(document).ready(function(){
 				<label class="fcCbox1"><input type="checkbox" id="service_chkAll"><span>전체선택</span></label>
 			</p>
 			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="visit"><span>방문관리</span>
+				<input type="checkbox" name="service" value="방문관리"><span>방문관리</span>
 			</label> 
 			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="walk"><span>산책</span>
+				<input type="checkbox" name="service" value="산책"><span>산책</span>
 			</label>
 			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="shower"><span>목욕</span>
+				<input type="checkbox" name="service" value="목욕"><span>목욕</span>
 			</label>
 			<label class="fcCbox2">
-				<input type="checkbox" name="service" value="education"><span>교육</span>
+				<input type="checkbox" name="service" value="교육"><span>교육</span>
 			</label>
 		</div>
 		
+		<!-- 금액 -->
+		<div class="f_row">
+			<p class="fc_title">해당 요청서의 금액을 책정해주세요</p>
+			<input type="text" name="request_money" style="width:96%; min-width: auto; margin-top: 10px;"/>원
+		</div>
+		
 		<!-- 요쳥사항 -->
+		<div class="f_row">
+			<p class="fc_title">요청서의 제목을 입력해주세요</p>
+			<input type="text" name="request_title" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="제목" value=""/>
+		</div>
 		<div class="f_row">
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>

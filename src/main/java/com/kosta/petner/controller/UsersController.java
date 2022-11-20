@@ -1,9 +1,9 @@
 package com.kosta.petner.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kosta.petner.bean.ChatSession;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.UsersService;
@@ -32,7 +35,9 @@ public class UsersController {
 	@Autowired
 	UsersDAO usersDAO;
 	
-	
+	/* Chat session _ 홍시원 추가 _ 2022.11.11 */
+	@Autowired
+	private ChatSession cSession;
 		
 	//회원가입 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
@@ -83,26 +88,23 @@ public class UsersController {
 		
 		
 		//로그인
-		@RequestMapping(value="/login",method = RequestMethod.POST)              
-		public String login(@ModelAttribute Users users, Model model) throws Exception {				
-			System.out.println("users.getId():    "+ users.getId());
-			System.out.println("users.getPassword():    "+ users.getPassword());
-		
-			Users authUser = usersService.getUsers(users);
-
-			if(authUser ==null) {
-				System.out.println("로그인 실패");
-				model.addAttribute("result", "fail");
+		@RequestMapping(value="/login", method=RequestMethod.POST)
+		public String login(Users users, Model model) throws Exception {
+			Users authUser = usersService.login(users);
+			
+			if(authUser == null) {
+				model.addAttribute("check", 1);
+				model.addAttribute("message", "아이디와 비밀번호를 확인해주세요.");
 				model.addAttribute("page", "users/login/loginForm");
 				return "/layout/main";
-
+				
+			}else {
+				System.out.println(authUser);
+				model.addAttribute("result", "success");
+				session.setAttribute("authUser", authUser);
+				return "redirect:/";
 			}
-			//user정보를 authUser라는 세션에 담음
-			model.addAttribute("result", "success");
-			session.setAttribute("authUser", authUser);
-			System.out.println(authUser);
-			return "redirect:/";
-			}
+		}
 
 		//로그아웃
 		@RequestMapping(value="/logout",method = RequestMethod.GET)

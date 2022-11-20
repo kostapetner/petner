@@ -52,8 +52,8 @@ public class UsersServiceImpl implements UsersService {
 
 	
 	@Override
-	public Users getUsers(Users users) {
-		return usersDAO.getUsers(users.getId(), users.getPassword());
+	public Users login(Users users) throws Exception{
+		return usersDAO.loginById(users);
 			}
 
 

@@ -47,4 +47,14 @@ public class OwnerDAOImpl implements OwnerDAO {
 		sqlSession.insert("mapper.owner.insertRequireServiceFrom", careService);
 	}
 
+	@Override
+	public List<CareService> getServiceList(Integer user_no) {
+		return sqlSession.selectList("mapper.owner.getServiceList", user_no);
+	}
+
+	@Override
+	public Integer csListCount(Integer user_no) {
+		return sqlSession.selectOne("mapper.owner.csListCount", user_no);
+	}
+
 }
