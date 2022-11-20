@@ -1,5 +1,7 @@
 package com.kosta.petner.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.MypageService;
+import com.kosta.petner.service.OwnerService;
 
 //나의정보출력/수정관리/리뷰
 @Controller
@@ -22,6 +25,9 @@ public class MyPageController {
 	
 	@Autowired
 	MypageService mypageService;
+	
+	@Autowired
+	OwnerService ownerService;
 	
 	@Autowired
 	HttpSession session;
@@ -125,8 +131,10 @@ public class MyPageController {
 	   int user_no = sessionInfo.getUser_no();
 	   
 	   try {
-		   PetInfo petInfo = mypageService.getMyPetinfo(user_no);	      
-		   System.out.println("나의동물정모"+petInfo);
+		   // 1이상이기 때문에 리스트로 받아야함
+		   List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);
+		   //List<PetInfo> petInfo = mypageService.getMyPetinfo(user_no);
+		   System.out.println("나의동물정보"+petInfo);
 	      
 		   model.addAttribute("page", "mypage/owner/myPetInfo");
 		   model.addAttribute("title", "나의반려동물");

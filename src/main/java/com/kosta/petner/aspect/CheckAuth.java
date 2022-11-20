@@ -36,8 +36,6 @@ public class CheckAuth {
 		
 		Users sessionVO = (Users) session.getAttribute("authUser");
 		
-		System.out.println("세션정보=>"+sessionVO);
-		
 		if(sessionVO != null) {
 			//마이페이지에서 필요한 정보 만들거야
 			/* 닉네임, 팔로잉수, 나의 프로필 이미지 
