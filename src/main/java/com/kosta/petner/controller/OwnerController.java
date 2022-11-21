@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.FileVO;
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
@@ -183,20 +185,49 @@ public class OwnerController {
 		
 	}
 	
-	//요청한 서비스 보기 화면
-	@RequestMapping(value = "/mypage/myService/requireServiceList", method = RequestMethod.GET)
-	String requireServiceList(CareService careService, Model model, HttpServletRequest request) {
+	//요청한 서비스 보기 화면 - 페이징 전
+//	@RequestMapping(value = "/mypage/myService/requireServiceList", method = RequestMethod.GET)
+//	String requireServiceList(CareService careService, Model model, HttpServletRequest request) {
+//		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+//		Integer user_no = users.getUser_no();
+//		
+//		//care_service테이블에서 데이터 가져오기
+//		List<CareService> csList = ownerService.getServiceList(user_no);
+//		
+//		//게시판 수
+//		Integer csListCount = ownerService.csListCount(user_no);
+//		
+//		model.addAttribute("csListCount", csListCount);
+//		model.addAttribute("csList", csList);
+//		model.addAttribute("title", "요청한 서비스 보기");
+//		model.addAttribute("page", "mypage/myService/requireServiceList");
+//		return "/layout/mypage_default";
+//	}
+	
+	//요청한 서비스 보기 화면 - 페이징 적용중...
+	@RequestMapping(value = "/mypage/myService/requireServiceList",  method= {RequestMethod.POST, RequestMethod.GET})
+	String requireServiceList(CareService careService, Model model, HttpServletRequest request
+							 ,@RequestParam(value="page", required=false, defaultValue ="1") Integer page) {
 		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
 		Integer user_no = users.getUser_no();
 		
+		//페이징
+		PageInfo pageInfo = new PageInfo();
+				
 		//care_service테이블에서 데이터 가져오기
-		List<CareService> csList = ownerService.getServiceList(user_no);
+		List<CareService> csList = ownerService.getServiceList(user_no, page, pageInfo);
 		
 		//게시판 수
 		Integer csListCount = ownerService.csListCount(user_no);
 		
+		
+		
+		
+		
+		
 		model.addAttribute("csListCount", csListCount);
 		model.addAttribute("csList", csList);
+		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("title", "요청한 서비스 보기");
 		model.addAttribute("page", "mypage/myService/requireServiceList");
 		return "/layout/mypage_default";

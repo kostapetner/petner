@@ -2,6 +2,8 @@ package com.kosta.petner.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
 
@@ -21,8 +23,13 @@ public interface OwnerDAO {
 
 	void insertRequireServiceFrom(CareService careService);
 
-	List<CareService> getServiceList(Integer user_no);
-
+	//List<CareService> getServiceList(Integer user_no);
+	//페이징+리스트
+	List<CareService> getServiceList(@Param("user_no") Integer user_no, @Param("row") Integer row);
+	
+	//리스트 수
 	Integer csListCount(Integer user_no);
+
+	
 
 }
