@@ -88,7 +88,7 @@
 	]]>    
 	</select>
  
-    <!-- 임시비밀번호수정 -->
+    <!-- 임시비밀번호발급 -->
 	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[ 
 	    update users 
@@ -125,6 +125,10 @@
 					sysdate)
 			]]>    
 	</insert>
+	
+	
+	
+	
 	
 
 	<!-- 마이페이지 나의 정보 221113DSC 추가 -->

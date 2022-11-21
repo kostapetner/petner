@@ -1,7 +1,7 @@
 package com.kosta.petner.controller;
 
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.kosta.petner.bean.ChatSession;
 import com.kosta.petner.bean.Users;
@@ -51,16 +52,16 @@ public class UsersController {
 		System.out.println("회원가입정보:" + users);
 		try{
 			usersService.joinUsers(users);
-			model.addAttribute("page","users/login/loginForm");
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", "회원가입 오류");
 			model.addAttribute("page", "err");
 		}
 		
-		return "/layout/main";
-		
+		return "users/join/joinSuccess";
 	}
+	
 		
 	//중복체크
 	@ResponseBody 
@@ -88,31 +89,31 @@ public class UsersController {
 		
 		
 		//로그인
-		@RequestMapping(value="/login", method=RequestMethod.POST)
-		public String login(Users users, Model model) throws Exception {
-			Users authUser = usersService.login(users);
-			
-			if(authUser == null) {
-				model.addAttribute("check", 1);
-				model.addAttribute("message", "아이디와 비밀번호를 확인해주세요.");
-				model.addAttribute("page", "users/login/loginForm");
-				return "/layout/main";
-				
-			}else {
-				System.out.println(authUser);
-				model.addAttribute("result", "success");
-				session.setAttribute("authUser", authUser);
-				return "redirect:/";
-			}
-		}
+				@RequestMapping(value="/login", method=RequestMethod.POST)
+				public String login(Users users, Model model) throws Exception {
+					Users authUser = usersService.login(users);
+					
+					if(authUser == null) {
+						model.addAttribute("check", 1);
+						model.addAttribute("message", "아이디와 비밀번호를 확인해주세요.");
+						model.addAttribute("page", "users/login/loginForm");
+						return "/layout/main";
+						
+					}else {
+						System.out.println(authUser);
+						model.addAttribute("result", "success");
+						session.setAttribute("authUser", authUser);
+						return "redirect:/";
+					}
+				}
 
-		//로그아웃
-		@RequestMapping(value="/logout",method = RequestMethod.GET)
-		public String logout() {
-			session.removeAttribute("authUser");
-			session.removeAttribute("mypageSession");
-			return "redirect:/";
-		}
+				//로그아웃
+				@RequestMapping(value="/logout",method = RequestMethod.GET)
+				public String logout() {
+					session.removeAttribute("authUser");
+					session.removeAttribute("mypageSession");
+					return "redirect:/";
+				}
 		
 		//아이디 찾기로 이동
 		@RequestMapping(value = "/findId", method = RequestMethod.GET)
