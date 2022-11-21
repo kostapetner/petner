@@ -23,6 +23,8 @@ public class PetInfo {
 	private String pet_neutral;
 	private String pet_info;
 	
+	private String server_filename;
+	
 	private MultipartFile imageFile;
 	
 }
