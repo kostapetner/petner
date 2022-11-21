@@ -36,10 +36,13 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
-	
+	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
-	<![CDATA[
-		select * from pet_info where user_no = #{user_no}
+	<![CDATA[		
+		SELECT pet.*, ft.SERVER_FILENAME 
+		FROM PET_INFO pet 
+		LEFT JOIN FILE_TB ft ON pet.FILE_NO = ft.FILE_NO 
+		WHERE pet.USER_NO = #{user_no}
 	]]>	
 	</select>
 	

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kosta.petner.bean.ChatSession;
+//import com.kosta.petner.bean.ChatSession;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.UsersService;
@@ -37,7 +37,7 @@ public class UsersController {
 	
 	/* Chat session _ 홍시원 추가 _ 2022.11.11 */
 	@Autowired
-	private ChatSession cSession;
+	//private ChatSession cSession;
 		
 	//회원가입 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
