@@ -36,10 +36,13 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
-	
+	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
-	<![CDATA[
-		select * from pet_info where user_no = #{user_no}
+	<![CDATA[		
+		SELECT pet.*, ft.SERVER_FILENAME 
+		FROM PET_INFO pet 
+		LEFT JOIN FILE_TB ft ON pet.FILE_NO = ft.FILE_NO 
+		WHERE pet.USER_NO = #{user_no}
 	]]>	
 	</select>
 	
@@ -93,7 +96,7 @@
 	]]>	
 	</insert>
 	
-	<select id="getServiceList" parameterType="Integer" resultType="com.kosta.petner.bean.CareService">
+<!-- <select id="getServiceList" parameterType="Integer" resultType="com.kosta.petner.bean.CareService">
 	<![CDATA[
 		select  service_no
 				,user_no
@@ -113,7 +116,36 @@
 		where user_no = #{user_no}
 		order by service_no
 	]]>	
+	</select> -->
+	
+	<select id="getServiceList" resultType="com.kosta.petner.bean.CareService" parameterType="Map">
+	<![CDATA[
+		select  service_no
+				,user_no
+				,pet_no
+				,zipcode
+				,addr
+				,addr_detail
+				,service
+				,st_date
+				,end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+		from (
+			select row_number() over (order BY service_no desc) num, B.*
+			from care_service B
+			WHERE user_no = #{user_no}
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
+		]]>
 	</select>
+	
+	
+	
 	
 	<select id="csListCount" parameterType="Integer" resultType="Integer">
 	<![CDATA[

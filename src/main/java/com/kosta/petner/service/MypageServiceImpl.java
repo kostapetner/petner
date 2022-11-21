@@ -1,5 +1,7 @@
 package com.kosta.petner.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +41,8 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public PetInfo getMyPetinfo(int user_no) {
-		return ownerDAO.getPetInfo(user_no);
+	public List<PetInfo> getMyPetinfo(int user_no) {
+		return ownerDAO.getPetByUserNo(user_no);
 	}
 
 	@Override

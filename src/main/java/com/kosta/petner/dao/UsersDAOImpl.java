@@ -32,13 +32,10 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	//로그인
 	@Override
-	public Users getUsers(String id, String password) {
-		Map<String,String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("password", password);
-		Users users = sqlSession.selectOne("mapper.users.getByIdAndPassword",map);
+	public Users loginById(Users users) {
+		Users vo = sqlSession.selectOne("mapper.users.loginById", users);
 		
-		return users;
+		return vo;
 	}
 	//아이디찾기
 	@Override

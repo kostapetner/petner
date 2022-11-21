@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	.profile_upload_small .img{
+		width:75px; height:75px;
+	}
+	
+	.petSelected:after{
+		content: "\f058";
+    font-family: "Font Awesome 5 Free";
+    color: var(--orange);
+    font-size: 2.5rem;
+    font-weight: 900;
+    position: absolute;
+    bottom: 0;
+    right: 3px;
+	}
+</style>
 <script>
 $(document).ready(function(){
 	$("#card_list_type").hide();
@@ -50,69 +66,78 @@ $(document).ready(function(){
 		}else $("#service_chkAll").prop("checked", true); 
 	});
 	//--------------------펫 선택시 정보 불러오기-------------------------
+	$(document)
+		.on("click", "a.petImg", function () {
+			$("#card_list_type").show();
+			$("a.petImg").removeClass("petSelected");
+			$(this).toggleClass("petSelected");
+			
+			//pet_no가져오기
+		    var pet_no = $(this).closest('div').children('input').attr('value');
+		    $('input[name=pet_no]').attr('value', pet_no);
+		    //console.log("clicked pet_no: "+pet_no);
+		    
+			// contentType: "application/json" 꼭 써주기
+	 		$.ajax({
+				url : "${pageContext.servletContext.contextPath}/getPetInfo",
+				type : "POST",
+				dataType: "json",
+				contentType: "application/json",
+			    data: JSON.stringify({
+			    	"pet_no":pet_no
+			    }),
+				success : function(petInfo) {
+					$("#petInfo_name").attr('value',petInfo.pet_name);
+					$("#petInfo_gender").attr('value',petInfo.pet_gender);
+					$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
+					$("#petInfo_specie").attr('value',petInfo.pet_specie);
+					$("#petInfo_weight").attr('value',petInfo.pet_weight);
+					$("#pet_img_area").attr('src',"${pageContext.request.contextPath}/" + petInfo.pet_no);
+					var txt = petInfo.pet_info;
+					$("#textareaId").val(txt);
+				},
+				error : function(xhr, error) { //xmlHttpRequest?
+					console.error("error : " + error);
+				}
+			});
+		});//on
 	
-	$(document).on("click", "a[id='petImg']", function () {
-		$("#card_list_type").show();
-		
-		//pet_no가져오기
-	    var pet_no = $(this).closest('div').children('input').attr('value');
-	    $('input[name=pet_no]').attr('value', pet_no);
-	    //console.log("clicked pet_no: "+pet_no);
-	    
-		// contentType: "application/json" 꼭 써주기
- 		$.ajax({
-			url : "${pageContext.servletContext.contextPath}/getPetInfo",
-			type : "POST",
-			dataType: "json",
-			contentType: "application/json",
-		    data: JSON.stringify({
-		    	"pet_no":pet_no
-		    }),
-			success : function(petInfo) {
-				$("#petInfo_name").attr('value',petInfo.pet_name);
-				$("#petInfo_gender").attr('value',petInfo.pet_gender);
-				$("#petInfo_neutral").attr('value',petInfo.pet_neutral);
-				$("#petInfo_specie").attr('value',petInfo.pet_specie);
-				$("#petInfo_weight").attr('value',petInfo.pet_weight);
-				$("#pet_img_area").attr('src',"${pageContext.request.contextPath}/" + petInfo.pet_no);
-				var txt = petInfo.pet_info;
-				$("#textareaId").val(txt);
-			},
-			error : function(xhr, error) { //xmlHttpRequest?
-				console.error("error : " + error);
-			}
+		//이미지 미리보기
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#requestPetImg').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);	
 		});
-	});
-	
+		
+		
 	//submit 
 	$(".submit_btn").click(function(){
 	  $("#requireServiceFrom").submit();
 	});
 });
 </script>
+
 <div class="content">
 	<h3 class="form_title fs24">펫케어 서비스 신청</h3>
 	<form action="/petner/mypage/myService/requireServiceFrom" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
 		<!-- 선택한 pet_no보내기 -->
-		<input type="hidden" name="pet_no">
+		<input type="hidden" name="pet_no"/>
 		<!-- 펫 선택 -->
 		<div class="f_row">
 			<p class="fc_title">펫을 선택해주세요</p>
 			<div class="profile_upload_small">
 				<c:forEach var="petInfo" items="${petInfo}">
 					<div class="prof_img_small" id="img_small">
-						<a id="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
-<!--  					<label for="rep" class="pet_btn check_btn"> 
-						<i class="fa-solid fa-check" id="pen"></i>
-						</label> -->
+						<a class="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
 						<input type="hidden" value="${petInfo.pet_no}">
 					</div>
 				</c:forEach>
 			</div>
 		</div>
-		
+		<!-- 카드형 리스트 -->
 		<div class="f_row">
-			<!-- 카드형 리스트 -->
 			<div class="card_list_type" id="card_list_type">
 				<table>
 					<tr>
@@ -177,10 +202,10 @@ $(document).ready(function(){
 		<!-- 날짜 -->
 	 	<div class="f_row">
 	 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
-            <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
-            <input type="text" class="date-picker" id="date_end" name="end_date">
-        </div>
-	
+	      <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
+	      <input type="text" class="date-picker" id="date_end" name="end_date">
+	    </div>  
+		
 		<!-- 서비스 -->
 		<div class="f_row">
 			<p class="fc_title">요청하실 서비스를 선택해 주세요</p>
@@ -216,6 +241,20 @@ $(document).ready(function(){
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
 			<textarea class="fcc_textarea" name="request_detail"></textarea>
+		</div>
+		
+		<!-- 사진 업로드 -->
+		<div class="f_row profile_upload">
+			<p class="fc_title">반려동물의 사진을 올려주세요</p>
+			<div class="profile_upload_square">
+				<div class="prof_img">
+					<img id="requestPetImg"> <br>
+					<label for="file" class="pet_btn edit_btn"> 
+						<i class="fa-solid fa-pen" id="pen"></i>
+					</label> 
+					<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+				</div>
+			</div>
 		</div>
 		
 		<span class="pet_btn submit_btn transition02">서비스 신청하기</span>

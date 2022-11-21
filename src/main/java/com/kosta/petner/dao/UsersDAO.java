@@ -14,9 +14,10 @@ public interface UsersDAO {
 	Users selectId(String id) throws Exception;
 
 	// 아이디+비번으로 로그인하기
-	Users getUsers(String id, String password);
 
-	// 이름+이메일로 아이디 찾기
+	Users loginById(Users users) throws Exception;
+	
+	//이름+이메일로 아이디 찾기
 	Users getId(String name, String email);
 
 	// 임시비밀번호수정

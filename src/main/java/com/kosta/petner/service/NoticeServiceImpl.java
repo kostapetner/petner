@@ -18,11 +18,11 @@ public class NoticeServiceImpl implements NoticeService {
 	public void resistNotice(Notice notice) throws Exception {
 		Integer noticeNum = noticeDAO.selectMaxNoticeNum();
 		if(noticeNum==null) noticeNum = 1;
-//		else boardNum = boardNum+1; 
-//		board.setBoard_num(boardNum);
-//		board.setBoard_re_ref(boardNum);
-//		board.setBoard_re_lev(0);
-//		board.setBoard_re_seq(0);
+		else noticeNum = noticeNum+1; 
+		notice.setNotice_no(noticeNum);
+		notice.setNotice_re_ref(noticeNum);
+		notice.setNotice_re_lev(0);
+		notice.setNotice_re_seq(0);
 		notice.setNotice_hit(0);
 		noticeDAO.insertNotice(notice);
 	}

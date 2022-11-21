@@ -46,6 +46,13 @@
 	select * from users where id =#{id}
 	]]>
 	</select>
+	
+
+	<!--  유저리스트_ 2022.11.16 홍시원 
+	<select id="selectUserList" resultMap="com.kosta.petner.bean.Users">
+		SELECT * FROM CHATUSER ORDER BY nickname
+	</select>
+ -->
 
 	<!-- 유저리스트_ 2022.11.16 홍시원 -->
 	<!-- <select id="selectUserList" resultMap="com.kosta.petner.bean.Users"> 
@@ -60,8 +67,7 @@
 	</select>
 
 	<!-- 로그인 -->
-	<select id="getByIdAndPassword" parameterType="map"
-		resultType="com.kosta.petner.bean.Users">
+	<select id="loginById" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 		select *
 		from users 
@@ -91,10 +97,9 @@
 	    and   email = #{email}
 	]]>
 	</select>
-
-	<!-- 비밀번호수정 -->
-	<update id="updatePw"
-		parameterType="com.kosta.petner.bean.Users">
+ 
+    <!-- 임시비밀번호수정 -->
+	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[ 
 	    update users 
 	    set password = #{password,jdbcType=VARCHAR}

@@ -181,19 +181,23 @@
 
   /* 찾기 필터 피드 */
   .filter_feed{
-    padding: 20px 0;
+	padding: 20px 0;
     font-size: 1.4rem;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     border-bottom: 1px solid var(--fcc-border);
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
   }
   .filter_feed label{cursor:pointer}
   .filter_feed .f_row{
     padding-bottom: 5px;
     display: flex;
-    flex-direction: column;
     margin-right: 24px;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 10px;
   }
   .filter_feed .filter_title{
     border: 1px solid var(--font);

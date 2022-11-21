@@ -5,91 +5,131 @@
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
+<html>
+<head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<c:import url='/WEB-INF/views/include/common_head.jsp' />
+<title>${title}</title>
+<style>
+.filter_feed {
+	display: none
+}
 
-<!-- 공지사항 리스트 -->
-<div class="card ad_card mb-4">
-	<div class="card-body">
-		<h2 class="card-title">공지사항 글 목록</h2>
-		<a href="writeform">공지사항글쓰기</a>
-		<c:choose>
-			<c:when test="${articleList!=null && pageInfo.listCount>0 }">
-				<section id="listForm">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">제목</th>
-								<th scope="col">작성자</th>
-								<th scope="col">날짜</th>
-								<th scope="col">조회수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="article" items="${articleList }">
-								<tr>
-									<div class="row">
-										<td class="col-2">${article.notice_no }</td>
-										<td class="col-2"><c:choose>
-												<c:when test="${article.notice_re_lev!=0}">
-													<c:forEach var="i" begin="0"
-														end="${article.notice_re_lev*2}">
-													&nbsp;
+.filter_feed .f_row {
+	padding-bottom: 5px;
+}
+
+.pagination li {
+	padding: 0;
+}
+</style>
+</head>
+
+<body>
+	<!-- 공지사항 리스트 -->
+	<div id="wrapper">
+		<!-- CONTAINER -->
+		<div class="container w90">
+			<div class="">
+				<p class="list_title">공지사항</p>
+				<c:choose>
+					<c:when test="${articleList!=null && pageInfo.listCount>0 }">
+						<section id="listForm" class="default_list_type pn_listForm">
+							<table class="table table-hover">
+								<tbody>
+									<c:forEach var="article" items="${articleList }">
+										<tr>
+											<div>
+												<td>
+													<!-- 제목 -->
+													<div class="row title_box">
+														<c:choose>
+															<c:when test="${article.notice_re_lev!=0}">
+																<c:forEach var="i" begin="0"
+																	end="${article.notice_re_lev*2}">
+															&nbsp;
 												</c:forEach>
-													▶
-											</c:when>
-												<c:otherwise>▶</c:otherwise>
-											</c:choose> <a
-											href="./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}">
-												${article.notice_title}</a></td>
-										<td class="col-2">${article.user_id }</td>
-										<td class="col-2">${article.reg_date }</td>
-										<td class="col-1">${article.notice_hit }</td>
-									</div>
-								</tr>
-							</c:forEach>
-					</table>
-				</section>
+																<!-- 답글 달릴때만-->
+																<div class="re">
+																	<img src="${imgPath}/re_arrow.png" alt="re_arrow">
+																</div>
+															</c:when>
+															<c:otherwise></c:otherwise>
+														</c:choose>
+														<div class="title">
+															<a
+																href="./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}">
+																${article.notice_title}</a>
+														</div>
+													</div> <!-- 내용 -->
+													<div class="row content">
+														<p>${article.notice_content }</p>
+													</div> <!-- 조회수, 날짜, 글쓴이 -->
+													<div class="row source">
+														<div class="col flex-end">
+															<div>
+																<i class="fa-regular fa-eye"></i> ${article.notice_hit }
+																&nbsp;&nbsp; ${article.reg_date }
+															</div>
+															<div>
+																<span>by</span> ${article.user_id }
+															</div>
+														</div>
+													</div>
+												</td>
+											</div>
+										</tr>
+									</c:forEach>
+							</table>
+						</section>
 
-				<section id="pageList">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item"><c:choose>
-									<c:when test="${pageInfo.page<=1}">
-										<a class="page-link" href="#" aria-label="Previous">이전</a>
-									</c:when>
-									<c:otherwise>
-										<a class="page-link" href="noticelist?page=${pageInfo.page-1}"
-											aria-label="Previous">이전</a>
-									</c:otherwise>
-								</c:choose></li>
-							<li class="page-item"><a class="page-link" href="#"> <c:forEach
-										var="i" begin="${pageInfo.startPage }"
+						<section id="pageList">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination admin_page">
+									<li class="page-item"><c:choose>
+											<c:when test="${pageInfo.page<=1}">
+												<a class="page-link" href="#" aria-label="Previous">이전</a>
+											</c:when>
+											<c:otherwise>
+												<a class="page-link"
+													href="noticeList?page=${pageInfo.page-1}"
+													aria-label="Previous">이전</a>
+											</c:otherwise>
+										</c:choose></li>
+									<c:forEach var="i" begin="${pageInfo.startPage }"
 										end="${pageInfo.endPage }">
 										<c:choose>
-											<c:when test="${pageInfo.page==i }">${i }</c:when>
+											<c:when test="${pageInfo.page==i }">
+												<a class="page-link">${i }</a>
+											</c:when>
+
 											<c:otherwise>
-												<a href="noticelist?page=${i}">${i }</a>
+
+												<a class="page-link" href="noticeList?page=${i}">${i }</a>
+
 											</c:otherwise>
+
 										</c:choose>
 									</c:forEach>
-							</a></li>
-							<li class="page-item"><c:choose>
-									<c:when test="${pageInfo.page>=pageInfo.maxPage }">
-										<a class="page-link" href="#" aria-label="Next"> 다음 </a>
+									<li class="page-item"><c:choose>
+											<c:when test="${pageInfo.page>=pageInfo.maxPage }">
+												<a class="page-link" href="#" aria-label="Next"> 다음 </a>
+											</c:when>
+											<c:otherwise>
+												<a class="page-link"
+													href="noticeList?page=${pageInfo.page+1}" aria-label="Next">다음</a>
+											</c:otherwise>
+										</c:choose></li>
+								</ul>
+							</nav>
+						</section>
 
-									</c:when>
-
-									<c:otherwise>
-										<a class="page-link" href="noticelist?page=${pageInfo.page+1}"
-											aria-label="Next">다음</a>
-									</c:otherwise>
-								</c:choose></li>
-						</ul>
-					</nav>
-				</section>
-
-			</c:when>
-		</c:choose>
+					</c:when>
+				</c:choose>
+			</div>
+		</div>
 	</div>
-</div>
-
+</body>
+</html>

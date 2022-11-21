@@ -11,10 +11,10 @@ public interface UsersService {
 	// 중복체크
 	public boolean isDoubleId(String id) throws Exception;
 
-	// 로그인
-	public Users getUsers(Users users);
-
-	// 아이디 찾기
+	//로그인
+	public Users login(Users users) throws Exception;
+	
+	//아이디 찾기
 	public Users findId(Users users);
 
 	// 이메일발송

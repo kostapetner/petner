@@ -1,6 +1,8 @@
 package com.kosta.petner.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +49,25 @@ public class OwnerDAOImpl implements OwnerDAO {
 		sqlSession.insert("mapper.owner.insertRequireServiceFrom", careService);
 	}
 
+//	@Override
+//	public List<CareService> getServiceList(Integer user_no) {
+//		return sqlSession.selectList("mapper.owner.getServiceList", user_no);
+//	}
 	@Override
-	public List<CareService> getServiceList(Integer user_no) {
-		return sqlSession.selectList("mapper.owner.getServiceList", user_no);
+	public List<CareService> getServiceList(Integer user_no, Integer row) {
+		Map<String,Object>map = new HashMap<String,Object>();
+		map.put("user_no", user_no);
+		map.put("row", row);
+		return sqlSession.selectList("mapper.owner.getServiceList", map);
 	}
 
 	@Override
 	public Integer csListCount(Integer user_no) {
 		return sqlSession.selectOne("mapper.owner.csListCount", user_no);
 	}
+
+	
+
+
 
 }
