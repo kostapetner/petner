@@ -244,6 +244,19 @@ public class UsersServiceImpl implements UsersService {
 		return usersDAO.getUserByUserNo(user_no);
 	}
 
+
+	@Override
+	public Users inquiryOfUserById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return usersDAO.inquiryOfUserById(id);
+	}
+
+
+	@Override
+	public Users inquiryOfUserByUserNo(int userNo) throws Exception {
+		return usersDAO.inquiryOfUserByUserNo(userNo);
+	}
+
 		
 			
 	}

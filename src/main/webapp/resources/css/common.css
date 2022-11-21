@@ -346,6 +346,24 @@
   .slider.round { border-radius: 12px; }
   .slider.round:before {border-radius: 21px;}
   .toggle .active{color:#393939}
+  
+  
+  /* 페이징 */
+   .pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--fcc-font01);
+    padding: 20px 0;
+  }
+  .pagination li{padding: 0 18px;}
+  .pagination li.prev, .pagination li.next{padding:0}
+  .pagination li.on{
+    color:var(--orange);
+    font-weight: 800;
+  }
+
+  .pagination li:hover{text-decoration: underline;}
 
 
 
@@ -382,4 +400,29 @@
       -.5rem -.5rem 1rem #fff;
 
     } */
+  }
+  
+  /*--------------- PAGING ---------------*/
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--fcc-font01);
+    padding: 20px 0;
+  }
+  .pagination li{padding: 0 18px;}
+  .pagination li.prev, .pagination li.next{padding:0}
+  .pagination li.on{
+    color:var(--orange);
+    font-weight: 800;
+  }
+
+  .pagination li:hover{text-decoration: underline;}
+  
+  .ellipsis{
+	 display: block;
+	 width: 100%;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 text-overflow: ellipsis;
   }

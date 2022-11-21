@@ -36,10 +36,13 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
-	
+	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
-	<![CDATA[
-		select * from pet_info where user_no = #{user_no}
+	<![CDATA[		
+		SELECT pet.*, ft.SERVER_FILENAME 
+		FROM PET_INFO pet 
+		LEFT JOIN FILE_TB ft ON pet.FILE_NO = ft.FILE_NO 
+		WHERE pet.USER_NO = #{user_no}
 	]]>	
 	</select>
 	
@@ -74,8 +77,9 @@
 			,request_detail
 			,status
 			,reg_date
+			,file_no
 		)values(
-			 service_no_seq.nextval 
+			 service_no_seq.nextval
 			,#{user_no, jdbcType=INTEGER}
 			,#{pet_no, jdbcType=INTEGER}
 			,#{zipcode, jdbcType=INTEGER}
@@ -89,11 +93,12 @@
 			,#{request_detail, jdbcType=VARCHAR}
 			,#{status, jdbcType=VARCHAR}
 			,sysdate
+			,#{file_no, jdbcType=INTEGER}
 		)
 	]]>	
 	</insert>
 	
-	<select id="getServiceList" parameterType="Integer" resultType="com.kosta.petner.bean.CareService">
+	<select id="getServiceList" resultType="com.kosta.petner.bean.CareService" parameterType="Map">
 	<![CDATA[
 		select  service_no
 				,user_no
@@ -109,17 +114,59 @@
 				,request_detail
 				,status
 				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-		from care_service
-		where user_no = #{user_no}
-		order by service_no
-	]]>	
+		from (
+			select row_number() over (order BY service_no desc) num, B.*
+			from care_service B
+			WHERE user_no = #{user_no}
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
+		]]>
 	</select>
 	
+	<!-- user_no가 조건으로 들어가는 게시글 수 -->
 	<select id="csListCount" parameterType="Integer" resultType="Integer">
 	<![CDATA[
 		select count(*)
 		from care_service
 		where user_no = #{user_no}
+	]]>	
+	</select>
+	
+	<!-- care_service의 전체 게시글 수 -->
+	<select id="csListAllCount" resultType="Integer">
+	<![CDATA[
+		select count(*)
+		from care_service
+	]]>	
+	</select>
+	
+	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
+	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,user_no
+				,pet_no
+				,zipcode
+				,addr
+				,addr_detail
+				,service
+				,st_date
+				,end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,file_no
+				,nickname
+		from (
+			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
+			from care_service b, USERS u
+			WHERE b.USER_NO = u.USER_NO 
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
 	]]>	
 	</select>
 </mapper>

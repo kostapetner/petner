@@ -35,33 +35,27 @@ $(document).ready(function(){
       <ul>
         <li><a href="${pageContext.request.contextPath}/findSitter">펫시터 찾기</a></li>
         <li><a href="${pageContext.request.contextPath}/findPet">돌봐줄 동물 찾기</a></li>
-        <li><a href="${pageContext.request.contextPath}/notice">공지사항</a></li>
+        <li><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></li>
       </ul>
     </nav>
     <div class="login_menu">
-      
       <ul>
-      
       <!-- 관리자 페이지 이동 버튼 -->
       <c:if test="${authUser.user_type >= 9}">
       	<button class="admin_btn">
-      			<a href="${pageContext.request.contextPath}/admin">
-      				admin
-      			</a>
+      		<a href="${pageContext.request.contextPath}/admin">admin</a>
       	</button>
-      	</c:if>
-      
-      
-        <!-- 세션있을때  -->
-        <c:if test="${not empty authUser}">
+      </c:if>
+      <!-- 세션있을때  -->
+      <c:if test="${not empty authUser}">
         <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-comment-dots"></i></a></li>
         <li class="in_session"><a class="alert transition02" href="#"><i class="fa-solid fa-bell"></i></a></li>
         <li class="in_session mypage"><a a class="my transition02" href="#"><i class="fa-solid fa-user"></i> </a></li>
-		</c:if>
-        <!-- 세션없을때 로그인 -->
-        <c:if test="${empty authUser}">
+			</c:if>
+      <!-- 세션없을때 로그인 -->
+      <c:if test="${empty authUser}">
         <li><a class="login" href="${pageContext.request.contextPath}/login">로그인</a></li> 
-        </c:if>
+      </c:if>
       </ul>
     </div>
     <!-- 마이페이지 플로트메뉴 / 로그아웃 -->
@@ -83,22 +77,12 @@ $(document).ready(function(){
           <p class="second pb4">등급</p>
           <p>${authUser.user_level}</p>
         </div>
-
       </div>
-      <!-- <div>
-        <ul>
-          <li><a href="#">팔로우/팔로워</a></li>
-          <li><a href="#">리뷰관리</a></li>
-        </ul>
-      </div> -->
+     
       <div><a href="${pageContext.request.contextPath}/logout">로그아웃</a></div>
 
 
-      </div>      
+    </div>      
      
-</div>  
-
-    </div>
-  </div>
-
+	</div>  
 </header>

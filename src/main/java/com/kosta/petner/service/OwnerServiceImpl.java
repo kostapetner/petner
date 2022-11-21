@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.dao.OwnerDAO;
 
@@ -53,9 +54,31 @@ public class OwnerServiceImpl implements OwnerService {
 	 * 작성자: 김혜경
 	 * 내용: 시터 서비스 신청 list가져오기
 	 */
+//	@Override
+//	public List<CareService> getServiceList(Integer user_no) {
+//		return ownerDAO.getServiceList(user_no);
+//	}
+	
+	/* 날짜:22.11.18
+	 * 작성자: 김혜경
+	 * 내용: 시터 서비스 신청 list 가져오기 - 페이징
+	 */
 	@Override
-	public List<CareService> getServiceList(Integer user_no) {
-		return ownerDAO.getServiceList(user_no);
+	public List<CareService> getServiceList(Integer user_no, Integer page, PageInfo pageInfo) {
+		int listCount = ownerDAO.csListCount(user_no); //전체 게시글 수
+		int maxPage = (int)Math.ceil((double)listCount/10); //전체 페이지 수, 올림 처리
+		int startPage = page/10 * 10 + 1;         //현재 페이지 보여줄 시작 페이지 버튼(1,11,21, 등...)
+		int endPage = startPage +10 -1;           //현재 페이지에 보여줄 마지막 페이지 버튼(10, 20, 30, 등..)
+		if(endPage > maxPage) endPage = maxPage;
+		
+		pageInfo.setPage(page);
+		pageInfo.setListCount(listCount);
+		pageInfo.setMaxPage(maxPage);
+		pageInfo.setStartPage(startPage);
+		pageInfo.setEndPage(endPage);
+		
+		Integer row = (page-1)*10+1;
+		return ownerDAO.getServiceList(user_no, row);
 	}
 
 	/* 날짜:22.11.17
@@ -65,6 +88,28 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Integer csListCount(Integer user_no) {
 		return ownerDAO.csListCount(user_no);
+	}
+
+	/* 날짜:22.11.21
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 리스트 가져오기
+	 */
+	@Override
+	public List<CareService> findPetList(Integer page, PageInfo pageInfo) {
+		int listCount = ownerDAO.csListAllCount(); //전체 게시글 수
+		int maxPage = (int)Math.ceil((double)listCount/10); //전체 페이지 수, 올림 처리
+		int startPage = page/10 * 10 + 1;         //현재 페이지 보여줄 시작 페이지 버튼(1,11,21, 등...)
+		int endPage = startPage +10 -1;           //현재 페이지에 보여줄 마지막 페이지 버튼(10, 20, 30, 등..)
+		if(endPage > maxPage) endPage = maxPage;
+		
+		pageInfo.setPage(page);
+		pageInfo.setListCount(listCount);
+		pageInfo.setMaxPage(maxPage);
+		pageInfo.setStartPage(startPage);
+		pageInfo.setEndPage(endPage);
+		
+		Integer row = (page-1)*10+1;
+		return ownerDAO.findPetList(row);
 	}
 
 }

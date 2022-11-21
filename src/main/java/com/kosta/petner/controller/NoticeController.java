@@ -31,12 +31,15 @@ public class NoticeController {
 	@Autowired
 	ServletContext servletContext;
 
+	// 글쓰기 화면 이동
 	@RequestMapping(value = "/writeform", method = RequestMethod.GET)
 	public String writeform(Model model) {
-		model.addAttribute("page", "notice/writeform");
+		model.addAttribute("page", "admin/notice/writeform");
 //		model.addAttribute("title", "공지사항 글쓰기");
-		return "/layout/admin_main";
+		return "/layout/main";
 	}
+	
+	
 
 	@RequestMapping(value = "/noticewrite", method = RequestMethod.POST)
 	public String noticewrite(@ModelAttribute Notice notice, BindingResult result, Model model) {
@@ -66,7 +69,7 @@ public class NoticeController {
 			model.addAttribute("err", e.getMessage());
 			model.addAttribute("/notice/err");
 		}
-		return "/layout/admin_main";
+		return "/layout/main";
 	}
 
 	@RequestMapping(value = "/noticedetail", method = RequestMethod.GET)
@@ -84,7 +87,7 @@ public class NoticeController {
 			e.printStackTrace();
 			model.addAttribute("/notice/err");
 		}
-		return "/layout/admin_main";
+		return "/layout/main";
 	}
 
 	@RequestMapping(value = "/modifyform", method = RequestMethod.GET)
@@ -99,7 +102,7 @@ public class NoticeController {
 			model.addAttribute("err", "조회 실패");
 			model.addAttribute("/notice/err");
 		}
-		return "/layout/admin_main";
+		return "/layout/main";
 	}
 
 	@RequestMapping(value = "/noticemodify", method = RequestMethod.POST)
@@ -132,7 +135,7 @@ public class NoticeController {
 			model.addAttribute("err", e.getMessage());
 			model.addAttribute("/notice/err");
 		}
-		return "/layout/admin_main";
+		return "/layout/main";
 	}
 
 	@RequestMapping(value = "/noticereply", method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package com.kosta.petner.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
@@ -22,6 +24,9 @@ import com.kosta.petner.service.OwnerService;
 @Controller
 
 public class MyPageController {
+	
+	@Autowired
+	ServletContext servletContext;
 	
 	@Autowired
 	MypageService mypageService;
@@ -129,16 +134,18 @@ public class MyPageController {
    public String myPetInfo(HttpSession session, Model model){
 	   Users sessionInfo = (Users) session.getAttribute("authUser");
 	   int user_no = sessionInfo.getUser_no();
+	   	   
+	   String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
 	   
 	   try {
 		   // 1이상이기 때문에 리스트로 받아야함
-		   List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);
-		   //List<PetInfo> petInfo = mypageService.getMyPetinfo(user_no);
+		   List<PetInfo> petInfo = ownerService.getPetByUserNo(user_no);		 
 		   System.out.println("나의동물정보"+petInfo);
 	      
 		   model.addAttribute("page", "mypage/owner/myPetInfo");
 		   model.addAttribute("title", "나의반려동물");
 		   model.addAttribute("data", petInfo);
+		   model.addAttribute("path", path);
 	   }catch(Exception e) {
 		   e.printStackTrace();
 		   System.out.println("반려동물정보없어!!!");

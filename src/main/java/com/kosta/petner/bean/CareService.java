@@ -1,5 +1,7 @@
 package com.kosta.petner.bean;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +25,10 @@ public class CareService {
 	private String request_detail;
 	private String status;
 	private String reg_date;
+	
+	//11.21 혜경추가
+	private String server_filename;
+	private MultipartFile imageFile;
+	private String nickname;
+	
 }
