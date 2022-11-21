@@ -39,6 +39,37 @@ body {
   border-bottom: 2px solid red;
 }
 
+.ad_seach_top .dropdown-toggle.ad_dropdown {
+	border: 1px solid #ced4da;
+    background: #fff;
+    color: #212529;
+    height: 100%;
+    margin-right: 4px;
+}
+
+
+.ad_seach_top ul {
+	display: flex;
+	justify-content: end;
+}
+.ad_seach_top .admin_search {
+	    max-width: 300px;
+    float: right;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+.ad_seach_top .admin_search input {
+	border:none;
+}
+.ad_seach_top .admin_search .admin_btn {
+	background: #ced4da;
+    border-radius: 4px;
+}
+.ad_seach_top .admin_search .admin_btn button a {
+	text-decoration: none;
+    color: #000;
+}
+
 
 
 header {

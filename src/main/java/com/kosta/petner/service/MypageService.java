@@ -1,5 +1,7 @@
 package com.kosta.petner.service;
 
+import java.util.List;
+
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
@@ -15,7 +17,7 @@ public interface MypageService {
 	SitterInfo getMySitterinfo(int user_no);
 	
 	// 나의 반려동물 정보 가져오기
-	PetInfo getMyPetinfo(int user_no);
+	List<PetInfo> getMyPetinfo(int user_no);
 	
 	// 마이페이지 ALL INFO
 	Object getMyAllInfo(int user_no);
