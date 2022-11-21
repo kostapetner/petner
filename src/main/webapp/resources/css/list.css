@@ -152,5 +152,14 @@ h3{margin-top:40px}
     color: #cacaca;
   }
 
-
-
+  /*--------------- FIND PET ---------------*/
+	.findpet_ul{
+		display: flex;
+	    flex-wrap: wrap;
+	    flex-direction: row;
+	    justify-content: space-between;
+	}
+	.findpet_ul li{
+		width: 42%;
+		flex-wrap: wrap;
+	}

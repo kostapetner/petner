@@ -66,7 +66,6 @@ $(document).ready(function(){
 		}else $("#service_chkAll").prop("checked", true); 
 	});
 	//--------------------펫 선택시 정보 불러오기-------------------------
-	
 	$(document)
 		.on("click", "a.petImg", function () {
 			$("#card_list_type").show();
@@ -103,6 +102,16 @@ $(document).ready(function(){
 			});
 		});//on
 	
+		//이미지 미리보기
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#requestPetImg').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);	
+		});
+		
+		
 	//submit 
 	$(".submit_btn").click(function(){
 	  $("#requireServiceFrom").submit();
@@ -122,15 +131,13 @@ $(document).ready(function(){
 				<c:forEach var="petInfo" items="${petInfo}">
 					<div class="prof_img_small" id="img_small">
 						<a class="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
-
 						<input type="hidden" value="${petInfo.pet_no}">
 					</div>
 				</c:forEach>
 			</div>
 		</div>
-		
+		<!-- 카드형 리스트 -->
 		<div class="f_row">
-			<!-- 카드형 리스트 -->
 			<div class="card_list_type" id="card_list_type">
 				<table>
 					<tr>
@@ -195,10 +202,10 @@ $(document).ready(function(){
 		<!-- 날짜 -->
 	 	<div class="f_row">
 	 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
-      <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
-      <input type="text" class="date-picker" id="date_end" name="end_date">
-    </div>  
-	
+	      <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
+	      <input type="text" class="date-picker" id="date_end" name="end_date">
+	    </div>  
+		
 		<!-- 서비스 -->
 		<div class="f_row">
 			<p class="fc_title">요청하실 서비스를 선택해 주세요</p>
@@ -234,6 +241,20 @@ $(document).ready(function(){
 			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
 			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
 			<textarea class="fcc_textarea" name="request_detail"></textarea>
+		</div>
+		
+		<!-- 사진 업로드 -->
+		<div class="f_row profile_upload">
+			<p class="fc_title">반려동물의 사진을 올려주세요</p>
+			<div class="profile_upload_square">
+				<div class="prof_img">
+					<img id="requestPetImg"> <br>
+					<label for="file" class="pet_btn edit_btn"> 
+						<i class="fa-solid fa-pen" id="pen"></i>
+					</label> 
+					<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+				</div>
+			</div>
 		</div>
 		
 		<span class="pet_btn submit_btn transition02">서비스 신청하기</span>

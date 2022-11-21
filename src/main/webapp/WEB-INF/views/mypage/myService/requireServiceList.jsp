@@ -157,33 +157,6 @@ $(document).ready(function(){
 		</div>
 	</c:forEach>
 	<!-- 페이징 -->
-	<%-- <div id="pageList">
-		<c:choose>
-			<c:when test="${pageInfo.page<=1}">
-				[이전]&nbsp;
-			</c:when>
-			<c:otherwise>
-				<a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page-1}">[이전]</a>&nbsp;
-			</c:otherwise>
-		</c:choose>
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-			<c:choose>
-				<c:when test="${pageInfo.page==i }">[${i }]</c:when>
-				<c:otherwise>
-					<a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${i}">[${i }]</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-		<c:choose>
-			<c:when test="${pageInfo.page>=pageInfo.maxPage }">
-				[다음]
-			</c:when>
-			<c:otherwise>
-				<a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page+1}">[다음]</a>
-			</c:otherwise>
-		</c:choose>
-	</div> --%>
-	
 	<ul class="pagination">
 		<c:choose>
 			<c:when test="${pageInfo.page<=1}">

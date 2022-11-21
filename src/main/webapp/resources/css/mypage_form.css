@@ -15,7 +15,6 @@
     background-color:pink; 
     border-radius: 50%; 
     overflow: hidden;
-
   }
   .profile_upload img{width:100%;}
   .profile_upload .edit_btn{
@@ -30,13 +29,37 @@
     right:6px; bottom:4px;
   }
   
+  .profile_upload_square .img{
+    width:130px; 
+    height:130px; 
+    margin:0 auto;
+    overflow: hidden;
+  }
   
+  .profile_upload_square img{width:100%;  height:100%;}
+  .profile_upload_square .prof_img{
+  	position: relative;
+  	margin:0 auto;
+  	width:100%;
+  	height: 200px;
+  }
+  .profile_upload_square .edit_btn{
+    width: 40px;
+    height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right:6px; bottom:4px;
+  }
  /*--------------- REQUIRESERVICE CSS ---------------*/
 	.profile_upload_small{
 		padding-top:20px;
-	   display: flex;
-	   flex-wrap: nowrap;
-	   justify-content: space-evenly;
+	    display: flex;
+	    flex-wrap: nowrap;
+	    justify-content: space-evenly;
 	}
 
 	.profile_upload_small .prof_img_small{position: relative; margin:0 auto; width:100px;}
