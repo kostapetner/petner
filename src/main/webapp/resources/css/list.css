@@ -204,3 +204,21 @@ h3{margin-top:40px}
       border-radius: 5px;
     }
     
+	 
+  /* 공지사항 리스트 타입 */
+  .pn_listForm { padding:30px 0 40px; }
+  .pn_listForm td {padding: 10px 30px;}
+  .pn_listForm .title_box {font-size:1.8rem; margin-bottom: 10px;}
+  .pn_listForm .title_box .re { width: auto; }
+  .pn_listForm .title_box .title { width: auto;}
+  .pn_listForm .content {font-size:1.4rem; margin-bottom: 8px; color:#828282;}
+  .pn_listForm .source {font-size:1.2rem; color:#c3c3c3;}
+  .pn_listForm .source > div { display: flex; flex-direction: row; justify-content: space-between; }
+  .pn_listForm .source > div span {color:#ff9113;}
+  
+  .pn_view {padding: 20px 0px;}
+  .pn_view .source { display: flex; justify-content: space-between; font-size:1.4rem; margin: 20px 0px; color:#828282; }
+  .pn_view .source span {color:#ff9113;}
+  .pn_view .source .file { display: flex; }
+  .pn_view .content { min-height: 200px; }
+

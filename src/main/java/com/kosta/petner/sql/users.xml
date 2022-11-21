@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.users">
-		<!-- 회원가입 -->
-	<insert id="insertUsers" parameterType="com.kosta.petner.bean.Users">
+	<!-- 회원가입 -->
+	<insert id="insertUsers"
+		parameterType="com.kosta.petner.bean.Users">
 		<![CDATA[
 			INSERT INTO USERS(user_no, 
 							 user_type, 
@@ -37,12 +38,13 @@
 							 0)					
 		]]>
 	</insert>
-	
+
 	<!-- 중복체크 -->
-	<select id= "selectId" parameterType = "String" resultType= "com.kosta.petner.bean.Users" >
+	<select id="selectId" parameterType="String"
+		resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 	select * from users where id =#{id}
-	]]>	
+	]]>
 	</select>
 	
 
@@ -52,13 +54,18 @@
 	</select>
  -->
 
-	
-	<select id= "getUserByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.Users" >
+	<!-- 유저리스트_ 2022.11.16 홍시원 -->
+	<!-- <select id="selectUserList" resultMap="com.kosta.petner.bean.Users"> 
+		SELECT * FROM CHATUSER ORDER BY nickname </select> -->
+
+
+	<select id="getUserByUserNo" parameterType="Integer"
+		resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 	select * from users where user_no = #{user_no}
-	]]>	
+	]]>
 	</select>
-	
+
 	<!-- 로그인 -->
 	<select id="loginById" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
@@ -67,25 +74,28 @@
 		where id=#{id} and password=#{password}
 	]]>
 	</select>
-	
+
 	<!-- 아이디찾기 -->
-	<select id="getId" parameterType="map" resultType="com.kosta.petner.bean.Users">
+	<select id="getId" parameterType="map"
+		resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 		select *
 		from users
 		where name=#{name,jdbcType=VARCHAR} and email=#{email}
 	]]>
 	</select>
-	
+
 	<!-- 비밀번호찾기 -->
-	<select id="getPassword" parameterType="com.kosta.petner.bean.Users" resultType="com.kosta.petner.bean.Users">
+	<select id="getPassword"
+		parameterType="com.kosta.petner.bean.Users"
+		resultType="com.kosta.petner.bean.Users">
 	<![CDATA[
 	    select  *
 	    from users
 	    where id = #{id}
 	    and   name = #{name}
 	    and   email = #{email}
-	]]>    
+	]]>
 	</select>
  
     <!-- 임시비밀번호수정 -->
@@ -95,16 +105,17 @@
 	    set password = #{password,jdbcType=VARCHAR}
 	    where id = #{id,jdbcType=VARCHAR}
 	    and email = #{email}
-	 ]]>    
+	 ]]>
 	</update>
-	
+
 	<!-- 카카오 정보 찾기 -->
-	<select id="findKakao" parameterType="java.util.HashMap" resultType="com.kosta.petner.bean.Users">
+	<select id="findKakao" parameterType="java.util.HashMap"
+		resultType="com.kosta.petner.bean.Users">
 		<![CDATA[
 		select *
 		from users 
 		where nickname=#{nickname} and email=#{email}
-		]]>    
+		]]>
 	</select>
 
 	<!-- 카카오 정보 저장 (일반회원에 비해 저장되는 값이 적음) -->
@@ -123,9 +134,9 @@
 					'BRONZE',
 					2,
 					sysdate)
-			]]>    
+			]]>
 	</insert>
-	
+
 
 	<!-- 마이페이지 나의 정보 221113DSC 추가 -->
 	<select id="getMyinfo" resultType="com.kosta.petner.bean.Users">
@@ -133,9 +144,10 @@
 		    select  *
 		    from users
 		    where id = #{id}		    
-		]]> 
+		]]>
 	</select>
-	<update id="updateMyinfo" parameterType="com.kosta.petner.bean.Users">
+	<update id="updateMyinfo"
+		parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[
 	    update users 
 	    set nickname = #{nickname,jdbcType=VARCHAR},
@@ -145,27 +157,52 @@
 	    		addr_detail = #{addr_detail}	    		
 	    where id = #{id,jdbcType=VARCHAR}
 	    
-	]]>    
+	]]>
 	</update>
-	
-	
-	<select id="getMyAllInfo" parameterType="int" resultType="com.kosta.petner.bean.MypageSession">
+
+
+	<select id="getMyAllInfo" parameterType="int"
+		resultType="com.kosta.petner.bean.MypageSession">
 		<![CDATA[
 		   	SELECT 	u.USER_NO, u.ID , u.NICKNAME, u.USER_TYPE ,
 				ft.SERVER_FILENAME
 				FROM USERS u
 				LEFT JOIN FILE_TB ft ON u.FILE_NO = ft.FILE_NO 
 				WHERE u.USER_NO = #{user_no}    
-		]]> 
+		]]>
 	</select>
-	
+
 	<!-- 전체 users 조회 -->
-	<select id="selectAllUsers" resultType="com.kosta.petner.bean.Users">
+	<select id="selectAllUsers"
+		resultType="com.kosta.petner.bean.Users">
 		<![CDATA[
 			select * from users
 		]]>
 	</select>
 
+	<!-- 아이디로 회원 모든 정보 조회 2022.11.21 홍시원 추가 -->
+	<select id="inquiryOfUerById"
+		resultType="com.kosta.petner.bean.Users">
+		<![CDATA[
+			select user_no,
+				 user_type, 
+				 id, 
+				 nickname, 
+				 email, 
+				 password, 
+				 name, 
+				 joindate, 
+				 gender, 
+				 zipcode, 
+				 addr, 
+				 addr_detail, 
+				 user_level, 
+				 user_auth, 
+				 file_no
+			from users 
+			where id = #{id}
+			
+		]]>
+	</select>
 
-	
 </mapper>
