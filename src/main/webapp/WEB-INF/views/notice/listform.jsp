@@ -52,27 +52,36 @@
 
 				<section id="pageList">
 					<nav aria-label="Page navigation example">
-						<ul class="pagination">
+						<ul class="pagination admin_page">
 							<li class="page-item"><c:choose>
 									<c:when test="${pageInfo.page<=1}">
 										<a class="page-link" href="#" aria-label="Previous">이전</a>
 									</c:when>
 									<c:otherwise>
-										<a class="page-link" href="noticelist?page=${pageInfo.page-1}"
+										<a class="page-link" href="noticeList?page=${pageInfo.page-1}"
 											aria-label="Previous">이전</a>
 									</c:otherwise>
 								</c:choose></li>
-							<li class="page-item"><a class="page-link" href="#"> <c:forEach
-										var="i" begin="${pageInfo.startPage }"
-										end="${pageInfo.endPage }">
-										<c:choose>
-											<c:when test="${pageInfo.page==i }">${i }</c:when>
-											<c:otherwise>
-												<a href="noticelist?page=${i}">${i }</a>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-							</a></li>
+
+
+							<c:forEach var="i" begin="${pageInfo.startPage }"
+								end="${pageInfo.endPage }">
+
+								<c:choose>
+									<c:when test="${pageInfo.page==i }">
+										<a class="page-link">${i }</a>
+									</c:when>
+
+									<c:otherwise>
+
+										<a class="page-link" href="noticeList?page=${i}">${i }</a>
+
+									</c:otherwise>
+
+								</c:choose>
+							</c:forEach>
+
+
 							<li class="page-item"><c:choose>
 									<c:when test="${pageInfo.page>=pageInfo.maxPage }">
 										<a class="page-link" href="#" aria-label="Next"> 다음 </a>
@@ -80,7 +89,7 @@
 									</c:when>
 
 									<c:otherwise>
-										<a class="page-link" href="noticelist?page=${pageInfo.page+1}"
+										<a class="page-link" href="noticeList?page=${pageInfo.page+1}"
 											aria-label="Next">다음</a>
 									</c:otherwise>
 								</c:choose></li>
@@ -92,4 +101,3 @@
 		</c:choose>
 	</div>
 </div>
-
