@@ -383,3 +383,20 @@
 
     } */
   }
+  
+  /*--------------- PAGING ---------------*/
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--fcc-font01);
+    padding: 20px 0;
+  }
+  .pagination li{padding: 0 18px;}
+  .pagination li.prev, .pagination li.next{padding:0}
+  .pagination li.on{
+    color:var(--orange);
+    font-weight: 800;
+  }
+
+  .pagination li:hover{text-decoration: underline;}

@@ -41,7 +41,7 @@
 .card_list_type_B .matching_status .status {
 	padding: 2px 4px;
 	margin-right: 10px;
-	background-color: orange;
+	background-color: #FAB561;
 	border-radius: 5px;
 }
 
@@ -68,7 +68,7 @@
 }
 
 .card_list_type_B .icons span {
-	background-color: pink;
+	background-color: bisque;
 	padding: 2px 13px;
 	border-radius: 20px;
 	margin-right: 5px;
@@ -121,20 +121,24 @@ $(document).ready(function(){
 					<div class="data1">
 						<!-- 이미지영역 -->
 						<div class="pet_img">
-							<img src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg" alt="이미지">
+							<img src="/petner/resources/images/header_logo.png" alt="이미지">
 						</div>
 						<!-- 텍스트정보 영역 -->
 						<div class="text_area" style="width: 100%">
 							<div class="matching_status">
-								<c:if test="${csList.status == '매칭중' }">
-									<span class="status">매칭중</span>
-								</c:if>
-								<c:if test="${csList.status == '매칭완료' }">
-									<span class="status">매칭완료</span>
-									<span class="sitter_name">매칭된 시터 : 열정의 펫시터</span>
-								</c:if>
-									
-								<div>금액: ${csList.request_money }원</div>
+								<div>
+									<c:if test="${csList.status == '매칭중' }">
+										<span class="status" style="color: #393939">매칭중</span>
+									</c:if>
+									<c:if test="${csList.status == '매칭완료' }">
+										<span class="status" style="background-color: #c7c2c2; color: #f9f9f9;">매칭완료</span>
+										<span class="sitter_name">매칭된 시터 : 열정의 펫시터</span>
+									</c:if>
+								</div>
+								<div>
+									<span>금액&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<span style="color:green;">${csList.request_money }원</span>
+								</div>
 							</div>
 							<div class="hire_detail">
 								<p>${csList.request_title }</p>
@@ -153,7 +157,7 @@ $(document).ready(function(){
 		</div>
 	</c:forEach>
 	<!-- 페이징 -->
-	<div id="pageList">
+	<%-- <div id="pageList">
 		<c:choose>
 			<c:when test="${pageInfo.page<=1}">
 				[이전]&nbsp;
@@ -178,7 +182,34 @@ $(document).ready(function(){
 				<a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page+1}">[다음]</a>
 			</c:otherwise>
 		</c:choose>
-	</div>
+	</div> --%>
 	
-
+	<ul class="pagination">
+		<c:choose>
+			<c:when test="${pageInfo.page<=1}">
+				<li class="prev"><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="prev"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page-1}"><i class="fa-solid fa-chevron-left"></i></a></li>
+			</c:otherwise>
+		</c:choose>
+	
+		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+			<c:choose>
+				<c:when test="${pageInfo.page==i }"><li class="on"><a href="#">${i}</a></li></c:when>
+				<c:otherwise>
+					<li><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${i}">${i}</a></li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	
+		<c:choose>
+			<c:when test="${pageInfo.page>=pageInfo.maxPage }">
+				<li class="next"><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="next"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
+			</c:otherwise>
+		</c:choose>
+	</ul>
 </div>
