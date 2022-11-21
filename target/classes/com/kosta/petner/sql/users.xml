@@ -136,15 +136,7 @@
 					sysdate)
 			]]>
 	</insert>
-<<<<<<< HEAD
-	
-	
-	
-	
-	
-=======
 
->>>>>>> a9c4271173328a6ad13dd3595381fde664bdd68b
 
 	<!-- 마이페이지 나의 정보 221113DSC 추가 -->
 	<select id="getMyinfo" resultType="com.kosta.petner.bean.Users">
