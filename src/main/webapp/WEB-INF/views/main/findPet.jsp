@@ -46,7 +46,7 @@
 		<!-- CONTAINER -->
 		<div class="container w90">
 			<div class="">
-				<p class="list_title">펫 찾기</p>
+				<p class="list_title">돌봐줄 동물 찾기</p>
 				<!-- 검색창 -->
 				<div class="search_form">
 					<form action="#">
