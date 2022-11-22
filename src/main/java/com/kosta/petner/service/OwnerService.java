@@ -45,6 +45,12 @@ public interface OwnerService {
 	 */
 	Integer csListCount(Integer user_no);
 
+	/* 날짜:22.11.21
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 리스트 가져오기
+	 */
+	List<CareService> findPetList(Integer page, PageInfo pageInfo);
+
 	
 
 	

@@ -153,18 +153,55 @@ h3{margin-top:40px}
   }
 
   /*--------------- FIND PET ---------------*/
-	.findpet_ul{
-		display: flex;
-	    flex-wrap: wrap;
-	    flex-direction: row;
-	    justify-content: space-between;
-	}
-	.findpet_ul li{
-		width: 42%;
-		flex-wrap: wrap;
-	}
-	
-	
-	
-	 
+  .find_pet_list{
+  	display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+   }
   
+  .find_pet_list li{
+    width:100%; 
+    max-width: 360px;
+    flex-direction: column;
+  }
+  .find_pet_list li .data{}
+  .find_pet_list li .img_area{
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    margin: 0;
+    margin: 20px auto;
+  }
+  .find_pet_list .info{  
+    width:100%;  
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size:1.4rem
+  }
+
+  .find_pet_list .owner_img{
+    width:45px; height:45px; background-color: pink;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right:8px
+  }
+  .find_pet_list .status{
+    border-radius: 5px;
+    padding: 4px;
+    color: #fff;
+    }
+    
+    .find_pet_list .text_area{width:100%}
+    .find_pet_list .text_area .title{font-weight: 500; padding-bottom:8px}
+    .find_pet_list .text_area .content{padding-bottom:8px}
+    .find_pet_list .text_area .view_info{margin-top:10px; display: flex; justify-content: space-between;}
+    .find_pet_list .text_area .view_info .date{
+      background-color: #eee;
+      padding:4px 6px;
+      border-radius: 5px;
+    }
+    
+	 

@@ -90,4 +90,26 @@ public class OwnerServiceImpl implements OwnerService {
 		return ownerDAO.csListCount(user_no);
 	}
 
+	/* 날짜:22.11.21
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 리스트 가져오기
+	 */
+	@Override
+	public List<CareService> findPetList(Integer page, PageInfo pageInfo) {
+		int listCount = ownerDAO.csListAllCount(); //전체 게시글 수
+		int maxPage = (int)Math.ceil((double)listCount/10); //전체 페이지 수, 올림 처리
+		int startPage = page/10 * 10 + 1;         //현재 페이지 보여줄 시작 페이지 버튼(1,11,21, 등...)
+		int endPage = startPage +10 -1;           //현재 페이지에 보여줄 마지막 페이지 버튼(10, 20, 30, 등..)
+		if(endPage > maxPage) endPage = maxPage;
+		
+		pageInfo.setPage(page);
+		pageInfo.setListCount(listCount);
+		pageInfo.setMaxPage(maxPage);
+		pageInfo.setStartPage(startPage);
+		pageInfo.setEndPage(endPage);
+		
+		Integer row = (page-1)*10+1;
+		return ownerDAO.findPetList(row);
+	}
+
 }

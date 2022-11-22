@@ -98,6 +98,21 @@ public class UsersDAOImpl implements UsersDAO{
 	public List<Users> selectAllUsers() throws Exception {
 		return sqlSession.selectList("mapper.users.selectAllUsers");
 	}
+	
+	
+	//id로 회원정보 전체조회
+	@Override
+	public Users inquiryOfUserById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.users.selectId");
+	}
+	
+	//userNo로 회원정보 전체조회
+	@Override
+	public Users inquiryOfUserByUserNo(int userNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mapper.users.getUserByUserNo");
+	}
 
 	
 	
