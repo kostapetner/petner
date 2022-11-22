@@ -28,6 +28,9 @@ h2 {
 	<div class="card-body">
 		<section id="articleForm">
 			<h2 class="card-title">글 내용 상세보기</h2>
+			
+			
+			
 			<section id="basicInfoArea">
 				제 목 : ${article.notice_title } 첨부파일 :
 				<c:if test="${article.file_no!=null }">
@@ -55,3 +58,25 @@ h2 {
 		</section>
 	</div>
 </div>
+
+<script>
+$(document).ready(function(){
+	//이미지 미리보기
+	$(function() {
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#rep').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);	
+		});
+	})
+ 
+	//submit 
+	$(".submit_btn").click(function(){
+	  $("#petForm").submit();
+	})
+});
+</script>
+
+
