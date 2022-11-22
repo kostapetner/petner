@@ -141,32 +141,4 @@
 	]]>	
 	</select>
 	
-	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
-	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
-	<![CDATA[
-		select  service_no
-				,user_no
-				,pet_no
-				,zipcode
-				,addr
-				,addr_detail
-				,service
-				,st_date
-				,end_date
-				,request_money
-				,request_title
-				,request_detail
-				,status
-				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-				,file_no
-				,nickname
-		from (
-			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
-			from care_service b, USERS u
-			WHERE b.USER_NO = u.USER_NO 
-			order by service_no desc
-			)
-		where num between #{row} and #{row}+9
-	]]>	
-	</select>
 </mapper>

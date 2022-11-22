@@ -147,15 +147,22 @@
 							
 						</div>
 						<!-- 동물사진 -->
-						<div class="img_area">
-							<img src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg" alt="이미지">
+						<div class="img_area" style="width: 357px; height: 200px">
+							<a href="${pageContext.request.contextPath}/findPet/viewForm/${csList.service_no}?page=${pageInfo.page}">
+								<c:if test="${empty csList.file_no}">
+								   <img src="/petner/resources/images/header_logo.png" alt="이미지">
+								</c:if>
+								<c:if test="${not empty csList.file_no}">
+									<img src="${pageContext.request.contextPath}/findPet/${csList.file_no}" id="rep" class="img_wrap img">
+								</c:if>
+							</a>
 						</div>
 						<!-- 시팅요청사항디테일 -->
 						<div class="text_area">
 							<div class="title ellipsis">${csList.request_title}</div>
 							<div class="content ellipsis">${csList.request_detail}</div>
 							<div class="view_info">
-								<span class="date">${csList.reg_date}</span>
+								<span class="date">${csList.st_date}&nbsp;~&nbsp;${csList.end_date}</span>
 								<p>
 									<span class="mr12"> <i class="fa-solid fa-comment-dots"></i> 20</span>
 									<span><i class="fa-regular fa-eye"></i> 13</span>
@@ -166,7 +173,6 @@
 				</ul>
 				</c:forEach>
 			</div>
-
 			<!-- 페이징 -->
 			<ul class="pagination">
 				<c:choose>
@@ -182,7 +188,7 @@
 				<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
 					<c:choose>
 						<c:when test="${pageInfo.page==i }">
-							<li class="on"><a href="#">${i}</a></li>
+							<li class="on"><a href="${pageContext.request.contextPath}/findPet?page=${i}">${i}</a></li>
 						</c:when>
 						<c:otherwise>
 							<li> <a href="${pageContext.request.contextPath}/findPet?page=${i}">${i}</a></li>
@@ -192,7 +198,7 @@
 
 				<c:choose>
 					<c:when test="${pageInfo.page>=pageInfo.maxPage }">
-						<li class="next"><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+						<li class="next"><a href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="next"><a href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page+1}">

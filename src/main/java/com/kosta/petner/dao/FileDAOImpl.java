@@ -22,4 +22,9 @@ public class FileDAOImpl implements FileDAO {
 		return sqlSession.selectOne("mapper.file.getFileNo", server_filename);
 	}
 
+	@Override
+	public String getServerFilename(Integer file_no) {
+		return sqlSession.selectOne("mapper.file.getServerFilename", file_no);
+	}
+
 }

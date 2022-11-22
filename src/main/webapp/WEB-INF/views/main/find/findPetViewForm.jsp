@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cssPath"
+	value="${pageContext.request.contextPath}/resources/css" />
+<c:set var="imgPath"
+	value="${pageContext.request.contextPath}/resources/images" />
+<html>
+<head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<c:import url='/WEB-INF/views/include/common_head.jsp' />
+<title>${title}</title>
+
+<style type="text/css">
+h2 {
+	text-align: center;
+}
+
+#basicInfoArea {
+	height: 40px;
+	text-align: center;
+}
+
+#commandList {
+	margin: auto;
+	width: 700px;
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+	<div id="wrapper">
+		<!-- CONTAINER -->
+		<div class="container w90">
+			<div class="">
+				<p class="list_title">돌봐줄 동물 찾기</p>
+				<div class="pn_view">
+					<div class="title">
+						<h1>${cs.request_title }</h1>
+					</div>
+					<div class="source">
+						<div>
+							<span>by</span>&nbsp;
+							${cs.nickname }&nbsp;
+							${cs.addr }
+							${cs.reg_date }
+						</div>
+						<div>
+							<span>금액</span>&nbsp;
+							${cs.request_money }원
+						</div>
+					</div>
+					<hr>
+					<div id="articleForm">
+						<!-- 게시글 내용 -->
+						<div id="articleContentArea">
+							<div class="content">${cs.request_detail }</div>
+						</div>
+						<!-- 첨부파일 -->
+						<div id="basicInfoArea" style="width: 357px; height: 200px">
+							<img src="${pageContext.request.contextPath}/findPet/${cs.file_no}" id="rep" class="img_wrap img" style="width: 357px; height: 200px">
+						</div>
+					</div>
+					<hr>
+					<div id="commandList">
+						<div class="d-grid gap-2 d-md-block ad_button">
+							<a class="admin_btn" href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page}">
+								<button class="btn btn-outline-secondary" type="button">목록</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
