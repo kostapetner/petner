@@ -249,11 +249,11 @@
       <form id= "joinForm" action="./joinpet" method="POST" class="join_form" onsubmit = "return check()">
       
         <div class="f_row">
-          <p class="fc_title">어쩌고저쩌고</p>
+          <p class="fc_title">&#128586 펫트너 가족되기 &#128586</p>
           <p class="tip"><i class="fa-solid fa-asterisk"></i> 회원가입후 추가로 정보를 등록할 수 있어요</p>
           <div class="flex_col">
-            <label class="fcRadio1 mb10"><input type="radio" name="user_type" id="user_type" value= "1" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )</span></label>
-            <label class="fcRadio1"><input type="radio" name="user_type" value= "2"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
+            <label class="fcRadio1 mb10" style= "width:800px;"><input type="radio" name="user_type" id="user_type" value= "1" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )  </span></label>
+            <label class="fcRadio1 " style= "width:800px;"><input type="radio" name="user_type" value= "2"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
           </div>          
         </div>
         <!-- TEXT/PASSWORD -->
@@ -267,7 +267,7 @@
           </p>
           <p><small id="checkid-msg" class="form-error"></small></p>
         </div>
-        <div class="f_row flex_col">
+        <div class="f_row flex_col" style= "width:200px;">
           <p class="fc_title">비밀번호</p>
           <input class="mb10" type="password" name ="password" id="password" placeholder="비밀번호입력"/>
           <input type="password" name="ck_password" id="ck_password" placeholder="비밀번호확인"/>

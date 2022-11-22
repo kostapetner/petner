@@ -10,7 +10,7 @@
 		<id property="activeUserId" column="active_user_id"/>
 		<id property="passiveUserId" column="passive_user_id"/>
 		
-		<id property="profileNa3me" column="profile_name"/>
+		<id property="profileName" column="profile_name"/>
 	</resultMap>
 	
 	<resultMap type="com.kosta.petner.bean.Users" id="UsersResultMap">

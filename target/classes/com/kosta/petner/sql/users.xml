@@ -98,7 +98,7 @@
 	]]>
 	</select>
  
-    <!-- 임시비밀번호수정 -->
+    <!-- 임시비밀번호발급 -->
 	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[ 
 	    update users 
