@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.dao.OwnerDAO;
@@ -54,5 +55,14 @@ public class SitterServiceImpl implements SitterService {
 	@Override
 	public CareService getViewForm(Integer service_no) {
 		return sitterDAO.getViewForm(service_no);
+	}
+
+	/* 날짜:22.11.22
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 검색
+	 */
+	@Override
+	public List<Find> findPetSearch(Find findVO) {
+		return sitterDAO.findPetSearch(findVO);
 	}
 }

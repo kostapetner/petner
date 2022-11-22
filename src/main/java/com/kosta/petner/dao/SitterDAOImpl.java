@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.SitterInfo;
 
 @Repository
@@ -38,6 +39,15 @@ public class SitterDAOImpl implements SitterDAO {
 	@Override
 	public CareService getViewForm(Integer service_no) {
 		return sqlSession.selectOne("mapper.sitter.getViewForm", service_no);
+	}
+
+	/* 날짜:22.11.22
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 검색
+	 */
+	@Override
+	public List<Find> findPetSearch(Find findVO) {
+		return sqlSession.selectList("mapper.sitter.findPetSearch", findVO);
 	}
 
 }

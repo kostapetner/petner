@@ -3,6 +3,7 @@ package com.kosta.petner.service;
 import java.util.List;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.SitterInfo;
 
@@ -22,4 +23,9 @@ public interface SitterService {
 	 */
 	CareService getViewForm(Integer service_no);
 
+	/* 날짜:22.11.22
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 검색
+	 */
+	List<Find> findPetSearch(Find findVO);
 }

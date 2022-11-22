@@ -42,15 +42,24 @@ h2 {
 						<h1>${cs.request_title }</h1>
 					</div>
 					<div class="source">
+						<span>${cs.nickname }</span>&nbsp;
+					</div>
+					<div class="source">
 						<div>
-							<span>by</span>&nbsp;
-							${cs.nickname }&nbsp;
+							<span>요청서비스&nbsp;&nbsp;</span>
+							${cs.service }
+						</div>
+						<div>
+							<span>지역&nbsp;&nbsp;</span>
 							${cs.addr }
-							${cs.reg_date }
 						</div>
 						<div>
 							<span>금액</span>&nbsp;
 							${cs.request_money }원
+						</div>
+						<div>
+							<span>작성일&nbsp;&nbsp;</span>
+							${cs.reg_date }
 						</div>
 					</div>
 					<hr>
@@ -61,7 +70,12 @@ h2 {
 						</div>
 						<!-- 첨부파일 -->
 						<div id="basicInfoArea" style="width: 357px; height: 200px">
-							<img src="${pageContext.request.contextPath}/findPet/${cs.file_no}" id="rep" class="img_wrap img" style="width: 357px; height: 200px">
+							<c:if test="${empty cs.file_no}">
+								<img src="/petner/resources/images/header_logo.png" alt="이미지">
+							</c:if>
+							<c:if test="${not empty cs.file_no}">
+								<img src="${pageContext.request.contextPath}/findPet/${cs.file_no}" id="rep" class="img_wrap img" style="width: 357px; height: 200px">
+							</c:if>
 						</div>
 					</div>
 					<hr>
