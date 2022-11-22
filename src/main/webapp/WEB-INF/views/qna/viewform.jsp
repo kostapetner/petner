@@ -37,10 +37,10 @@ h2 {
 		<!-- CONTAINER -->
 		<div class="container w90">
 			<div class="">
-				<p class="list_title">공지사항</p>
+				<p class="list_title">QNA</p>
 				<div class="pn_view">
 					<div class="title">
-						<h1>${article.notice_title }</h1>
+						<h1>${article.qna_title }</h1>
 					</div>
 					<div class="source">
 						<div>
@@ -60,7 +60,7 @@ h2 {
 					</div>
 					<hr>
 					<section id="articleForm">
-						<%-- <section id="basicInfoArea">
+						<section id="basicInfoArea">
 						<!-- 첨부파일 -->
 						<c:if test="${article.file_no!=null }">
 							<div>
@@ -68,18 +68,25 @@ h2 {
 									${article.file_no} </a>
 							</div>
 						</c:if>
-					</section> --%>
+					</section>
 						<section id="articleContentArea">
-							<div class="content">${article.notice_content }</div>
+							<div class="content">${article.qna_content }</div>
 						</section>
 					</section>
 					<hr>
 					<section id="commandList">
 						<div class="d-grid gap-2 d-md-block ad_button">
+						<button class="btn btn-outline-secondary" type="button">
+							<a class="admin_btn" href="qnamodifyform?qna_no=${article.qna_no}">수정</a>
+						</button>
+						<button class="btn btn-outline-secondary" type="button">
+					<a class="admin_btn" href="qnadeleteform?qna_no=${article.qna_no}">삭제</a>
+				</button>
 							<button class="btn btn-outline-secondary" type="button">
-								<a class="admin_btn" href="./noticeList">목록</a>
+								<a class="admin_btn" href="./qnaList">목록</a>
 							</button>
 						</div>
+						<a href="qnareplyform?qna_no=${article.qna_no}"> [답변] </a>
 					</section>
 				</div>
 			</div>

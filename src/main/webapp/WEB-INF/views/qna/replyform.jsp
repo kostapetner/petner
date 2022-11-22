@@ -34,11 +34,11 @@ table {
 	<!-- 게시판 답변 -->
 
 
-	<section id="ad_noticewriteForm">
+	<section id="writeForm">
 		<h2>게시판글등록</h2>
-		<form action="ad_noticereply" method="post" name="noticeform">
+		<form action="qnareply" method="post" name="qnaform">
 			<input type="hidden" name="page" value="${page}" /> 
-			<input type="hidden" name="notice_no" value="${noticeNum}">
+			<input type="hidden" name="qna_no" value="${qnaNum}">
 			<table>
 				<tr>
 					<td class="td_left"><label for="user_id">글쓴이</label></td>
@@ -51,13 +51,13 @@ table {
 						id="board_pass" /></td>
 				</tr> -->
 				<tr>
-					<td class="td_left"><label for="notice_title">제 목</label></td>
-					<td class="td_right"><input name="notice_title" type="text"
-						id="notice_title" /></td>
+					<td class="td_left"><label for="qna_title">제 목</label></td>
+					<td class="td_right"><input name="qna_title" type="text"
+						id="qna_title" /></td>
 				</tr>
 				<tr>
-					<td class="td_left"><label for="notice_content">내 용</label></td>
-					<td><textarea id="notice_content" name="notice_content"
+					<td class="td_left"><label for="qna_content">내 용</label></td>
+					<td><textarea id="qna_content" name="qna_content"
 							cols="40" rows="15"></textarea></td>
 				</tr>
 			</table>

@@ -41,16 +41,16 @@ h2 {
 		<section id="commandList">
 			<div class="d-grid gap-2 d-md-block ad_button">
 				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="ad_modifyform?notice_no=${article.notice_no}">수정</a>
+					<a class="admin_btn" href="ad_noticemodifyform?notice_no=${article.notice_no}">수정</a>
 				</button>
 				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="ad_deleteform?notice_no=${article.notice_no}">삭제</a>
+					<a class="admin_btn" href="ad_noticedeleteform?notice_no=${article.notice_no}">삭제</a>
 				</button>
 				<button class="btn btn-outline-secondary" type="button">
 					<a class="admin_btn" href="./ad_noticeList">목록</a>
 				</button>
 			</div>
-			<a href="ad_replyform?notice_no=${article.notice_no}"> [답변] </a>
+			<a href="ad_noticereplyform?notice_no=${article.notice_no}"> [답변] </a>
 			 
 		</section>
 	</div>

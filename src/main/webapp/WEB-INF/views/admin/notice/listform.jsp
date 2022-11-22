@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="cssPath"
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
@@ -10,7 +11,7 @@
 <div class="card ad_card mb-4">
 	<div class="card-body">
 		<h2 class="card-title">공지사항 글 목록</h2>
-		<a href="ad_writeform">공지사항글쓰기</a>
+		<a href="ad_noticewriteform">공지사항글쓰기</a>
 		<c:choose>
 			<c:when test="${articleList!=null && pageInfo.listCount>0 }">
 				<section id="listForm">
@@ -28,7 +29,7 @@
 							<c:forEach var="article" items="${articleList }">
 								<tr>
 									<div class="row">
-										<td class="col-2">${article.notice_no }</td>
+										<td class="col-2">${article.notice_no}</td>
 										<td class="col-2"><c:choose>
 												<c:when test="${article.notice_re_lev!=0}">
 													<c:forEach var="i" begin="0"

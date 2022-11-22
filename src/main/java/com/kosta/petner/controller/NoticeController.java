@@ -106,7 +106,7 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/noticemodify", method = RequestMethod.POST)
-	public String boardmodify(@ModelAttribute Notice notice, Model model) {
+	public String noticemodify(@ModelAttribute Notice notice, Model model) {
 		// ModelAndView mav = new ModelAndView();
 		try {
 			noticeService.modifyNotice(notice);

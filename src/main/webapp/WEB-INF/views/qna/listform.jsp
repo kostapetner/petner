@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="cssPath"
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
@@ -33,22 +34,27 @@
 		<!-- CONTAINER -->
 		<div class="container w90">
 			<div class="">
-				<p class="list_title">공지사항</p>
+				<p class="list_title">QNA</p>
+				<a href="qnawriteform">QNA 글쓰기</a>
+				
 				<c:choose>
-					<c:when test="${articleList!=null && pageInfo.listCount>0 }">
+					<c:when test="${articleList!=null && pageInfo.listCount > 0 }">
 						<section id="listForm" class="default_list_type pn_listForm">
 							<table class="table table-hover">
 								<tbody>
-									<c:forEach var="article" items="${articleList }">
-										<tr onClick="location.href='./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}'" style="cursor:pointer;">
+									<c:forEach var="article" items="${articleList }" >
+										<tr onClick="location.href='./qnadetail?qna_no=${article.qna_no}&page=${pageInfo.page}'" style="cursor:pointer;">
 											<div>
 												<td>
 													<!-- 제목 -->
+													<%-- <div style="display:none">
+													${fn:length(articleList) - status.index}
+													</div> --%>
 													<div class="row title_box">
 														<c:choose>
-															<c:when test="${article.notice_re_lev!=0}">
+															<c:when test="${article.qna_re_lev!=0}">
 																<c:forEach var="i" begin="0"
-																	end="${article.notice_re_lev*2}">
+																	end="${article.qna_re_lev*2}">
 															&nbsp;
 												</c:forEach>
 																<!-- 답글 달릴때만-->
@@ -59,17 +65,16 @@
 															<c:otherwise></c:otherwise>
 														</c:choose>
 														<div class="title">
-															
-																${article.notice_title}
+																${article.qna_title}
 														</div>
 													</div> <!-- 내용 -->
 													<div class="row content">
-														<p>${article.notice_content }</p>
+														<p>${article.qna_content }</p>
 													</div> <!-- 조회수, 날짜, 글쓴이 -->
 													<div class="row source">
 														<div class="col flex-end">
 															<div>
-																<i class="fa-regular fa-eye"></i> ${article.notice_hit }
+																<i class="fa-regular fa-eye"></i> ${article.qna_hit }
 																&nbsp;&nbsp; ${article.reg_date }
 															</div>
 															<div>
@@ -93,7 +98,7 @@
 											</c:when>
 											<c:otherwise>
 												<a class="page-link"
-													href="noticeList?page=${pageInfo.page-1}"
+													href="qnaList?page=${pageInfo.page-1}"
 													aria-label="Previous">이전</a>
 											</c:otherwise>
 										</c:choose></li>
@@ -106,7 +111,7 @@
 
 											<c:otherwise>
 
-												<a class="page-link" href="noticeList?page=${i}">${i }</a>
+												<a class="page-link" href="qnaList?page=${i}">${i }</a>
 
 											</c:otherwise>
 
@@ -118,7 +123,7 @@
 											</c:when>
 											<c:otherwise>
 												<a class="page-link"
-													href="noticeList?page=${pageInfo.page+1}" aria-label="Next">다음</a>
+													href="qnaList?page=${pageInfo.page+1}" aria-label="Next">다음</a>
 											</c:otherwise>
 										</c:choose></li>
 								</ul>

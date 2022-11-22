@@ -25,12 +25,12 @@
 					<th scope="col">email</th>
 					<th scope="col">회원</th>
 					<th scope="col">주소</th>
-					<th scope="col" style="text-align: end;">상세보기</th>
+					<th scope="col" style="text-align: end;">권한관리</th>
+					<th scope="col" style="text-align: end;">탈퇴</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="users" items="${list}">
-					<c:if test="${users.user_type < 9}">
 						<tr>
 							<div class="row">
 								<td class="col">
@@ -50,7 +50,7 @@
 								</td>
 								<td class="col">
 									<p>
-										<span class="value">일반회원</span>
+										<span class="value">${users.user_type}</span>
 									</p>
 								</td>
 								<td class="col">
@@ -58,12 +58,19 @@
 										<span class="value">${users.addr}</span>
 									</p>
 								</td>
-								<td class="col" style="text-align: end;"><a>상세보기</a></td>
+								<td class="col" style="text-align: end;">
+									<label><input type="checkbox" name="color" value="blue"></label>
+								</td>
+								<td class="col" style="text-align: end;">
+								<label><input type="checkbox" name="color" value="blue"></label>
+								</td>
 							</div>
 						</tr>
-					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>
+								<button type="submit" class="btn btn-outline-secondary">
+									<a href="javascript:updateAuthority()">업데이트</a>
+								</button>
 	</div>
 </div>
