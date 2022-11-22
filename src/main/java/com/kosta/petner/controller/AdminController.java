@@ -56,7 +56,7 @@ public class AdminController {
 	@Autowired
 	FileService fileService;
 
-	// 관리자페이지 메인화면
+	// 관리자 메인화면
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	String main(Model model) {
 		model.addAttribute("page", "admin/ad_main");
@@ -64,7 +64,7 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
-	// 관리자페이지 권한관리 화면
+	// 관리자 권한관리 화면
 	@RequestMapping(value = "/admin_authority", method = RequestMethod.GET)
 	String admin_authority(Model model) {
 		model.addAttribute("page", "admin/ad_authority");
@@ -89,7 +89,7 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 	
-	// 회원탈퇴
+	// 관리자 회원탈퇴
 	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
 	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
 		System.out.println("Controller:" + user_no);
@@ -106,7 +106,7 @@ public class AdminController {
 		return mav;
 	}
 
-	// 글쓰기 화면 이동
+	// 관리자 공지사항 글쓰기 화면 이동
 	@RequestMapping(value = "/ad_noticewriteform", method = RequestMethod.GET)
 	public String ad_noticewriteform(Model model) {
 		model.addAttribute("page", "admin/notice/writeform");
@@ -127,13 +127,8 @@ public class AdminController {
 //		return "redirect:/ad_noticeList";
 //	}
 	
-	
-	
-	
-//	
-	
-	
-	//DB insert
+
+	// 관리자 공지사항 DB insert
 	@RequestMapping(value = "/ad_noticewriteform/register", method = RequestMethod.POST)
 	public ModelAndView ad_noticeregister(Model model, @ModelAttribute Notice notice) {
 		ModelAndView mav = new ModelAndView();
@@ -176,7 +171,7 @@ public class AdminController {
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
 				
-				//3. sitter_info테이블에 정보 넣기
+				//3. notice_info테이블에 정보 넣기
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				notice.setFile_no(file_no);
@@ -191,19 +186,13 @@ public class AdminController {
 		return mav;
 	}
 	
-	
-	//
-	
-	
-	
-	
-	
-
+	// 관리자 공지사항 리스트
 	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
 			Model model) {
 		PageInfo pageInfo = new PageInfo();
 		try {
+			// 페이징
 			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
 			model.addAttribute("articleList", articleList);
 			model.addAttribute("pageInfo", pageInfo);
@@ -216,6 +205,7 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
+	// 관리자 공지사항 뷰페이지 디테일
 	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
 	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum,String server_filename,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
@@ -223,13 +213,6 @@ public class AdminController {
 			// 조회수 증가
 			noticeService.notice_read(noticeNum);
 			Notice notice = noticeService.getNotice(noticeNum);
-			
-//			// server_filname에 맞는 file_no가져오기
-//			Integer file_no = fileService.getFileNo(server_filename);
-//			notice.setFile_no(file_no);
-//			System.out.println(notice.toString());
-						
-						
 			model.addAttribute("article", notice);
 			model.addAttribute("page", page);
 			model.addAttribute("page", "admin/notice/viewform");
@@ -240,6 +223,7 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
+	// 관리자 공지사항 수정 페이지
 	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
 	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
 		try {
@@ -257,7 +241,6 @@ public class AdminController {
 
 	@RequestMapping(value = "/ad_noticemodify", method = RequestMethod.POST)
 	public String ad_noticemodify(@ModelAttribute Notice notice, Model model) {
-		// ModelAndView mav = new ModelAndView();
 		try {
 			noticeService.modifyNotice(notice);
 			model.addAttribute("notice_no", notice.getNotice_no());
@@ -270,6 +253,7 @@ public class AdminController {
 		return "redirect:/ad_noticedetail";
 	}
 
+	// 관리자 공지사항 답글 페이지 이동 ( test )
 	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
 	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
@@ -286,6 +270,7 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
+	// 관리자 답글쓰기
 	@RequestMapping(value = "/ad_noticereply", method = RequestMethod.POST)
 	public String ad_noticereply(@ModelAttribute Notice notice, Model model) {
 		try {
@@ -299,6 +284,7 @@ public class AdminController {
 		return "redirect:/ad_noticeList";
 	}
 
+	// 관리자 공지사항 삭제 페이지 이동
 	@RequestMapping(value = "/ad_noticedeleteform", method = RequestMethod.GET)
 	public ModelAndView ad_nodeleteform(@RequestParam("notice_no") Integer noticeNum,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
@@ -309,6 +295,7 @@ public class AdminController {
 		return mav;
 	}
 
+	// 관리자 공지사항 삭제
 	@RequestMapping(value = "/ad_noticedelete", method = RequestMethod.POST)
 	public ModelAndView ad_noticedelete(@RequestParam("notice_no") Integer noticeNum,
 //				@RequestParam(value="board_pass") String password,

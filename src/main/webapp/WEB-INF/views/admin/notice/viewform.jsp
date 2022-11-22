@@ -28,9 +28,6 @@ h2 {
 	<div class="card-body">
 		<section id="articleForm">
 			<h2 class="card-title">글 내용 상세보기</h2>
-			
-			
-			
 			<section id="basicInfoArea">
 				제 목 : ${article.notice_title } 첨부파일 :
 				<c:if test="${article.file_no!=null }">
@@ -44,6 +41,9 @@ h2 {
 		<section id="commandList">
 			<div class="d-grid gap-2 d-md-block ad_button">
 				<button class="btn btn-outline-secondary" type="button">
+					<a class="admin_btn" href="ad_noticereplyform?notice_no=${article.notice_no}">답변</a>
+				</button>
+				<button class="btn btn-outline-secondary" type="button">
 					<a class="admin_btn" href="ad_noticemodifyform?notice_no=${article.notice_no}">수정</a>
 				</button>
 				<button class="btn btn-outline-secondary" type="button">
@@ -53,7 +53,7 @@ h2 {
 					<a class="admin_btn" href="./ad_noticeList">목록</a>
 				</button>
 			</div>
-			<a href="ad_noticereplyform?notice_no=${article.notice_no}"> [답변] </a>
+			
 			 
 		</section>
 	</div>

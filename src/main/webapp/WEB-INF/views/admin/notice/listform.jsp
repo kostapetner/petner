@@ -6,7 +6,7 @@
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
-
+<form name="deleteForm" action="ad_noticedelete" method="post">
 <!-- 공지사항 리스트 -->
 <div class="card ad_card mb-4">
 	<div class="card-body">
@@ -23,6 +23,7 @@
 								<th scope="col">작성자</th>
 								<th scope="col">날짜</th>
 								<th scope="col">조회수</th>
+								<th scope="col" style="text-align: end;">삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,7 +31,7 @@
 								<tr>
 									<div class="row">
 										<td class="col-2">${article.notice_no}</td>
-										<td class="col-2"><c:choose>
+										<td class="col-3"><c:choose>
 												<c:when test="${article.notice_re_lev!=0}">
 													<c:forEach var="i" begin="0"
 														end="${article.notice_re_lev*2}">
@@ -45,6 +46,11 @@
 										<td class="col-2">${article.user_id }</td>
 										<td class="col-2">${article.reg_date }</td>
 										<td class="col-1">${article.notice_hit }</td>
+										<td class="col-1" style="text-align: end;">
+											<label>
+												<input type="checkbox" name="notice_no" value="${article.notice_no}">
+											</label>
+										</td>
 									</div>
 								</tr>
 							</c:forEach>
@@ -94,11 +100,16 @@
 											aria-label="Next">다음</a>
 									</c:otherwise>
 								</c:choose></li>
+								<button type="submit" class="btn btn-outline-secondary">
+				삭제
+				</button>
 						</ul>
 					</nav>
 				</section>
+				
 
 			</c:when>
 		</c:choose>
 	</div>
 </div>
+</form>
