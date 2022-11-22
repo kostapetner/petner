@@ -51,4 +51,7 @@ public interface UsersDAO {
 
 	// 유저번호로 회원의 모든 정보 조회
 	Users inquiryOfUserByUserNo(int userNo) throws Exception;
+
+	// 유진 : 회원탈퇴
+	void deleteUsers(Integer user_no) throws Exception;
 }

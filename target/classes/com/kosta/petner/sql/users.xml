@@ -204,5 +204,12 @@
 			
 		]]>
 	</select>
+	
+	<!-- 유진: 회원 탈퇴 -->
+	<delete id="deleteUsers" parameterType="Integer">
+		<![CDATA[
+			delete from users where user_no=#{user_no}
+		]]>
+	</delete>
 
 </mapper>

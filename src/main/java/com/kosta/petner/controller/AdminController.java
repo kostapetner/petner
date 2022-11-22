@@ -74,16 +74,24 @@ public class AdminController {
 			model.addAttribute("err", "전체 회원정보 조회 실패");
 			model.addAttribute("page", "err");
 		}
-//			 Users sessionInfo = (Users) session.getAttribute("authUser");		
-//			  String id = sessionInfo.getId();
-//			  Users users = mypageService.getMyinfo(id);
-//		      
-//		      System.out.println("member정보"+users+id);
-//		      
-//			model.addAttribute("page", "admin/ad_user");
-//			model.addAttribute("title", "회원정보 관리");
-		// model.addAttribute("member", users);
 		return "/layout/admin_main";
+	}
+	
+	// 회원탈퇴
+	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
+	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
+		System.out.println("Controller:" + user_no);
+		ModelAndView mav = new ModelAndView();
+		try {
+			// 회원 탈퇴 시키기
+			usersService.deleteUsers(user_no);
+			mav.setViewName("redirect:/admin_user");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", e.getMessage());
+			mav.setViewName("/notice/err");
+		}
+		return mav;
 	}
 
 	// 글쓰기 화면 이동
@@ -127,7 +135,6 @@ public class AdminController {
 	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
 	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-		// ModelAndView mav = new ModelAndView();
 		try {
 			// 조회수 증가
 			noticeService.notice_read(noticeNum);
@@ -144,7 +151,6 @@ public class AdminController {
 
 	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
 	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
-		// ModelAndView mav = new ModelAndView();
 		try {
 			Notice notice = noticeService.getNotice(noticeNum);
 			model.addAttribute("article", notice);
@@ -175,10 +181,8 @@ public class AdminController {
 	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
 	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-		// ModelAndView mav = new ModelAndView();
 
 		try {
-//				model.addAttribute("/layout/admin_main");
 			model.addAttribute("noticeNum", noticeNum);
 			model.addAttribute("age", page);
 			model.addAttribute("page", "admin/notice/replyform");

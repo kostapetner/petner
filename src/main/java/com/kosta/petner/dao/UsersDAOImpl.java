@@ -113,6 +113,13 @@ public class UsersDAOImpl implements UsersDAO{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.users.getUserByUserNo");
 	}
+	
+	// 유진 : 회원탈퇴
+	@Override
+	public void deleteUsers(Integer user_no) throws Exception {
+		sqlSession.update("mapper.users.deleteUsers", user_no);
+		
+	}
 
 	
 	

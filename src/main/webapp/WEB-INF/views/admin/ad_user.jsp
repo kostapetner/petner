@@ -12,25 +12,25 @@
 	<div class="card-body">
 		<h2 class="card-title">회원정보관리</h2>
 		<nav class="nav ad_card_nav">
-		
-			<a class="nav-link active" aria-current="page" href="#">일반회원</a>
-			<a class="nav-link" href="#">관리자</a>
-			 
+
+			<a class="nav-link active" aria-current="page" href="#">일반회원</a> <a
+				class="nav-link" href="#">관리자</a>
+
 		</nav>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">회원번호</th>
-					<th scope="col">이름</th>
-					<th scope="col">email</th>
-					<th scope="col">회원</th>
-					<th scope="col">주소</th>
-					<th scope="col" style="text-align: end;">권한관리</th>
-					<th scope="col" style="text-align: end;">탈퇴</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="users" items="${list}">
+		<form name="admin_user" action="ad_usersdelete" method="post">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">회원번호</th>
+						<th scope="col">이름</th>
+						<th scope="col">email</th>
+						<th scope="col">회원</th>
+						<th scope="col">주소</th>
+						<th scope="col" style="text-align: end;">탈퇴</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="users" items="${list}">
 						<tr>
 							<div class="row">
 								<td class="col">
@@ -58,19 +58,17 @@
 										<span class="value">${users.addr}</span>
 									</p>
 								</td>
-								<td class="col" style="text-align: end;">
-									<label><input type="checkbox" name="color" value="blue"></label>
-								</td>
-								<td class="col" style="text-align: end;">
-								<label><input type="checkbox" name="color" value="blue"></label>
+								<td class="col" style="text-align: end;"><label><input
+										type="checkbox" name="user_no" value="${users.user_no}"></label>
 								</td>
 							</div>
 						</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-								<button type="submit" class="btn btn-outline-secondary">
-									<a href="javascript:updateAuthority()">업데이트</a>
-								</button>
+					</c:forEach>
+				</tbody>
+			</table>
+				<button type="submit" class="btn btn-outline-secondary">
+				탈퇴시키기
+				</button>
+		</form>
 	</div>
 </div>
