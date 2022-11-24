@@ -44,7 +44,7 @@
 										<%-- <a href="./ad_authorityForm">
 										${users.name}
 										</a> --%>
-										<a href="./ad_authorityForm?user_no=${users.user_no}">
+										<a href="./ad_detailForm?user_no=${users.user_no}">
 										${users.name}
 										</a>
 										</span>

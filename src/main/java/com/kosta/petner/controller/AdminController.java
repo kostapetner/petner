@@ -84,12 +84,12 @@ public class AdminController {
 	}
 
 	// 관리자 유저 디테일 화면조회 이동
-	@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
+	@RequestMapping(value = "/ad_detailForm", method = RequestMethod.GET)
 	public String ad_authorityForm(@RequestParam("user_no") Integer user_no, Model model) throws Exception {
 		// user_no 로 회원의 상세 정보 전부 조회
 		Users users = usersService.getUserByUserNo(user_no);
 		model.addAttribute("users", users);
-		model.addAttribute("page", "admin/ad_authority");
+		model.addAttribute("page", "admin/ad_detail");
 		return "/layout/admin_main";
 	}
 
