@@ -52,52 +52,51 @@ public class MyPageController {
 
 	
 	
-   //마이페이지 메인화면 
+   //마이페이지 메인화면 / 기본정보보기
    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
    String main(HttpSession session, Model model) {
 
 	   String id = getLoginUserId(session);
-	   Users users = mypageService.getMyinfo(id);
-	   
-	   
-	   model.addAttribute("member", users);
-	   model.addAttribute("page", "mypage/myinfo/myBasicInfo");
-	   model.addAttribute("title", "나의정보보기");
-	  
-	   return "/layout/mypage_default";
-   }
-  
-   // 마이페이지 나의 기본정보 보기
-   @RequestMapping("/mypage/myBasicInfo")
-   public String myBasicInfo(HttpSession session, Model model) {
-	  
-	   String id = getLoginUserId(session);
-	   Users users = mypageService.getMyinfo(id);
-	   
+	   Users users = mypageService.getMyinfo(id);	 
 	   int user_no = getLoginUserNo(session);
-	   System.out.println("유저넘버뭔데"+user_no);
 	   
-	   Map<String,Object> result = mypageService.getCount(user_no);
-	   //Map<String,Object> result = mypageService.getCount(user_no);
 	   
-	   System.out.println("맵정보"+result);
-	   
-	  
-       System.out.println("user정보"+users);
+	   Map<String,Object> cnt = mypageService.getCount(user_no);	   
+	   System.out.println("맵정보"+cnt);  
       
       model.addAttribute("page", "mypage/myinfo/myBasicInfo");
       model.addAttribute("title", "나의정보보기");
       model.addAttribute("member", users);
-      model.addAttribute("count", result);
+      model.addAttribute("count", cnt);
       
       return "/layout/mypage_default";
    }
+  
+   // 마이페이지 나의 기본정보 보기 / 추후에 마이페이지 메인화면과 기본정보 분리할경우 살림
+//   @RequestMapping("/mypage/myBasicInfo")
+//   public String myBasicInfo(HttpSession session, Model model) {
+//	  
+//	   String id = getLoginUserId(session);
+//	   Users users = mypageService.getMyinfo(id);	   
+//	   int user_no = getLoginUserNo(session);	  
+//	   
+//	   Map<String,Object> cnt = mypageService.getCount(user_no);	   
+//	   System.out.println("맵정보"+cnt);  
+//      
+//      model.addAttribute("page", "mypage/myinfo/myBasicInfo");
+//      model.addAttribute("title", "나의정보보기");
+//      model.addAttribute("member", users);
+//      model.addAttribute("count", cnt);
+//      
+//      return "/layout/mypage_default";
+//   }
+   
    
    // 정보 수정페이지
    @RequestMapping("/mypage/myinfoEdit")
    public String myinfoEdit(HttpSession session, Model model) {
-	  Users sessionInfo = (Users) session.getAttribute("authUser");		
-	  String id = sessionInfo.getId();
+
+	  String id = getLoginUserId(session);
 	  Users users = mypageService.getMyinfo(id);
 	  
       model.addAttribute("page", "mypage/myinfo/myinfoEdit");
@@ -106,10 +105,18 @@ public class MyPageController {
       return "/layout/mypage_default";
    }
    
+   // 정보업데이크
    @RequestMapping(value="/mypage/myinfoEdit", method = RequestMethod.POST)
-   public String myinfoUpdate(@ModelAttribute Users users, BindingResult result, Model model) { 
-		System.out.println("폼값:" + users);
-		mypageService.updateMyinfo(users);		
+   public String myinfoUpdate(HttpSession session, @ModelAttribute Users users, BindingResult result, Model model) { 
+		
+	   
+		mypageService.updateMyinfo(users);	
+
+		// 세션수정해해함
+		MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
+		mypageSession.setNickname(users.getNickname());
+		session.getAttribute("mypageSession");
+		
 		return "redirect:/mypage";	
    }
    

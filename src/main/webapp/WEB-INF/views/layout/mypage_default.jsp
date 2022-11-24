@@ -22,7 +22,7 @@
 
 				if ($(this).is(':checked')) { // check가 보호자임        
 					var owner_menu1 = "";
-					owner_menu1 += "<a href='${pageContext.request.contextPath}/mypage/myBasicInfo'>나의 정보</a>"
+					owner_menu1 += "<a href='${pageContext.request.contextPath}/mypage'>나의 정보</a>"
 											+ "<a href='${pageContext.request.contextPath}/mypage/myPetInfo'>나의반려동물정보</a>";
 
 					var owner_menu2 = "";
@@ -35,7 +35,7 @@
 
 				} else { // 시터일경우
 					var sitter_menu1 = "";
-					sitter_menu1 += "<a href='${pageContext.request.contextPath}/mypage/myBasicInfo'>나의 정보</a>"
+					sitter_menu1 += "<a href='${pageContext.request.contextPath}/mypage'>나의 정보</a>"
 							+ "<a href='#'>나의시터정보보기</a>";
 
 					var sitter_menu2 = "";
@@ -71,7 +71,7 @@
 						<!-- 텍스트정보 영역 -->
 						<div class="prof_text">
 							<div class="row1">
-								<p>${authUser.nickname}</p>
+								<p>${mypageSession.nickname}</p>
 								
 							</div>
 							<div class="row2">
@@ -108,7 +108,7 @@
 									<li>
 										<p class="first_menu">내정보</p>
 										<div class="second_menu toggle_menu1">
-											<a href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의 정보</a>
+											<a href="${pageContext.request.contextPath}/mypage">나의 정보</a>
 											<a href="${pageContext.request.contextPath}/mypage/mySitterInfo">나의 시터정보 관리</a>
 										</div>
 									</li>
@@ -127,7 +127,7 @@
 										<p class="first_menu">내정보</p>
 										<div class="second_menu toggle_menu1">
 											<a
-												href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의 정보</a>
+												href="${pageContext.request.contextPath}/mypage">나의 정보</a>
 											<a href="${pageContext.request.contextPath}/mypage/myPetInfo">나의반려동물정보</a>
 										</div>
 									</li>
@@ -144,7 +144,7 @@
 										<p class="first_menu">내정보</p>
 										<div class="second_menu toggle_menu1">
 											<a
-												href="${pageContext.request.contextPath}/mypage/myBasicInfo">나의 정보</a>
+												href="${pageContext.request.contextPath}/mypage">나의 정보</a>
 											<a href="${pageContext.request.contextPath}/mypage/mySitterInfo">나의 시터정보 관리</a>
 										</div>
 									</li>
