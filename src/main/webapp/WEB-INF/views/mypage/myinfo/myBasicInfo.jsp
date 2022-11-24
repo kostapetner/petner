@@ -12,5 +12,14 @@
     <p><span class="key">별명</span><span class="value">${member.nickname}</span></p>
     <p><span class="key">이메일</span><span class="value">${member.email}</span></p>
     <p><span class="key">주소</span><span class="value">${member.addr} ${member.addr_detail} [${member.zipcode}]</span></p>
-  </div>   
+  </div>  
+  
+  <div class="">
+  	<c:choose>
+  		<c:when test="${authUser.user_type==2}">
+  		<!-- 보호자일 일경우 동물정보없으면 동물등록버튼 / 시터로 일하기 버튼-->
+  		ggg ${count.IS_MYPET}
+  		</c:when>
+  	</c:choose>
+  </div> 
 </div>

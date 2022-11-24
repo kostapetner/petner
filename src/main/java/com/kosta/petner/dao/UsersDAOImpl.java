@@ -98,6 +98,14 @@ public class UsersDAOImpl implements UsersDAO{
 	public List<Users> selectAllUsers() throws Exception {
 		return sqlSession.selectList("mapper.users.selectAllUsers");
 	}
+	
+	
+	// 내 아이디로 등록된 시터정보나 동물정보가 있는지 체크 221121-DSC
+	@Override
+	public Map<String, Object> getCount(int user_no) {
+		return sqlSession.selectOne("mapper.users.getCount", user_no);
+		
+	}
 
 	
 	

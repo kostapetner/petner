@@ -165,6 +165,17 @@
 			select * from users
 		]]>
 	</select>
+	
+	
+	<!-- 내 유저넘보로 등록된 펫정보나 시터정보 카운트 221122-DSC -->
+	<select id="getCount" parameterType="int" resultType="map">
+		<![CDATA[
+			SELECT a.PCNT is_mypet, b.SCNT is_sitter
+			FROM 
+			 (SELECT COUNT(*) PCNT FROM PET_INFO WHERE USER_NO = #{user_no, jdbcType=VARCHAR}) A,
+			 (SELECT COUNT(*) SCNT FROM SITTER_INFO WHERE USER_NO = #{user_no, jdbcType=VARCHAR}) B
+		]]>
+	</select>
 
 
 	

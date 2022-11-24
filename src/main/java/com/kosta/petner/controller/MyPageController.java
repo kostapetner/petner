@@ -1,6 +1,7 @@
 package com.kosta.petner.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kosta.petner.bean.FileVO;
+import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
@@ -37,14 +38,27 @@ public class MyPageController {
 	@Autowired
 	HttpSession session;
 	
+	public String getLoginUserId(HttpSession session) {
+	    MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
+	    String id = mypageSession.getId();
+		return id;
+    } 	
+	
+	public int getLoginUserNo(HttpSession session) {
+	    MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
+	    int user_no = mypageSession.getUser_no();
+		return user_no;
+    } 	
+
+	
 	
    //마이페이지 메인화면 
    @RequestMapping(value = "/mypage", method = RequestMethod.GET)
    String main(HttpSession session, Model model) {
-	   Users sessionInfo = (Users) session.getAttribute("authUser");
-		
-	   String id = sessionInfo.getId();
+
+	   String id = getLoginUserId(session);
 	   Users users = mypageService.getMyinfo(id);
+	   
 	   
 	   model.addAttribute("member", users);
 	   model.addAttribute("page", "mypage/myinfo/myBasicInfo");
@@ -52,20 +66,30 @@ public class MyPageController {
 	  
 	   return "/layout/mypage_default";
    }
-   
+  
    // 마이페이지 나의 기본정보 보기
    @RequestMapping("/mypage/myBasicInfo")
    public String myBasicInfo(HttpSession session, Model model) {
+	  
+	   String id = getLoginUserId(session);
+	   Users users = mypageService.getMyinfo(id);
 	   
-	  Users sessionInfo = (Users) session.getAttribute("authUser");		
-	  String id = sessionInfo.getId();
-	  Users users = mypageService.getMyinfo(id);
-      
-      System.out.println("member정보"+users+id);
+	   int user_no = getLoginUserNo(session);
+	   System.out.println("유저넘버뭔데"+user_no);
+	   
+	   Map<String,Object> result = mypageService.getCount(user_no);
+	   //Map<String,Object> result = mypageService.getCount(user_no);
+	   
+	   System.out.println("맵정보"+result);
+	   
+	  
+       System.out.println("user정보"+users);
       
       model.addAttribute("page", "mypage/myinfo/myBasicInfo");
       model.addAttribute("title", "나의정보보기");
       model.addAttribute("member", users);
+      model.addAttribute("count", result);
+      
       return "/layout/mypage_default";
    }
    
@@ -76,7 +100,6 @@ public class MyPageController {
 	  String id = sessionInfo.getId();
 	  Users users = mypageService.getMyinfo(id);
 	  
-	  Users member = mypageService.getMyinfo(id);
       model.addAttribute("page", "mypage/myinfo/myinfoEdit");
       model.addAttribute("title", "나의정보수정");
       model.addAttribute("member", users);

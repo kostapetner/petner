@@ -72,9 +72,7 @@
 						<div class="prof_text">
 							<div class="row1">
 								<p>${authUser.nickname}</p>
-								<p>
-									<a href="#"><i class="fa-solid fa-gear"></i></a>
-								</p>
+								
 							</div>
 							<div class="row2">
 								<p>
@@ -105,7 +103,6 @@
 						</c:if>
 						<ul>
 							<c:choose>
-
 								<c:when test="${authUser.user_type==1}">
 									<!-- 시터일경우 -->
 									<li>
@@ -185,7 +182,7 @@
 		</div>
 
 		<!-- FOOTER BASIC -->
-		<c:import url='/WEB-INF/views/include/footer.jsp' />
+		<c:import url='/WEB-INF/views/include/footer.jsp'/>
 
 	</div>
 </body>

@@ -32,13 +32,9 @@ public class CheckAuth {
 		System.out.println("====CheckAuth 시작====");
 		
 		HttpSession session = ((ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes())).getRequest().getSession();
-		//System.out.println("session+++++++"+session);
 		
 		Users sessionVO = (Users) session.getAttribute("authUser");
-		
-		System.out.println("세션정보=>"+sessionVO);
-		
-		System.out.println("세션정보=>"+sessionVO);
+		//System.out.println("세션정보=>"+sessionVO);
 		
 		if(sessionVO != null) {
 			//마이페이지에서 필요한 정보 만들거야
@@ -62,5 +58,6 @@ public class CheckAuth {
 		return joinPoint.proceed();
 
 	}
-
+	
+	
 }

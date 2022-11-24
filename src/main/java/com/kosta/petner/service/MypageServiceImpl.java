@@ -1,6 +1,7 @@
 package com.kosta.petner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class MypageServiceImpl implements MypageService {
 	public Users getMyinfo(String id) {
 		return usersDAO.getMyinfo(id);
 	}
+	
+	
+	
 
 	@Override
 	public int updateMyinfo(Users users) {
@@ -50,5 +54,18 @@ public class MypageServiceImpl implements MypageService {
 		// 마이페이지에서 물고 다녀야 하는 모든 정보
 		return usersDAO.getMyAllInfo(user_no);
 	}
+
+
+
+
+	@Override
+	public Map<String, Object> getCount(int user_no) {
+		// TODO Auto-generated method stub
+		return usersDAO.getCount(user_no);
+	}
+
+
+
+	
 
 }
