@@ -40,13 +40,19 @@ $(document).ready(function() {
 				}
 	}).data('datepicker');
 
+	//submit 
+	$("#btn_Search").click(function(){
+	  $("#findPetSearchForm").submit();
+	});
+	
+	
 });//ready
 </script>
 <body>
 	<div id="wrapper">
 		<!-- CONTAINER -->
 		<div class="container w90">
-		<form action="" method="post">
+		<form id="findPetSearchForm" action="/petner/findPet/viewForm/findPetSearch" method="POST">
 			<div class="">
 				<p class="list_title">돌봐줄 동물 찾기</p>
 				<!-- 검색창 -->
@@ -139,7 +145,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div>
-			</form>
+		</form>
 			<!-- 카드형 리스트 펫찾기 -->
 			<div class="card_list_type find_pet_list">
 				<c:forEach var="csList" items="${careserviceList}" varStatus="status">

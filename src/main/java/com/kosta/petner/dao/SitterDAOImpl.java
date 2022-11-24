@@ -1,5 +1,6 @@
 package com.kosta.petner.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -47,6 +48,14 @@ public class SitterDAOImpl implements SitterDAO {
 	 */
 	@Override
 	public List<Find> findPetSearch(Find findVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		findVO.getPet_kind();
+		
+		String petKindArray = findVO.getPet_kind();
+		System.out.println("petKindArray:   "+petKindArray);
+		
+		//map.put("petKindArray",petKindArray);
+		
 		return sqlSession.selectList("mapper.sitter.findPetSearch", findVO);
 	}
 

@@ -90,9 +90,10 @@
 	
 	<!-- if문을 이용한 동적쿼리 예시-->
 	<select id="findPetSearch" parameterType="com.kosta.petner.bean.Find" resultType="com.kosta.petner.bean.Find">
-		SELECT  service_no
+		SELECT   service_no
 				,cs.user_no
-				,pet_no
+				,cs.pet_no
+				,pet_kind
 				,cs.zipcode
 				,cs.addr
 				,cs.addr_detail
@@ -106,14 +107,28 @@
 				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
 				,cs.file_no
 				,nickname
-		FROM care_service
+				,u.gender
+		FROM care_service cs
+		left join users u on cs.user_no = u.user_no
+		left join PET_INFO pif on cs.pet_no = pif.pet_no
 		WHERE 1=1
 		<!-- 날짜는 디비버 돌리고 하기! -->
 		<!-- 서비스 -->
-<!-- 		<if test="service != null and service != ''">
+		<if test="service != null and service != ''">
 			AND service = #{service}
-		</if> -->
-		
+		</if>
+		<!-- 동물종류 -->
+		<if test="pet_kind != null and pet_kind != ''">
+			AND pet_kind = #{pet_kind}
+		</if>
+		<!-- 성별 -->
+		<if test="gender != null and gender != ''">
+			AND GENDER = #{gender}
+		</if>
+		<!-- 키워드 -->
+		<if test="keyword != null and keyword != ''">
+			AND nickname = #{keyword}
+		</if>
 	</select>
 	
 	

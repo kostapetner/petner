@@ -99,10 +99,9 @@ public class FindPetController {
 	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.POST)
 	String findPetSearch(Model model, @ModelAttribute Find findVO ) {
 
-		System.out.println(findVO.toString());
+		System.out.println("findVO.toString():  "+findVO.toString());
 		
-		//findPetSearch xml구성 끝내고 주석 풀기
-		//List<Find> petSearchList = sitterService.findPetSearch(findVO);
+		List<Find> petSearchList = sitterService.findPetSearch(findVO);
 		
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPetViewForm");
