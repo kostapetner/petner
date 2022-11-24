@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.Users;
 
 public interface UsersDAO {
@@ -62,4 +63,7 @@ public interface UsersDAO {
 
 	// 유진 : 회원탈퇴
 	void deleteUsers(Integer user_no) throws Exception;
+	
+	// 타입 업데이트
+	void updateUserType(int user_no) throws Exception;
 }

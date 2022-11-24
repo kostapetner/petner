@@ -125,6 +125,11 @@ public class UsersDAOImpl implements UsersDAO{
 		sqlSession.update("mapper.users.deleteUsers", user_no);
 		
 	}
+	@Override
+	public void updateUserType(int user_no) throws Exception {
+		sqlSession.update("mapper.users.deleteUsers", user_no);
+		
+	}
 
 	
 	

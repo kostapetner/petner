@@ -40,7 +40,14 @@
 								</td>
 								<td class="col">
 									<p>
-										<span class="value">${users.name}</span>
+										<span class="value">
+										<%-- <a href="./ad_authorityForm">
+										${users.name}
+										</a> --%>
+										<a href="./ad_authorityForm?user_no=${users.user_no}">
+										${users.name}
+										</a>
+										</span>
 									</p>
 								</td>
 								<td class="col">

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -52,7 +53,7 @@ public class AdminController {
 
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	FileService fileService;
 
@@ -64,19 +65,12 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
-	// 관리자 권한관리 화면
-	@RequestMapping(value = "/admin_authority", method = RequestMethod.GET)
-	String admin_authority(Model model) {
-		model.addAttribute("page", "admin/ad_authority");
-		model.addAttribute("title", "권한관리");
-		return "/layout/admin_main";
-	}
-
 	// 관리자페이지 회원정보 관리 화면
 	@RequestMapping(value = "/admin_user", method = RequestMethod.GET)
 	String admin_user(HttpSession session, Model model) {
 
 		try {
+
 			List list = usersDAO.selectAllUsers();
 			model.addAttribute("list", list);
 			model.addAttribute("page", "admin/ad_user");
@@ -88,7 +82,46 @@ public class AdminController {
 		}
 		return "/layout/admin_main";
 	}
-	
+
+	// 관리자 유저 디테일 화면조회 이동
+	@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
+	public String ad_authorityForm(@RequestParam("user_no") Integer user_no, Model model) throws Exception {
+		// user_no 로 회원의 상세 정보 전부 조회
+		Users users = usersService.getUserByUserNo(user_no);
+		model.addAttribute("users", users);
+		model.addAttribute("page", "admin/ad_authority");
+		return "/layout/admin_main";
+	}
+
+//		@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
+//		String admin_authorityForm(@RequestParam("user_no") Integer user_no,
+//				 Model model) {
+//			try {
+//				// 조회수 증가
+//				Users users = usersService.getUserByUserNo(user_no);
+//				model.addAttribute("users", users);
+//				model.addAttribute("page", "admin/ad_authority");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				model.addAttribute("/notice/err");
+//			}
+//			return "/layout/admin_main";
+//		}
+//		
+//		@RequestMapping(value = "/ad_authority", method = RequestMethod.POST)
+//		public String ad_authority(@ModelAttribute Users users, Model model) {
+//			try {
+////				noticeService.modifyNotice(users);
+////				model.addAttribute("notice_no", notice.getNotice_no());
+//				model.addAttribute("redirect:/admin/ad_authority");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				model.addAttribute("err", e.getMessage());
+//				model.addAttribute("/notice/err");
+//			}
+//			return "redirect:/admin/ad_authority";
+//		}
+
 	// 관리자 회원탈퇴
 	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
 	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
@@ -126,7 +159,6 @@ public class AdminController {
 //
 //		return "redirect:/ad_noticeList";
 //	}
-	
 
 	// 관리자 공지사항 DB insert
 	@RequestMapping(value = "/ad_noticewriteform/register", method = RequestMethod.POST)
@@ -134,50 +166,50 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		try {
 			// 파일
-			MultipartFile file = notice.getImageFile(); //파일 자체를 가져옴
+			MultipartFile file = notice.getImageFile(); // 파일 자체를 가져옴
 			// 서버에 올라갈 랜덤한 파일 이름을 만든다
 			String generatedString = RandomStringUtils.randomAlphanumeric(10);
 			String filename = file.getOriginalFilename();
-			int idx = filename.lastIndexOf(".");//확장자 위치
+			int idx = filename.lastIndexOf(".");// 확장자 위치
 			String ext = filename.substring(filename.lastIndexOf("."));
-			String real_filename = filename.substring(0, idx);//확장자분리
+			String real_filename = filename.substring(0, idx);// 확장자분리
 			String server_filename = real_filename + generatedString + ext;
-			if(!file.isEmpty()) {
-				//1.폴더생성
+			if (!file.isEmpty()) {
+				// 1.폴더생성
 				FileVO fileVO = new FileVO();
-				String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
+				String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
 				File fileLocation = new File(path);
-				File destFile = new File(path+server_filename);
+				File destFile = new File(path + server_filename);
 				System.out.println(destFile);
 				if (fileLocation.exists()) {
 					System.out.println("이미 폴더가 생성되어 있습니다.");
 					file.transferTo(destFile);
-			    }else {
-			    	try{
-			    		Path directoryPath = Paths.get(path);
+				} else {
+					try {
+						Path directoryPath = Paths.get(path);
 						System.out.println(directoryPath);
-						Files.createDirectory(directoryPath);//폴더생성
+						Files.createDirectory(directoryPath);// 폴더생성
 						System.out.println("폴더가 생성되었습니다.");
 						file.transferTo(destFile);
-					}catch(Exception e){
-					    e.getStackTrace();
-					}        
+					} catch (Exception e) {
+						e.getStackTrace();
+					}
 				}
-					
-				//2. 파일정보 파일테이블에 넣기
+
+				// 2. 파일정보 파일테이블에 넣기
 				fileVO.setUser_no(notice.getNotice_no());
 				fileVO.setBoard_no(1);
-				fileVO.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
+				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
-				
-				//3. notice_info테이블에 정보 넣기
-				//3-1. server_filname에 맞는 file_no가져오기
+
+				// 3. notice_info테이블에 정보 넣기
+				// 3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				notice.setFile_no(file_no);
 				System.out.println(notice.toString());
 				noticeService.resistNotice(notice);
-				
+
 				mav.setViewName("redirect:/");
 			}
 		} catch (Exception e) {
@@ -185,7 +217,7 @@ public class AdminController {
 		}
 		return mav;
 	}
-	
+
 	// 관리자 공지사항 리스트
 	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
 	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
@@ -207,7 +239,7 @@ public class AdminController {
 
 	// 관리자 공지사항 뷰페이지 디테일
 	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
-	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum,String server_filename,
+	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum, String server_filename,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
 		try {
 			// 조회수 증가
@@ -228,7 +260,7 @@ public class AdminController {
 	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
 		try {
 			Notice notice = noticeService.getNotice(noticeNum);
-			
+
 			model.addAttribute("article", notice);
 			model.addAttribute("page", "admin/notice/modifyform");
 		} catch (Exception e) {

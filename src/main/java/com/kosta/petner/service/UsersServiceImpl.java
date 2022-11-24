@@ -269,6 +269,12 @@ public class UsersServiceImpl implements UsersService {
 		
 	}
 
+	// 타입 업데이트
+	@Override
+	public void updateUserType(Integer user_no) throws Exception {
+		usersDAO.updateUserType(user_no);
+	}
+
 		
 			
 	}

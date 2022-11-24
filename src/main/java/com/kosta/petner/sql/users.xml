@@ -222,5 +222,12 @@
 			delete from users where user_no=#{user_no}
 		]]>
 	</delete>
+	
+	<!-- 유진 타입 업데이트 -->
+	<update id="updateUserType" parameterType="com.kosta.petner.bean.Users">
+		<![CDATA[
+			update USERS set user_type = #{user_type} where user_no = #{user_no};
+		]]>
+	</update>
 
 </mapper>
