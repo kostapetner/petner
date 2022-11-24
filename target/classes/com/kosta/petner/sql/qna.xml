@@ -3,72 +3,67 @@
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
                         
 <mapper namespace="mapper.qna">
-	<insert id="insert">
-		INSERT INTO qna (id, root, title, content, writer, filename, filepath)
-		VALUES (seq_qna.NEXTVAL, seq_qna.CURRVAL, #{title }, #{content }, #{writer }, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR })
-	</insert>
-	
-	<select id="detail" resultType="com.kosta.petner.bean.Qna">
-		SELECT q.*, (SELECT name FROM users u WHERE u.id = q.writer) name
-		FROM qna q
-		WHERE id=#{id }
-	</select>
-	
-	<update id="read">
-		UPDATE qna SET readcnt = readcnt + 1 WHERE id=#{id }	
-	</update>
-	
-	<delete id="delete">
-		DELETE FROM qna WHERE id=#{id }
-	</delete>
-	
-	<update id="update">
-		UPDATE qna SET title = #{title }, content = #{content }, filename = #{filename, jdbcType=VARCHAR }, filepath = #{filepath, jdbcType=VARCHAR }
-		WHERE id = #{id }
-	</update>
-	
-	<select id="list" resultType="com.kosta.petner.bean.Qna">
-		SELECT *
-		FROM (SELECT ROWNUM no, q.*, (SELECT name FROM users u WHERE u.id = writer) name
-			FROM (SELECT * FROM qna <include refid="search_where" /> ORDER BY root, step DESC) q
-			ORDER BY no DESC) q
-		WHERE no BETWEEN #{beginList } and #{endList }
-	</select>
-	
-	<select id="totalList" resultType="integer">
-		SELECT COUNT(*) FROM qna <include refid="search_where"/>
-	</select>
-	
-	<insert id="reply_insert">
-		<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
+	<insert id="insertQna" parameterType="com.kosta.petner.bean.Qna">
 		<![CDATA[
-			{CALL DECLARE BEGIN
-				UPDATE qna SET step = step + 1
-				WHERE root = #{root } AND step > #{step };
-				
-				INSERT INTO qna (id, root, title, content, writer, step, indent, filename, filepath)
-				VALUES (seq_qna.NEXTVAL, #{root }, #{title }, #{content }, #{writer }, #{step } + 1, #{indent } + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
-			END}
+			insert into qna (qna_no,user_id,qna_title,qna_content,file_no, qna_re_ref, qna_re_lev, qna_re_seq, qna_hit, reg_date)
+			values(qna_seq.nextval,#{user_id},#{qna_title},#{qna_content},#{file_no, jdbcType=VARCHAR},
+				#{qna_re_ref},#{qna_re_lev},#{qna_re_seq},#{qna_hit},sysdate)
 		]]>
 	</insert>
 	
-	<sql id="search_where">
-		<if test="search == 'title' or search == 'content'">
-			WHERE ${search } LIKE '%' || #{keyword } || '%'
-		</if>
-		<if test="search == 'writer'">
-			WHERE <include refid="search_writer" />
-		</if>
-		<if test="search == 'all'">
-			WHERE title LIKE '%' || #{keyword } || '%'
-			OR content LIKE '%' || #{keyword } || '%'
-			OR <include refid="search_writer" />
-		</if>
-	</sql>
+	<select id="selectMaxQnaNum" resultType="Integer">
+		<![CDATA[
+			select max(qna_no) from qna
+		]]>
+	</select>
 	
-	<sql id="search_writer">
-		writer IN (SELECT id FROM users WHERE name LIKE '%' || #{keyword } || '%')
-	</sql>
+	<select id="selectQnaList" resultType="com.kosta.petner.bean.Qna" parameterType="Integer">
+		<![CDATA[
+			select qna_no,user_id,qna_title,qna_content,file_no,qna_re_ref,
+				qna_re_lev,qna_re_seq,qna_hit,reg_date 
+			from (select row_number() over (order by qna_re_ref desc, qna_re_seq asc) num, Q.*
+					from qna Q order by qna_re_ref desc, qna_re_seq asc)
+			where num between #{row} and #{row}+9
+		]]>
+	</select>
+	
+	<select id="selectQnaCount" resultType="Integer">
+		<![CDATA[
+			select count(*) from qna
+		]]>
+	</select>
+	
+	<select id="selectQna" resultType="com.kosta.petner.bean.Qna" parameterType="Integer">
+		<![CDATA[
+			select * from qna where qna_no=#{qna_no} ORDER BY qna_no DESC
+		]]>
+	</select>
+	
+	<update id="updateQna" parameterType="com.kosta.petner.bean.Qna">
+		<![CDATA[
+			update qna set qna_title=#{qna_title}, qna_content=#{qna_content}
+			where qna_no=#{qna_no}
+		]]>
+	</update>
+	
+	<update id="read">
+		<![CDATA[
+			UPDATE qna SET qna_hit = qna_hit + 1 WHERE qna_no=#{qna_no}
+		]]>
+	</update>
+	
+	<update id="updateQnaReReq" parameterType="com.kosta.petner.bean.Qna">
+		<![CDATA[
+			update qna set qna_re_seq=qna_re_seq+1
+			where qna_re_ref=#{qna_re_ref} and qna_re_seq>#{qna_re_seq}
+		]]>
+	</update>
+	
+	<delete id="deleteQna" parameterType="Integer">
+		<![CDATA[
+			delete from qna where qna_no=#{qnaNum}
+		]]>
+	</delete>
 </mapper>
 
 

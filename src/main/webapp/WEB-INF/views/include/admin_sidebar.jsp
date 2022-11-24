@@ -85,7 +85,7 @@
 						</button>
 						<div class="collapse" id="table-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="./boardList"
+								<li><a href="./ad_noticeList"
 									class="link-dark d-inline-flex text-decoration-none rounded">공지사항관리</a></li>
 								<li><a href="#"
 									class="link-dark d-inline-flex text-decoration-none rounded">리뷰관리</a></li>

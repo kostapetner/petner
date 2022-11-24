@@ -10,4 +10,10 @@ public interface FileService {
 	//server_filename에 맞는 file_no값 가져오기
 	Integer getFileNo(String server_filename);
 
+	/* 날짜:22.11.16
+	 * 작성자: 김혜경
+	 * 내용: file_no에 맞는 ServerFilename 가져오기
+	 */
+	String getServerFilename(Integer file_no);
+
 }

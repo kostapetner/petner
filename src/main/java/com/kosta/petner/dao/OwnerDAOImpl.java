@@ -49,10 +49,6 @@ public class OwnerDAOImpl implements OwnerDAO {
 		sqlSession.insert("mapper.owner.insertRequireServiceFrom", careService);
 	}
 
-//	@Override
-//	public List<CareService> getServiceList(Integer user_no) {
-//		return sqlSession.selectList("mapper.owner.getServiceList", user_no);
-//	}
 	@Override
 	public List<CareService> getServiceList(Integer user_no, Integer row) {
 		Map<String,Object>map = new HashMap<String,Object>();
@@ -66,8 +62,9 @@ public class OwnerDAOImpl implements OwnerDAO {
 		return sqlSession.selectOne("mapper.owner.csListCount", user_no);
 	}
 
-	
-
-
+	@Override
+	public int csListAllCount() {
+		return sqlSession.selectOne("mapper.owner.csListAllCount");
+	}
 
 }

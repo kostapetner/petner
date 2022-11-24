@@ -2,87 +2,96 @@ package com.kosta.petner.bean;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Qna {
-	private int id, readcnt, no, root, step, indent;
-	private String title, content, writer, filename, filepath, name;
-	private Date writedate;
+	private int qna_no;
+	private String user_id;
+	private String qna_pass;
+	private String qna_title;
+	private String qna_content;
+	private String file_no;
+	private int qna_re_ref;
+	private int qna_re_lev;
+	private int qna_re_seq;
+	private int qna_hit;
+	private Date reg_date;
 	
-	public int getId() {
-		return id;
+	private MultipartFile imageFile;
+	
+	public void setQna_no(int qna_no) {
+		this.qna_no = qna_no;
 	}
-	public int getNo() {
-		return no;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setQna_pass(String qna_pass) {
+		this.qna_pass = qna_pass;
 	}
-	public Date getWritedate() {
-		return writedate;
+	public void setQna_title(String qna_title) {
+		this.qna_title = qna_title;
 	}
-	public void setWritedate(Date writedate) {
-		this.writedate = writedate;
+	public void setQna_content(String qna_content) {
+		this.qna_content = qna_content;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setFile_no(String file_no) {
+		this.file_no = file_no;
 	}
-	public int getReadcnt() {
-		return readcnt;
+	public void setQna_re_ref(int qna_re_ref) {
+		this.qna_re_ref = qna_re_ref;
 	}
-	public void setReadcnt(int readcnt) {
-		this.readcnt = readcnt;
+	public void setQna_re_lev(int qna_re_lev) {
+		this.qna_re_lev = qna_re_lev;
 	}
-	public int getRoot() {
-		return root;
+	public void setQna_re_seq(int qna_re_seq) {
+		this.qna_re_seq = qna_re_seq;
 	}
-	public void setRoot(int root) {
-		this.root = root;
+	public void setQna_hit(int qna_hit) {
+		this.qna_hit = qna_hit;
 	}
-	public int getStep() {
-		return step;
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
 	}
-	public void setStep(int step) {
-		this.step = step;
+	public int getQna_no() {
+		return qna_no;
 	}
-	public int getIndent() {
-		return indent;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setIndent(int indent) {
-		this.indent = indent;
+	public String getQna_pass() {
+		return qna_pass;
 	}
-	public String getTitle() {
-		return title;
+	public String getQna_title() {
+		return qna_title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public String getQna_content() {
+		return qna_content;
 	}
-	public String getContent() {
-		return content;
+	public String getFile_no() {
+		return file_no;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public int getQna_re_ref() {
+		return qna_re_ref;
 	}
-	public String getWriter() {
-		return writer;
+	public int getQna_re_lev() {
+		return qna_re_lev;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public int getQna_re_seq() {
+		return qna_re_seq;
 	}
-	public String getFilename() {
-		return filename;
+	public int getQna_hit() {
+		return qna_hit;
 	}
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public Date getReg_date() {
+		return reg_date;
 	}
-	public String getFilepath() {
-		return filepath;
+	public MultipartFile getImageFile() {
+		return imageFile;
 	}
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
+	public void setImageFile(MultipartFile imageFile) {
+		this.imageFile = imageFile;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
+	
+	
 }

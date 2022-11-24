@@ -5,7 +5,14 @@
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
-
+<html>
+<head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<c:import url='/WEB-INF/views/include/common_head.jsp' />
+<link rel="stylesheet" href="${cssPath}/table.css">
+<title>${title}</title>
 
 <style type="text/css">
 h2 {
@@ -23,35 +30,60 @@ h2 {
 	text-align: center;
 }
 </style>
+</head>
 
-<div class="card ad_card mb-4">
-	<div class="card-body">
-		<section id="articleForm">
-			<h2 class="card-title">글 내용 상세보기</h2>
-			<section id="basicInfoArea">
-				제 목 : ${article.notice_title } 첨부파일 :
-				<c:if test="${article.file_no!=null }">
-					<a href="file_down?downFile=${article.file_no}">
-						${article.file_no} </a>
-				</c:if>
-			</section>
-			<section id="articleContentArea">${article.notice_content }
-			</section>
-		</section>
-		<section id="commandList">
-			<div class="d-grid gap-2 d-md-block ad_button">
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="modifyform?notice_no=${article.notice_no}">수정</a>
-				</button>
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="deleteform?notice_no=${article.notice_no}">삭제</a>
-				</button>
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="./noticeList">목록</a>
-				</button>
+<body>
+	<div id="wrapper">
+		<!-- CONTAINER -->
+		<div class="container w90">
+			<div class="">
+				<p class="list_title">공지사항</p>
+				<div class="pn_view">
+					<div class="title">
+						<h1>${article.notice_title }</h1>
+					</div>
+					<div class="source">
+						<div>
+							<span>by</span>${article.user_id }&nbsp;&nbsp;${article.reg_date }</div>
+						<div class="file">
+							첨부파일
+							<section>
+								<!-- 첨부파일 -->
+								<c:if test="${article.file_no!=null }">
+									<div>
+										<a href="file_down?downFile=${article.file_no}">
+											${article.file_no} </a>
+									</div>
+								</c:if>
+							</section>
+						</div>
+					</div>
+					<hr>
+					<section id="articleForm">
+						<%-- <section id="basicInfoArea">
+						<!-- 첨부파일 -->
+						<c:if test="${article.file_no!=null }">
+							<div>
+								<a href="file_down?downFile=${article.file_no}">
+									${article.file_no} </a>
+							</div>
+						</c:if>
+					</section> --%>
+						<section id="articleContentArea">
+							<div class="content">${article.notice_content }</div>
+						</section>
+					</section>
+					<hr>
+					<section id="commandList">
+						<div class="d-grid gap-2 d-md-block ad_button">
+							<button class="btn btn-outline-secondary" type="button">
+								<a class="admin_btn" href="./noticeList">목록</a>
+							</button>
+						</div>
+					</section>
+				</div>
 			</div>
-			<!--  <a href="replyform?notice_no=${article.notice_no}"> [답변] </a>  -->
-			 
-		</section>
+		</div>
 	</div>
-</div>
+</body>
+</html>

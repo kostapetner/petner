@@ -34,4 +34,102 @@
 		]]> 
 	</select>
 	
+	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
+	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,user_no
+				,pet_no
+				,zipcode
+				,addr
+				,addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,file_no
+				,nickname
+		from (
+			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
+			from care_service b, USERS u
+			WHERE b.USER_NO = u.USER_NO 
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
+	]]>	
+	</select>
+	
+	<!-- findPet(돌봐줄 동물찾기) service_no에 맞는 정보 가져오기 -->
+	<select id="getViewForm" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,cs.user_no
+				,pet_no
+				,cs.zipcode
+				,cs.addr
+				,cs.addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,cs.file_no
+				,nickname
+		from care_service cs, users u
+		where cs.user_no = u.user_no
+		and service_no = #{service_no}
+	]]>	
+	</select>
+	
+	<!-- if문을 이용한 동적쿼리 예시-->
+	<select id="findPetSearch" parameterType="com.kosta.petner.bean.Find" resultType="com.kosta.petner.bean.Find">
+		SELECT   service_no
+				,cs.user_no
+				,cs.pet_no
+				,pet_kind
+				,cs.zipcode
+				,cs.addr
+				,cs.addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,cs.file_no
+				,nickname
+				,u.gender
+		FROM care_service cs
+		left join users u on cs.user_no = u.user_no
+		left join PET_INFO pif on cs.pet_no = pif.pet_no
+		WHERE 1=1
+		<!-- 날짜는 디비버 돌리고 하기! -->
+		<!-- 서비스 -->
+		<if test="service != null and service != ''">
+			AND service = #{service}
+		</if>
+		<!-- 동물종류 -->
+		<if test="pet_kind != null and pet_kind != ''">
+			AND pet_kind = #{pet_kind}
+		</if>
+		<!-- 성별 -->
+		<if test="gender != null and gender != ''">
+			AND GENDER = #{gender}
+		</if>
+		<!-- 키워드 -->
+		<if test="keyword != null and keyword != ''">
+			AND nickname = #{keyword}
+		</if>
+	</select>
+	
+	
 </mapper>

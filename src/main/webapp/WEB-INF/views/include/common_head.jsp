@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="${cssPath}/form_component.css">
 <link rel="stylesheet" href="${cssPath}/mypage_default.css">
 <link rel="stylesheet" href="${cssPath}/mypage_form.css">
+<link rel="stylesheet" href="${cssPath}/table.css">
 <link rel="stylesheet" href="${cssPath}/list.css">
 
 <!-- JS -->
