@@ -100,12 +100,11 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	
 	
-<<<<<<< HEAD
 	// 내 아이디로 등록된 시터정보나 동물정보가 있는지 체크 221121-DSC
 	@Override
 	public Map<String, Object> getCount(int user_no) {
 		return sqlSession.selectOne("mapper.users.getCount", user_no);
-=======
+	}
 	//id로 회원정보 전체조회
 	@Override
 	public Users inquiryOfUserById(String id) throws Exception {
@@ -124,7 +123,6 @@ public class UsersDAOImpl implements UsersDAO{
 	@Override
 	public void deleteUsers(Integer user_no) throws Exception {
 		sqlSession.update("mapper.users.deleteUsers", user_no);
->>>>>>> 672c5dd072b9574bd73b856464d6dbb4251f1e66
 		
 	}
 
