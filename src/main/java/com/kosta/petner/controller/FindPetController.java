@@ -99,7 +99,7 @@ public class FindPetController {
 	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.POST)
 	String findPetSearch(Model model, @ModelAttribute Find findVO ) {
 
-		System.out.println("findVO.toString():  "+findVO.toString());
+		System.out.println("findVO.toString():  "+findVO);
 		
 		List<Find> petSearchList = sitterService.findPetSearch(findVO);
 		

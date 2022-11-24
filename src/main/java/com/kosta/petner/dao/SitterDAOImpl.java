@@ -1,5 +1,6 @@
 package com.kosta.petner.dao;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,14 +50,31 @@ public class SitterDAOImpl implements SitterDAO {
 	@Override
 	public List<Find> findPetSearch(Find findVO) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		findVO.getPet_kind();
-		
-		String petKindArray = findVO.getPet_kind();
-		System.out.println("petKindArray:   "+petKindArray);
-		
-		//map.put("petKindArray",petKindArray);
-		
-		return sqlSession.selectList("mapper.sitter.findPetSearch", findVO);
+		//service
+		if(findVO.getService() != null && !findVO.getService().equals("")) {
+			String[] serviceArray = findVO.getService().split(",");
+			map.put("serviceArray",serviceArray);
+		}else {
+			System.out.println("null입니다.");
+		}
+		//pet_kind
+		if(findVO.getPet_kind() != null && !findVO.getPet_kind().equals("")) {
+			String[] petKindArray = findVO.getPet_kind().split(",");
+			map.put("petKindArray",petKindArray);
+		}else {
+			System.out.println("null입니다.");
+		}
+		//gender
+		if(findVO.getGender() != null && !findVO.getGender().equals("")) {
+			String[] genderArray = findVO.getGender().split(",");
+			map.put("genderArray",genderArray);
+		}else {
+			System.out.println("null입니다.");
+		}
+		//keyword
+		//map.put("keyword",findVO.getKeyword());
+
+		return sqlSession.selectList("mapper.sitter.findPetSearch", map);
 	}
 
 }
