@@ -11,6 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <c:import url='/WEB-INF/views/include/common_head.jsp' />
+<link rel="stylesheet" href="${cssPath}/table.css">
 <title>${title}</title>
 
 <style type="text/css">

@@ -37,9 +37,26 @@ textarea {
 <div class="card ad_card mb-4">
 	<div class="card-body">
 		<h2 class="card-title">공지사항 글 등록</h2>
-		<form action="./ad_noticewrite" method="post"
-			enctype="multipart/form-data" name="ad_noticeform">
-
+		<form action="/petner/ad_noticewriteform/register" method="POST" id="ad_noticewriteform" enctype="multipart/form-data">
+		<!-- <form action="./ad_noticewrite" method="post"
+			enctype="multipart/form-data" name="ad_noticeform"> -->
+			
+			
+			<!-- 사진등록 -->
+		<div class="f_row profile_upload">
+			<p class="fc_title">프로필 사진을 올려주세요</p>
+			<p class="tip">프로필 사진이 있으면 보호자에게 연락올 확률이 높아져요</p>
+			<div class="profile_upload">
+				<div class="prof_img">
+					<img id="rep" class="img_wrap img"/> <br>
+					<label for="file" class="pet_btn edit_btn">
+						<i class="fa-solid fa-pen" id="pen"></i>
+					</label>
+					<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+				</div>
+			</div>
+		</div>
+		
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
 					type="text" class="form-control" name="user_id" id="user_id"
@@ -67,12 +84,12 @@ textarea {
 				</textarea>
 			</div>
 
-			<div class="input-group flex-nowrap">
+			<!-- <div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
 					type="file" class="form-control" name="file" id="file_no"
 					required="required" placeholder="Username" aria-label="파일첨부"
 					aria-describedby="addon-wrapping">
-			</div>
+			</div> -->
 
 			<section id="commandCell">
 				<div class="d-grid gap-2 d-md-block">
@@ -83,3 +100,22 @@ textarea {
 		</form>
 	</div>
 </div>
+<script>
+$(document).ready(function(){
+	//이미지 미리보기
+	$(function() {
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#rep').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);	
+		});
+	})
+ 
+	//submit 
+	$(".submit_btn").click(function(){
+	  $("#ad_noticewriteform").submit();
+	})
+});
+</script>

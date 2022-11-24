@@ -1,6 +1,7 @@
 package com.kosta.petner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
@@ -10,6 +11,7 @@ import com.kosta.petner.bean.Users;
 public interface MypageService {
 	// 나의 기본정보
 	Users getMyinfo(String id);
+	
 	// 나의정보 수정
 	int updateMyinfo(Users users);
 	
@@ -21,5 +23,11 @@ public interface MypageService {
 	
 	// 마이페이지 ALL INFO
 	Object getMyAllInfo(int user_no);
+
+	
+
+	// 카운트가져오기
+	//Map<String, Object> getCount(int user_no);
+	Map<String, Object> getCount(int user_no);
 	
 } 

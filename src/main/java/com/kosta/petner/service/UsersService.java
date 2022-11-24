@@ -46,4 +46,9 @@ public interface UsersService {
 	// 아이디로 회원의 모든 정보 조회
 	Users inquiryOfUserByUserNo(int userNo) throws Exception;
 
+	// 유진 : 회원탈퇴
+	void deleteUsers(Integer user_no) throws Exception;
+	
+	// 타입 업데이트
+	void updateUserType(Integer user_no) throws Exception;
 }

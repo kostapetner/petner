@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 
@@ -258,6 +259,7 @@ public class UsersServiceImpl implements UsersService {
 		return usersDAO.inquiryOfUserByUserNo(userNo);
 	}
 
+
 	//로그인유지
 	@Override
 	public void keepLogin(String uid, String sessionId, Date next) {
@@ -269,6 +271,23 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Users checkUserWithSessionKey(String sessionId) {
 		return usersDAO.checkUserWithSessionKey(sessionId);
+	}
+
+	// 유진 : 회원탈퇴
+	@Override
+	public void deleteUsers(Integer user_no) throws Exception {
+		Users users = getUserByUserNo(user_no);
+		System.out.println("Service:"+user_no);
+		System.out.println("Service:"+users);
+		usersDAO.deleteUsers(user_no);
+		
+	}
+
+	// 타입 업데이트
+	@Override
+	public void updateUserType(Integer user_no) throws Exception {
+		usersDAO.updateUserType(user_no);
+
 	}
 
 		

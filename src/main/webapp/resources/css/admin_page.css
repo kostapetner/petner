@@ -259,3 +259,8 @@ header {
 .ad_button .admin_btn:hover {
     color: #FFF;
 }
+
+
+/* ***** user detail page ***** */
+.user_detail li { display:flex }
+.user_detail li p:first-child { font-weight: bold; }

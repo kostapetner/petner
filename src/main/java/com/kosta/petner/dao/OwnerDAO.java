@@ -33,7 +33,6 @@ public interface OwnerDAO {
 	//전체 care_service 게시글 수
 	int csListAllCount();
 
-	//care_service테이블의 전체 게시글 수
-	List<CareService> findPetList(Integer row);
+	
 
 }

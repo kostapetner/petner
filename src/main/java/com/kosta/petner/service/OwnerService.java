@@ -26,18 +26,11 @@ public interface OwnerService {
 	 */
 	void insertRequireServiceFrom(CareService careService);
 
-	/* 날짜:22.11.17
-	 * 작성자: 김혜경
-	 * 내용: 시터 서비스 신청 list가져오기
-	 */
-	//List<CareService> getServiceList(Integer user_no);
-	
 	/* 날짜:22.11.18
 	 * 작성자: 김혜경
 	 * 내용: 시터 서비스 신청 list 가져오기 - 페이징
 	 */
 	List<CareService> getServiceList(Integer user_no, Integer page, PageInfo pageInfo);
-	
 	
 	/* 날짜:22.11.17
 	 * 작성자: 김혜경
@@ -45,13 +38,6 @@ public interface OwnerService {
 	 */
 	Integer csListCount(Integer user_no);
 
-	/* 날짜:22.11.21
-	 * 작성자: 김혜경
-	 * 내용: 돌봐줄 동물 찾기 리스트 가져오기
-	 */
-	List<CareService> findPetList(Integer page, PageInfo pageInfo);
-
 	
-
 	
 }

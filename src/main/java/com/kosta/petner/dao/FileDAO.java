@@ -8,4 +8,6 @@ public interface FileDAO {
 
 	Integer getFileNo(String server_filename);
 
+	String getServerFilename(Integer file_no);
+
 }

@@ -26,7 +26,15 @@
 		from 	file_tb
 		where 	server_filename = #{server_filename}
 	]]>
+	</select>
 	
+	<!-- file_no에 맞는 server_filename 가져오기 -->
+	<select id="getServerFilename" parameterType="Integer" resultType="String">
+	<![CDATA[
+		select	server_filename
+		from 	file_tb
+		where 	file_no = #{file_no}
+	]]>
 	</select>
 	
 </mapper>

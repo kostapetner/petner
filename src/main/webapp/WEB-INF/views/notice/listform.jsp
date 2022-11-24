@@ -11,6 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <c:import url='/WEB-INF/views/include/common_head.jsp' />
+<link rel="stylesheet" href="${cssPath}/table.css">
 <title>${title}</title>
 <style>
 .filter_feed {
@@ -26,7 +27,6 @@
 }
 </style>
 </head>
-
 <body>
 	<!-- 공지사항 리스트 -->
 	<div id="wrapper">
@@ -40,7 +40,7 @@
 							<table class="table table-hover">
 								<tbody>
 									<c:forEach var="article" items="${articleList }">
-										<tr>
+										<tr onClick="location.href='./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}'" style="cursor:pointer;">
 											<div>
 												<td>
 													<!-- 제목 -->
@@ -59,9 +59,8 @@
 															<c:otherwise></c:otherwise>
 														</c:choose>
 														<div class="title">
-															<a
-																href="./noticedetail?notice_no=${article.notice_no}&page=${pageInfo.page}">
-																${article.notice_title}</a>
+															
+																${article.notice_title}
 														</div>
 													</div> <!-- 내용 -->
 													<div class="row content">
