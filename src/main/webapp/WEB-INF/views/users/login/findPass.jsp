@@ -62,7 +62,12 @@
 				<div class="f_row" style="text-align:center; margin-top:20px">
 					<button type="button" id="findBtn" class="pet_btn submit_btn transition02">이메일 전송</button>
 					
-				</div>				
+				</div>		
+				
+				<div class="f_row" style="text-align:center;">
+					<a href="./modifyPass" class="pet_btn submit_btn transition02">비밀번호찾기</a> 
+					
+				</div>						
 			
 			
 			</div>

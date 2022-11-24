@@ -60,8 +60,10 @@
 		</c:if>
 
 		<c:if test="${not empty authUser}">
-			<div class="container">로그인 후 화면 (with 세션)</div>
+			<div class="container">로그인 후 화면 (with 세션) 
+			<p>자동 로그인(${authUser.sessionlimit})까지</p></div>
 		</c:if>
+		
 
 		<!-- FOOTER BASIC -->
 		<c:import url='/WEB-INF/views/include/footer.jsp' />

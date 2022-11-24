@@ -1,5 +1,7 @@
 package com.kosta.petner.bean;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +28,9 @@ public class Users {
 	private String user_level;
 	private int user_auth;
 	private int file_no;
-
+	private boolean useCookie;
+	private String sessionkey;
+	private Date sessionlimit;
 
 }
 	

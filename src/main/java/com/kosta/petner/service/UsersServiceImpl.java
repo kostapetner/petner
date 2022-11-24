@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
@@ -255,6 +256,19 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Users inquiryOfUserByUserNo(int userNo) throws Exception {
 		return usersDAO.inquiryOfUserByUserNo(userNo);
+	}
+
+	//로그인유지
+	@Override
+	public void keepLogin(String uid, String sessionId, Date next) {
+		usersDAO.keepLogin(uid, sessionId, next);
+		
+	}
+
+	//로그인유지 체크
+	@Override
+	public Users checkUserWithSessionKey(String sessionId) {
+		return usersDAO.checkUserWithSessionKey(sessionId);
 	}
 
 		
