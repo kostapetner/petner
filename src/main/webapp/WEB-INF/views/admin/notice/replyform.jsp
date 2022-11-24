@@ -34,7 +34,7 @@ table {
 	<!-- 게시판 답변 -->
 
 
-	<section id="writeForm">
+	<section id="ad_noticewriteForm">
 		<h2>게시판글등록</h2>
 		<form action="ad_noticereply" method="post" name="noticeform">
 			<input type="hidden" name="page" value="${page}" /> 

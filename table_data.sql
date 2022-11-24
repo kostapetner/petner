@@ -27,3 +27,35 @@ SELECT * FROM notice;
 CREATE SEQUENCE notice_seq
 INCREMENT BY 1 
 START WITH 1 ;
+
+
+
+
+
+CREATE TABLE qna (
+	qna_no NUMBER ,
+	user_id	VARCHAR2(50),
+	qna_title VARCHAR2(50),
+	qna_content VARCHAR2(50),
+	file_no	VARCHAR2(50),
+	reg_date date,
+	qna_hit NUMBER,
+	qna_re_ref number,
+	qna_re_lev number,
+	qna_re_seq number
+);
+
+
+INSERT INTO qna (qna_no, user_id, qna_title, qna_content,file_no)
+VALUES (qna_seq.nextval, 'admin', '마지막글', '글내용테스트' , 'file_no');
+
+DROP table qna;
+
+DROP SEQUENCE qna_seq;
+
+
+SELECT * FROM qna;
+
+CREATE SEQUENCE qna_seq
+INCREMENT BY 1 
+START WITH 1 ;

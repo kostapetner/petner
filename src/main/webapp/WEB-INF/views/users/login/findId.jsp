@@ -43,14 +43,14 @@
 					<p class="tip">이름과 가입한 이메일 정보를 입력해주세요.</p>
 				</div>
 				
-				<div class="f_row">
+				<div class="f_row" style="width:20px;">
 					<p class="fc_title">이름</p>
 					<input type="text" placeholder="이름" name="name" id="name" />
 				</div>
-				<div class="f_row">
+				<div class="f_row"style="width:20px;">
 					<p class="fc_title">이메일</p>
 					<div class="flex_between">
-						<input type="text" placeholder="E-mail" name="email" id="email" class="mr12"/>
+						<input type="text" placeholder="E-mail" name="email" id="email"/>
 						
 					</div>
 				</div>

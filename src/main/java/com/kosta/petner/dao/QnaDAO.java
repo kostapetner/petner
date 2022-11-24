@@ -2,59 +2,17 @@ package com.kosta.petner.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.kosta.petner.bean.Qna;
-import com.kosta.petner.bean.QnaPage;
-import com.kosta.petner.service.QnaService;
 
-@Repository
-public class QnaDAO implements QnaService {
-	@Autowired private SqlSession sql;
 
-	@Override
-	public void qna_insert(Qna qna) {
-		sql.insert("mapper.qna.insert", qna);
-	}
-
-	@Override
-	public List<Qna> qna_list() {
-		return sql.selectList("mapper.qna.list");
-	}
-
-	@Override
-	public Qna qna_detail(int id) {
-		return sql.selectOne("mapper.qna.detail", id);
-	}
-
-	@Override
-	public void qna_update(Qna qna) {
-		sql.update("mapper.qna.update", qna);
-	}
-
-	@Override
-	public void qna_delete(int id) {
-		sql.delete("mapper.qna.delete", id);
-	}
-
-	@Override
-	public void qna_read(int id) {
-		sql.update("mapper.qna.read", id);
-	}
-
-	@Override
-	public void qna_reply_insert(Qna qna) {
-		sql.insert("mapper.qna.reply_insert", qna);
-	}
-
-	@Override
-	public QnaPage qna_list(QnaPage page) {
-		page.setTotalList((Integer) sql.selectOne("mapper.qna.totalList", page));
-		page.setList(sql.selectList("mapper.qna.list", page));
-		
-		return page;
-	}
-
+public interface QnaDAO {
+	void insertQna(Qna qna) throws Exception; // 게시판 추가
+	Integer selectMaxQnaNum() throws Exception; // 전체글갯수
+	List<Qna> selectQnaList(Integer row) throws Exception;
+	Integer selectQnaCount() throws Exception;
+	Qna selectQna(Integer qna_no) throws Exception;	
+	void updateQna(Qna qna) throws Exception;
+	void updateQnaReReq(Qna qna) throws Exception;
+	void deleteQna(Integer qnaNum) throws Exception;
+	void qna_read(int qna_no) throws Exception; // 조회수 증가
 }

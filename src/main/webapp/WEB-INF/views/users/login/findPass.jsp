@@ -48,7 +48,7 @@
 					<p class="tip">아이디와 이메일 정보를 입력해주세요.</p>
 				</div>
 				
-				<div class="f_row">
+				<div class="f_row" style="width:20px;">
 					<p class="fc_title">아이디</p>
 					<input type="text" placeholder="아이디" name="id" id="id" />
 				</div>

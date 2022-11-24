@@ -77,8 +77,9 @@
 			,request_detail
 			,status
 			,reg_date
+			,file_no
 		)values(
-			 service_no_seq.nextval 
+			 service_no_seq.nextval
 			,#{user_no, jdbcType=INTEGER}
 			,#{pet_no, jdbcType=INTEGER}
 			,#{zipcode, jdbcType=INTEGER}
@@ -92,31 +93,10 @@
 			,#{request_detail, jdbcType=VARCHAR}
 			,#{status, jdbcType=VARCHAR}
 			,sysdate
+			,#{file_no, jdbcType=INTEGER}
 		)
 	]]>	
 	</insert>
-	
-<!-- <select id="getServiceList" parameterType="Integer" resultType="com.kosta.petner.bean.CareService">
-	<![CDATA[
-		select  service_no
-				,user_no
-				,pet_no
-				,zipcode
-				,addr
-				,addr_detail
-				,service
-				,st_date
-				,end_date
-				,request_money
-				,request_title
-				,request_detail
-				,status
-				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-		from care_service
-		where user_no = #{user_no}
-		order by service_no
-	]]>	
-	</select> -->
 	
 	<select id="getServiceList" resultType="com.kosta.petner.bean.CareService" parameterType="Map">
 	<![CDATA[
@@ -144,9 +124,7 @@
 		]]>
 	</select>
 	
-	
-	
-	
+	<!-- user_no가 조건으로 들어가는 게시글 수 -->
 	<select id="csListCount" parameterType="Integer" resultType="Integer">
 	<![CDATA[
 		select count(*)
@@ -154,4 +132,13 @@
 		where user_no = #{user_no}
 	]]>	
 	</select>
+	
+	<!-- care_service의 전체 게시글 수 -->
+	<select id="csListAllCount" resultType="Integer">
+	<![CDATA[
+		select count(*)
+		from care_service
+	]]>	
+	</select>
+	
 </mapper>

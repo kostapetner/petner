@@ -1,185 +1,179 @@
 package com.kosta.petner.controller;
 
-import java.io.File;
-import java.util.HashMap;
+import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.Qna;
-import com.kosta.petner.bean.QnaPage;
-import com.kosta.petner.bean.Users;
-import com.kosta.petner.service.CommonService;
-import com.kosta.petner.service.QnaServiceImpl;
-import com.kosta.petner.service.UsersServiceImpl;
+import com.kosta.petner.service.QnaService;
 
 
 @Controller
 public class QnaController {
-	@Autowired private QnaServiceImpl service;
-	@Autowired private CommonService common;
-	@Autowired private UsersServiceImpl usersService;
-	@Autowired private QnaPage page;
-	
-	//글 목록
-	@RequestMapping("/list.qna")
-	public String list(Model model, HttpSession session, @RequestParam(defaultValue = "1") int curPage,Users users, String search, String keyword) {
-		//QNA 클릭 하면 admin으로 자동 로그인
-		HashMap<String, String> map = new HashMap<String, String>();
-		//HashMap : 데이터를 담을 자료 구조
-//		map.put("id", "admin");
-//		map.put("pw", "1234");
-//		session.setAttribute("login_info", usersService.login(users));
-		
-		
-		session.setAttribute("category", "qna");
-		
-		//DB에서 글 목록 조회해와 화면에 출력
-		page.setCurPage(curPage);
-		page.setSearch(search);
-		page.setKeyword(keyword);
-		
-		model.addAttribute("page", service.qna_list(page));
-		model.addAttribute("title", "qna");
-		
-		return "qna/list";
-	}
-	
-	//신규 글 작성 화면 요청=========================================================
-	@RequestMapping("/new.qna")
-	public String qna() {
-		return "qna/new";
-	}
-	
-	//신규 글 저장 처리 요청
-	@RequestMapping("/insert.qna")
-	public String insert(MultipartFile file, Qna qna, HttpSession session) {
-		//첨부한 파일을 서버 시스템에 업로드하는 처리
-		if(!file.isEmpty()) {
-			qna.setFilepath(common.upload("qna", file, session));
-			qna.setFilename(file.getOriginalFilename());
-		}
-		
-		qna.setWriter( ((Users) session.getAttribute("login_info")).getId() );
-		//화면에서 입력한 정보를 DB에 저장한 후
-		service.qna_insert(qna);
-		//목록 화면으로 연결
-		return "redirect:list.qna";
-	}
-	
-	//QNA 글 상세 화면 요청
-	@RequestMapping("/detail.qna")
-	public String detail(int id, Model model) {
-		//선택한 QNA 글에 대한 조회수 증가 처리
-		service.qna_read(id);
-		
-		//선택한 QNA 글 정보를 DB에 조회해와 상세 화면에 출력
-		model.addAttribute("vo", service.qna_detail(id));
-		model.addAttribute("crlf", "\r\n");
-		model.addAttribute("page", page);
-		
-		return "qna/detail";
-	} //detail()
-	
-	//첨부 파일 다운로드 요청
-	@ResponseBody @RequestMapping("/download.qna")
-	public void download(int id, HttpSession session, HttpServletResponse response) {
-		Qna qna = service.qna_detail(id);
-		common.download(qna.getFilename(), qna.getFilepath(), session, response);
-	} // download()
-	
-	//QNA 글 삭제 처리 요청
-	@RequestMapping("/delete.qna")
-	public String delete(int id, HttpSession session) {
-		//선택한 QNA 글에 첨부한 파일이 있다면 서버의 물리적 영역에서 해당 파일도 삭제한다
-		Qna qna = service.qna_detail(id);
-		if(qna.getFilepath() != null) {
-			File file = new File(session.getServletContext().getRealPath("resources") + qna.getFilepath());
-			if( file.exists() ) { file.delete(); }
-		}
-		
-		//선택한 QNA 글을 DB에서 삭제한 후 목록 화면으로 연결
-		service.qna_delete(id);
-		
-		return "redirect:list.qna";
-	} //delete()
-	
-	//QNA 글 수정 화면 요청
-	@RequestMapping("/modify.qna")
-	public String modify(int id, Model model) {
-		//선택한 QNA 글 정보를 DB에서 조회해와 수정 화면에 출력
-		model.addAttribute("vo", service.qna_detail(id));
-		return "qna/modify";
-	} //modify()
-	
-	//QNA 글 수정 처리 요청
-	@RequestMapping("/update.qna")
-	public String update(Qna qna, MultipartFile file, HttpSession session, String attach) {
-		//원래 글의 첨부 파일 관련 정보를 조회
-		Qna qna1 = service.qna_detail(qna.getId());
-		String uuid = session.getServletContext().getRealPath("resources") + qna1.getFilepath();
-		
-		//파일을 첨부한 경우 - 없었는데 첨부 / 있던 파일을 바꿔서 첨부
-		if(!file.isEmpty()) {
-			qna.setFilename(file.getOriginalFilename());
-			qna.setFilepath(common.upload("qna", file, session));
-			
-			//원래 있던 첨부 파일은 서버에서 삭제
-			if(qna1.getFilename() != null) {
-				File f = new File(uuid);
-				if (f.exists()) { f.delete(); }
-			}
-		} else {
-			//원래 있던 첨부 파일을 삭제됐거나 원래부터 첨부 파일이 없었던 경우
-			if(attach.isEmpty()) {
-				//원래 있던 첨부 파일은 서버에서 삭제
-				if(qna1.getFilename() != null) {
-					File f = new File(uuid);
-					if (f.exists()) { f.delete(); }
-				}
-				
+	@Autowired
+	QnaService qnaService;
 
-			} else { //원래 있던 첨부 파일을 그대로 사용하는 경우
-				qna.setFilename(qna1.getFilename());
-				qna.setFilepath(qna1.getFilepath());
-			}
-		}
-		
-		//화면에서 변경한 정보를 DB에 저장한 후 상세 화면으로 연결
-		service.qna_update(qna);
-		
-		return "redirect:detail.qna?id=" + qna.getId();
-	} //update()
+	@Autowired
+	ServletContext servletContext;
+
+	// 글쓰기 화면 이동
+	@RequestMapping(value = "/qnawriteform", method = RequestMethod.GET)
+	public String qnawriteform(Model model) {
+		model.addAttribute("page", "qna/writeform");
+		model.addAttribute("title", "글쓰기");
+		return "/layout/main";
+	}
 	
-	//답글 쓰기 화면 요청==================================================================
-	@RequestMapping("/reply.qna")
-	public String reply(Model model, int id) {
-		//원글의 정보를 답글 쓰기 화면에서 알 수 있도록 한다.
-		model.addAttribute("vo", service.qna_detail(id));
-		
-		return "qna/reply";
-	} //reply()
 	
-	//신규 답글 저장 처리 요청==============================================================
-	@RequestMapping("/reply_insert.qna")
-	public String reply_insert(Qna qna, HttpSession session, MultipartFile file) {
-		if(!file.isEmpty()) {
-			qna.setFilename(file.getOriginalFilename());
-			qna.setFilepath(common.upload("qna", file, session));
+	// 글쓰기
+	@RequestMapping(value = "/qnawrite", method = RequestMethod.POST)
+	public String qnawrite(@ModelAttribute Qna qna, BindingResult result, Model model) {
+		try {
+			qnaService.resistQna(qna);
+			model.addAttribute("redirect:/qnaList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("/qna/err");
 		}
-		qna.setWriter(((Users) session.getAttribute("login_info")).getId());
-		
-		//화면에서 입력한 정보를 DB에 저장한 후 목록 화면으로 연결
-		service.qna_reply_insert(qna);
-		return "redirect:list.qna";
-	} //reply_insert()
+
+		return "redirect:/qnaList";
+	}
+
+	@RequestMapping(value = "/qnaList", method = { RequestMethod.GET, RequestMethod.POST })
+	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+			Model model) {
+//		ModelAndView mav = new ModelAndView();
+		PageInfo pageInfo = new PageInfo();
+		try {
+			List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
+			model.addAttribute("articleList", articleList);
+			model.addAttribute("pageInfo", pageInfo);
+			model.addAttribute("page", "/qna/listform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/qna/err");
+		}
+		return "/layout/main";
+	}
+
+	@RequestMapping(value = "/qnadetail", method = RequestMethod.GET)
+	String qnadetail(@RequestParam("qna_no") Integer qnaNum,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+		// ModelAndView mav = new ModelAndView();
+		try {
+			// 조회수 증가
+			qnaService.qna_read(qnaNum);
+			Qna qna = qnaService.getQna(qnaNum);
+			model.addAttribute("article", qna);
+			model.addAttribute("page", page);
+			model.addAttribute("page", "/qna/viewform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("/qna/err");
+		}
+		return "/layout/main";
+	}
+
+	@RequestMapping(value = "/qnamodifyform", method = RequestMethod.GET)
+	String qnamodifyform(@RequestParam("qna_no") Integer qnaNum, Model model) {
+		// ModelAndView mav = new ModelAndView();
+		try {
+			Qna qna = qnaService.getQna(qnaNum);
+			model.addAttribute("article", qna);
+			model.addAttribute("page", "/qna/modifyform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", "조회 실패");
+			model.addAttribute("/qna/err");
+		}
+		return "/layout/main";
+	}
+
+	@RequestMapping(value = "/qnamodify", method = RequestMethod.POST)
+	public String qnamodify(@ModelAttribute Qna qna, Model model) {
+		// ModelAndView mav = new ModelAndView();
+		try {
+			qnaService.modifyQna(qna);
+			model.addAttribute("Qna_no", qna.getQna_no());
+			model.addAttribute("redirect:/qnadetail");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/qna/err");
+		}
+		return "redirect:/qnadetail";
+	}
+
+	@RequestMapping(value = "/qnareplyform", method = RequestMethod.GET)
+	public String qnareplyform(@RequestParam("qna_no") Integer qnaNum,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+		// ModelAndView mav = new ModelAndView();
+
+		try {
+//			model.addAttribute("/layout/admin_main");
+			model.addAttribute("qnaNum", qnaNum);
+			model.addAttribute("age", page);
+			model.addAttribute("page", "/qna/replyform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/qna/err");
+		}
+		return "/layout/main";
+	}
+
+	@RequestMapping(value = "/qnareply", method = RequestMethod.POST)
+	public String qnareply(@ModelAttribute Qna qna, Model model) {
+		try {
+			qnaService.qnaReply(qna);
+			model.addAttribute("redirect:/qnaList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/qna/err");
+		}
+		return "redirect:/qnaList";
+	}
+
+	@RequestMapping(value = "/qnadeleteform", method = RequestMethod.GET)
+	public ModelAndView qnadeleteform(@RequestParam("qna_no") Integer qnaNum,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("qna_no", qnaNum);
+		mav.addObject("page", page);
+		mav.setViewName("/qna/deleteform");
+		return mav;
+	}
+
+	@RequestMapping(value = "/qnadelete", method = RequestMethod.POST)
+	public ModelAndView qnadelete(@RequestParam("qna_no") Integer qnaNum,
+//			@RequestParam(value="board_pass") String password,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		System.out.println("Controller:" + qnaNum);
+		ModelAndView mav = new ModelAndView();
+		try {
+//			boardService.deleteBoard(boardNum, password);
+			qnaService.deleteQna(qnaNum);
+			mav.addObject("page", page);
+			mav.setViewName("redirect:/qnaList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", e.getMessage());
+			mav.setViewName("/qna/err");
+		}
+		return mav;
+	}
 }
 

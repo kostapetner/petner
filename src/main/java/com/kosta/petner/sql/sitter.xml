@@ -34,4 +34,68 @@
 		]]> 
 	</select>
 	
+	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
+	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,user_no
+				,pet_no
+				,zipcode
+				,addr
+				,addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,file_no
+				,nickname
+		from (
+			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
+			from care_service b, USERS u
+			WHERE b.USER_NO = u.USER_NO 
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
+	]]>	
+	</select>
+	
+	<!-- findPet(돌봐줄 동물찾기) service_no에 맞는 정보 가져오기 -->
+	<select id="getViewForm" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,cs.user_no
+				,pet_no
+				,cs.zipcode
+				,cs.addr
+				,cs.addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,cs.file_no
+				,nickname
+		from care_service cs, users u
+		where cs.user_no = u.user_no
+		and service_no = #{service_no}
+	]]>	
+	</select>
+	
+	<select id="findPetSearch" parameterType="hashMap" resultType="com.kosta.petner.bean.CareService">
+		SELECT  *
+		FROM care_service cs
+		WHERE
+			<foreach item="item" index="index" collection="serviceArray" separator="or" >
+				service LIKE '%'||#{item}||'%'
+			</foreach>
+	</select>
+	
+	
 </mapper>

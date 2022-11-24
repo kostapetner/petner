@@ -98,7 +98,7 @@
 	]]>
 	</select>
  
-    <!-- 임시비밀번호수정 -->
+    <!-- 임시비밀번호발급 -->
 	<update id="updatePw" parameterType="com.kosta.petner.bean.Users">
 	<![CDATA[ 
 	    update users 
@@ -179,6 +179,17 @@
 			select * from users
 		]]>
 	</select>
+	
+	
+	<!-- 내 유저넘보로 등록된 펫정보나 시터정보 카운트 221122-DSC -->
+	<select id="getCount" parameterType="int" resultType="map">
+		<![CDATA[
+			SELECT a.PCNT is_mypet, b.SCNT is_sitter
+			FROM 
+			 (SELECT COUNT(*) PCNT FROM PET_INFO WHERE USER_NO = #{user_no, jdbcType=VARCHAR}) A,
+			 (SELECT COUNT(*) SCNT FROM SITTER_INFO WHERE USER_NO = #{user_no, jdbcType=VARCHAR}) B
+		]]>
+	</select>
 
 	<!-- 아이디로 회원 모든 정보 조회 2022.11.21 홍시원 추가 -->
 	<select id="inquiryOfUerById"
@@ -204,5 +215,19 @@
 			
 		]]>
 	</select>
+	
+	<!-- 유진: 회원 탈퇴 -->
+	<delete id="deleteUsers" parameterType="Integer">
+		<![CDATA[
+			delete from users where user_no=#{user_no}
+		]]>
+	</delete>
+	
+	<!-- 유진 타입 업데이트 -->
+	<update id="updateUserType" parameterType="com.kosta.petner.bean.Users">
+		<![CDATA[
+			update USERS set user_type = #{user_type} where user_no = #{user_no};
+		]]>
+	</update>
 
 </mapper>

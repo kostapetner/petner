@@ -22,4 +22,9 @@ public class FileServiceImpl implements FileService {
 		return fileDAO.getFileNo(server_filename);
 	}
 
+	@Override
+	public String getServerFilename(Integer file_no) {
+		return fileDAO.getServerFilename(file_no);
+	}
+
 }

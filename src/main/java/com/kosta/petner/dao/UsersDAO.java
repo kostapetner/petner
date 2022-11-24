@@ -2,7 +2,9 @@ package com.kosta.petner.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.Users;
 
 public interface UsersDAO {
@@ -45,10 +47,23 @@ public interface UsersDAO {
 
 	// users 의 전체 정보
 	List<Users> selectAllUsers() throws Exception;
+	
+	// 내 아이디로 등록된 시터정보나 동물정보가 있는지 체크 221121-DSC
+	Map<String, Object> getCount(int user_no);
+
+	
+	
+	
 
 	// 아이디로 회원의 모든 정보 조회
 	Users inquiryOfUserById(String id) throws Exception;
 
 	// 유저번호로 회원의 모든 정보 조회
 	Users inquiryOfUserByUserNo(int userNo) throws Exception;
+
+	// 유진 : 회원탈퇴
+	void deleteUsers(Integer user_no) throws Exception;
+	
+	// 타입 업데이트
+	void updateUserType(int user_no) throws Exception;
 }
