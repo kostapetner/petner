@@ -27,6 +27,8 @@
 	.desc{text-align:center; margin-bottom:35px;}
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
+	.id_email{position:absolute; top:32%; left:42%;}
+	.submit_btn{position: relative; top:200px; width:200px; right:1%}
 </style>
 <body>
 	<div id="wrapper">
@@ -40,9 +42,9 @@
 				<form action="./findId" id="findId" method="POST">
 				<div class="desc">
 					<p class="mb10">가입한 이메일로 아이디를 찾을수 있습니다.</p>
-					<p class="tip">이름과 가입한 이메일 정보를 입력해주세요.</p>
+					<p class="tip">이름과 이메일 정보를 입력해주세요.</p>
 				</div>
-				
+				<div class="id_email">
 				<div class="f_row" style="width:20px;">
 					<p class="fc_title">이름</p>
 					<input type="text" placeholder="이름" name="name" id="name" />
@@ -53,6 +55,7 @@
 						<input type="text" placeholder="E-mail" name="email" id="email"/>
 						
 					</div>
+				</div>
 				</div>
 				<div class="f_row" style="text-align:center; margin-top:20px">
 					<input type="submit" class="pet_btn submit_btn transition02" value="ID찾기"/>

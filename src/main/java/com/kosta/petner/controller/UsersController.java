@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 //import com.kosta.petner.bean.ChatSession;
@@ -207,6 +208,47 @@ public class UsersController {
 			
 			usersService.findPass(response, users);
 		}
+		
+		//비밀번호변경으로이동
+		@RequestMapping(value="/modifyPass", method=RequestMethod.GET)
+		String moidifyPass(){
+			return "/users/login/modifyPass";
+		}
+		
+		//비밀번호 확인
+		@RequestMapping(value="/checkPass", method=RequestMethod.POST)
+		public String checkPass(@ModelAttribute Users users, Model model) throws Exception {				
+
+			System.out.println("users.getId():    "+ users.getId());
+			System.out.println("users.getPassword():    "+ users.getPassword());
+		
+			Users searchPass = usersService.checkPass(users);
+
+			if(searchPass ==null) {
+				System.out.println("회원정보 불일치");
+				model.addAttribute("result", "fail");
+				return "users/login/resultPass";	
+			}
+			
+			model.addAttribute("searchPass", searchPass);
+			System.out.println(searchPass);
+			return "users/login/resultPass";
+			}
+		
+		
+		@RequestMapping(value="/updatePass" , method=RequestMethod.POST)
+		public String pwUpdate(Users users,String id,String password)throws Exception{
+			if(users.getId() != null)
+			System.out.println("비밀번호 수정성공");
+			usersService.updatePass(id, password);
+			session.invalidate();
+			
+			return "users/login/modifySuccess";
+		}
+	
+		
+		
+		
 		//카카오 로그인 토큰받기
 		@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
 		public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {

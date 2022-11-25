@@ -30,6 +30,12 @@ public interface UsersService {
 
 	// 비밀번호찾기
 	public void findPass(HttpServletResponse response, Users users) throws Exception;
+	
+	//비밀번호 체크
+	public Users checkPass(Users users)throws Exception;
+
+	//비밀번호 변경
+	public void updatePass(String id, String password)throws Exception;
 
 	// 카카오토큰받기
 	public String getAccessToken(String authorize_code);

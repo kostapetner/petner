@@ -114,7 +114,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 	
-	//임시번호전송
+	//임시비밀번호변경
 	@Override
 	public void findPass(HttpServletResponse response, Users users) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
@@ -144,6 +144,16 @@ public class UsersServiceImpl implements UsersService {
 			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
 			out.close();
 		}
+	}
+	//비밀번호 확인
+	@Override
+	public Users checkPass(Users users)throws Exception{
+		return usersDAO.checkPass(users.getId(), users.getPassword());
+	}
+	//비밀번호 수정
+	@Override
+	public void updatePass(String id, String password)throws Exception{
+		usersDAO.updatePass(id, password);
 	}
 
 	

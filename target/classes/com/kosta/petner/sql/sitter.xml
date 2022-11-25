@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sitter">
+	
+	<insert id="regist" parameterType="com.kosta.petner.bean.SitterInfo">
+		insert into sitter_info( user_no
+								,file_no
+								,pet_kind
+								,pet_specie
+								,work_day
+								,service
+								,zipcode
+								,addr
+								,addr_detail
+								,sitter_info
+		) values(#{user_no, jdbcType=INTEGER}
+				,#{file_no, jdbcType=INTEGER}
+				,#{pet_kind, jdbcType=VARCHAR}
+				,#{pet_specie, jdbcType=VARCHAR}
+				,#{work_day, jdbcType=VARCHAR}
+				,#{service, jdbcType=VARCHAR}
+				,#{zipcode, jdbcType=INTEGER}
+				,#{addr, jdbcType=VARCHAR}
+				,#{addr_detail, jdbcType=VARCHAR}
+				,#{sitter_info, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="getSitterInfo" parameterType="int" resultType="com.kosta.petner.bean.SitterInfo">
+		<![CDATA[
+			SELECT * FROM SITTER_INFO
+			WHERE USER_NO = #{user_no}
+		]]> 
+	</select>
+	
+	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
+	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,user_no
+				,pet_no
+				,zipcode
+				,addr
+				,addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,file_no
+				,nickname
+		from (
+			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
+			from care_service b, USERS u
+			WHERE b.USER_NO = u.USER_NO 
+			order by service_no desc
+			)
+		where num between #{row} and #{row}+9
+	]]>	
+	</select>
+	
+	<!-- findPet(돌봐줄 동물찾기) service_no에 맞는 정보 가져오기 -->
+	<select id="getViewForm" resultType="com.kosta.petner.bean.CareService">
+	<![CDATA[
+		select  service_no
+				,cs.user_no
+				,pet_no
+				,cs.zipcode
+				,cs.addr
+				,cs.addr_detail
+				,service
+				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+				,request_money
+				,request_title
+				,request_detail
+				,status
+				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+				,cs.file_no
+				,nickname
+		from care_service cs, users u
+		where cs.user_no = u.user_no
+		and service_no = #{service_no}
+	]]>	
+	</select>
+	
+	<select id="findPetSearch" parameterType="hashMap" resultType="com.kosta.petner.bean.CareService">
+		SELECT  *
+		FROM care_service cs
+		WHERE
+			<foreach item="item" index="index" collection="serviceArray" separator="or" >
+				service LIKE '%'||#{item}||'%'
+			</foreach>
+	</select>
+	
+	
+</mapper>

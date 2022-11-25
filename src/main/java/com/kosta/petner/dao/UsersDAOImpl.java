@@ -69,7 +69,25 @@ public class UsersDAOImpl implements UsersDAO{
 	//임시비밀번호발급
 	@Override
 	public void updatePw(Users users) {
-		 sqlSession.selectOne("mapper.users.updatePw", users);		
+		 sqlSession.selectOne("mapper.users.updateTmp", users);		
+	}
+	//비밀번호 확인
+	@Override
+	public Users checkPass(String id,String password)throws Exception{
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("password", password);
+		return sqlSession.selectOne("mapper.users.checkPass", map);
+	}
+	
+	//비밀번호 수정
+	@Override
+	public void updatePass(String id, String password) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("password", password);
+		sqlSession.update("mapper.users.updatePass", map);
+		
 	}
 	
 	// 카카오 정보 저장
@@ -95,10 +113,7 @@ public class UsersDAOImpl implements UsersDAO{
 	public int updateMyinfo(Users users) {
 		return sqlSession.update("mapper.users.updateMyinfo", users);
 	}
-	@Override
-	public void passwordUpdate(Users users) {
-		// TODO Auto-generated method stub
-	}
+	
 	
 	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
 	@Override

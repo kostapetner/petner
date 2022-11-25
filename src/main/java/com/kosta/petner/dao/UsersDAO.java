@@ -31,8 +31,12 @@ public interface UsersDAO {
 
 	// 임시비밀번호수정
 	void updatePw(Users users) throws Exception;
-
-	void passwordUpdate(Users users);
+	
+	//비밀번호 확인
+	Users checkPass(String id, String password)throws Exception;
+	
+	//비밀번호 변경
+	public void updatePass(String id, String password)throws Exception;
 
 	// 유저정보가져오기
 	Users getMyinfo(String id);
