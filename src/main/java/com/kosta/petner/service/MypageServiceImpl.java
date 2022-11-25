@@ -1,5 +1,7 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,10 @@ public class MypageServiceImpl implements MypageService {
 
 	@Override
 	public SitterInfo getMySitterinfo(int user_no) {
+		
+		
+		
+		//return sitterInfo;
 		return sitterDAO.getSitterInfo(user_no);
 	}
 
