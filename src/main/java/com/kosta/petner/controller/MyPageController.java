@@ -123,9 +123,8 @@ public class MyPageController {
    // 내가 펫시터일 경우의 컨트롤러
    @RequestMapping(value = "/mypage/mySitterInfo", method = RequestMethod.GET)
    public String mySitterInfo(HttpSession session, Model model){
-	   
-	   Users sessionInfo = (Users) session.getAttribute("authUser");
-	   int user_no = sessionInfo.getUser_no();
+	   	 
+	   int user_no = getLoginUserNo(session);	   
 	  
 	   try {
 		   SitterInfo sitterInfo = mypageService.getMySitterinfo(user_no);	      
@@ -136,7 +135,6 @@ public class MyPageController {
 		   model.addAttribute("data", sitterInfo);
 	   }catch(Exception e) {
 		   e.printStackTrace();
-		   System.out.println("coconut");
 		   model.addAttribute("page", "mypage/sitter/mySitterInfo");
 	   }
 	  
@@ -146,14 +144,14 @@ public class MyPageController {
    // 시터정보수정
    @RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.GET)
    public String mySitterInfoEdit(HttpSession session, Model model){
-	   Users sessionInfo = (Users) session.getAttribute("authUser");
-	   int user_no = sessionInfo.getUser_no();
+ 
+	   int user_no = getLoginUserNo(session);
 	   SitterInfo sitterInfo = mypageService.getMySitterinfo(user_no);
 	   
 	   model.addAttribute("data", sitterInfo);
+	   System.out.println("시터정보"+sitterInfo);
 	   model.addAttribute("page", "mypage/sitter/mySitterInfoEdit");
 	   model.addAttribute("title", "나의펫시터정보수정");
-	   //model.addAttribute("data", sitterInfo);
 	   return "/layout/mypage_default";
    }
    
