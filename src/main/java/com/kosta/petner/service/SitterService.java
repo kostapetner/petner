@@ -27,5 +27,5 @@ public interface SitterService {
 	 * 작성자: 김혜경
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
-	List<Find> findPetSearch(Find findVO);
+	List<CareService> findPetSearch(Find findVO);
 }

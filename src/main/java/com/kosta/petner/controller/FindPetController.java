@@ -2,9 +2,7 @@ package com.kosta.petner.controller;
 
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
@@ -96,15 +96,18 @@ public class FindPetController {
 	
 	//돌봐줄 동물 찾기 검색
 	//검색조건 : 날짜, 서비스, 동물종류, 보호자 성별, (현재위치), 펫이름
+	@ResponseBody
 	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.POST)
-	String findPetSearch(Model model, @ModelAttribute Find findVO ) {
-
-		System.out.println("findVO.toString():  "+findVO);
-		
-		List<Find> petSearchList = sitterService.findPetSearch(findVO);
-		
-		model.addAttribute("title", "돌봐줄 동물 찾기");
-		model.addAttribute("page", "main/find/findPetViewForm");
-		return "/layout/main";
+	public List<CareService> findPetSearch(@RequestBody Find findVO ) {
+		System.out.println("들어오ㅘㅅ앋");
+		List<CareService> petSearchList = null;
+		try {
+			petSearchList = sitterService.findPetSearch(findVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return petSearchList;
 	}
+	
+	
 }

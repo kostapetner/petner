@@ -24,6 +24,7 @@ $(document).ready(function() {
 				$('#date_end').datepicker({
 					minDate : new Date(endNum),
 				});
+				searchAjax();
 			}
 	}).data('datepicker');
 	var dp2 = $('#date_end').datepicker({	
@@ -37,14 +38,125 @@ $(document).ready(function() {
 						//시작일 datepicker에 최대날짜를 방금 클릭한 날짜로 설정
 						maxDate : new Date(startNum),
 					});
+					searchAjax();
 				}
 	}).data('datepicker');
-
-	//submit 
-	$("#btn_Search").click(function(){
-	  $("#findPetSearchForm").submit();
+	
+	var serviceArr = [];
+	var petKindArr = []; 
+	var genderArr = [];
+	//서비스
+	$(document).on("click", "input[name=service]", function () {
+		serviceArr = [];
+	    $("input[name='service']:checked").each(function(e){
+	        var value = $(this).val();
+	        serviceArr.push(value);        
+		})
+		//console.log("serviceArr:  "+serviceArr);
+	    searchAjax();
+	});
+	//동물종류
+	$(document).on("click", "input[name=pet_kind]", function () {
+		petKindArr = [];
+	    $("input[name='pet_kind']:checked").each(function(e){
+	        var value = $(this).val();
+	        petKindArr.push(value);        
+		})
+		//console.log("petKindArr:  "+petKindArr);
+	    searchAjax();
+	});
+	//보호자 성별
+	$(document).on("click", "input[name=gender]", function () {
+		genderArr = [];
+	    $("input[name='gender']:checked").each(function(e){
+	        var value = $(this).val();
+	        genderArr.push(value);        
+		})
+		//console.log("genderArr:  "+genderArr);
+	    searchAjax();
 	});
 	
+	/* function searchAjax(){
+		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
+		var st_date = $('#date_start').val();
+		var end_date = $('#date_end').val();
+		var service = serviceArr;
+		var pet_kind = petKindArr;
+		var gender = genderArr;
+		var keyword = $('input[name=keyword]').val();
+		
+		console.log("st_date : "+st_date);
+		console.log("end_date : "+end_date);
+		console.log("service : "+service);
+		console.log("pet_kind : "+pet_kind);
+		console.log("gender : "+gender);
+		console.log("keyword : "+keyword);
+		
+		// contentType: "application/json" 꼭 써주기
+ 		$.ajax({
+			url : "/${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch",
+			type : "POST",
+			dataType: "json",
+			contentType: "application/json",
+			data:JSON.stringify({
+			   	 "st_date":st_date
+		    	,"end_date":end_date
+		    	,"service":service
+		    	,"pet_kind":pet_kind
+		    	,"gender":gender
+		    	,"keyword":keyword
+			  }),
+			success : function(res) {
+				alert("success");
+				// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
+		       // $("#wrapper").load("${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch div");
+			},
+			error : function(xhr, error) { //xmlHttpRequest?
+				console.error("error : " + error);
+			}
+		});
+	} */
+	function searchAjax(){
+		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
+		var st_date = $('#date_start').val();
+		var end_date = $('#date_end').val();
+		var service = serviceArr;
+		var pet_kind = petKindArr;
+		var gender = genderArr;
+		var keyword = $('input[name=keyword]').val();
+		
+		console.log("st_date : "+st_date);
+		console.log("end_date : "+end_date);
+		console.log("service : "+service);
+		console.log("pet_kind : "+pet_kind);
+		console.log("gender : "+gender);
+		console.log("keyword : "+keyword);
+		
+		// contentType: "application/json" 꼭 써주기
+ 		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch",
+			type : "POST",
+			dataType: "json",
+			contentType: "application/json",
+			data:JSON.stringify({
+					 "st_date":st_date
+			    	,"end_date":end_date
+			    	,"service":service
+			    	,"pet_kind":pet_kind
+			    	,"gender":gender
+			    	,"keyword":keyword
+			  }),
+			success : function(res) {
+				alert("success");
+				// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
+		       // $("#wrapper").load("${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch div");
+			},
+			error : function(xhr, error) { //xmlHttpRequest?
+				console.error("error : " + error);
+			}
+		});
+	}
+
 	
 });//ready
 </script>
@@ -57,7 +169,7 @@ $(document).ready(function() {
 				<p class="list_title">돌봐줄 동물 찾기</p>
 				<!-- 검색창 -->
 				<div class="search_form">
-					<input type="text" name="keyword" class="keyword" placeholder="펫을 검색해요" />
+					<input type="text" name="keyword" class="keyword" placeholder="펫 이름으로 검색해요" />
 					<span class="search_submit" id="btn_Search">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</span>

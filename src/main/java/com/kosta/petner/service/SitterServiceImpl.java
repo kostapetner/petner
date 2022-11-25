@@ -62,7 +62,7 @@ public class SitterServiceImpl implements SitterService {
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	@Override
-	public List<Find> findPetSearch(Find findVO) {
+	public List<CareService> findPetSearch(Find findVO) {
 		return sitterDAO.findPetSearch(findVO);
 	}
 }
