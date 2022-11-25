@@ -10,6 +10,7 @@
 		// 동물종류체크
 		let pet_kind = '${data.pet_kind}';
 		pet_kind = pet_kind.split(',');
+		console.log(pet_kind);
 		
 		pet_kind.forEach(function(e){
 		    $("input[value="+e+"]").prop("checked", true);
@@ -30,7 +31,8 @@
 		});
 		
 		// 자기소개
-		
+		let str = '${data.sitter_info}';
+		$("textarea[name=sitter_info").text(str);
 		
 		
 		
