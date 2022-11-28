@@ -1,78 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="cssPath"
-	value="${pageContext.request.contextPath}/resources/css" />
-<c:set var="imgPath"
-	value="${pageContext.request.contextPath}/resources/images" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
 
 <!DOCTYPE html>
 <html>
 <head>
-<c:import url='/WEB-INF/views/include/common_head.jsp' />
-<title>아이디 찾기</title>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-	$(function() {
+	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
+	<title>비밀번호수정</title>
 
-		$('#checkPass').submit(function() {
-
-		});
-
-	});//function ready 끝
-</script>
 </head>
 <style>
-	#findId input[type=text]{width:100%;}
-	.desc{text-align:center; margin-bottom:35px;}
+	#findPass input[type=text]{width:100%;}
+	.desc{text-align:center; margin-bottom:45px;}
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
-	.submit_btn{position: relative; top:210px; width:200px; }
-	.id_pass {position:absolute; top:32%; left:42%;}
+	.submit_btn{position: relative; top:150px; width:200px;}
+	.flex_col {position:absolute; top:32%; left:42%;}
 </style>
+  <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script>
+  function checkPass() {
+	//비밀번호 유효성검사
+	  var password =$("#password").val();          //비밀번호 입력값
+	  var ck_password = $("#ck_password").val();   //비밀번호 체크 입력값
+	  var acceptPass = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/; 
+	  
+	  if(!password){
+	  	$('#checkpass-msg').text("비밀번호를 입력해주세요").css("color", "red");
+	    $("#password").focus();
+	    return false;
+	    
+	  }if(!acceptPass.test(password)){
+			$('#checkpass-msg').text("비밀번호는 영어+숫자+특수문자를 조합해야 합니다(8자 이상)").css("color", "red");
+		    $("#password").focus();
+		  return false;
+		  
+	  }if(!ck_password){
+	  	$('#checkpass-msg').text("비밀번호 확인을 입력해주세요").css("color", "red");
+	    $("#ck_password").focus();
+	    return false;
+	    
+	  }if(password !== ck_password){
+	  	$('#checkpass-msg').text("비밀번호가 일치하지 않습니다").css("color", "red");
+	      $("#password").focus();
+	      return false;
+ 	  }else{
+		$('#checkpass-msg').text("사용가능한 비밀번호입니다.").css("color", "green");
+		return true;
+	  }
+  }
+  
+  $(function () {
+	   $('#updateForm').submit(function() {
+		
+			  });
+  });
+  
+	  
+	  
+ </script>
+
 <body>
-	<div id="wrapper">
-		<!-- HEADER BASIC -->
-		<c:import url='/WEB-INF/views/include/header.jsp' />
-		<!-- CONTAINER -->
+  <div id="wrapper">
+    <!-- HEADER BASIC -->
+    <c:import url='/WEB-INF/views/include/header.jsp'/>
+    <!-- CONTAINER -->
 
 		<div class="container">
 			<div class="w45">
-				<h3 class="form_title">비밀번호변경</h3>
-				<form action="./checkPass" id="checkPass" method="POST">
+				<c:choose>
+				<c:when test="${empty searchPass}">
+				<h3 class="form_title">회원정보조회 실패</h3>
 				<div class="desc">
-					<p class="mb10">현재 비밀번호를 새 비밀번호로 변경합니다.</p>
-					<p class="tip">아이디와 기존 비밀번호를 입력해주세요.</p>
-				</div>
-				
-				<div class="id_pass">
-				<div class="f_row" style="width:20px;">
-					<p class="fc_title">아이디</p>
-					<input type="text" placeholder="아이디" name="id" id="id" />
-				</div>
-				<div class="f_row">
-					<p class="fc_title">비밀번호</p>
-					<div class="flex_between">
-						<input type="password" placeholder="" name="password" id="password" class="mr12"/>
+					<p class="mb10" style="color: #FFA6CF;">🤔 아이디와 비밀번호를 다시 확인해주세요! 🤔</p>
 					</div>
-				</div>
-				</div>
-				<div class="f_row" style="text-align:center; margin-top:20px">
-					<input type="submit" class="pet_btn submit_btn transition02" value="비밀번호 변경"/>
-				</div>				
-			</form>
+					</c:when>
+					<c:otherwise>
+					<h3 class="form_title">회원정보조회 성공</h3>
+					<form action= "${pageContext.request.contextPath}/modifyPass" method="POST" id="updateForm" onsubmit="return checkPass()" >
+					<div class="desc">
+					<p class="mb10" style="color:#C4B4E1;">&#128568 새로운 비밀번호를 입력해주세요! &#128568
+					</p>
+							<div class="f_row flex_col mb20" style= "width:200px; text-align:center;" >
+								<p class="fc_title" style= "text-align: left; color:#646496;">새 비밀번호</p>
+								<input type="hidden" name="id" value="${searchPass.id}">
+								<input class="mb10" type="password" name="password" id="password" placeholder="비밀번호입력" /> 
+							    <input type="password" name="ck_password" id="ck_password" placeholder="비밀번호확인" />
+							    <p><small id="checkpass-msg" class="form-error"></small></p>
+							</div>
+							</div>
+						<div class="f_row" style="text-align:center;">
+						<input type="submit" class="pet_btn submit_btn transition02" value="비밀번호 변경"/>
+						</div>		
+						</form>		
+					</c:otherwise>
+				</c:choose>
+					
+				
+				
 			
 			</div>
-			
-			
-
 		</div>
 
 
 
 		<!-- FOOTER BASIC -->
-		<c:import url='/WEB-INF/views/include/footer.jsp' />
-
-	</div>
+    <c:import url='/WEB-INF/views/include/footer.jsp'/>
+    
+  </div>
 </body>
 </html>

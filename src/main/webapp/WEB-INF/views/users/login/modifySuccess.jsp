@@ -7,23 +7,39 @@
 <html>
 <head>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
-	<title>비밀번호수정 성공!</title>
+	<title>비밀번호수정</title>
+
 </head>
+<style>
+	#findPass input[type=text]{width:100%;}
+	.desc{text-align:center; margin-bottom:45px;}
+	.find_id{width:120px !important; text-align:center;}
+	.flex_between{flex-wrap:nowrap}
+	.submit_btn{position: relative; top:150px; width:200px;}
+	.flex_col {position:absolute; top:32%; left:42%;}
+</style>
 <body>
   <div id="wrapper">
     <!-- HEADER BASIC -->
     <c:import url='/WEB-INF/views/include/header.jsp'/>
     <!-- CONTAINER -->
-    
-    <div class="container">
-    
-    
-    <p>회원님의 비밀번호가 성공적으로 수정되었습니다.새로운 비밀번호로 로그인해주세요!</p>
-     	
-    </div>
-		
-		
-	
+
+		<div class="container">
+			<div class="w45">
+				
+				<h3 class="form_title">비밀번호 수정완료</h3>
+				<div class="desc">
+					<p class="mb10" style="color: #AD19EC;">&#127881 비밀번호가 성공적으로 수정되었습니다. &#127881 </p>
+					<p class="mb10" style="color: #FF88A7;">&#128571 새로운 비밀번호로 로그인 해주세요. &#128571</p>
+					
+					</div>
+						
+			
+			</div>
+		</div>
+
+
+
 		<!-- FOOTER BASIC -->
     <c:import url='/WEB-INF/views/include/footer.jsp'/>
     

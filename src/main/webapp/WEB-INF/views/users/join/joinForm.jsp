@@ -55,7 +55,7 @@
 	    return false;
 	    
 	  }if(!acceptPass.test(password)){
-			$('#checkpass-msg').text("비밀번호는 영어소문자+숫자+특수문자를 조합해야 합니다(8자 이상)").css("color", "red");
+			$('#checkpass-msg').text("비밀번호는 영어+숫자+특수문자를 조합해야 합니다(8자 이상)").css("color", "red");
 		    $("#password").focus();
 		  return false;
 		  

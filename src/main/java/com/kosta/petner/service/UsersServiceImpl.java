@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -31,10 +32,12 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	UsersDAO usersDAO;
 	
+	@Autowired
+	BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	@Override
 	public void joinUsers(Users users) throws Exception {
-		System.out.println("service:" +users);
 		Users usersvo = usersDAO.selectId(users.getId());
 		if(usersvo!=null) throw new Exception("아이디 중복");
 		usersDAO.insertUsers(users);
@@ -140,9 +143,15 @@ public class UsersServiceImpl implements UsersService {
 			usersDAO.updatePw(users);
 			// 비밀번호 변경 메일 발송
 			sendEmail(users, "findPass");
-
+			System.out.println("비밀번호:" +pw);
 			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
 			out.close();
+			
+			//메일을 보낸 후 db에 암호화 해줌
+			String passBcrypt = bcryptPasswordEncoder.encode(pw);
+			   users.setPassword(passBcrypt);
+			 usersDAO.updatePw(users);
+			 System.out.println("비밀번호:" +passBcrypt);
 		}
 	}
 	//비밀번호 확인

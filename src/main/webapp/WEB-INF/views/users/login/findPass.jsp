@@ -68,7 +68,7 @@
 				</div>		
 				
 				<div class="f_row" style="text-align:center;">
-					<a href="./modifyPass" class="pet_btn submit_btn transition02" style= "background-color:#A0A0C8;">비밀번호변경</a> 
+					<a href="${pageContext.request.contextPath}/checkPass" class="pet_btn submit_btn transition02" style= "background-color:#A0A0C8;">비밀번호변경</a> 
 					
 				</div>						
 				</div>

@@ -52,4 +52,7 @@ ALTER table users ADD sessionkey varchar2(50) DEFAULT 'none' NOT NULL ;
 alter table users add  sessionlimit timestamp;
 
 
+--------비밀번호 사이즈 수정----------
+
+ALTER TABLE users MODIFY password varchar2(2000);
 

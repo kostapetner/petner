@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +32,9 @@ import com.kosta.petner.service.UsersService;
 
 @Controller
 public class UsersController {
+	
+	@Autowired
+	BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@Inject
 	UsersService usersService;
@@ -53,9 +58,13 @@ public class UsersController {
 	//회원가입 
 	@RequestMapping(value = "/joinpet", method = RequestMethod.POST)
 	String join(@ModelAttribute Users users, Model model) {
-		System.out.println("회원가입정보:" + users);
-		try{
-			usersService.joinUsers(users);
+		  System.out.println("암호화 전 : " + users);	
+		try{		
+			String passBcrypt = bcryptPasswordEncoder.encode(users.getPassword());
+			   users.setPassword(passBcrypt);
+			   usersService.joinUsers(users);
+			   System.out.println("암호화 후 : " + users);
+			
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -102,10 +111,9 @@ public class UsersController {
 		            session.removeAttribute("authUser"); // 기존값을 제거해 준다.
 		        }
 				
-				//ID 비밀번호와 대조해서 로그인성공
+				//ID 비밀번호와 대조해서 로그인성공 (암호화 된 비밀번호랑 대조)
 				Users authUser = usersService.login(users);
-				System.out.println("Cookie:"+ "Cookie 없음");	
-				if(authUser != null) {
+				if(authUser != null && bcryptPasswordEncoder.matches(users.getPassword(), authUser.getPassword())) {
 					System.out.println(authUser);
 					session.setAttribute("authUser", authUser);
 					returnURL = "redirect:/";
@@ -187,8 +195,7 @@ public class UsersController {
 				System.out.println("아이디찾기 실패");
 				model.addAttribute("result", "fail");
 				return "users/login/resultId";	
-			}
-			//
+			}		
 			model.addAttribute("searchId", searchId);
 			System.out.println(searchId);
 			return "users/login/resultId";
@@ -210,37 +217,38 @@ public class UsersController {
 		}
 		
 		//비밀번호변경으로이동
-		@RequestMapping(value="/modifyPass", method=RequestMethod.GET)
+		@RequestMapping(value="/checkPass", method=RequestMethod.GET)
 		String moidifyPass(){
-			return "/users/login/modifyPass";
+			return "/users/login/checkPass";
 		}
 		
 		//비밀번호 확인
 		@RequestMapping(value="/checkPass", method=RequestMethod.POST)
 		public String checkPass(@ModelAttribute Users users, Model model) throws Exception {				
 
-			System.out.println("users.getId():    "+ users.getId());
-			System.out.println("users.getPassword():    "+ users.getPassword());
-		
-			Users searchPass = usersService.checkPass(users);
+		try {	Users searchPass =  usersService.login(users);
+			boolean result = bcryptPasswordEncoder.matches(users.getPassword(), searchPass.getPassword());
 
-			if(searchPass ==null) {
-				System.out.println("회원정보 불일치");
-				model.addAttribute("result", "fail");
-				return "users/login/resultPass";	
+			if(searchPass !=null && result == true) {
+				model.addAttribute("searchPass", searchPass);
+				System.out.println(searchPass);
 			}
 			
-			model.addAttribute("searchPass", searchPass);
-			System.out.println(searchPass);
-			return "users/login/resultPass";
+		}catch(Exception e){
+			System.out.println("회원정보 불일치");
+			model.addAttribute("result", "fail");
 			}
+		return "users/login/modifyPass";
+		}
 		
-		
-		@RequestMapping(value="/updatePass" , method=RequestMethod.POST)
+		//비밀번호수정
+		@RequestMapping(value="/modifyPass" , method=RequestMethod.POST)
 		public String pwUpdate(Users users,String id,String password)throws Exception{
 			if(users.getId() != null)
 			System.out.println("비밀번호 수정성공");
-			usersService.updatePass(id, password);
+			String passBcrypt = bcryptPasswordEncoder.encode(users.getPassword());
+			   users.setPassword(passBcrypt);
+			usersService.updatePass(id, passBcrypt);
 			session.invalidate();
 			
 			return "users/login/modifySuccess";

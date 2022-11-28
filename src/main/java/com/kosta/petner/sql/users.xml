@@ -71,7 +71,7 @@
 	<![CDATA[
 		select *
 		from users 
-		where id=#{id} and password=#{password}
+		where id=#{id} 
 	]]>
 	</select>
 	  
