@@ -93,6 +93,15 @@ public class AdminController {
 		model.addAttribute("page", "admin/ad_detail");
 		return "/layout/admin_main";
 	}
+	
+	// 관리자 유저 타입 업데이트 요청
+		@RequestMapping(value = "/ad_userupdate")
+		public String ad_userupdate(Users users, Model model) {
+			usersService.updateUserType(users);
+//			model.addAttribute("users", users);
+//			model.addAttribute("page", "admin/ad_detail");
+			return "redirect:ad_detailForm?user_no=" + users.getUser_no();
+		}
 
 //		@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
 //		String admin_authorityForm(@RequestParam("user_no") Integer user_no,

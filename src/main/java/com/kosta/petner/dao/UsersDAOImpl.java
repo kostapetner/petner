@@ -160,8 +160,8 @@ public class UsersDAOImpl implements UsersDAO{
 		
 	}
 	@Override
-	public void updateUserType(int user_no) throws Exception {
-		sqlSession.update("mapper.users.deleteUsers", user_no);
+	public void updateUserType(Users users) {
+		sqlSession.update("mapper.users.updateUserType", users);
 		
 	}
 
