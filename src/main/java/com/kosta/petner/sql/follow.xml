@@ -48,40 +48,32 @@
  	
  	<!-- 팔로우 리스트 조회 -->
  	<select id="selectActiveUserList" resultMap="FollowResultMap">
- 		select 
- 			active_user,
- 			passive_user,
- 			F.reg_date as reg_date,
- 			U.id as passive_user_id,
- 			I.profile_name as profile_name
- 		from follow F
- 		left outer join users U	<!-- Users 생각 잘해야됨 -->
- 		on (F.passive_user = U.user_no)
- 		left outer join user_imgs I	<!-- 여기서 유저프로필이미지 어케 가져올지 생각하기 -->
- 		on (I.user_no = U.user_no)
- 		where active_user=#{activeUser}
- 		order by reg_date desc
+ 		select active_user,
+				passive_user,
+				F.reg_date as reg_date,
+				U.id as passive_user_id,
+				U.nickname as profile_name
+		from follow F, Users U
+		WHERE F.PASSIVE_USER = U.USER_NO 
+		AND active_user=#{activeUser}
+		ORDER BY reg_date desc;
  	</select>
  	
  	<!-- 팔로우 리스트 조회 -->
  	<select id="selectPassiveUserList" resultMap="FollowResultMap">
- 		select
- 			active_user,
- 			passive_user,
- 			F.reg_date as reg_date,
- 			U.id as active_user_id,
- 			I.profile_name as profile_name
- 		from follow F
- 		left outer join users U	<!-- Users 생각 잘해야됨 -->
- 		on (F.active_user = U.user_no)
- 		left outer join user_imgs I <!-- 여기서 유저프로필이미지 어케 가져올지 생각하기 -->
- 		on (I.user_no = U.user_no)
- 		where passive_user = #{passiveUser}
- 		order by reg_date desc
+ 		select active_user,
+				passive_user,
+				F.reg_date as reg_date,
+				U.id as passive_user_id,
+				U.nickname as profile_name
+		from follow F, Users U
+		WHERE F.PASSIVE_USER = U.USER_NO 
+		AND passive_user = #{passiveUser}
+		ORDER BY reg_date desc;
  	</select>
  	
  	<!-- 탈퇴시 팔로우 삭제 -->
  	<delete id="deleteUserAllFollow">
- 		delete from follow where active_user=#{active_user}
+ 		delete from follow where active_user=#{activeUser}
  	</delete>
 </mapper>

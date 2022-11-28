@@ -221,5 +221,16 @@ public class MyPageController {
 		}
 		return "/layout/mypage_default";
 	}
+	
+	//리뷰작성페이지
+	@RequestMapping("/mypage/myReview")
+	public String myReview(HttpSession session, Model model) {
+
+		String id = getLoginUserId(session);
+
+		model.addAttribute("page", "mypage/myReview/reviewwrite");
+		model.addAttribute("title", "리뷰쓰기");
+		return "/layout/mypage_default";
+	}
 
 }
