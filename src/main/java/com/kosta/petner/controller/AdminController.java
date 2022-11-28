@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
-import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.FileService;
@@ -100,7 +97,8 @@ public class AdminController {
 			usersService.updateUserType(users);
 //			model.addAttribute("users", users);
 //			model.addAttribute("page", "admin/ad_detail");
-			return "redirect:ad_detailForm?user_no=" + users.getUser_no();
+			return "redirect:/admin_user";
+			//return "redirect:ad_detailForm?user_no=" + users.getUser_no();
 		}
 
 //		@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
@@ -132,6 +130,10 @@ public class AdminController {
 //			return "redirect:/admin/ad_authority";
 //		}
 
+		
+		
+		
+		
 	// 관리자 회원탈퇴
 	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
 	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
