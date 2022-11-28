@@ -59,7 +59,8 @@ public class AdminController {
 
 	// 관리자 메인화면
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	String main(Model model) {
+	String main( HttpSession session, Model model) {
+		
 		model.addAttribute("page", "admin/ad_main");
 		model.addAttribute("title", "관리자 메인 페이지");
 		return "/layout/admin_main";
