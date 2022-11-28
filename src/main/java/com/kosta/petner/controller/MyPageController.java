@@ -91,17 +91,30 @@ public class MyPageController {
 //   }
 
 	// 정보 수정페이지
-	@RequestMapping("/mypage/myinfoEdit")
-	public String myinfoEdit(HttpSession session, Model model) {
+	@RequestMapping("/mypage/myReview")
+	public String myReview( Model model) {
 
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
 
-		model.addAttribute("page", "mypage/myinfo/myinfoEdit");
+		model.addAttribute("page", "mypage/review/myReview");
 		model.addAttribute("title", "나의정보수정");
 		model.addAttribute("member", users);
 		return "/layout/mypage_default";
 	}
+	
+	// 정보 수정페이지
+		@RequestMapping("/mypage/myinfoEdit")
+		public String myinfoEdit(HttpSession session, Model model) {
+
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
+
+			model.addAttribute("page", "mypage/myinfo/myinfoEdit");
+			model.addAttribute("title", "나의정보수정");
+			model.addAttribute("member", users);
+			return "/layout/mypage_default";
+		}
 
 	// 정보업데이크
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
