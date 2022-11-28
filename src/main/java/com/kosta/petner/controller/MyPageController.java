@@ -91,8 +91,8 @@ public class MyPageController {
 //   }
 
 	// 정보 수정페이지
-	@RequestMapping("/mypage/myReview")
-	public String myReview( Model model) {
+	@RequestMapping("/mypage/myReviewForm")
+	public String myReviewForm( Model model) {
 
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
