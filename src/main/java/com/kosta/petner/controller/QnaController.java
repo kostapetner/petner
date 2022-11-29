@@ -3,6 +3,7 @@ package com.kosta.petner.controller;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,22 +15,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.Qna;
+import com.kosta.petner.bean.Users;
+import com.kosta.petner.service.MypageService;
 import com.kosta.petner.service.QnaService;
 
 
 @Controller
 public class QnaController {
+	
+	@Autowired
+	MypageService mypageService;
+	
 	@Autowired
 	QnaService qnaService;
 
 	@Autowired
 	ServletContext servletContext;
-
+	
 	// 글쓰기 화면 이동
 	@RequestMapping(value = "/qnawriteform", method = RequestMethod.GET)
 	public String qnawriteform(Model model) {
+		
 		model.addAttribute("page", "qna/writeform");
 		model.addAttribute("title", "글쓰기");
 		return "/layout/main";
@@ -39,6 +48,7 @@ public class QnaController {
 	// 글쓰기
 	@RequestMapping(value = "/qnawrite", method = RequestMethod.POST)
 	public String qnawrite(@ModelAttribute Qna qna, BindingResult result, Model model) {
+		
 		try {
 			qnaService.resistQna(qna);
 			model.addAttribute("redirect:/qnaList");

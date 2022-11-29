@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.petner.bean.AdminSession;
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
+import com.kosta.petner.service.AdminService;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
 import com.kosta.petner.service.NoticeService;
@@ -32,6 +34,9 @@ import com.kosta.petner.service.UsersService;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	AdminService adminService;
 
 	@Autowired
 	NoticeService noticeService;
@@ -56,8 +61,8 @@ public class AdminController {
 
 	// 관리자 메인화면
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	String main( HttpSession session, Model model) {
-		
+	String main( Model model) {
+
 		model.addAttribute("page", "admin/ad_main");
 		model.addAttribute("title", "관리자 메인 페이지");
 		return "/layout/admin_main";
@@ -348,7 +353,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		try {
 //				boardService.deleteBoard(boardNum, password);
-			noticeService.deleteNotice(noticeNum);
+			adminService.deleteNotice(noticeNum);
 			mav.addObject("page", page);
 			mav.setViewName("redirect:/ad_noticeList");
 		} catch (Exception e) {

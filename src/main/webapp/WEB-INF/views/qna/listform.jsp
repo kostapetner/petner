@@ -75,7 +75,7 @@
 														<div class="col flex-end">
 															<div>
 																<i class="fa-regular fa-eye"></i> ${article.qna_hit }
-																&nbsp;&nbsp; ${article.reg_date }
+																&nbsp;&nbsp; ${article.reg_date}
 															</div>
 															<div>
 																<span>by</span> ${article.user_id }

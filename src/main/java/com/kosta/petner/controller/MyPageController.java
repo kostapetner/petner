@@ -67,7 +67,7 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	String main(HttpSession session, Model model) {
+	public String main(HttpSession session, Model model) {
 
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
@@ -80,15 +80,10 @@ public class MyPageController {
 		model.addAttribute("title", "나의정보보기");
 		model.addAttribute("member", users);
 		model.addAttribute("count", cnt);
-
+		
 		return "/layout/mypage_default";
 	}
 
-	// 정보 수정페이지
-	/*
-	 * @RequestMapping("/mypage/myReviewForm") public String myReviewForm( Model
-	 * model) { }
-	 */
 	
 	// 정보 수정페이지
 		@RequestMapping("/mypage/myinfoEdit")
