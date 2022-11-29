@@ -66,13 +66,13 @@ public class NoticeServiceImpl implements NoticeService {
 		notice.setNotice_re_seq(srcNotice.getNotice_re_seq()+1);
 		noticeDAO.insertNotice(notice);
 	}
-	@Override
-	public void deleteNotice(Integer noticeNum) throws Exception {
-		Notice notice = getNotice(noticeNum);
-		System.out.println("Service:"+noticeNum);
-		System.out.println("Service:"+notice);
-		noticeDAO.deleteNotice(noticeNum);
-	}
+//	@Override
+//	public void deleteNotice(Integer noticeNum) throws Exception {
+//		Notice notice = getNotice(noticeNum);
+//		System.out.println("Service:"+noticeNum);
+//		System.out.println("Service:"+notice);
+//		noticeDAO.deleteNotice(noticeNum);
+//	}
 	
 	// 조회수 증가
 	@Override
