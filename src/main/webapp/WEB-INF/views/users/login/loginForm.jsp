@@ -135,7 +135,7 @@ $(document).ready(function(){
 		   <div class="modal">
 				<div class="modal_body">
 						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
-							<p style="color: #FF9614; ">-펫트너-</p>
+							<p style="color: #FF9614; ">[Petner]&#128062</p>
 							<p style="text-decoration: none;">	&#128531 ${message} </p>
 							
 						<div class="modal_btn">

@@ -30,7 +30,7 @@
 	.desc{text-align:center; margin-bottom:35px;}
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
-	.id_email{position:absolute; top:32%; left:42%;}
+	.id_email{position:absolute; top:42%; left:42%;}
 	.two_btn{position: relative; top:180px; width:200px; line-height: 30px; left:27%;}
 </style>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>

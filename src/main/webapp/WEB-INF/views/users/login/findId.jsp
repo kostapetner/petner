@@ -27,7 +27,7 @@
 	.desc{text-align:center; margin-bottom:35px;}
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
-	.id_email{position:absolute; top:32%; left:42%;}
+	.id_email{position:absolute; top:42%; left:42%;}
 	.submit_btn{position: relative; top:200px; width:200px; right:1%}
 </style>
 <body>
