@@ -15,5 +15,9 @@ public interface FileService {
 	 * 내용: file_no에 맞는 ServerFilename 가져오기
 	 */
 	String getServerFilename(Integer file_no);
+	
+	// 시터 파일 정보 수정 (프로필 이미지 정보) 221129DSC
+
+	void updateSitterImage(FileVO fileVo);
 
 }
