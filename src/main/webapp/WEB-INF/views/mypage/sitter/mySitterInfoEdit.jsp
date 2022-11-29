@@ -39,6 +39,53 @@
 		$(".submit_btn").click(function(){
 			$(".edit_form").submit();
 		})
+		
+		//활동가능 요일
+		$("#day_chkAll").click(function() {
+			if($("#day_chkAll").is(":checked")) {
+				$("input[name=work_day]").prop("checked", true);
+			}else{
+				$("input[name=work_day]").prop("checked", false);
+			}
+		});
+		
+		$("input[name=work_day]").click(function() {
+			var total = $("input[name=work_day]").length;
+			var checked = $("input[name=work_day]:checked").length;
+			
+			if(total != checked){
+				$("#day_chkAll").prop("checked", false);
+			}else $("#day_chkAll").prop("checked", true); 
+		});
+		
+		//제공가능서비스
+		$("#service_chkAll").click(function() {
+			if($("#service_chkAll").is(":checked")) {
+				$("input[name=service]").prop("checked", true);
+			}else{
+				$("input[name=service]").prop("checked", false);
+			}
+		});
+		
+		$("input[name=service]").click(function() {
+			var total = $("input[name=service]").length;
+			var checked = $("input[name=service]:checked").length;
+			
+			if(total != checked){
+				$("#service_chkAll").prop("checked", false);
+			}else $("#service_chkAll").prop("checked", true); 
+		});
+		// 이미지미리보기
+		$(function() {
+			$('#file').change(function(event) {
+				let reader = new FileReader();
+				reader.onload = function(e) {
+					$('#rep').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(event.target.files[0]);	
+			});
+		})               
+		
 	})
 </script>
 
@@ -48,12 +95,13 @@
 		method="POST" id="sitterForm" 
 		class="mypage_form data edit_form" enctype="multipart/form-data">
 		<input type="hidden" value="${data.user_no}" name="user_no"/>
+		<input type="hidden" value="${data.file_no}" name="file_no"/>
 		
 		<!-- 사진등록 -->
 		<div class="f_row profile_upload">
 			<div class="profile_upload">
 				<div class="prof_img">
-					<img id="rep" class="img_wrap img"/> <br>
+					<img id="rep" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${data.file_no}"/> <br>
 					<label for="file" class="pet_btn edit_btn">
 						<i class="fa-solid fa-pen" id="pen"></i>
 					</label>
@@ -138,10 +186,19 @@
 			</label>
 		</div>
 
+		
 		<div class="f_row">
-			<p class="fc_title">활동가능한 지역</p>
-			<p class="fc_title">[${authUser.zipcode}] ${authUser.addr} ${authUser.addr_detail}</p>
-		</div>
+      <span class="key flex_start">활동가능한 지역</span>
+      <div class="value flex_col">
+      	<p class="mb10" style="align-self:flex-start">
+      		<input class="mr12" type="text" id="add1" name="zipcode" value="${data.zipcode}" readonly/>
+      		<input type="button" class="pet_btn second_btn transition02" onclick="Zipcode()" value= "주소찾기"/>
+      	</p>      	
+      	<input class="mb10" type="text" id ="add2" name="addr" value="${data.addr}" readonly/>
+      	<input class="mb10" type="text" id ="add3" name="addr_detail" value="${data.addr_detail}" />
+      	<input type="hidden" id="add4"/>      	
+      </div>
+    </div>
 
 		<div class="f_row">
 			<p class="fc_title">자기소개를 간단하게 해주세요. 펫시터 경험을 써주셔도 좋아요</p>

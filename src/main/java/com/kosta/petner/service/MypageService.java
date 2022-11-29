@@ -10,13 +10,16 @@ import com.kosta.petner.bean.Users;
 
 public interface MypageService {
 	// 나의 기본정보
-	Users getMyinfo(String id);
-	
+	Users getMyinfo(String id);	
 	// 나의정보 수정
 	int updateMyinfo(Users users);
 	
 	// 나의 시터정보 가져오기
 	SitterInfo getMySitterinfo(int user_no);
+	
+	// 펫시터정보수정하기
+	int updateMySitterInfo(SitterInfo sitterInfo);
+		
 	
 	// 나의 반려동물 정보 가져오기
 	List<PetInfo> getMyPetinfo(int user_no);
@@ -24,10 +27,11 @@ public interface MypageService {
 	// 마이페이지 ALL INFO
 	Object getMyAllInfo(int user_no);
 
-	
-
 	// 카운트가져오기
-	//Map<String, Object> getCount(int user_no);
 	Map<String, Object> getCount(int user_no);
+	
+	// 파일 가져오기
+	String getFile(Integer file_no);
+	
 	
 } 
