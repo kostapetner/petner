@@ -56,5 +56,5 @@ public interface UsersService {
 	void deleteUsers(Integer user_no) throws Exception;
 	
 	// 타입 업데이트
-	void updateUserType(Integer user_no) throws Exception;
+	void updateUserType(Users users);
 }

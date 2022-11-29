@@ -90,7 +90,11 @@ public class MyPageController {
 //      return "/layout/mypage_default";
 //   }
 
-
+	// 정보 수정페이지
+	/*
+	 * @RequestMapping("/mypage/myReviewForm") public String myReviewForm( Model
+	 * model) { }
+	 */
 	
 	// 정보 수정페이지
 		@RequestMapping("/mypage/myinfoEdit")
