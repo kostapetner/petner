@@ -90,18 +90,7 @@ public class MyPageController {
 //      return "/layout/mypage_default";
 //   }
 
-	// 정보 수정페이지
-	@RequestMapping("/mypage/myReview")
-	public String myReview( Model model) {
 
-		String id = getLoginUserId(session);
-		Users users = mypageService.getMyinfo(id);
-
-		model.addAttribute("page", "mypage/review/myReview");
-		model.addAttribute("title", "나의정보수정");
-		model.addAttribute("member", users);
-		return "/layout/mypage_default";
-	}
 	
 	// 정보 수정페이지
 		@RequestMapping("/mypage/myinfoEdit")
@@ -245,5 +234,16 @@ public class MyPageController {
 		model.addAttribute("title", "리뷰쓰기");
 		return "/layout/mypage_default";
 	}
+	
+	
+	//카카오 1:1채팅으로 이동
+	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
+	String kaChat() {
+		return "mypage/kaChat";
+	}
+	
+	
+	
+	
 
 }

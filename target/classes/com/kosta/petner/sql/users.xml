@@ -147,12 +147,14 @@
 		<![CDATA[
 		insert into 
 			users(user_no,
+					id,
 					nickname, 
 					email,
 					user_level
 					user_auth, 
 					joindate)
 			values(seq_user_no.nextval,
+					#{email},
 					#{nickname},
 					#{email},
 					'BRONZE',
