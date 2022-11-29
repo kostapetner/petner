@@ -75,47 +75,7 @@ $(document).ready(function() {
 		//console.log("genderArr:  "+genderArr);
 	    searchAjax();
 	});
-	
-	/* function searchAjax(){
-		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
-		var st_date = $('#date_start').val();
-		var end_date = $('#date_end').val();
-		var service = serviceArr;
-		var pet_kind = petKindArr;
-		var gender = genderArr;
-		var keyword = $('input[name=keyword]').val();
-		
-		console.log("st_date : "+st_date);
-		console.log("end_date : "+end_date);
-		console.log("service : "+service);
-		console.log("pet_kind : "+pet_kind);
-		console.log("gender : "+gender);
-		console.log("keyword : "+keyword);
-		
-		// contentType: "application/json" 꼭 써주기
- 		$.ajax({
-			url : "/${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch",
-			type : "POST",
-			dataType: "json",
-			contentType: "application/json",
-			data:JSON.stringify({
-			   	 "st_date":st_date
-		    	,"end_date":end_date
-		    	,"service":service
-		    	,"pet_kind":pet_kind
-		    	,"gender":gender
-		    	,"keyword":keyword
-			  }),
-			success : function(res) {
-				alert("success");
-				// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
-		       // $("#wrapper").load("${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch div");
-			},
-			error : function(xhr, error) { //xmlHttpRequest?
-				console.error("error : " + error);
-			}
-		});
-	} */
+
 	function searchAjax(){
 		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
 		var st_date = $('#date_start').val();
@@ -146,10 +106,55 @@ $(document).ready(function() {
 			    	,"gender":gender
 			    	,"keyword":keyword
 			  }),
-			success : function(res) {
-				alert("success");
-				// URL 주소에 존재하는 HTML 코드에서 <div>요소를 읽은 후에 id가 "container"인 요소에 배치한다.
-		       // $("#wrapper").load("${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch div");
+			success : function(data) {
+				//console.log("res success");
+				var str = '';
+				$.each(data, function(i, item) { // 데이터 =item
+					//console.log(item);
+					str +='<ul class="flex_between" id="ulId">';
+					str +='<li>';
+					<!-- 글 간략정보 -->
+					str +='<div class="info">';
+					str +='<div class="flex_agn_center">';
+					str +='<div class="owner_img">';
+					str +='<img src="" alt="프로필">';
+					str +='</div>';
+					str +='<span id="nickname">'+item.NICKNAME+'</span>';
+					str +='</div>';
+					var status = $.trim(item.STATUS);
+					if(status == '매칭중'){
+						str +='<span class="status open" style="background-color: yellowgreen;">'+item.STATUS+'</span>';
+					}else if(status == '매칭완료'){
+						str +='<span class="status open" style="background-color: #c7c2c2;">'+item.STATUS+'</span>';
+					}
+					str +='</div>';
+					<!-- 동물사진 -->
+					str +='<div class="img_area" style="width: 357px; height: 200px">';
+					str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?page=${pageInfo.page}">';
+					if(item.FILE_NO == null){
+						str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
+					}else{
+						str +='<img src="${pageContext.request.contextPath}/findPet/'+item.FILE_NO+'" id="rep" class="img_wrap img">';		
+					}
+					str +='</a>';	
+					str +='</div>';
+					<!-- 시팅요청사항디테일 -->
+					str +='<div class="text_area">';
+					str +='<div class="title ellipsis">'+item.REQUEST_TITLE+'</div>';
+					str +='<div class="content ellipsis">'+item.REQUEST_DETAIL+'</div>';
+					str +='<div class="view_info">';
+					str +='<span class="date">'+item.ST_DATE+'&nbsp;~&nbsp;'+item.END_DATE+'</span>';
+					str +='<p>';
+					str +='<span class="mr12"> <i class="fa-solid fa-comment-dots"></i>20</span>';
+					str +='<span><i class="fa-regular fa-eye"></i>13</span>';
+					str +='</p>';
+					str +='</div>';
+					str +='</div>';
+					str+='</li>';
+					str+='</ul>';
+				});
+				$("#card_list").empty(); // 해결!
+				$("#card_list").append(str);
 			},
 			error : function(xhr, error) { //xmlHttpRequest?
 				console.error("error : " + error);
@@ -259,9 +264,9 @@ $(document).ready(function() {
 			</div>
 		</form>
 			<!-- 카드형 리스트 펫찾기 -->
-			<div class="card_list_type find_pet_list">
-				<c:forEach var="csList" items="${careserviceList}" varStatus="status">
-				<ul class="flex_between">
+			<div class="card_list_type find_pet_list" id="card_list">
+				<%-- <c:forEach var="csList" items="${careserviceList}" varStatus="status"> --%>
+<%-- 				<ul class="flex_between" id="ulId">
 					<li>
 						<!-- 글 간략정보 -->
 						<div class="info">
@@ -269,7 +274,7 @@ $(document).ready(function() {
 								<div class="owner_img">
 									<img src="" alt="프로필">
 								</div>
-								<span>${csList.nickname }</span>
+								<span id="nickname">${csList.nickname }</span>
 							</div>
 							<c:if test="${csList.status eq '매칭중'}">
 							    <span class="status open" style="background-color: yellowgreen;">${csList.status }</span>
@@ -280,7 +285,6 @@ $(document).ready(function() {
 							<c:if test="${empty csList.status}">
 							    <span>${csList.status }</span>
 							</c:if>
-							
 						</div>
 						<!-- 동물사진 -->
 						<div class="img_area" style="width: 357px; height: 200px">
@@ -306,9 +310,9 @@ $(document).ready(function() {
 							</div>
 						</div>
 					</li>
-				</ul>
-				</c:forEach>
-			</div>
+				</ul> --%>
+<%-- 				</c:forEach>
+ --%>			</div>
 			<!-- 페이징 -->
 			<ul class="pagination">
 				<c:choose>
