@@ -15,18 +15,18 @@ textarea {
 }
 </style>
 <script>
-	/* user_type 이 9,10 일 경우에 체크박스 체크되어있게 */
+	/* user_type 이 9 일 경우에 체크박스 체크되어있게 */
 	$(document)
 			.ready(
 					function() {
-						var user_type = 'Y';
+						var user_type = '${users.user_type}';
 
-						if (user_type < 9) {
-							$("input:checkbox[name='user_type']:checkbox[value='user']")
-								.attr("checked", true);
+						if (user_type <= 8) {
+							$("input:checkbox[name='user_type']:checkbox[value='1']")
+							.attr("checked", true);
 						} else {
-							$("input:checkbox[name='user_type']:checkbox[value='admin']")
-								.attr("checked", true);
+							$("input:checkbox[name='user_type']:checkbox[value='9']")
+							.attr("checked", true);
 						}
 					}
 			);
@@ -61,49 +61,25 @@ textarea {
 		<h2 class="card-title">회원 상세정보</h2>
 		<form action="ad_userupdate" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="user_no" value="${users.user_no}" />
-			<!--  -->
+			<!-- 회원상세정보 -->
 			<ul class="user_detail">
 				<li>
 					<p>회원번호 :</p>
 					<p>${users.user_no}</p>
 				</li>
 				<li>
-					<p>타입 :</p>
-					<p>
-					<input
-					type="text" class="form-control" name="user_type" id="user_type"
-					required="required" placeholder="${users.user_type}"
-					aria-label="타입" aria-describedby="addon-wrapping">
-					
-					
+					<p>회원구분 :</p>
+					<p>${users.user_type}</p>
 						<!-- user_type 체크박스 -->
-					<!-- <div class="form-inline">
+					<div class="form-inline">
 							<label>
 								<input type="checkbox" name="user_type"
-								value="user" onclick='checkOnlyOne(this)'>일반회원</label> 
+								value="1" onclick="checkOnlyOne(this)" placeholder="${users.user_type}">일반회원</label> 
 							<label>
 								<input
-								type="checkbox" name="user_type" value="admin"
-								onclick='checkOnlyOne(this)'>관리자</label>
-					</div> -->
-					</p>
-
-				</li>
-				
-				<li>
-					<p>type :</p>
-					<p>${users.user_type}
-					<!-- <select>
-						<option value="user">1</option>
-						<option value="admin">9</option>
-					</select> -->
-					<%-- <select>
-					<% for(int i=1; i<=9; i++) %>
-						<option value="<%=i%>" <% if(user_type == i) {%>
-						selected <% }  %>> <%=i %>
-						</option>
-					</select> --%>
-					</p>
+								type="checkbox" name="user_type" value="9"
+								onclick="checkOnlyOne(this)"  placeholder="${users.user_type}">관리자</label>
+					</div>
 				</li>
 				<li>
 					<p>이름 :</p>

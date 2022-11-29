@@ -18,13 +18,13 @@
 
 		</nav>
 		<form name="admin_user" action="ad_usersdelete" method="post">
-			<table class="table table-hover">
+			<table class="table table-hover user_table">
 				<thead>
 					<tr>
 						<th scope="col">회원번호</th>
 						<th scope="col">이름</th>
 						<th scope="col">email</th>
-						<th scope="col">회원</th>
+						<th scope="col">회원구분</th>
 						<th scope="col">주소</th>
 						<th scope="col" style="text-align: end;">탈퇴</th>
 					</tr>
@@ -55,10 +55,17 @@
 										<span class="value">${users.email}</span>
 									</p>
 								</td>
-								<td class="col">
-									<p>
-										<span class="value">${users.user_type}</span>
-									</p>
+								<td class="col type_box">
+									<!-- 관리자 분류 -->
+								    <c:if test="${users.user_type == 10}">
+										<div class="admin10"><span class="value">최고관리자</span></div>
+								    </c:if>
+									<c:if test="${users.user_type == 9}">
+										<div class="admin9"><span class="value">관리자</span></div>
+								    </c:if>
+								    <c:if test="${users.user_type < 9}">
+										<div class="admin1"><span class="value">일반</span></div>
+								    </c:if>
 								</td>
 								<td class="col">
 									<p>
