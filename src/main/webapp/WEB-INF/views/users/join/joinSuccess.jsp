@@ -28,7 +28,7 @@
 				<h3 class="form_title">회원가입 성공</h3>
 				<div class="desc">	
 				<c:choose>
-				<c:when test="${users.user_type ==1}">
+				<c:when test="${users.user_type ==2}">
 					<p class="mb10" style="color:#ADD8E6;">[💁🏻‍♂️ 보호자]</p>
 					<p class="mb10" style="color: orange;">&#128054 ${users.id}님의 가입을 축하드립니다! &#128049</p>
 					</c:when>

@@ -10,8 +10,9 @@ public interface SitterDAO {
 
 	void regist(SitterInfo sitterInfo);
 	
-	// 221114-DSC 시터정보가져오기
+	// 221125-DSC 시터정보가져오기 & 수정하기
 	SitterInfo getSitterInfo(int user_no);
+	int updateSitterInfo(SitterInfo sitterInfo);
 
 	//care_service테이블의 전체 게시글
 	List<CareService> findPetList(Integer row);
@@ -26,5 +27,8 @@ public interface SitterDAO {
 	 * 작성자: 김혜경
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
-	List<CareService> findPetSearch(Find findVO);
+	List<Find> findPetSearch(Find findVO);
+	
+	
+	//List<CareService> findPetSearch(Find findVO);
 }

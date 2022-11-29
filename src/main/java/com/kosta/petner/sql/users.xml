@@ -19,8 +19,7 @@
 							 addr, 
 							 addr_detail, 
 							 user_level, 
-							 user_auth, 
-							 file_no)
+							 user_auth)
 				values(seq_user_no.nextval, 
 							#{user_type}, 
 							#{id},
@@ -34,8 +33,7 @@
 							#{addr}, 
 							#{addr_detail},
 							'BRONZE',
-							 1,
-							 0)					
+							 1)					
 		]]>
 	</insert>
 
@@ -147,12 +145,14 @@
 		<![CDATA[
 		insert into 
 			users(user_no,
+					id,
 					nickname, 
 					email,
 					user_level
 					user_auth, 
 					joindate)
 			values(seq_user_no.nextval,
+					#{email},
 					#{nickname},
 					#{email},
 					'BRONZE',
@@ -250,7 +250,7 @@
 	<!-- 유진 타입 업데이트 -->
 	<update id="updateUserType" parameterType="com.kosta.petner.bean.Users">
 		<![CDATA[
-			update USERS set user_type = #{user_type} where user_no = #{user_no};
+			update USERS set user_type = #{user_type} where user_no = #{user_no} 
 		]]>
 	</update>
 
