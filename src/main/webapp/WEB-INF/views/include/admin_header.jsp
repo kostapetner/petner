@@ -8,8 +8,7 @@
 
 
 <header class="navbar navbar-bark sticky-top bg-white p-0 border-bottom">
-	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">
-
+	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="${pageContext.request.contextPath}/admin">
 	</a>
 	<button class="navbar-toggler position-absolute d-md-none collapsed"
 		type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
@@ -20,7 +19,7 @@
 	<!-- <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search"> -->
 	<div class="navbar-nav">
 		<div class="nav-item text-nowrap">
-			<a class="nav-link px-3" href="#">Sign out</a>
+			<a class="nav-link px-3" href="${pageContext.request.contextPath}/logout">Sign out</a>
 		</div>
 	</div>
 </header>

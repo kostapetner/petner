@@ -1,6 +1,5 @@
 package com.kosta.petner.dao;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,31 +51,40 @@ public class SitterDAOImpl implements SitterDAO {
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	@Override
-	public List<Find> findPetSearch(Find findVO) {
+	public List<CareService> findPetSearch(Find findVO) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		//st_date
+		if(findVO.getSt_date() != null && !findVO.getSt_date().equals("")) {
+			map.put("st_date",findVO.getSt_date());
+		}else {
+			System.out.println("st_date null입니다.");
+		}
+		//end_date
+		if(findVO.getEnd_date() != null && !findVO.getEnd_date().equals("")) {
+			map.put("end_date",findVO.getEnd_date());
+		}else {
+			System.out.println("st_date null입니다.");
+		}
 		//service
 		if(findVO.getService() != null && !findVO.getService().equals("")) {
-			String[] serviceArray = findVO.getService().split(",");
-			map.put("serviceArray",serviceArray);
+			map.put("serviceArray",findVO.getService());
 		}else {
-			System.out.println("null입니다.");
+			System.out.println("서비스 null입니다.");
 		}
 		//pet_kind
 		if(findVO.getPet_kind() != null && !findVO.getPet_kind().equals("")) {
-			String[] petKindArray = findVO.getPet_kind().split(",");
-			map.put("petKindArray",petKindArray);
+			map.put("petKindArray",findVO.getPet_kind());
 		}else {
-			System.out.println("null입니다.");
+			System.out.println("동물종류 null입니다.");
 		}
 		//gender
 		if(findVO.getGender() != null && !findVO.getGender().equals("")) {
-			String[] genderArray = findVO.getGender().split(",");
-			map.put("genderArray",genderArray);
+			map.put("genderArray",findVO.getGender());
 		}else {
-			System.out.println("null입니다.");
+			System.out.println("성별 null입니다.");
 		}
 		//keyword
-		//map.put("keyword",findVO.getKeyword());
+		map.put("keyword",findVO.getKeyword());
 
 		return sqlSession.selectList("mapper.sitter.findPetSearch", map);
 	}

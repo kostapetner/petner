@@ -30,4 +30,5 @@ public interface SitterDAO {
 	List<Find> findPetSearch(Find findVO);
 	
 	
+	//List<CareService> findPetSearch(Find findVO);
 }

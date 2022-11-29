@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="${cssPath}/mypage_form.css">
 <link rel="stylesheet" href="${cssPath}/table.css">
 <link rel="stylesheet" href="${cssPath}/list.css">
+<link rel="stylesheet" href="${cssPath}/review.css">
 
 <!-- JS -->
 <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>

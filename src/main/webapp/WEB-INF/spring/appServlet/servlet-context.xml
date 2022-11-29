@@ -49,5 +49,23 @@
 	<aop:aspectj-autoproxy/>
 	<!-- aop -->
 	
+		<!-- 최동인 추가 2022.11.22 -->	
+	  <!-- 인터셉터 객체 생성 -->
+    <beans:bean id="authenticationInterceptor" class="com.kosta.petner.interceptor.AuthenticationInterceptor"></beans:bean>
+
+    <!-- Interceptor 설정 -->
+    <interceptors>
+        <interceptor>
+        	<mapping path="/**"/>
+        	<exclude-mapping path="/users/login/loginForm"/>
+ 			<exclude-mapping path="/main/index_main"/>
+        	<exclude-mapping path="/resources/**"/>
+        	<exclude-mapping path="/gologin"/>
+        	<exclude-mapping path="/logout"/>
+        	
+        	<beans:ref bean="authenticationInterceptor"/>
+        </interceptor>
+    </interceptors>
 	
+    
 </beans:beans>

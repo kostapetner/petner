@@ -8,12 +8,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -30,10 +32,12 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	UsersDAO usersDAO;
 	
+	@Autowired
+	BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	
 	@Override
 	public void joinUsers(Users users) throws Exception {
-		System.out.println("service:" +users);
 		Users usersvo = usersDAO.selectId(users.getId());
 		if(usersvo!=null) throw new Exception("아이디 중복");
 		usersDAO.insertUsers(users);
@@ -113,7 +117,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 	
-	//임시번호전송
+	//임시비밀번호변경
 	@Override
 	public void findPass(HttpServletResponse response, Users users) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
@@ -139,10 +143,26 @@ public class UsersServiceImpl implements UsersService {
 			usersDAO.updatePw(users);
 			// 비밀번호 변경 메일 발송
 			sendEmail(users, "findPass");
-
+			System.out.println("비밀번호:" +pw);
 			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
 			out.close();
+			
+			//메일을 보낸 후 db에 암호화 해줌
+			String passBcrypt = bcryptPasswordEncoder.encode(pw);
+			   users.setPassword(passBcrypt);
+			 usersDAO.updatePw(users);
+			 System.out.println("비밀번호:" +passBcrypt);
 		}
+	}
+	//비밀번호 확인
+	@Override
+	public Users checkPass(Users users)throws Exception{
+		return usersDAO.checkPass(users.getId(), users.getPassword());
+	}
+	//비밀번호 수정
+	@Override
+	public void updatePass(String id, String password)throws Exception{
+		usersDAO.updatePass(id, password);
 	}
 
 	
@@ -259,6 +279,19 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 
+	//로그인유지
+	@Override
+	public void keepLogin(String uid, String sessionId, Date next) {
+		usersDAO.keepLogin(uid, sessionId, next);
+		
+	}
+
+	//로그인유지 체크
+	@Override
+	public Users checkUserWithSessionKey(String sessionId) {
+		return usersDAO.checkUserWithSessionKey(sessionId);
+	}
+
 	// 유진 : 회원탈퇴
 	@Override
 	public void deleteUsers(Integer user_no) throws Exception {
@@ -271,8 +304,9 @@ public class UsersServiceImpl implements UsersService {
 
 	// 타입 업데이트
 	@Override
-	public void updateUserType(Integer user_no) throws Exception {
-		usersDAO.updateUserType(user_no);
+	public void updateUserType(Users users) {
+		usersDAO.updateUserType(users);
+
 	}
 
 		

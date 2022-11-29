@@ -44,3 +44,15 @@ SELECT * FROM users;
 	    where id = '1234'
 	    and   name = '펫트너'
 	    and   email = 'petner@petner.com';
+	   
+	   
+-----------자동로그인 칼럼 추가(추가해서 사용해주세요)-----
+	
+ALTER table users ADD sessionkey varchar2(50) DEFAULT 'none' NOT NULL ;
+alter table users add  sessionlimit timestamp;
+
+
+--------비밀번호 사이즈 수정----------
+
+ALTER TABLE users MODIFY password varchar2(2000);
+

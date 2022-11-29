@@ -164,6 +164,51 @@
         </div>
       </div>
 
+
+				<!-- Container.1 -->
+				<div class="container_1">
+					<!-- video -->
+					<video autoplay controls loop muted poster="" preload="auto"
+						width="100%" height="auto" src="${imgPath}/petner_main_video.mp4">
+						<source src="xxx" type="yyy">
+						<!-- 동영상 -->
+					</video>
+					<div class="section">
+						<h1>
+							펫시터 도움이<br>지금 필요해요
+						</h1>
+						<button class="main_btn">
+							<a href="./join">가입하기</a>
+						</button>
+					</div>
+
+				</div>
+
+				<!-- Container.2 -->
+				<div class="container_2">
+					<div class="section">
+						<div>
+							<h1>
+								<span>오늘은</span><br> 펫트너와 함께
+							</h1>
+							<p>가나다라 마바사 어쩌고 저쩌고 샬라샬라<br>
+							rksksadlfjafeㅁ니아러미ㅏㅓㄹㅁㄷ리ㅏㅓ
+							</p>
+						</div>
+
+					</div>
+					<img src="${imgPath}/main_img1.png">
+				</div>
+
+			</div>
+		
+
+		<c:if test="${not empty authUser}">
+			<div class="container">로그인 후 화면 (with 세션) 
+			<p>자동 로그인(${authUser.sessionlimit})까지</p></div>
+		</c:if>
+		
+
        <!-- 후기영역 // 데이터로처리? -->
        <div class="review">
         <h4>펫트너 후기</h4>
@@ -180,6 +225,7 @@
         <h3>믿을수 있고 <br> 안심할 수 있어요</h3>
         <p class="intro">철저한 인증, 충분한 대화후 매칭 가능</p>
       </div>
+
 
       <!-- 가입유도화면 -->
       <div class="join_petner">

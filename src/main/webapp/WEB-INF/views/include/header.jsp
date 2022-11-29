@@ -54,7 +54,7 @@ $(document).ready(function(){
 			</c:if>
       <!-- 세션없을때 로그인 -->
       <c:if test="${empty authUser}">
-        <li><a class="login" href="${pageContext.request.contextPath}/login">로그인</a></li> 
+        <li><a class="login" href="${pageContext.request.contextPath}/gologin">로그인</a></li> 
       </c:if>
       </ul>
     </div>

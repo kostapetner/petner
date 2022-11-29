@@ -1,5 +1,6 @@
 package com.kosta.petner.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,24 @@ public class UsersDAOImpl implements UsersDAO{
 		
 		return vo;
 	}
+	
+	// 자동로그인 체크한 경우에 사용자 테이블에 세션과 유효시간을 저장하기 위한 메서드
+	@Override
+	public void keepLogin(String uid, String sessionId, Date next) {
+		   Map<String, Object> map = new HashMap<String,Object>();
+	        map.put("id", uid);
+	        map.put("sessionId", sessionId);
+	        map.put("next", next);
+	        sqlSession.update("mapper.users.keepLogin",map);
+		
+	}
+	
+	// 이전에 로그인한 적이 있는지, 즉 유효시간이 넘지 않은 세션을 가지고 있는지 체크한다.
+	@Override
+	public Users checkUserWithSessionKey(String sessionId) {
+		 return sqlSession.selectOne("mapper.users.checkUserWithSessionKey",sessionId);
+	}
+	
 	//아이디찾기
 	@Override
 	public Users getId(String name, String email) {
@@ -50,7 +69,25 @@ public class UsersDAOImpl implements UsersDAO{
 	//임시비밀번호발급
 	@Override
 	public void updatePw(Users users) {
-		 sqlSession.selectOne("mapper.users.updatePw", users);		
+		 sqlSession.selectOne("mapper.users.updateTmp", users);		
+	}
+	//비밀번호 확인
+	@Override
+	public Users checkPass(String id,String password)throws Exception{
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("password", password);
+		return sqlSession.selectOne("mapper.users.checkPass", map);
+	}
+	
+	//비밀번호 수정
+	@Override
+	public void updatePass(String id, String password) throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("password", password);
+		sqlSession.update("mapper.users.updatePass", map);
+		
 	}
 	
 	// 카카오 정보 저장
@@ -76,10 +113,7 @@ public class UsersDAOImpl implements UsersDAO{
 	public int updateMyinfo(Users users) {
 		return sqlSession.update("mapper.users.updateMyinfo", users);
 	}
-	@Override
-	public void passwordUpdate(Users users) {
-		// TODO Auto-generated method stub
-	}
+	
 	
 	//user_no를 파라미터로 받아 유저의 모든 정보를 가져온다
 	@Override
@@ -126,10 +160,11 @@ public class UsersDAOImpl implements UsersDAO{
 		
 	}
 	@Override
-	public void updateUserType(int user_no) throws Exception {
-		sqlSession.update("mapper.users.deleteUsers", user_no);
+	public void updateUserType(Users users) {
+		sqlSession.update("mapper.users.updateUserType", users);
 		
 	}
+
 
 	
 	

@@ -29,16 +29,24 @@
     border-top: 1px solid #e4e4e4;
     margin-top: 30px;
   }
+  
+  .login_optionA{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    color:gray;
+   }
 
 </style>
+
 <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-$('#myModal').on('shown.bs.modal', function () {
-	  $('#myInput').trigger('focus')
-	})
-	
 	function login() {
 		loginForm.submit();
+		$("input:checkbox[id='useCookie']").prop("checked",true);
+		$("input:checkbox[id='useCookie']").prop("checked",false);
+			
+	
 	}
 
 </script>
@@ -46,31 +54,31 @@ $('#myModal').on('shown.bs.modal', function () {
 <div class="w45 login_wr">      
   <div class="logo"><img src="./images/logo3.svg" alt=""></div>
   <form action="./login" method="POST" id="loginForm" class="login_form">
-    
-    <div class="f_row">
+  	  <div class="f_row">
       <input type="text" placeholder="ID" name="id" id="id" >
       <input type="password" placeholder="비밀번호" name="password" id="password">
     </div>
      <input type ="submit" class="pet_btn login_btn transition02" value= "로그인" onsubmit="login()"/>
+    <div class="login_optionA">
+    	<label class="fcCbox1">
+	      <input type="checkbox" id="useCookie" name="useCookie" >
+	      <span>로그인 유지하기</span>
+	    </label>
+	    <span><a href="./findId" >아이디</a>&nbsp;/&nbsp;<a href="./findPass">비밀번호찾기</a></span>
+   </div>
   </form>
 
 	<div class="form-label-group">
 		<c:if test="${check == 1}">
-		<script>
-			alert("${message}");
+			<script>
+				alert("${message}");
 			</script>
 		</c:if>
 	</div>
 	<div class="info_area">
-    <p>
-      <label class="fcCbox1"><input type="checkbox" id="remember-me" name="remember-me" ><span>로그인 유지하기</span></label>
-      <span>
-      	<a href="./findId" >아이디</a>&nbsp;/&nbsp;<a href="./findPass">비밀번호찾기</a>
-      </span>
-    </p>
-    <a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=7d545fe4f1b025d4ae839deae7232c74&redirect_uri=http://localhost:8088/petner/kakaoLogin&response_type=code">
-		<p class="login_option"><span class="pet_btn login_btn kakao_btn">카카오톡계정으로 로그인하기</span></p>
-    </a>		
-    <p class="login_option"><a href="./join">펫트너회원가입</a></p>
-  </div>
+		<p>
+	    <a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=7d545fe4f1b025d4ae839deae7232c74&redirect_uri=http://localhost:8088/petner/kakaoLogin&response_type=code">
+			<p class="login_option"><span class="pet_btn login_btn kakao_btn">카카오톡계정으로 로그인하기</span></p></a>		
+	    <p class="login_option"><a href="./join">펫트너회원가입</a></p>
+	 </div>
 </div>

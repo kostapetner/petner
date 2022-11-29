@@ -85,17 +85,23 @@ public class MyPageController {
 	}
 
 	// 정보 수정페이지
-	@RequestMapping("/mypage/myinfoEdit")
-	public String myinfoEdit(HttpSession session, Model model) {
+	/*
+	 * @RequestMapping("/mypage/myReviewForm") public String myReviewForm( Model
+	 * model) { }
+	 */
+	
+	// 정보 수정페이지
+		@RequestMapping("/mypage/myinfoEdit")
+		public String myinfoEdit(HttpSession session, Model model) {
 
-		String id = getLoginUserId(session);
-		Users users = mypageService.getMyinfo(id);
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
 
-		model.addAttribute("page", "mypage/myinfo/myinfoEdit");
-		model.addAttribute("title", "나의정보수정");
-		model.addAttribute("member", users);
-		return "/layout/mypage_default";
-	}
+			model.addAttribute("page", "mypage/myinfo/myinfoEdit");
+			model.addAttribute("title", "나의정보수정");
+			model.addAttribute("member", users);
+			return "/layout/mypage_default";
+		}
 
 	// 나의정보업데이트
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
@@ -282,5 +288,27 @@ public class MyPageController {
 			}
 		}
 	}
+
+	//리뷰작성페이지
+	@RequestMapping("/mypage/myReview")
+	public String myReview(HttpSession session, Model model) {
+
+		String id = getLoginUserId(session);
+
+		model.addAttribute("page", "mypage/myReview/reviewwrite");
+		model.addAttribute("title", "리뷰쓰기");
+		return "/layout/mypage_default";
+	}
+	
+	
+	//카카오 1:1채팅으로 이동
+	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
+	public String kaChat() {
+		return "mypage/kaChat";
+	}
+	
+	
+	
+	
 
 }
