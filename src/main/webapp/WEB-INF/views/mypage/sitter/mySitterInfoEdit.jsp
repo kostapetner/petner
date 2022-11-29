@@ -80,7 +80,7 @@
 			$('#file').change(function(event) {
 				let reader = new FileReader();
 				reader.onload = function(e) {
-					$('#rep').attr('src', e.target.result);
+					$('#rep2').attr('src', e.target.result);
 				};
 				reader.readAsDataURL(event.target.files[0]);	
 			});
@@ -101,7 +101,7 @@
 		<div class="f_row profile_upload">
 			<div class="profile_upload">
 				<div class="prof_img">
-					<img id="rep" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${data.file_no}"/> <br>
+					<img id="rep2" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${data.file_no}"/> <br>
 					<label for="file" class="pet_btn edit_btn">
 						<i class="fa-solid fa-pen" id="pen"></i>
 					</label>

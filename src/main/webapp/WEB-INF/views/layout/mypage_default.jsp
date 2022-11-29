@@ -61,12 +61,13 @@
 					<div class="">
 						<!-- 이미지영역 -->
 						<div class="prof_img">
-							<c:if test="${empty authUser.file_no}">
-								<img src="${imgPath}/noimg.webp"/>
+							<c:if test="${mypageSession.file_no==0}">
+								<img src="${imgPath}/noimg.webp" alt="노프로필"/>
 							</c:if>
-							<img
-								src="https://img.wkorea.com/w/2022/10/style_634f9b4c8c907-500x354-1666161931.jpg"
-								alt="이미지">
+							<c:if test="${mypageSession.file_no != 0}">
+								<img id="rep" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${mypageSession.file_no}"/>
+							</c:if>
+							
 						</div>
 						<!-- 텍스트정보 영역 -->
 						<div class="prof_text">
