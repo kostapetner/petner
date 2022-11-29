@@ -107,20 +107,54 @@ $(document).ready(function() {
 			    	,"keyword":keyword
 			  }),
 			success : function(data) {
-				console.log("res success");
+				//console.log("res success");
+				var str = '';
 				$.each(data, function(i, item) { // 데이터 =item
-					console.log(item);
-					/* console.log(item.request_title);
-					console.log(data);
-					console.log(data.st_date); */
-					$("#card_list").append(item.REQUEST_TITLE + " ");
-					$("#card_list").append(item.request_detail + " ");
-					$("#card_list").append(item.st_date + " ");
-					$("#card_list").append(item.end_date + "<br>");
+					//console.log(item);
+					str +='<ul class="flex_between" id="ulId">';
+					str +='<li>';
+					<!-- 글 간략정보 -->
+					str +='<div class="info">';
+					str +='<div class="flex_agn_center">';
+					str +='<div class="owner_img">';
+					str +='<img src="" alt="프로필">';
+					str +='</div>';
+					str +='<span id="nickname">'+item.NICKNAME+'</span>';
+					str +='</div>';
+					var status = $.trim(item.STATUS);
+					if(status == '매칭중'){
+						str +='<span class="status open" style="background-color: yellowgreen;">'+item.STATUS+'</span>';
+					}else if(status == '매칭완료'){
+						str +='<span class="status open" style="background-color: #c7c2c2;">'+item.STATUS+'</span>';
+					}
+					str +='</div>';
+					<!-- 동물사진 -->
+					str +='<div class="img_area" style="width: 357px; height: 200px">';
+					str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?page=${pageInfo.page}">';
+					if(item.FILE_NO == null){
+						str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
+					}else{
+						str +='<img src="${pageContext.request.contextPath}/findPet/'+item.FILE_NO+'" id="rep" class="img_wrap img">';		
+					}
+					str +='</a>';	
+					str +='</div>';
+					<!-- 시팅요청사항디테일 -->
+					str +='<div class="text_area">';
+					str +='<div class="title ellipsis">'+item.REQUEST_TITLE+'</div>';
+					str +='<div class="content ellipsis">'+item.REQUEST_DETAIL+'</div>';
+					str +='<div class="view_info">';
+					str +='<span class="date">'+item.ST_DATE+'&nbsp;~&nbsp;'+item.END_DATE+'</span>';
+					str +='<p>';
+					str +='<span class="mr12"> <i class="fa-solid fa-comment-dots"></i>20</span>';
+					str +='<span><i class="fa-regular fa-eye"></i>13</span>';
+					str +='</p>';
+					str +='</div>';
+					str +='</div>';
+					str+='</li>';
+					str+='</ul>';
 				});
-	        	//$("#card_list").load("${pageContext.servletContext.contextPath}/findPet html");
-				
-				
+				$("#card_list").empty(); // 해결!
+				$("#card_list").append(str);
 			},
 			error : function(xhr, error) { //xmlHttpRequest?
 				console.error("error : " + error);
@@ -232,7 +266,7 @@ $(document).ready(function() {
 			<!-- 카드형 리스트 펫찾기 -->
 			<div class="card_list_type find_pet_list" id="card_list">
 				<%-- <c:forEach var="csList" items="${careserviceList}" varStatus="status"> --%>
-				<ul class="flex_between" id="ulId">
+<%-- 				<ul class="flex_between" id="ulId">
 					<li>
 						<!-- 글 간략정보 -->
 						<div class="info">
@@ -276,7 +310,7 @@ $(document).ready(function() {
 							</div>
 						</div>
 					</li>
-				</ul>
+				</ul> --%>
 <%-- 				</c:forEach>
  --%>			</div>
 			<!-- 페이징 -->
