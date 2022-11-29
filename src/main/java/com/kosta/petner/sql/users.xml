@@ -19,8 +19,7 @@
 							 addr, 
 							 addr_detail, 
 							 user_level, 
-							 user_auth, 
-							 file_no)
+							 user_auth)
 				values(seq_user_no.nextval, 
 							#{user_type}, 
 							#{id},
@@ -34,8 +33,7 @@
 							#{addr}, 
 							#{addr_detail},
 							'BRONZE',
-							 1,
-							 0)					
+							 1)					
 		]]>
 	</insert>
 
