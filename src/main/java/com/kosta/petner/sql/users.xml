@@ -148,7 +148,7 @@
 					id,
 					nickname, 
 					email,
-					user_level
+					user_level,
 					user_auth, 
 					joindate)
 			values(seq_user_no.nextval,
