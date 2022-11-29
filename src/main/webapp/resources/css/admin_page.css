@@ -1,7 +1,3 @@
-body {
-
-}
-
 .card-body {
 	padding: 20px;
 }
@@ -241,10 +237,6 @@ header {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
-
-
-
-
 /* ***** ad_button - admin_btn ***** */
 
 .ad_button {
@@ -264,3 +256,15 @@ header {
 /* ***** user detail page ***** */
 .user_detail li { display:flex }
 .user_detail li p:first-child { font-weight: bold; }
+
+/* ***** user_table 유저테이블 ***** */
+.user_table .type_box > div {
+	display: flex;
+    width: fit-content;
+    padding: 2px 6px;
+    border-radius: 4px;	
+}
+/* 관리자별 박스 컬러 */
+.user_table .type_box > div.admin10 { background:#ffb9b9 }
+.user_table .type_box > div.admin9 { background:#ffe0c0 }
+.user_table .type_box > div.admin1 { background:#d6fff2 }
