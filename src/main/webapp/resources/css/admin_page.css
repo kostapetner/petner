@@ -12,6 +12,8 @@
     }
 /**************/
 
+
+/* 반응형 */
 @media (max-width: 767.98px) {
 	header.navbar { height: 35px; }
 	header.navbar .navbar-brand { width: 80px;background-size: contain; }

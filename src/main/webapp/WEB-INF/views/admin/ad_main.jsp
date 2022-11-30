@@ -9,7 +9,6 @@
 
 <!-- 세션있을때  -->
 <c:if test="${not empty authUser}">
-   회원임
     <!-- 관리자 일때 -->
 	<c:if test="${authUser.user_type >= 9}">
 
