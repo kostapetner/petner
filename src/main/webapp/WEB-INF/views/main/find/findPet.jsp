@@ -153,15 +153,16 @@ $(document).ready(function() {
 					str+='</li>';
 					str+='</ul>';
 				});
-				$("#card_list").empty(); // 해결!
+				$("#card_list").empty();
 				$("#card_list").append(str);
 			},
-			error : function(xhr, error) { //xmlHttpRequest?
+			error : function(xhr, error) {
 				console.error("error : " + error);
 			}
 		});
 	}
-
+	
+	searchAjax();
 	
 });//ready
 </script>
@@ -265,54 +266,7 @@ $(document).ready(function() {
 		</form>
 			<!-- 카드형 리스트 펫찾기 -->
 			<div class="card_list_type find_pet_list" id="card_list">
-				<%-- <c:forEach var="csList" items="${careserviceList}" varStatus="status"> --%>
-<%-- 				<ul class="flex_between" id="ulId">
-					<li>
-						<!-- 글 간략정보 -->
-						<div class="info">
-							<div class="flex_agn_center">
-								<div class="owner_img">
-									<img src="" alt="프로필">
-								</div>
-								<span id="nickname">${csList.nickname }</span>
-							</div>
-							<c:if test="${csList.status eq '매칭중'}">
-							    <span class="status open" style="background-color: yellowgreen;">${csList.status }</span>
-							</c:if>
-							<c:if test="${csList.status eq '매칭완료'}">
-							    <span class="status open" style="background-color: #c7c2c2;">${csList.status }</span>
-							</c:if>
-							<c:if test="${empty csList.status}">
-							    <span>${csList.status }</span>
-							</c:if>
-						</div>
-						<!-- 동물사진 -->
-						<div class="img_area" style="width: 357px; height: 200px">
-							<a href="${pageContext.request.contextPath}/findPet/viewForm/${csList.service_no}?page=${pageInfo.page}">
-								<c:if test="${empty csList.file_no}">
-								   <img src="/petner/resources/images/header_logo.png" alt="이미지">
-								</c:if>
-								<c:if test="${not empty csList.file_no}">
-									<img src="${pageContext.request.contextPath}/findPet/${csList.file_no}" id="rep" class="img_wrap img">
-								</c:if>
-							</a>
-						</div>
-						<!-- 시팅요청사항디테일 -->
-						<div class="text_area">
-							<div class="title ellipsis">${csList.request_title}</div>
-							<div class="content ellipsis">${csList.request_detail}</div>
-							<div class="view_info">
-								<span class="date">${csList.st_date}&nbsp;~&nbsp;${csList.end_date}</span>
-								<p>
-									<span class="mr12"> <i class="fa-solid fa-comment-dots"></i> 20</span>
-									<span><i class="fa-regular fa-eye"></i> 13</span>
-								</p>
-							</div>
-						</div>
-					</li>
-				</ul> --%>
-<%-- 				</c:forEach>
- --%>			</div>
+			</div>
 			<!-- 페이징 -->
 			<ul class="pagination">
 				<c:choose>
