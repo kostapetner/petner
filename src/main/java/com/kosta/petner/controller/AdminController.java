@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.petner.bean.AdminSession;
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
-import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
+import com.kosta.petner.service.AdminService;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
 import com.kosta.petner.service.NoticeService;
@@ -35,6 +34,9 @@ import com.kosta.petner.service.UsersService;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	AdminService adminService;
 
 	@Autowired
 	NoticeService noticeService;
@@ -59,8 +61,8 @@ public class AdminController {
 
 	// 관리자 메인화면
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	String main( HttpSession session, Model model) {
-		
+	String main( Model model) {
+
 		model.addAttribute("page", "admin/ad_main");
 		model.addAttribute("title", "관리자 메인 페이지");
 		return "/layout/admin_main";
@@ -93,6 +95,16 @@ public class AdminController {
 		model.addAttribute("page", "admin/ad_detail");
 		return "/layout/admin_main";
 	}
+	
+	// 관리자 유저 타입 업데이트 요청
+		@RequestMapping(value = "/ad_userupdate")
+		public String ad_userupdate(Users users, Model model) {
+			usersService.updateUserType(users);
+//			model.addAttribute("users", users);
+//			model.addAttribute("page", "admin/ad_detail");
+			return "redirect:/admin_user";
+			//return "redirect:ad_detailForm?user_no=" + users.getUser_no();
+		}
 
 //		@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
 //		String admin_authorityForm(@RequestParam("user_no") Integer user_no,
@@ -123,6 +135,10 @@ public class AdminController {
 //			return "redirect:/admin/ad_authority";
 //		}
 
+		
+		
+		
+		
 	// 관리자 회원탈퇴
 	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
 	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
@@ -337,7 +353,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		try {
 //				boardService.deleteBoard(boardNum, password);
-			noticeService.deleteNotice(noticeNum);
+			adminService.deleteNotice(noticeNum);
 			mav.addObject("page", page);
 			mav.setViewName("redirect:/ad_noticeList");
 		} catch (Exception e) {

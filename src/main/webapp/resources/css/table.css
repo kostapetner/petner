@@ -2,9 +2,11 @@
 
 .pn_write { margin: 35px auto; max-width: 600px; }
 
-
-
-
+.pn_write input { width: 100%; border: none; }
+.pn_write .user_id > div { display: flex; align-items: center; }
+.pn_write .title input {}
+.pn_write .content textarea { border: none; padding: 20px; }
+.pn_write .content textarea::placeholder {color:#E1E3E6; }
 
 /* 공지사항 리스트 타입 */
   .pn_listForm { padding:30px 0 40px; }
@@ -22,6 +24,8 @@
   .pn_view .source span {color:#ff9113;}
   .pn_view .source .file { display: flex; }
   .pn_view .content { min-height: 200px; }
+  
+  .by { color:#ff9113; }
 
 
 

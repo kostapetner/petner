@@ -80,13 +80,17 @@ h2 {
 							<a class="admin_btn" href="qnamodifyform?qna_no=${article.qna_no}">수정</a>
 						</button>
 						<button class="btn btn-outline-secondary" type="button">
+								<a href="qnareplyform?qna_no=${article.qna_no}">답변</a>
+							</button>
+							
+							
+						<button class="btn btn-outline-secondary" type="button">
 					<a class="admin_btn" href="qnadeleteform?qna_no=${article.qna_no}">삭제</a>
 				</button>
 							<button class="btn btn-outline-secondary" type="button">
 								<a class="admin_btn" href="./qnaList">목록</a>
 							</button>
 						</div>
-						<a href="qnareplyform?qna_no=${article.qna_no}"> [답변] </a>
 					</section>
 				</div>
 			</div>

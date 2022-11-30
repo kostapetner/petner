@@ -26,5 +26,13 @@ public class FileServiceImpl implements FileService {
 	public String getServerFilename(Integer file_no) {
 		return fileDAO.getServerFilename(file_no);
 	}
+	
+	
+	//시터이미지 정보 업데이트
+	@Override
+	public void updateSitterImage(FileVO fileVo) {
+		fileDAO.updateSitterImage(fileVo);
+		
+	}
 
 }

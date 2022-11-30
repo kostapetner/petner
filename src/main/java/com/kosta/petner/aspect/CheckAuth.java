@@ -52,7 +52,7 @@ public class CheckAuth {
 			
 		}else {
 			System.out.print("로그인필요함");
-			return "redirect:/login";
+			return "redirect:/gologin";
 		}
 
 		return joinPoint.proceed();

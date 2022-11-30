@@ -51,7 +51,7 @@
 		<appender-ref ref="console"/> 
 	</logger>
 	<logger name="jdbc.resultsettable" additivity="false"> 
-		<level value="info"/>  
+		<level value="warn"/>  
 		<appender-ref ref="console"/> 
 	</logger> 
 

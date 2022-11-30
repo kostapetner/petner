@@ -26,6 +26,10 @@ public class SitterDAOImpl implements SitterDAO {
 	public SitterInfo getSitterInfo(int user_no) {
 		return sqlSession.selectOne("mapper.sitter.getSitterInfo", user_no);		
 	}
+	@Override // 펫시터정보 업데이트 1125DSC
+	public int updateSitterInfo(SitterInfo sitterInfo) {
+		return sqlSession.update("mapper.sitter.updateSitterInfo", sitterInfo);
+	}
 
 	//돌봐줄 동물찾기 게시글 가져오기
 	@Override
@@ -84,5 +88,16 @@ public class SitterDAOImpl implements SitterDAO {
 
 		return sqlSession.selectList("mapper.sitter.findPetSearch", map);
 	}
+
+	/* 날짜:22.11.30
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 정보등록시 프로필 사진 users테이블에 update
+	 */
+	@Override
+	public void updateFileNoToUsers(SitterInfo sitterInfo) {
+		sqlSession.update("mapper.sitter.updateFileNoToUsers", sitterInfo);
+	}
+
+	
 
 }

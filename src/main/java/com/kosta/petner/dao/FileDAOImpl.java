@@ -27,4 +27,12 @@ public class FileDAOImpl implements FileDAO {
 		return sqlSession.selectOne("mapper.file.getServerFilename", file_no);
 	}
 
+	@Override
+	public void updateSitterImage(FileVO fileVo) {
+		sqlSession.update("mapper.file.updateSitterFileInfo", fileVo);
+		
+	}
+
+	
+
 }

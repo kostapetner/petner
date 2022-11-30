@@ -15,20 +15,21 @@ textarea {
 }
 </style>
 <script>
-	/* user_type 이 9,10 일 경우에 체크박스 체크되어있게 */
+	/* user_type 이 9 일 경우에 체크박스 체크되어있게 */
 	$(document)
 			.ready(
 					function() {
-						var user_type = 'Y';
+						var user_type = '${users.user_type}';
 
-						if (user_type > 8) {
-							$("input:checkbox[name='user_type']:checkbox[value='user']")
-								.attr("checked", true);
+						if (user_type <= 8) {
+							$("input:checkbox[name='user_type']:checkbox[value='1']")
+							.attr("checked", true);
 						} else {
-							$("input:checkbox[name='user_type']:checkbox[value='admin']")
-								.attr("checked", true);
+							$("input:checkbox[name='user_type']:checkbox[value='9']")
+							.attr("checked", true);
 						}
-					});
+					}
+			);
 	/* 체크박스 하나만 선택되게 하기 */
 	function checkOnlyOne(element) {
 		  
@@ -41,34 +42,44 @@ textarea {
 		  
 		  element.checked = true;
 		}
+	
+	$(document).ready(function(){
+		// 체크
+		let tyep_kind = '${users.user_type}';
+		tyep_kind = tyep_kind.split(',');
+		console.log(tyep_kind);
+		
+		tyep_kind.forEach(function(e){
+		    $("input[value="+e+"]").prop("checked", true);
+		});
+	})
 </script>
 
 <!-- 게시판 등록 -->
 <div class="card ad_card mb-4">
 	<div class="card-body">
 		<h2 class="card-title">회원 상세정보</h2>
-		<form action="ad_detail" method="post" name="ad_detail">
-			<input type="hidden" name="user_no" value="${article.user_no}" />
-			<!--  -->
+		<form action="ad_userupdate" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="user_no" value="${users.user_no}" />
+			<!-- 회원상세정보 -->
 			<ul class="user_detail">
 				<li>
 					<p>회원번호 :</p>
 					<p>${users.user_no}</p>
 				</li>
 				<li>
-					<p>타입 :</p>
-					<p>${users.user_type}
+					<p>회원구분 :</p>
+					<p>${users.user_type}</p>
 						<!-- user_type 체크박스 -->
 					<div class="form-inline">
-						<form method="get" action="form-action.html">
-							<label><input type="checkbox" name="user_type"
-								value="user" onclick='checkOnlyOne(this)'>일반회원</label> <label><input
-								type="checkbox" name="user_type" value="admin"
-								onclick='checkOnlyOne(this)'>관리자</label>
-						</form>
+							<label>
+								<input type="checkbox" name="user_type"
+								value="1" onclick="checkOnlyOne(this)" placeholder="${users.user_type}">일반회원</label> 
+							<label>
+								<input
+								type="checkbox" name="user_type" value="9"
+								onclick="checkOnlyOne(this)"  placeholder="${users.user_type}">관리자</label>
 					</div>
-					</p>
-
 				</li>
 				<li>
 					<p>이름 :</p>
@@ -110,9 +121,9 @@ textarea {
 			</ul>
 
 			<button type="submit" class="btn btn-outline-secondary">
-				탈퇴시키기</button>
-
-			<button type="submit" class="btn btn-outline-secondary">
-				회원정보 변경</button>
+			<%-- <a href="javascript:ad_detailmodify?user_type=${users.user_type}">회원정보 변경</a> --%>
+				회원정보 변경
+				</button>
+				</form>
 	</div>
 </div>

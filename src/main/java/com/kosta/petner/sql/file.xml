@@ -37,4 +37,15 @@
 	]]>
 	</select>
 	
+	<!-- 프로필이미지 사진 수정  -->
+	<update id ="updateSitterFileInfo" parameterType="com.kosta.petner.bean.FileVO">
+		<![CDATA[
+			UPDATE FILE_TB
+		  SET 
+		  ORIGIN_FILENAME = #{origin_filename, jdbcType=VARCHAR},
+		  SERVER_FILENAME = #{server_filename, jdbcType=VARCHAR}
+		  WHERE FILE_NO = #{file_no}
+	]]>
+	</update>
+	
 </mapper>

@@ -21,13 +21,17 @@
   
   <div class="mt10 flex_agn_center">
   	<c:choose>
+  		<c:when test="${authUser.user_type==1}">
+  			<!-- 1: 시터일 경우 반려자로 동물등록버튼 -->
+  			<a href="${pageContext.request.contextPath}/petForm" class="pet_btn rec_btn">반려동물 등록하고 펫시터 구하기</a>
+  		</c:when>
+  		
   		<c:when test="${authUser.user_type==2}">
   			<!-- 2:보호자일 일경우 동물정보없으면 동물등록버튼 / 시터로 일하기 버튼-->
   			<c:choose>
   				<c:when test="${count.IS_MYPET <= 0}">
   					<a href="${pageContext.request.contextPath}/petForm" class="pet_btn rec_btn">반려동물 정보 등록하기</a>
   				</c:when>
-  					
   			</c:choose>
   				<a href="${pageContext.request.contextPath}/sitterForm" class="pet_btn rec_btn">펫시터로 일해보기</a>
   						

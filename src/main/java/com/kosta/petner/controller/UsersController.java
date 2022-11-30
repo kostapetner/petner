@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 //import com.kosta.petner.bean.ChatSession;
@@ -48,6 +46,10 @@ public class UsersController {
 	/* Chat session _ 홍시원 추가 _ 2022.11.11 */
 	@Autowired
 	//private ChatSession cSession;
+	
+	
+
+	
 		
 	//회원가입 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
@@ -84,7 +86,6 @@ public class UsersController {
 			if(usersService.isDoubleId(id)) return "true";
 		}catch(Exception e) {
 			e.printStackTrace();
-			model.addAttribute("err", "아이디 중복");
 			model.addAttribute("page","err");
 		}
 	      return "false";
@@ -103,7 +104,7 @@ public class UsersController {
 		
 		//로그인
 		@RequestMapping(value="/login", method=RequestMethod.POST)
-			public String login(Users users, HttpSession session, Model model, HttpServletResponse response) throws Exception {
+			public String login(Users users, Model model, HttpServletResponse response) throws Exception {
 				String returnURL = "";
 			
 				if ( session.getAttribute("authUser") != null ){
@@ -209,11 +210,26 @@ public class UsersController {
 			
 		//이메일로 비밀번호 찾기
 		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
-		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
+		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response, Model model) throws Exception{
 			System.out.println("id:" + users.getId());
 			System.out.println("Email:" + users.getEmail());
+			Users vo = usersDAO.selectId(users.getId());
 			
-			usersService.findPass(response, users);
+			if(usersDAO.selectId(users.getId()) == null) {
+				model.addAttribute("check", 1);
+				model.addAttribute("message", "아이디 정보가 일치하지 않습니다.");
+			
+			// 가입된 이메일이 아니면
+			} else if(!users.getEmail().equals(vo.getEmail()))  {
+				model.addAttribute("check", 2);
+				model.addAttribute("message", "이메일 정보가 일치하지 않습니다.");
+			}else {
+				usersService.findPass(users);
+				model.addAttribute("check", 3);
+				model.addAttribute("message", "이메일로 임시비밀번호가 발송되었습니다.");
+				
+			}
+			 
 		}
 		
 		//비밀번호변경으로이동

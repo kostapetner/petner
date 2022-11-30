@@ -151,32 +151,4 @@ public class NoticeController {
 		return "redirect:/noticeList";
 	}
 
-	@RequestMapping(value = "/deleteform", method = RequestMethod.GET)
-	public ModelAndView deleteform(@RequestParam("notice_no") Integer noticeNum,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("notice_no", noticeNum);
-		mav.addObject("page", page);
-		mav.setViewName("/notice/deleteform");
-		return mav;
-	}
-
-	@RequestMapping(value = "/noticedelete", method = RequestMethod.POST)
-	public ModelAndView boarddelete(@RequestParam("notice_no") Integer noticeNum,
-//			@RequestParam(value="board_pass") String password,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		System.out.println("Controller:" + noticeNum);
-		ModelAndView mav = new ModelAndView();
-		try {
-//			boardService.deleteBoard(boardNum, password);
-			noticeService.deleteNotice(noticeNum);
-			mav.addObject("page", page);
-			mav.setViewName("redirect:/noticeList");
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("err", e.getMessage());
-			mav.setViewName("/notice/err");
-		}
-		return mav;
-	}
 }
