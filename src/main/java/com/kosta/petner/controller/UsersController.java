@@ -210,11 +210,26 @@ public class UsersController {
 			
 		//이메일로 비밀번호 찾기
 		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
-		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
+		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response, Model model) throws Exception{
 			System.out.println("id:" + users.getId());
 			System.out.println("Email:" + users.getEmail());
+			Users vo = usersDAO.selectId(users.getId());
 			
-			usersService.findPass(response, users);
+			if(usersDAO.selectId(users.getId()) == null) {
+				model.addAttribute("check", 1);
+				model.addAttribute("message", "아이디 정보가 일치하지 않습니다.");
+			
+			// 가입된 이메일이 아니면
+			} else if(!users.getEmail().equals(vo.getEmail()))  {
+				model.addAttribute("check", 2);
+				model.addAttribute("message", "이메일 정보가 일치하지 않습니다.");
+			}else {
+				usersService.findPass(users);
+				model.addAttribute("check", 3);
+				model.addAttribute("message", "이메일로 임시비밀번호가 발송되었습니다.");
+				
+			}
+			 
 		}
 		
 		//비밀번호변경으로이동

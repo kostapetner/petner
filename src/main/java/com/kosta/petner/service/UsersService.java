@@ -29,7 +29,7 @@ public interface UsersService {
 	public void sendEmail(Users users, String div) throws Exception;
 
 	// 비밀번호찾기
-	public void findPass(HttpServletResponse response, Users users) throws Exception;
+	public void findPass(Users users) throws Exception;
 	
 	//비밀번호 체크
 	public Users checkPass(Users users)throws Exception;

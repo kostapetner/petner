@@ -16,8 +16,8 @@
 					id : $("#id").val(),
 					email : $("#email").val()
 				},
-				success : function(result) {
-					alert(result);
+				success : function(message) {
+					alert(message);
 				},
 			})
 		});
