@@ -15,9 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.MypageService;
@@ -91,30 +93,17 @@ public class MyPageController {
 //   }
 
 	// 정보 수정페이지
-	@RequestMapping("/mypage/myReviewForm")
-	public String myReviewForm( Model model) {
+	@RequestMapping("/mypage/myinfoEdit")
+	public String myinfoEdit(HttpSession session, Model model) {
 
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
 
-		model.addAttribute("page", "mypage/review/myReview");
+		model.addAttribute("page", "mypage/myinfo/myinfoEdit");
 		model.addAttribute("title", "나의정보수정");
 		model.addAttribute("member", users);
 		return "/layout/mypage_default";
 	}
-	
-	// 정보 수정페이지
-		@RequestMapping("/mypage/myinfoEdit")
-		public String myinfoEdit(HttpSession session, Model model) {
-
-			String id = getLoginUserId(session);
-			Users users = mypageService.getMyinfo(id);
-
-			model.addAttribute("page", "mypage/myinfo/myinfoEdit");
-			model.addAttribute("title", "나의정보수정");
-			model.addAttribute("member", users);
-			return "/layout/mypage_default";
-		}
 
 	// 정보업데이크
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
@@ -234,16 +223,48 @@ public class MyPageController {
 		}
 		return "/layout/mypage_default";
 	}
-	
-	//리뷰작성페이지
-	@RequestMapping("/mypage/myReview")
+
+	// 리뷰작성페이지
+	@RequestMapping("/mypage/review/writeform")
 	public String myReview(HttpSession session, Model model) {
 
 		String id = getLoginUserId(session);
 
-		model.addAttribute("page", "mypage/myReview/reviewwrite");
+		model.addAttribute("page", "mypage/review/writeform");
 		model.addAttribute("title", "리뷰쓰기");
 		return "/layout/mypage_default";
 	}
+
+	// 내가 작성한 리뷰 리스트
+	@RequestMapping("/mypage/review/acquireReviewList")
+	public String acquireReviewList(HttpSession session, Model model) {
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+
+		model.addAttribute("page", "mypage/review/acquireReviewList");
+		model.addAttribute("title", "작성한 리뷰");
+		model.addAttribute("member", users);
+		return "/layout/mypage_default";
+	}
+
+	// 내가 받은 리뷰 리스트
+	@RequestMapping("/mypage/review/receiveReviewList")
+	public String receiveReviewList(HttpSession session, Model model) {
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+
+		model.addAttribute("page", "mypage/review/receiveReviewList");
+		model.addAttribute("title", "받은 리뷰");
+		model.addAttribute("member", users);
+		return "/layout/mypage_default";
+	}
+	
+	
+	/*
+	 * @RequestMapping(value="/mypage/review/reviewWrite",
+	 * method=RequestMethod.POST) ModelAndView reviewWrite(@ModelAttribute Review
+	 * review) { ModelAndView mav = new ModelAndView(); String path =
+	 * servletContext.getRealPath(); //파일업로드 }
+	 */
 
 }
