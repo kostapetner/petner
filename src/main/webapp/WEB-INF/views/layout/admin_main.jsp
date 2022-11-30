@@ -79,3 +79,24 @@
 			crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+
+<%-- <!-- 세션있을때  -->
+<c:if test="${not empty authUser}">
+    <!-- 관리자 일때 -->
+	<c:if test="${authUser.user_type >= 9}">
+		
+	<!-- 관리자 일때.end -->
+	</c:if>
+
+	<!-- 관리자 아닐때 -->
+	<c:if test="${authUser.user_type < 9}">
+		<c:import url='/WEB-INF/views/include/not_admin.jsp' />
+	</c:if>
+</c:if>
+	
+<!-- 세션없을때 -->
+<c:if test="${empty authUser}">
+	<c:import url='/WEB-INF/views/include/not_users.jsp' />
+</c:if> --%>

@@ -1,3 +1,63 @@
+/* ***** admin header ***** */
+.admin_header { align-items: center; padding-right: 25px; }
+.admin_header .header_btn { margin-left: 10px; border-radius: 5px; }
+.admin_header .header_btn:hover {background: #000;}
+.admin_header .header_btn:hover a {color:#fff;}
+.admin_header span { font-size: 14px; font-weight: 500; }
+.admin_header .sidebar_btn {
+	display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 7px;
+    }
+/**************/
+
+@media (max-width: 767.98px) {
+	header.navbar { height: 35px; }
+	header.navbar .navbar-brand { width: 80px;background-size: contain; }
+	nav.sidebar { width: 100%;top: 35px; }
+	.admin_header {padding:0px; padding-top:15px;}
+	.admin_header .header_btn {width: max-content;margin-top: 8px;}
+	.admin_header > div:first-child {padding: 0.25rem 0.5rem;margin-left: 5px;}
+	.sidebar .nav-link {height: 20px;
+    align-items: center;
+    display: flex;}
+    .btn-toggle:hover, .btn-toggle:focus {width:100%}
+}
+
+
+
+/* ***** not_admin 관리자가 아닐때 ***** */
+.not_admin {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transform: translate(0%, 100%);
+    position: relative;
+}
+.not_admin h2 {margin-bottom: 5vw;}
+.not_admin h2 span {
+	font-size: 14px;
+    color: #a8a8a8;
+    font-weight: 400;
+}
+.not_admin button {
+	width: max-content;
+    margin: auto;
+    border-radius: 20px;
+}
+.not_admin button a {
+	font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    padding: 10px 30px;
+}
+/**************/
+
+
 .card-body {
 	padding: 20px;
 }
@@ -165,11 +225,7 @@ header {
 
 
 
-@media (max-width: 767.98px) {
-  .sidebar {
-    top: 5rem;
-  }
-}
+
 
 .sidebar-sticky {
   height: calc(100vh - 48px);

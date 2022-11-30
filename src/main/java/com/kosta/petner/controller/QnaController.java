@@ -30,98 +30,97 @@ import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
 import com.kosta.petner.service.QnaService;
 
-
 @Controller
 public class QnaController {
-	
+
 	@Autowired
 	FileService fileService;
-	
+
 	@Autowired
 	MypageService mypageService;
-	
+
 	@Autowired
 	QnaService qnaService;
 
 	@Autowired
 	ServletContext servletContext;
-	
+
 	// 글쓰기 화면 이동
 	@RequestMapping(value = "/qnawriteform", method = RequestMethod.GET)
 	public String qnawriteform(Model model) {
-		
+
 		model.addAttribute("page", "qna/writeform");
 		model.addAttribute("title", "글쓰기");
 		return "/layout/main";
 	}
-	
+
 	// 글쓰기 DB insert
 	@RequestMapping(value = "/qnawrite", method = RequestMethod.POST)
-	public ModelAndView qnawrite(@ModelAttribute Qna qna, @ModelAttribute Users users, BindingResult result, Model model) {
-		
+	public ModelAndView qnawrite(@ModelAttribute Qna qna, @ModelAttribute Users users, BindingResult result,
+			Model model) {
+
 		ModelAndView mav = new ModelAndView();
-		
+
 		try {
-			
+
 			// 파일
-						MultipartFile file = qna.getImageFile(); //파일 자체를 가져옴
-						// 서버에 올라갈 랜덤한 파일 이름을 만든다
-						String generatedString = RandomStringUtils.randomAlphanumeric(10);
-						String filename = file.getOriginalFilename();
-						int idx = filename.lastIndexOf(".");//확장자 위치
-						String ext = filename.substring(filename.lastIndexOf("."));
-						String real_filename = filename.substring(0, idx);//확장자분리
-						String server_filename = real_filename + generatedString + ext;
-						if(!file.isEmpty()) {
-							//1.폴더생성
-							FileVO fileVO = new FileVO();
-							String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
-							File fileLocation = new File(path);
-							File destFile = new File(path+server_filename);
-							System.out.println(destFile);
-							if (fileLocation.exists()) {
-								System.out.println("이미 폴더가 생성되어 있습니다.");
-								file.transferTo(destFile);
-						    }else {
-						    	try{
-						    		Path directoryPath = Paths.get(path);
-									System.out.println(directoryPath);
-									Files.createDirectory(directoryPath);//폴더생성
-									System.out.println("폴더가 생성되었습니다.");
-									file.transferTo(destFile);
-								}catch(Exception e){
-								    e.getStackTrace();
-								}        
-							}
-								
-							//2. 파일정보 파일테이블에 넣기
-							fileVO.setUser_no(users.getUser_no());
-							fileVO.setBoard_no(5);
-							fileVO.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
-							fileVO.setServer_filename(server_filename);
-							fileService.insertFile(fileVO);
-							
-							//3. sitter_info테이블에 정보 넣기
-							//3-1. server_filname에 맞는 file_no가져오기
-							Integer file_no = fileService.getFileNo(server_filename);
-							users.setFile_no(file_no);
-							System.out.println(users.toString());
-							qnaService.resistQna(qna);
-							
-							mav.setViewName("redirect:/");
-			
+			MultipartFile file = qna.getImageFile(); // 파일 자체를 가져옴
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");// 확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);// 확장자분리
+			String server_filename = real_filename + generatedString + ext;
+			if (!file.isEmpty()) {
+				// 1.폴더생성
+				FileVO fileVO = new FileVO();
+				String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
+				File fileLocation = new File(path);
+				File destFile = new File(path + server_filename);
+				System.out.println(destFile);
+				if (fileLocation.exists()) {
+					System.out.println("이미 폴더가 생성되어 있습니다.");
+					file.transferTo(destFile);
+				} else {
+					try {
+						Path directoryPath = Paths.get(path);
+						System.out.println(directoryPath);
+						Files.createDirectory(directoryPath);// 폴더생성
+						System.out.println("폴더가 생성되었습니다.");
+						file.transferTo(destFile);
+					} catch (Exception e) {
+						e.getStackTrace();
+					}
+				}
+
+				// 2. 파일정보 파일테이블에 넣기
+				fileVO.setUser_no(users.getUser_no());
+				fileVO.setBoard_no(5);
+				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
+				fileVO.setServer_filename(server_filename);
+				fileService.insertFile(fileVO);
+
+				// 3. sitter_info테이블에 정보 넣기
+				// 3-1. server_filname에 맞는 file_no가져오기
+				Integer file_no = fileService.getFileNo(server_filename);
+				users.setFile_no(file_no);
+				System.out.println(users.toString());
+				qnaService.resistQna(qna);
+
+				mav.setViewName("redirect:/qnaList");
+
 //			//////
 //			qnaService.resistQna(qna);
 //			model.addAttribute("redirect:/qnaList");
-						}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
-	
+
 //	// 글쓰기 DB insert
 //	@RequestMapping(value = "/qnawrite", method = RequestMethod.POST)
 //	public String qnawrite(@ModelAttribute Qna qna, BindingResult result, Model model) {
@@ -263,4 +262,3 @@ public class QnaController {
 		return mav;
 	}
 }
-
