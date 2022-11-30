@@ -7,8 +7,18 @@
 <html>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+
+
 	$(function(){
 		$("#findBtn").click(function(){
+			
+			$("#close_btn").click(function(){
+				$(".modal").hide();
+			})
+			$("#x_button").click(function(){
+				$(".modal").hide();
+			})
+			
 			$.ajax({
 				url : "http://localhost:8088/petner/findPass",
 				type : "POST",
@@ -17,7 +27,9 @@
 					email : $("#email").val()
 				},
 				success : function(message) {
-					alert(message);
+					
+					$(".modal").show();
+					$("#modal_msg").text(message);
 				},
 			})
 		});
@@ -32,6 +44,53 @@
 	.flex_between{flex-wrap:nowrap}
 	.id_email{position:absolute; top:42%; left:42%;}
 	.two_btn{position: relative; top:180px; width:200px; line-height: 30px; left:27%;}
+
+  .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+		display: none;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0,.5);
+      }
+
+      .modal.show {
+        display: block;
+      }
+
+      .modal_body {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+
+        width: 280px;
+        height: 100px;
+
+        padding: 40px;
+
+       
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+        transform: translateX(-50%) translateY(-50%);
+      }
+      
+       .modal_btn {
+        position: absolute;
+        top: 50%;
+        left: 70%;
+		
+        width: 280px;
+        height: 100px;
+
+        padding: 40px;
+        
+
+       } 
+
 </style>
 	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
 	<title>비밀번호 찾기</title>
@@ -72,10 +131,23 @@
 					
 				</div>						
 				</div>
-			
+
 			</div>
 
 	</div>
+	
+	  <div class="modal">
+				<div class="modal_body">
+						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
+							<p style="color: #FF9614; ">Petner &#128062</p>
+						
+							<p id="modal_msg" style="padding: 15px 0px 0px 15px;"> </p>
+						
+						<div class="modal_btn">
+							<button class="pet_btn" id="close_btn" style= "background-color:#FF9614;">닫기</button>
+						</div>
+				</div>				
+   		  </div>
 	
 
 		

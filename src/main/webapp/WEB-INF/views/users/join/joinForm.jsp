@@ -252,8 +252,8 @@
           <p class="fc_title">&#128586 펫트너 가족되기 &#128586</p>
           <p class="tip"><i class="fa-solid fa-asterisk"></i> 회원가입후 추가로 정보를 등록할 수 있어요</p>
           <div class="flex_col">
-            <label class="fcRadio1 mb10" style= "width:800px;"><input type="radio" name="user_type" id="user_type" value= "2" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )  </span></label>
-            <label class="fcRadio1 " style= "width:800px;"><input type="radio" name="user_type" value= "1"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
+            <label class="fcRadio1 mb10"><input type="radio" name="user_type" id="user_type" value= "2" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )  </span></label>
+            <label class="fcRadio1 "><input type="radio" name="user_type" value= "1"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
           </div>          
         </div>
         <!-- TEXT/PASSWORD -->

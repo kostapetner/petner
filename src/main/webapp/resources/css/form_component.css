@@ -78,6 +78,7 @@
   label.fcCbox2 span{
     margin: 0;
     padding: 0 20px 0 20px;
+    width: 320px;
     height: 38px;
     color: var(--fcc-font02);
     text-align: center;

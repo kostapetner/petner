@@ -30,6 +30,7 @@
 				<c:choose>
 					<c:when test="${empty searchId}">
 					<p class="mb10" style="color: red;">&#x1F645! 이름과 이메일을 다시 확인해주세요! &#x1F645</p>
+					<a href="./findId"><p style="margin: 180px;">&#8592 돌아가기</p></a>
 					</c:when>
 					<c:otherwise>
 					<p class="mb10"style="color: green;">&#x1F646 회원님의 ID는 ${searchId.id} 입니다. &#x1F646<p>

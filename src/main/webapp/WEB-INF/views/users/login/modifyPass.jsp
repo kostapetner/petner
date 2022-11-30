@@ -74,6 +74,7 @@
 				<h3 class="form_title">회원정보조회 실패</h3>
 				<div class="desc">
 					<p class="mb10" style="color: #FFA6CF;">🤔 아이디와 비밀번호를 다시 확인해주세요! 🤔</p>
+					<a href="${pageContext.request.contextPath}/checkPass"><p style="margin: 180px;">&#8592 돌아가기</p></a>
 					</div>
 					</c:when>
 					<c:otherwise>
