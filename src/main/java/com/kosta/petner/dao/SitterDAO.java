@@ -28,4 +28,10 @@ public interface SitterDAO {
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	List<CareService> findPetSearch(Find findVO);
+
+	/* 날짜:22.11.30
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 정보등록시 프로필 사진 users테이블에 update
+	 */
+	void updateFileNoToUsers(SitterInfo sitterInfo);
 }

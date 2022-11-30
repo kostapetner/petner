@@ -7,7 +7,6 @@
 		insert into sitter_info( user_no
 								,file_no
 								,pet_kind
-								,pet_specie
 								,work_day
 								,service
 								,zipcode
@@ -17,7 +16,6 @@
 		) values(#{user_no, jdbcType=INTEGER}
 				,#{file_no, jdbcType=INTEGER}
 				,#{pet_kind, jdbcType=VARCHAR}
-				,#{pet_specie, jdbcType=VARCHAR}
 				,#{work_day, jdbcType=VARCHAR}
 				,#{service, jdbcType=VARCHAR}
 				,#{zipcode, jdbcType=INTEGER}
@@ -33,6 +31,7 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
+	
 	<!-- 펫시터정보 업데이트 221122DSC -->
 	<update id="updateSitterInfo" parameterType="com.kosta.petner.bean.SitterInfo">
 		<![CDATA[
@@ -158,5 +157,12 @@
 		</where>
 	</select>
 	
+	<update id="updateFileNoToUsers" parameterType="com.kosta.petner.bean.SitterInfo">
+	<![CDATA[
+		update users
+		set file_no = #{file_no}
+		where user_no = #{user_no}
+	]]>	
+	</update>
 	
 </mapper>
