@@ -109,10 +109,7 @@ public class FindPetController {
 		CareService careService = new CareService();
 		Integer service_no = Integer.parseInt(serviceNo);
 		careService = sitterService.getViewForm(service_no);
-		PageInfo pageInfo = new PageInfo();
-		pageInfo.setPage(page);
 		model.addAttribute("cs", careService);
-		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPetViewForm");
 		return "/layout/main";

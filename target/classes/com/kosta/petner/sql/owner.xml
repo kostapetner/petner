@@ -100,7 +100,7 @@
 			 service_no_seq.nextval
 			,#{user_no, jdbcType=INTEGER}
 			,#{pet_no, jdbcType=INTEGER}
-			,#{zipcode, jdbcType=INTEGER}
+			,#{zipcode}
 			,#{addr, jdbcType=VARCHAR}
 			,#{addr_detail, jdbcType=VARCHAR}
 			,#{service, jdbcType=VARCHAR}
