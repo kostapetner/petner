@@ -97,6 +97,12 @@
 			left join PET_INFO pif on cs.pet_no = pif.pet_no
 			left join users u on cs.user_no = u.user_no
 			<where>
+				<!-- 우편번호 -->
+			    <if test="zipcode != null and zipcode != ''">
+			    <![CDATA[
+			    	cs.zipcode LIKE #{zipcode}||'%'
+			    ]]>	
+			    </if>
 				<!-- 가능한 날짜 -->
 			    <if test="st_date != null and st_date != '' and end_date != null and end_date != ''" >
 			    <![CDATA[
