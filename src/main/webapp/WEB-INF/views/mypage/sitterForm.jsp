@@ -52,8 +52,6 @@
 				<input type="checkbox" name="pet_kind" value="reptile">
 				<span>파충류</span>
 			</label>
-			<p class="fc_title">종을 입력해주세요</p>
-			<input type="text" name="pet_specie">
 		</div>
 
 		<!-- 가능한 요일 -->

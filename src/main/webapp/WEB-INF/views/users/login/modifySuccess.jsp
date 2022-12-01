@@ -16,7 +16,7 @@
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
 	.submit_btn{position: relative; top:150px; width:200px;}
-	.flex_col {position:absolute; top:32%; left:42%;}
+	.flex_col {position:absolute; top:42%; left:42%;}
 </style>
 <body>
   <div id="wrapper">

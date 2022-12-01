@@ -24,6 +24,7 @@
   }
   .login_wr p:nth-child(3){text-align: center; text-decoration: underline; padding-top:20px;}
   .kakao_btn{background-color:#FAE100; color:#3B1E1E; font-size:1.4rem; height:52px;}
+  #close_btn{position: height:20px; width:50px;}
   .login_option{
     padding-top: 30px;
     border-top: 1px solid #e4e4e4;
@@ -36,11 +37,71 @@
     margin-top: 15px;
     color:gray;
    }
+   
+       .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+		
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0,.5);
+      }
+
+      .modal.show {
+        display: block;
+      }
+
+      .modal_body {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+
+        width: 280px;
+        height: 100px;
+
+        padding: 40px;
+
+       
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+        transform: translateX(-50%) translateY(-50%);
+      }
+      
+       .modal_btn {
+        position: absolute;
+        top: 50%;
+        left: 70%;
+		
+        width: 280px;
+        height: 100px;
+
+        padding: 40px;
+        
+
+       } 
 
 </style>
 
-<script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <script>
+$(document).ready(function(){
+	$("#close_btn").click(function(){
+		$(".modal").hide();
+	})
+	$("#x_button").click(function(){
+		$(".modal").hide();
+	})
+	
+})
+
+
+	
+
+	
 	function login() {
 		loginForm.submit();
 		$("input:checkbox[id='useCookie']").prop("checked",true);
@@ -48,6 +109,7 @@
 			
 	
 	}
+	
 
 </script>
 
@@ -70,9 +132,17 @@
 
 	<div class="form-label-group">
 		<c:if test="${check == 1}">
-			<script>
-				alert("${message}");
-			</script>
+		   <div class="modal">
+				<div class="modal_body">
+						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
+							<p style="color: #FF9614; ">Petner &#128062</p>
+							<p style="text-decoration: none;">	&#128531 ${message} </p>
+							
+						<div class="modal_btn">
+							<button class="pet_btn" id="close_btn" style= "background-color:#FF9614;">닫기</button>
+						</div>
+				</div>				
+   		  </div>
 		</c:if>
 	</div>
 	<div class="info_area">

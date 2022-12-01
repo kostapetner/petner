@@ -118,42 +118,48 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	//임시비밀번호변경
-	@Override
-	public void findPass(HttpServletResponse response, Users users) throws Exception {
-		response.setContentType("text/html;charset=utf-8");
-		Users vo = usersDAO.selectId(users.getId());
-		PrintWriter out = response.getWriter();
-		// 가입된 아이디가 없으면
-		if(usersDAO.selectId(users.getId()) == null) {
-			out.print("아이디 정보가 일치하지 않습니다.");
-			out.close();
-		}
-		// 가입된 이메일이 아니면
-		else if(!users.getEmail().equals(vo.getEmail()))  {
-			out.print( "이메일 정보가 일치하지 않습니다.");
-			out.close();
-		}else {
-			// 임시 비밀번호 생성
-			String pw = "";
-			for (int i = 0; i < 12; i++) {
-				pw += (char) ((Math.random() * 26) + 97);
+		@Override
+		public void findPass(HttpServletResponse response,Users users) throws Exception {
+			response.setContentType("text/html;charset=utf-8");
+			Users vo = usersDAO.selectId(users.getId());
+			PrintWriter out = response.getWriter();
+			// 가입된 아이디가 없으면
+			if(usersDAO.selectId(users.getId()) == null) {
+				out.print("아이디 정보가 일치하지 않습니다.");
+				out.close();
 			}
-			users.setPassword(pw);
-			// 비밀번호 변경
-			usersDAO.updatePw(users);
-			// 비밀번호 변경 메일 발송
-			sendEmail(users, "findPass");
-			System.out.println("비밀번호:" +pw);
-			out.print("등록된 이메일로 임시비밀번호를 발송하였습니다.");
-			out.close();
-			
-			//메일을 보낸 후 db에 암호화 해줌
-			String passBcrypt = bcryptPasswordEncoder.encode(pw);
-			   users.setPassword(passBcrypt);
-			 usersDAO.updatePw(users);
-			 System.out.println("비밀번호:" +passBcrypt);
+			// 가입된 이메일이 아니면
+			else if(!users.getEmail().equals(vo.getEmail()))  {
+				out.print( "이메일 정보가 일치하지 않습니다.");
+				out.close();
+			}else {
+				
+					// 임시 비밀번호 생성
+					String pw = "";
+					for (int i = 0; i < 12; i++) {
+						pw += (char) ((Math.random() * 26) + 97);
+					}
+					users.setPassword(pw);
+					// 비밀번호 변경
+					usersDAO.updatePw(users);
+					// 비밀번호 변경 메일 발송
+					sendEmail(users, "findPass");
+					
+					out.print("임시비밀번호가 발송되었습니다.");
+					out.close();
+					System.out.println("임시비밀번호:" +pw);
+					
+					
+					//메일을 보낸 후 db에 암호화 해줌
+					String passBcrypt = bcryptPasswordEncoder.encode(pw);
+					   users.setPassword(passBcrypt);
+					 usersDAO.updatePw(users);
+					 System.out.println("암호화비밀번호:" +passBcrypt);
+				}
 		}
-	}
+			
+		
+	
 	//비밀번호 확인
 	@Override
 	public Users checkPass(Users users)throws Exception{

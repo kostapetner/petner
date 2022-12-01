@@ -13,8 +13,8 @@
 		    #kakao-talk-channel-chat-button {
 		    position: fixed;
 		    z-index: 999;
-		    right: 830px; /* 화면 오른쪽으로부터의 거리, 숫자만 변경 */
-		    bottom: 400px; /* 화면 아래쪽으로부터의 거리, 숫자만 변경 */
+		    right: 650px; /* 화면 오른쪽으로부터의 거리, 숫자만 변경 */
+		    bottom: 200px; /* 화면 아래쪽으로부터의 거리, 숫자만 변경 */
 		    }
 		}
 		/* 모바일 화면 */

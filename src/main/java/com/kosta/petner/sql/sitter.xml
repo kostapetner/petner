@@ -7,7 +7,6 @@
 		insert into sitter_info( user_no
 								,file_no
 								,pet_kind
-								,pet_specie
 								,work_day
 								,service
 								,zipcode
@@ -17,7 +16,6 @@
 		) values(#{user_no, jdbcType=INTEGER}
 				,#{file_no, jdbcType=INTEGER}
 				,#{pet_kind, jdbcType=VARCHAR}
-				,#{pet_specie, jdbcType=VARCHAR}
 				,#{work_day, jdbcType=VARCHAR}
 				,#{service, jdbcType=VARCHAR}
 				,#{zipcode, jdbcType=INTEGER}
@@ -33,6 +31,7 @@
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
+	
 	<!-- 펫시터정보 업데이트 221122DSC -->
 	<update id="updateSitterInfo" parameterType="com.kosta.petner.bean.SitterInfo">
 		<![CDATA[
@@ -50,36 +49,7 @@
 		]]> 
 	</update>
 	
-	<!-- findPet(돌봐줄 동물찾기) 리스트 가져오기 -->
-	<select id="findPetList" resultType="com.kosta.petner.bean.CareService">
-	<![CDATA[
-		select  service_no
-				,user_no
-				,pet_no
-				,zipcode
-				,addr
-				,addr_detail
-				,service
-				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
-				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
-				,request_money
-				,request_title
-				,request_detail
-				,status
-				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-				,file_no
-				,nickname
-		from (
-			select row_number() over (order BY service_no desc) num, B.*, u.nickname 
-			from care_service b, USERS u
-			WHERE b.USER_NO = u.USER_NO 
-			order by service_no desc
-			)
-		where num between #{row} and #{row}+9
-	]]>	
-	</select>
-	
-	<!-- findPet(돌봐줄 동물찾기) service_no에 맞는 정보 가져오기 -->
+	<!-- findPet(돌봐줄 동물찾기)viewForm service_no에 맞는 정보 가져오기 혜경-->
 	<select id="getViewForm" resultType="com.kosta.petner.bean.CareService">
 	<![CDATA[
 		select  service_no
@@ -105,58 +75,116 @@
 	</select>
 	
 	<select id="findPetSearch" parameterType="hashMap" resultType="hashMap">
-		SELECT   service_no
-				,cs.user_no
-				,cs.pet_no
-				,pet_kind
-				,cs.zipcode
-				,cs.addr
-				,cs.addr_detail
-				,service
-				,TO_CHAR(st_date,'YYYY/MM/DD') st_date
-				,TO_CHAR(end_date,'YYYY/MM/DD') end_date
-				,request_money
-				,request_title
-				,request_detail
-				,status
-				,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-				,cs.file_no
-				,nickname
-				,u.gender
-		FROM care_service cs
-		left join PET_INFO pif on cs.pet_no = pif.pet_no
-		left join users u on cs.user_no = u.user_no
-		<where>
-			<!-- 가능한 날짜 -->
-		    <if test="st_date != null and st_date != '' and end_date != null and end_date != ''" >
-		    <![CDATA[
-		    	st_date >= #{st_date} and end_date <= #{end_date}
-		    ]]>	
-		    </if>
-		    <!-- 서비스 -->
-		    <if test="serviceArray != null and serviceArray != ''">
-		    	<foreach item="item" index="index" collection="serviceArray" separator="and" open="and">
-					service LIKE '%'||#{item}||'%'
-				</foreach>
-		    </if>
-		    <!-- 동물종류 -->
-		    <if test="petKindArray != null and petKindArray != ''">
-		    	<foreach item="item" index="index" collection="petKindArray" separator="and" open="and">
-					pet_kind LIKE '%'||#{item}||'%'
-				</foreach>
-		    </if>
-		    <!-- 보호자 성별 -->
-		    <if test="genderArray != null and genderArray != ''">
-		    	<foreach item="item" index="index" collection="genderArray" separator="or" open="and">
-					u.gender LIKE '%'||#{item}||'%'
-				</foreach>
-		    </if>
-		    <!-- 키워드 -->
-		    <if test="keyword != null and keyword != ''">
-		    	and pet_name LIKE '%'||#{keyword}||'%'
-		    </if>
-		</where>
+		SELECT   	 service_no
+					,cs.user_no
+					,cs.pet_no
+					,pet_kind
+					,cs.zipcode
+					,cs.addr
+					,cs.addr_detail
+					,service
+					,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+					,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+					,request_money
+					,request_title
+					,request_detail
+					,status
+					,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+					,cs.file_no
+					,nickname
+					,u.gender
+			FROM care_service cs
+			left join PET_INFO pif on cs.pet_no = pif.pet_no
+			left join users u on cs.user_no = u.user_no
+			<where>
+				<!-- 가능한 날짜 -->
+			    <if test="st_date != null and st_date != '' and end_date != null and end_date != ''" >
+			    <![CDATA[
+			    	st_date >= #{st_date} and end_date <= #{end_date}
+			    ]]>	
+			    </if>
+			    <!-- 서비스 -->
+			    <if test="serviceArray != null and serviceArray != ''">
+			    	<foreach item="item" index="index" collection="serviceArray" separator="and" open="and">
+						service LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 동물종류 -->
+			    <if test="petKindArray != null and petKindArray != ''">
+			    	<foreach item="item" index="index" collection="petKindArray" separator="and" open="and">
+						pet_kind LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 보호자 성별 -->
+			    <if test="genderArray != null and genderArray != ''">
+			    	<foreach item="item" index="index" collection="genderArray" separator="or" open="and">
+						u.gender LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			</where>
 	</select>
 	
+	<select id="findPetSearchCount" parameterType="hashMap" resultType="Integer">
+	select  count(*)
+	from (
+			SELECT   row_number() over (order BY service_no desc) num
+					,service_no
+					,cs.user_no
+					,cs.pet_no
+					,pet_kind
+					,cs.zipcode
+					,cs.addr
+					,cs.addr_detail
+					,service
+					,TO_CHAR(st_date,'YYYY/MM/DD') st_date
+					,TO_CHAR(end_date,'YYYY/MM/DD') end_date
+					,request_money
+					,request_title
+					,request_detail
+					,status
+					,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
+					,cs.file_no
+					,nickname
+					,u.gender
+			FROM care_service cs
+			left join PET_INFO pif on cs.pet_no = pif.pet_no
+			left join users u on cs.user_no = u.user_no
+			<where>
+				<!-- 가능한 날짜 -->
+			    <if test="st_date != null and st_date != '' and end_date != null and end_date != ''" >
+			    <![CDATA[
+			    	st_date >= #{st_date} and end_date <= #{end_date}
+			    ]]>	
+			    </if>
+			    <!-- 서비스 -->
+			    <if test="serviceArray != null and serviceArray != ''">
+			    	<foreach item="item" index="index" collection="serviceArray" separator="and" open="and">
+						service LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 동물종류 -->
+			    <if test="petKindArray != null and petKindArray != ''">
+			    	<foreach item="item" index="index" collection="petKindArray" separator="and" open="and">
+						pet_kind LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 보호자 성별 -->
+			    <if test="genderArray != null and genderArray != ''">
+			    	<foreach item="item" index="index" collection="genderArray" separator="or" open="and">
+						u.gender LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			</where>
+		)
+	</select>
+	
+	<!-- 펫시터 정보등록시 프로필 사진 users테이블에 update 20221130김혜경 -->
+	<update id="updateFileNoToUsers" parameterType="com.kosta.petner.bean.SitterInfo">
+	<![CDATA[
+		update users
+		set file_no = #{file_no}
+		where user_no = #{user_no}
+	]]>	
+	</update>
 	
 </mapper>

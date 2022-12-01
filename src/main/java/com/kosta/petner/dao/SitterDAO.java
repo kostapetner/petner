@@ -15,7 +15,7 @@ public interface SitterDAO {
 	int updateSitterInfo(SitterInfo sitterInfo);
 
 	//care_service테이블의 전체 게시글
-	List<CareService> findPetList(Integer row);
+	//List<CareService> findPetList(Integer row);
 
 	/* 날짜:22.11.22
 	 * 작성자: 김혜경
@@ -23,9 +23,21 @@ public interface SitterDAO {
 	 */
 	CareService getViewForm(Integer service_no);
 
+	/* 날짜:22.11.30
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 정보등록시 프로필 사진 users테이블에 update
+	 */
+	void updateFileNoToUsers(SitterInfo sitterInfo);
+	
 	/* 날짜:22.11.22
 	 * 작성자: 김혜경
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	List<CareService> findPetSearch(Find findVO);
+
+	/* 날짜:22.11.30
+	 * 작성자: 김혜경
+	 * 내용: 검색조건에 따른 게시글 수
+	 */
+	int findPetSearchCount(Find findVO);
 }

@@ -34,7 +34,7 @@ public class SitterController {
 	@Autowired
 	SitterService sitterService;
 
-	//펫시터 정보등록 페이지
+	//펫시터 정보등록 페이지 혜경
 	@RequestMapping(value = "/sitterForm", method = RequestMethod.GET)
 	String sitterForm(Model model) {
 		model.addAttribute("title", "시터정보등록");
@@ -42,7 +42,7 @@ public class SitterController {
 		return "/layout/mypage_default";
 	}
 	
-	//DB insert
+	//DB insert 혜경
 	@RequestMapping(value = "/sitterForm/register", method = RequestMethod.POST)
 	public ModelAndView register(Model model, @ModelAttribute SitterInfo sitterInfo) {
 		ModelAndView mav = new ModelAndView();
@@ -85,11 +85,12 @@ public class SitterController {
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
 				
-				//3. sitter_info테이블에 정보 넣기
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				sitterInfo.setFile_no(file_no);
-				System.out.println(sitterInfo.toString());
+				//3-2. users테이블 file_no컬럼에 해당 file_no update
+				sitterService.updateFileNoToUsers(sitterInfo);
+				//3-3.sitter_info테이블에 정보넣기
 				sitterService.regist(sitterInfo);
 				
 				mav.setViewName("redirect:/");

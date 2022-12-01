@@ -25,11 +25,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
@@ -86,19 +88,21 @@ public class MyPageController {
 		return "/layout/mypage_default";
 	}
 
-	
+
+
 	// 정보 수정페이지
 	@RequestMapping("/mypage/myinfoEdit")
 	public String myinfoEdit(HttpSession session, Model model) {
 
-			String id = getLoginUserId(session);
-			Users users = mypageService.getMyinfo(id);
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
 
-			model.addAttribute("page", "mypage/myinfo/myinfoEdit");
-			model.addAttribute("title", "나의정보수정");
-			model.addAttribute("member", users);
-			return "/layout/mypage_default";
-		}
+		model.addAttribute("page", "mypage/myinfo/myinfoEdit");
+		model.addAttribute("title", "나의정보수정");
+		model.addAttribute("member", users);
+		return "/layout/mypage_default";
+	}
+
 
 	// 나의정보업데이트
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
@@ -261,6 +265,7 @@ public class MyPageController {
 		}
 		return "/layout/mypage_default";
 	}
+<<<<<<< HEAD
 	
 	//나의반려동물 수정페이지
 	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.GET)
@@ -283,21 +288,44 @@ public class MyPageController {
 		model.addAttribute("title", "반려동물정보수정");
 		
 		return "/layout/mypage_default";
+=======
+
+	// 마이페이지에 필요한 사진가져오기
+	@RequestMapping(value = "/getImg/{fileNo}", method = RequestMethod.GET)
+	public void viewImages(@PathVariable String fileNo, HttpServletResponse response) {
+		String path = servletContext.getRealPath("/resources/upload/");
+		FileInputStream fis = null;
+		try {
+			Integer file_no = Integer.parseInt(fileNo);
+			String server_filename = mypageService.getFile(file_no);
+			fis = new FileInputStream(path + server_filename);
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(fis, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(fis != null) {
+				try {
+					fis.close();
+				} catch (Exception e) {} 
+			}
+		}
+>>>>>>> 725d9a3cb0cf96d4c9d90f825c06153318568cbc
 	}
 	
 	
 
 	//리뷰작성페이지
-	@RequestMapping("/mypage/myReview")
+	@RequestMapping("/mypage/writeform")
 	public String myReview(HttpSession session, Model model) {
 
 		String id = getLoginUserId(session);
 
-		model.addAttribute("page", "mypage/myReview/reviewwrite");
+		model.addAttribute("page", "mypage/review/writeform");
 		model.addAttribute("title", "리뷰쓰기");
 		return "/layout/mypage_default";
 	}
-	
+
 	
 	//카카오 1:1채팅으로 이동
 	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
@@ -308,5 +336,37 @@ public class MyPageController {
 	
 	
 	
+
+	// 내가 작성한 리뷰 리스트
+	@RequestMapping("/mypage/review/acquireReviewList")
+	public String acquireReviewList(HttpSession session, Model model) {
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+
+		model.addAttribute("page", "mypage/review/acquireReviewList");
+		model.addAttribute("title", "작성한 리뷰");
+		model.addAttribute("member", users);
+		return "/layout/mypage_default";
+	}
+
+	// 내가 받은 리뷰 리스트
+	@RequestMapping("/mypage/review/receiveReviewList")
+	public String receiveReviewList(HttpSession session, Model model) {
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+
+		model.addAttribute("page", "mypage/review/receiveReviewList");
+		model.addAttribute("title", "받은 리뷰");
+		model.addAttribute("member", users);
+		return "/layout/mypage_default";
+	}
+	
+	
+	/*
+	 * @RequestMapping(value="/mypage/review/reviewWrite",
+	 * method=RequestMethod.POST) ModelAndView reviewWrite(@ModelAttribute Review
+	 * review) { ModelAndView mav = new ModelAndView(); String path =
+	 * servletContext.getRealPath(); //파일업로드 }
+	 */
 
 }

@@ -210,12 +210,15 @@ public class UsersController {
 			
 		//이메일로 비밀번호 찾기
 		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
-		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
-			System.out.println("id:" + users.getId());
-			System.out.println("Email:" + users.getEmail());
-			
-			usersService.findPass(response, users);
-		}
+				public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
+					System.out.println("id:" + users.getId());
+					System.out.println("Email:" + users.getEmail());
+					
+					usersService.findPass(response, users);
+				}
+
+			 
+		
 		
 		//비밀번호변경으로이동
 		@RequestMapping(value="/checkPass", method=RequestMethod.GET)

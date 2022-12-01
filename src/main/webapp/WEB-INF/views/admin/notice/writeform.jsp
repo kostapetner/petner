@@ -56,12 +56,9 @@ textarea {
 				</div>
 			</div>
 		</div>
-		
 			<div class="input-group flex-nowrap">
-				<span class="input-group-text" id="addon-wrapping">글쓴이</span> <input
-					type="text" class="form-control" name="user_id" id="user_id"
-					required="required" placeholder="Username" aria-label="이름"
-					aria-describedby="addon-wrapping">
+				<span class="input-group-text" id="addon-wrapping">글쓴이</span>
+				<input class="form-control" name="user_id" id="user_id" value="${authUser.id}">
 			</div>
 
 			<!-- <div class="input-group flex-nowrap">
