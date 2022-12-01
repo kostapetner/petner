@@ -265,7 +265,7 @@ public class MyPageController {
 		}
 		return "/layout/mypage_default";
 	}
-<<<<<<< HEAD
+
 	
 	//나의반려동물 수정페이지
 	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.GET)
@@ -288,32 +288,7 @@ public class MyPageController {
 		model.addAttribute("title", "반려동물정보수정");
 		
 		return "/layout/mypage_default";
-=======
-
-	// 마이페이지에 필요한 사진가져오기
-	@RequestMapping(value = "/getImg/{fileNo}", method = RequestMethod.GET)
-	public void viewImages(@PathVariable String fileNo, HttpServletResponse response) {
-		String path = servletContext.getRealPath("/resources/upload/");
-		FileInputStream fis = null;
-		try {
-			Integer file_no = Integer.parseInt(fileNo);
-			String server_filename = mypageService.getFile(file_no);
-			fis = new FileInputStream(path + server_filename);
-			OutputStream out = response.getOutputStream();
-			FileCopyUtils.copy(fis, out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if(fis != null) {
-				try {
-					fis.close();
-				} catch (Exception e) {} 
-			}
-		}
->>>>>>> 725d9a3cb0cf96d4c9d90f825c06153318568cbc
 	}
-	
-	
 
 	//리뷰작성페이지
 	@RequestMapping("/mypage/writeform")
