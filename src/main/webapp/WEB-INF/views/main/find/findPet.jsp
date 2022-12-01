@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,7 @@
 </head>
 <script>
 $(document).ready(function() {
+	searchAjax();
 	
 	//air-datepicker
 	var date = new Date();
@@ -76,7 +77,6 @@ $(document).ready(function() {
 		//console.log("genderArr:  "+genderArr);
 	    searchAjax();
 	});
-	
 	function searchAjax(){
 		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
 		var st_date = $('#date_start').val();
@@ -84,12 +84,14 @@ $(document).ready(function() {
 		var service = serviceArr;
 		var pet_kind = petKindArr;
 		var gender = genderArr;
+		var zipcode = $("#zipcode").val();
 		
-		/* console.log("st_date : "+st_date);
+		/*console.log("st_date : "+st_date);
 		console.log("end_date : "+end_date);
 		console.log("service : "+service);
 		console.log("pet_kind : "+pet_kind);
 		console.log("gender : "+gender);
+		console.log(zipcode);
 		*/
 		
 		// contentType: "application/json" 꼭 써주기
@@ -104,6 +106,7 @@ $(document).ready(function() {
 			    	,"service":service
 			    	,"pet_kind":pet_kind
 			    	,"gender":gender
+			    	,"zipcode":zipcode
 			  }),
 			success : function(data) {
 				var str = '';
@@ -114,6 +117,7 @@ $(document).ready(function() {
 					str +='<div class="info">';
 					str +='<div class="flex_agn_center">';
 					str +='<div class="owner_img">';
+					str +='<img src="${imgPath}/noimg.webp" alt="노프로필"/>';
 					str +='<img src="" alt="프로필">';
 					str +='</div>';
 					str +='<span id="nickname">'+item.NICKNAME+'</span>';
@@ -159,17 +163,13 @@ $(document).ready(function() {
 			}
 		});//ajax();
 	}//searchAjax();
-	
-	searchAjax();
-	
 });//ready
 </script>
 <body>
 	<div id="wrapper">
 		<!-- CONTAINER -->
 		<div class="container w90">
-		<form id="findPetSearchForm" action="/petner/findPet/viewForm/findPetSearch" method="POST">
-			<div class="">
+			<form id="findPetSearchForm" action="/petner/findPet/viewForm/findPetSearch" method="POST">
 				<!-- 검색조건 -->
 				<div class="filter_feed">
 					<!-- 날짜 -->
@@ -246,19 +246,24 @@ $(document).ready(function() {
 					</div>
 					<div class="f_row">
 						<div>
-							<p class="filter_title">현재 위치</p>
-							<p class="filter_title">**동</p>
-							<input type="button" value="내주변찾기">
+							<c:if test="${empty authUser}">
+								<input type="button" value="내주변찾기">
+							</c:if>
+							<c:if test="${not empty authUser}">
+								<p class="filter_title">현재 위치</p>
+								<p class="filter_title">[${userInfo.zipcode }]</p>
+								<input type="hidden" value="${userInfo.zipcode }" id="zipcode">
+								<p class="filter_title">${userInfo.addr }</p>
+								<input type="button" value="내주변찾기">
+							</c:if>
+							
 						</div>
 					</div>
 				</div>
-			</div>
 		</form>
-			<!-- 카드형 리스트 펫찾기 -->
-			<div class="card_list_type find_pet_list" id="card_list">
-				<span id="nickname">item.NICKNAME</span>';
-			</div>
-		</div>
+		<!-- 카드형 리스트 펫찾기 -->
+		<div class="card_list_type find_pet_list" id="card_list"></div>
+	</div>
 	</div>
 </body>
 </html>
