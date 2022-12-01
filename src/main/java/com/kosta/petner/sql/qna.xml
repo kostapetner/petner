@@ -64,6 +64,17 @@
 			delete from qna where qna_no=#{qnaNum}
 		]]>
 	</delete>
+	
+	
+	<update id="updateFileNoToQna" parameterType="com.kosta.petner.bean.Qna">
+	<![CDATA[
+		update qna
+		set file_no = #{file_no}
+		where qna_no = #{qna_no}
+	]]>	
+	</update>
+	
+	
 </mapper>
 
 

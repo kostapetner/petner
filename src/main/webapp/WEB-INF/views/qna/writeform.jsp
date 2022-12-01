@@ -73,6 +73,8 @@ textarea {
 						required="required" placeholder="Username" aria-label="파일첨부"
 						aria-describedby="addon-wrapping">
 				</div> -->
+				파일첨부
+				<input name="file" type="file" id="file" />
 				
 					<!-- 사진 업로드 -->
 					<div class="f_row profile_upload">

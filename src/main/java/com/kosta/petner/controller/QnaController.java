@@ -72,6 +72,7 @@ public class QnaController {
 			String ext = filename.substring(filename.lastIndexOf("."));
 			String real_filename = filename.substring(0, idx);// 확장자분리
 			String server_filename = real_filename + generatedString + ext;
+			
 			if (!file.isEmpty()) {
 				// 1.폴더생성
 				FileVO fileVO = new FileVO();
@@ -94,9 +95,10 @@ public class QnaController {
 					}
 				}
 
-				// 2. 파일정보 파일테이블에 넣기
+				// 2. 파일정보 파일테이블에 넣
+				
 				fileVO.setUser_no(users.getUser_no());
-				fileVO.setBoard_no(5);
+				fileVO.setBoard_no(1);
 				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
 				fileVO.setServer_filename(server_filename);
 				fileService.insertFile(fileVO);
@@ -106,6 +108,7 @@ public class QnaController {
 				Integer file_no = fileService.getFileNo(server_filename);
 				users.setFile_no(file_no);
 				System.out.println(users.toString());
+				qnaService.updateFileNoToQna(qna);
 				qnaService.resistQna(qna);
 
 				mav.setViewName("redirect:/qnaList");
