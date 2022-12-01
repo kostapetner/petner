@@ -60,4 +60,9 @@ public class QnaDAOImpl implements QnaDAO {
 		sqlSession.update("mapper.qna.read", qna_no);
 		
 	}
+
+	@Override
+	public void updateFileNoToQna(Qna qna) {
+		sqlSession.update("mapper.qna.updateFileNoToQna", qna);
+	}
 }

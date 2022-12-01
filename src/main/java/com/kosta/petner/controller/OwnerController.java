@@ -182,7 +182,6 @@ public class OwnerController {
 			Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
 			Integer user_no = users.getUser_no();
 			careService.setUser_no(user_no);
-//			careService.setStatus("매칭중");
 			
 			// 파일
 			MultipartFile file = careService.getImageFile(); //파일 자체를 가져옴
@@ -226,7 +225,17 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				careService.setFile_no(file_no);
-
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
+				System.out.println(careService.getZipcode());
 				ownerService.insertRequireServiceFrom(careService);
 				mav.setViewName("redirect:/mypage");
 			}

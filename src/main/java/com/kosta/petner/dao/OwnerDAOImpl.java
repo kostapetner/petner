@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.SitterInfo;
 
 @Repository
 public class OwnerDAOImpl implements OwnerDAO {
@@ -23,9 +24,12 @@ public class OwnerDAOImpl implements OwnerDAO {
 
 	}
 
-	@Override // 보호자의 반려동물 정보가져오기 221115_DSC
-	public PetInfo getPetInfo(int user_no) {
-		return sqlSession.selectOne("mapper.owner.getPetInfo", user_no);
+	
+	
+	// 메인 => 펫시터찾기 221130 DSC
+	@Override
+	public List<Map<String, Object>> getAllAvailSitter() {
+		return sqlSession.selectList("mapper.owner.getAllAvailSitter");
 	}
 	
 	//user_no에 맞는 pet정보를 가져옴
@@ -66,5 +70,13 @@ public class OwnerDAOImpl implements OwnerDAO {
 	public int csListAllCount() {
 		return sqlSession.selectOne("mapper.owner.csListAllCount");
 	}
+	
+	// 동물 한마리 정보 가져오기 221130DSC 
+	@Override
+	public PetInfo getMyPetByPetNo(Map<String, Object> param) {
+		return sqlSession.selectOne("mapper.owner.getMyPetByPetNo", param);
+	}
+	
+	
 
 }

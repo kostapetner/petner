@@ -14,12 +14,6 @@ public class MainController {
 		return "/main/index_main";
 	}
 	
-	//펫시터찾기
-	@RequestMapping(value = "/findSitter", method = RequestMethod.GET)
-	String findSitter(Model model) {
-		model.addAttribute("title", "펫시터찾기");
-		model.addAttribute("page", "main/find/findSitter");
-		return "/layout/main";
-	}
+	
 	
 }

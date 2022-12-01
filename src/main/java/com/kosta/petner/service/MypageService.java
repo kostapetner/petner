@@ -33,5 +33,8 @@ public interface MypageService {
 	// 파일 가져오기
 	String getFile(Integer file_no);
 	
+	// 나의 반려동물 한마리 가져오기
+	PetInfo getMyPetByPetNo(Map<String, Object> param);
+	
 	
 } 

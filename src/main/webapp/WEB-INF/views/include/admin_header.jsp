@@ -18,8 +18,23 @@
 	</button>
 	<!-- <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search"> -->
 	<div class="navbar-nav">
-		<div class="nav-item text-nowrap">
-			<a class="nav-link px-3" href="${pageContext.request.contextPath}/logout">Sign out</a>
-		</div>
+	
+		<div class="admin_header d-md-flex d-none">
+			<!-- 세션있을때  -->
+			<c:if test="${not empty authUser}">
+				<!-- 관리자 일때 -->
+				<c:if test="${authUser.user_type >= 9}">
+				<div>관리자 <span>${authUser.name}</span> 님 환영합니다.</div>
+				</c:if>
+					<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/">서비스 메인</a></button>
+					<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/logout">Sign out</a></button>
+	      	</c:if>
+	      	
+			<!-- 세션없을때 로그인 -->
+	      	<c:if test="${empty authUser}">
+	        	<li><a class="login" href="${pageContext.request.contextPath}/gologin">로그인</a></li> 
+	      	</c:if>
+      	</div>
+      	
 	</div>
 </header>

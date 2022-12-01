@@ -24,59 +24,83 @@ h2 {
 }
 </style>
 
-<div class="card ad_card mb-4">
-	<div class="card-body">
-		<section id="articleForm">
-			<h2 class="card-title">글 내용 상세보기</h2>
-			<section id="basicInfoArea">
-				제 목 : ${article.notice_title } 첨부파일 :
-				<c:if test="${article.file_no!=null }">
-					<a href="file_down?downFile=${article.file_no}">
-						${article.file_no} </a>
-				</c:if>
-			</section>
-			<section id="articleContentArea">${article.notice_content }
-			</section>
-		</section>
-		<section id="commandList">
-			<div class="d-grid gap-2 d-md-block ad_button">
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="ad_noticereplyform?notice_no=${article.notice_no}">답변</a>
-				</button>
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="ad_noticemodifyform?notice_no=${article.notice_no}">수정</a>
-				</button>
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="ad_noticedeleteform?notice_no=${article.notice_no}">삭제</a>
-				</button>
-				<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="./ad_noticeList">목록</a>
-				</button>
+<!-- 세션있을때  -->
+<c:if test="${not empty authUser}">
+	<!-- 관리자 일때 -->
+	<c:if test="${authUser.user_type >= 9}">
+		<!-- viewForm -->
+		<div class="card ad_card mb-4">
+			<div class="card-body">
+				<section id="articleForm">
+					<h2 class="card-title">글 내용 상세보기</h2>
+					<section id="basicInfoArea">
+						제 목 : ${article.notice_title } 첨부파일 :
+						<c:if test="${article.file_no!=null }">
+							<a href="file_down?downFile=${article.file_no}">
+								${article.file_no} </a>
+						</c:if>
+					</section>
+					<section id="articleContentArea">${article.notice_content }
+					</section>
+				</section>
+				<section id="commandList">
+					<div class="d-grid gap-2 d-md-block ad_button">
+						<button class="btn btn-outline-secondary" type="button">
+							<a class="admin_btn"
+								href="ad_noticereplyform?notice_no=${article.notice_no}">답변</a>
+						</button>
+						<button class="btn btn-outline-secondary" type="button">
+							<a class="admin_btn"
+								href="ad_noticemodifyform?notice_no=${article.notice_no}">수정</a>
+						</button>
+						<button class="btn btn-outline-secondary" type="button">
+							<a class="admin_btn"
+								href="ad_noticedeleteform?notice_no=${article.notice_no}">삭제</a>
+						</button>
+						<button class="btn btn-outline-secondary" type="button">
+							<a class="admin_btn" href="./ad_noticeList">목록</a>
+						</button>
+					</div>
+
+
+				</section>
 			</div>
-			
-			 
-		</section>
-	</div>
-</div>
+		</div>
+
+		<!-- 관리자 일때.end -->
+	</c:if>
+
+	<!-- 관리자 아닐때 -->
+	<c:if test="${authUser.user_type < 9}">
+		<c:import url='/WEB-INF/views/include/not_admin.jsp' />
+	</c:if>
+</c:if>
+
+<!-- 세션없을때 -->
+<c:if test="${empty authUser}">
+	<c:import url='/WEB-INF/views/include/not_users.jsp' />
+</c:if>
+
+
 
 <script>
-$(document).ready(function(){
-	//이미지 미리보기
-	$(function() {
-		$('#file').change(function(event) {
-			let reader = new FileReader();
-			reader.onload = function(e) {
-				$('#rep').attr('src', e.target.result);
-			};
-			reader.readAsDataURL(event.target.files[0]);	
-		});
-	})
- 
-	//submit 
-	$(".submit_btn").click(function(){
-	  $("#petForm").submit();
-	})
-});
+	$(document).ready(function() {
+		//이미지 미리보기
+		$(function() {
+			$('#file').change(function(event) {
+				let reader = new FileReader();
+				reader.onload = function(e) {
+					$('#rep').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			});
+		})
+
+		//submit 
+		$(".submit_btn").click(function() {
+			$("#petForm").submit();
+		})
+	});
 </script>
 
 

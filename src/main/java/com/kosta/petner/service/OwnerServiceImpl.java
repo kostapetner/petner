@@ -1,6 +1,7 @@
 package com.kosta.petner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.dao.OwnerDAO;
 
 @Service
@@ -79,6 +81,16 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Integer csListCount(Integer user_no) {
 		return ownerDAO.csListCount(user_no);
+	}
+	
+	/* 날짜:22.11.30
+	 * 작성자 : 조다솜
+	 * 내용:펫시터 찾기 활동가능한시터 모두 불러오기
+	 */
+	@Override
+	public List<Map<String, Object>> getAllAvailSitter() {
+		// TODO Auto-generated method stub
+		return ownerDAO.getAllAvailSitter();
 	}
 
 

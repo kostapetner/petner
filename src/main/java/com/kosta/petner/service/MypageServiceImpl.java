@@ -75,6 +75,14 @@ public class MypageServiceImpl implements MypageService {
 	public String getFile(Integer fileNo) {
 		return fileDAO.getServerFilename(fileNo);
 	}
+	
+	// 특정펫정보가져오기
+	@Override
+	public PetInfo getMyPetByPetNo(Map<String, Object> param) {
+		return ownerDAO.getMyPetByPetNo(param);
+	}
+	
+	
 
 
 

@@ -12,6 +12,26 @@
 			class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="flex-shrink-0 p-3">
 
+				<div class="admin_header d-md-none">
+					<!-- 세션있을때  -->
+					<c:if test="${not empty authUser}">
+						<!-- 관리자 일때 -->
+						<c:if test="${authUser.user_type >= 9}">
+						<div>관리자 <span>${authUser.name}</span> 님 환영합니다.</div>
+						</c:if>
+						<div class="sidebar_btn">
+							<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/">서비스 메인</a></button>
+							<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/logout">Sign out</a></button>
+			      		</div>
+			      	</c:if>
+			      	
+					<!-- 세션없을때 로그인 -->
+			      	<c:if test="${empty authUser}">
+			        	<li><a class="login" href="${pageContext.request.contextPath}/gologin">로그인</a></li> 
+			      	</c:if>
+			      	<hr>
+      			</div>
+      			
 
 				<ul class="list-unstyled ps-0">
 					<li class="mb-2">

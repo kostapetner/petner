@@ -40,6 +40,18 @@ textarea {
 	max-height: 150px;
 }
 </style>
+<script>
+	//이미지 미리보기
+	$(document).ready(function() {
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#qnaImg').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		});
+	});
+</script>
 <body>
 	<!-- QNA 글 등록 -->
 	<div id="wrapper">
@@ -47,23 +59,53 @@ textarea {
 		<div class="container w90">
 			<div class="">
 				<p class="list_title">QNA 글 등록</p>
-			
-			<form action="./qnawrite" method="post" enctype="multipart/form-data"
-				name="qnawriteform" class="pn_write">
-				<div class="row user_id">
-				<div>
-					<span class="by">by</span><input name="user_id" id="user_id" value="${authUser.id}">
-				</div>
-				</div>
-				<hr>
-				<div class="title">
-					<input
-						type="text" name="qna_title" id="qna_title"
-						required="required" placeholder="제목을 입력하세요" aria-label="제 목"
-						aria-describedby="addon-wrapping">	
-				</div>
-				<hr>
-				<!-- <div class="input-group flex-nowrap">
+
+
+
+
+
+				<form action="/petner/qnawrite" method="post" id="qnawriteform"
+					enctype="multipart/form-data" name="qnawriteform" class="pn_write">
+
+<!-- <div class="input-group flex-nowrap">
+					<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
+						type="file" class="form-control" name="file" id="file_no"
+						required="required" placeholder="Username" aria-label="파일첨부"
+						aria-describedby="addon-wrapping">
+				</div> -->
+				파일첨부
+				<input name="imageFile" type="file" id="file" />
+				
+					<!-- 사진 업로드 -->
+					<div class="f_row profile_upload">
+						<p class="fc_title">사진을 올려주세요</p>
+						<div class="profile_upload_square">
+							<div class="prof_img">
+								<img id="qnaImg"> <br> <label for="file"
+									class="pet_btn edit_btn"> <i class="fa-solid fa-pen"
+									id="pen"></i>
+								</label> <input type="file" id="file" name="imageFile" hidden="hidden"></input>
+							</div>
+						</div>
+					</div>
+					<!-- 사진 업로드.end -->
+
+					<div class="row user_id">
+						<div>
+						<!-- 글쓴이 -->
+							<span class="by">by</span><input name="user_id" id="user_id"
+								value="${authUser.id}">
+						</div>
+					</div>
+					<hr>
+					<!-- title 제목 -->
+					<div class="title">
+						<input type="text" name="qna_title" id="qna_title"
+							required="required" placeholder="제목을 입력하세요" aria-label="제 목"
+							aria-describedby="addon-wrapping">
+					</div>
+					<hr>
+					<!-- <div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">비밀번호</span> <input
 					type="password" class="form-control" name="board_pass"
 					id="board_pass" required="required" placeholder="****"
@@ -71,28 +113,23 @@ textarea {
 			</div> -->
 
 
-				<div class="content">
-					<textarea class="fcc_textarea" id="qna_content" name="qna_content" cols="40" rows="15"
-						required="required" placeholder="내용을 입력하세요"></textarea>
-				</div>
-
-				<!-- <div class="input-group flex-nowrap">
-					<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
-						type="file" class="form-control" name="file" id="file_no"
-						required="required" placeholder="Username" aria-label="파일첨부"
-						aria-describedby="addon-wrapping">
-				</div> -->
-				<hr>
-				<section id="commandCell">
-					<div class="d-grid gap-2 d-md-block">
-						<button type="submit" class="btn btn-outline-secondary">등록</button>
-						<button type="reset" class="btn btn-outline-secondary">다시쓰기</button>
+					<!-- content 글내용 -->
+					<div class="content">
+						<textarea class="fcc_textarea" id="qna_content" name="qna_content"
+							cols="40" rows="15" required="required" placeholder="내용을 입력하세요"></textarea>
 					</div>
-				</section>
-			</form>
+
+					<hr>
+					<section id="commandCell">
+						<div class="d-grid gap-2 d-md-block">
+							<button type="submit" class="btn btn-outline-secondary">등록</button>
+							<button type="reset" class="btn btn-outline-secondary">다시쓰기</button>
+						</div>
+					</section>
+				</form>
 			</div>
 		</div>
 	</div>
-	
-	</body>
-	</html>
+
+</body>
+</html>

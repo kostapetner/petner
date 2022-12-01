@@ -1,18 +1,20 @@
 package com.kosta.petner.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.SitterInfo;
 
 public interface OwnerDAO {
 
 	void regist(PetInfo petInfo)throws Exception;
 	
-	// 보호자의 반려동물 정보가져오기 221115_DSC
-	PetInfo getPetInfo(int user_no);
+	// 메인 => 펫시터찾기 221130 DSC
+	List<Map<String, Object>> getAllAvailSitter();
 
 	//user_no에 맞는 pet정보를 가져옴
 	List<PetInfo> getPetByUserNo(Integer user_no);
@@ -32,7 +34,11 @@ public interface OwnerDAO {
 
 	//전체 care_service 게시글 수
 	int csListAllCount();
-
+	
+	// 동물 한마리 정보 가져오기 221130DSC
+	PetInfo getMyPetByPetNo(Map<String, Object> param);
+	
+	
 	
 
 }
