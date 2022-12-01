@@ -299,12 +299,7 @@ public class MyPageController {
 		return "/layout/mypage_default";
 	}
 
-	
-	//카카오 1:1채팅으로 이동
-	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
-	public String kaChat() {
-		return "mypage/kaChat";
-	}
+
 	
 	
 	

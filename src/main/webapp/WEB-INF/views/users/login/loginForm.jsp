@@ -88,17 +88,30 @@
 
 
 <script>
-$(document).ready(function(){
-	$("#close_btn").click(function(){
-		$(".modal").hide();
-	})
-	$("#x_button").click(function(){
-		$(".modal").hide();
-	})
+		$(document).ready(function(){
+			$("#close_btn").click(function(){
+				$(".modal").hide();
+			})
+			$("#x_button").click(function(){
+				$(".modal").hide();
+			})
+
+			
+		})
+
+		//뒤로가기 모달창 뜨지마라
+	window.history.pushState({page: 1}, "", "");	
+	window.onpopstate = function(event) {
+	  // "event" object seems to contain value only when the back button is clicked
+	  // and if the pop state event fires due to clicks on a button
+	  // or a link it comes up as "undefined" 
 	
-})
+	  if(event){
+		  $(".modal").hide();  }
+	 
+	}
 
-
+	
 	
 
 	
