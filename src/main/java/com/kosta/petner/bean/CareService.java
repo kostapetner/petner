@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CareService {
+public class CareService extends PageInfo{
 	private Integer service_no;
 	private Integer user_no;
 	private Integer file_no;

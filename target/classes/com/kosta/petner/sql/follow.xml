@@ -33,7 +33,7 @@
 	
 	<!-- 팔로우 기능 -->
 	<insert id="follow">
-		insert into follow(active_user, passive_user) values(#{activeUser}, #{passiveUser})
+		insert into follow(follow_no, active_user, passive_user) values(followno_seq.nextval, #{activeUser}, #{passiveUser})
 	</insert>
 	
 	<!-- 언팔로우 기능 -->

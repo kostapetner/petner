@@ -10,6 +10,7 @@
 </head>
 <script>
 $(document).ready(function() {
+	
 	//air-datepicker
 	var date = new Date();
 	var dp = $('#date_start').datepicker( {
@@ -75,7 +76,7 @@ $(document).ready(function() {
 		//console.log("genderArr:  "+genderArr);
 	    searchAjax();
 	});
-
+	
 	function searchAjax(){
 		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
 		var st_date = $('#date_start').val();
@@ -83,14 +84,13 @@ $(document).ready(function() {
 		var service = serviceArr;
 		var pet_kind = petKindArr;
 		var gender = genderArr;
-		var keyword = $('input[name=keyword]').val();
 		
-		console.log("st_date : "+st_date);
+		/* console.log("st_date : "+st_date);
 		console.log("end_date : "+end_date);
 		console.log("service : "+service);
 		console.log("pet_kind : "+pet_kind);
 		console.log("gender : "+gender);
-		console.log("keyword : "+keyword);
+		*/
 		
 		// contentType: "application/json" 꼭 써주기
  		$.ajax({
@@ -104,13 +104,10 @@ $(document).ready(function() {
 			    	,"service":service
 			    	,"pet_kind":pet_kind
 			    	,"gender":gender
-			    	,"keyword":keyword
 			  }),
 			success : function(data) {
-				//console.log("res success");
 				var str = '';
 				$.each(data, function(i, item) { // 데이터 =item
-					//console.log(item);
 					str +='<ul class="flex_between" id="ulId">';
 					str +='<li>';
 					<!-- 글 간략정보 -->
@@ -155,12 +152,13 @@ $(document).ready(function() {
 				});
 				$("#card_list").empty();
 				$("#card_list").append(str);
+				
 			},
 			error : function(xhr, error) {
 				console.error("error : " + error);
 			}
-		});
-	}
+		});//ajax();
+	}//searchAjax();
 	
 	searchAjax();
 	
@@ -172,14 +170,6 @@ $(document).ready(function() {
 		<div class="container w90">
 		<form id="findPetSearchForm" action="/petner/findPet/viewForm/findPetSearch" method="POST">
 			<div class="">
-				<p class="list_title">돌봐줄 동물 찾기</p>
-				<!-- 검색창 -->
-				<div class="search_form">
-					<input type="text" name="keyword" class="keyword" placeholder="펫 이름으로 검색해요" />
-					<span class="search_submit" id="btn_Search">
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</span>
-				</div>
 				<!-- 검색조건 -->
 				<div class="filter_feed">
 					<!-- 날짜 -->
@@ -266,40 +256,8 @@ $(document).ready(function() {
 		</form>
 			<!-- 카드형 리스트 펫찾기 -->
 			<div class="card_list_type find_pet_list" id="card_list">
+				<span id="nickname">item.NICKNAME</span>';
 			</div>
-			<!-- 페이징 -->
-			<ul class="pagination">
-				<c:choose>
-					<c:when test="${pageInfo.page<=1}">
-						<li class="prev"><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="prev"><a href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page-1}">
-						<i class="fa-solid fa-chevron-left"></i></a></li>
-					</c:otherwise>
-				</c:choose>
-
-				<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
-					<c:choose>
-						<c:when test="${pageInfo.page==i }">
-							<li class="on"><a href="${pageContext.request.contextPath}/findPet?page=${i}">${i}</a></li>
-						</c:when>
-						<c:otherwise>
-							<li> <a href="${pageContext.request.contextPath}/findPet?page=${i}">${i}</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-				<c:choose>
-					<c:when test="${pageInfo.page>=pageInfo.maxPage }">
-						<li class="next"><a href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="next"><a href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page+1}">
-						<i class="fa-solid fa-chevron-right"></i></a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
 		</div>
 	</div>
 </body>
