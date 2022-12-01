@@ -29,13 +29,31 @@
 		)
 	</insert>
 	
-	<!-- 221115_DSC  -->
+	<!-- 221115_DSC  추후삭제하기 -->
 	<select id="getPetInfo" parameterType="int" resultType="com.kosta.petner.bean.PetInfo">
 		<![CDATA[
 			SELECT * FROM PET_INFO
 			WHERE USER_NO = #{user_no}
 		]]> 
 	</select>
+	
+	<!-- 메인=> 펫시터찾기 일가능한시터정보보 모두 가져오기 221130_DSC-->
+	<select id="getAllAvailSitter" resultType="Map">
+		<![CDATA[
+			SELECT u.NAME, u.NICKNAME, si.* 
+			FROM SITTER_INFO si, USERS u 
+			WHERE si.USER_NO = u.USER_NO
+		]]> 
+	</select>
+	
+	<!-- 펫정보 유저넘버 && 펫넘버 둘다 조건 달아서 URL get으로 무작위로 들어가는 것 막음 221130 DSC -->
+	<select id="getMyPetByPetNo" parameterType="Map" resultType="com.kosta.petner.bean.PetInfo">
+		<![CDATA[
+			SELECT * FROM PET_INFO
+			WHERE USER_NO = #{user_no} AND PET_NO = #{pet_no}
+		]]> 
+	</select>
+	
 	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
 	<![CDATA[		

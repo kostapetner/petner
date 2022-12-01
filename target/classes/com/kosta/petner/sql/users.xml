@@ -188,12 +188,7 @@
 	<select id="getMyAllInfo" parameterType="int"
 		resultType="com.kosta.petner.bean.MypageSession">
 		<![CDATA[
-<<<<<<< HEAD
-		   	SELECT 	u.USER_NO, u.FILE_NO, u.FILE_NO, u.ID , u.NICKNAME, u.USER_TYPE, u.user_auth, 
-=======
-		   	SELECT 	u.USER_NO, u.ID , u.NICKNAME, u.USER_TYPE ,
->>>>>>> c94763ce5935cb7c0df8cb94ceda43abb325b626
-				ft.SERVER_FILENAME
+		   	SELECT 	u.USER_NO, u.FILE_NO, u.FILE_NO, u.ID , u.NICKNAME, u.USER_TYPE, u.user_auth, ft.SERVER_FILENAME
 				FROM USERS u
 				LEFT JOIN FILE_TB ft ON u.FILE_NO = ft.FILE_NO 
 				WHERE u.USER_NO = #{user_no}    

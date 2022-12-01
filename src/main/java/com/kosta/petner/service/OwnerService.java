@@ -1,10 +1,12 @@
 package com.kosta.petner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.SitterInfo;
 
 public interface OwnerService {
 
@@ -37,6 +39,13 @@ public interface OwnerService {
 	 * 내용: 시터 서비스 신청 list 수 가져오기
 	 */
 	Integer csListCount(Integer user_no);
+	
+	
+	/* 날짜:22.11.30
+	 * 작성자 : 조다솜
+	 * 내용:펫시터 찾기 활동가능한시터 모두 불러오기
+	*/
+	List<Map<String, Object>> getAllAvailSitter();
 
 	
 	

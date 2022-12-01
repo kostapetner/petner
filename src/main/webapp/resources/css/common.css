@@ -234,6 +234,7 @@
   .mr12{margin-right:12px !important}
 
   .flex_between{display:flex; justify-content: space-between; flex-wrap: wrap;}
+  .flex_evenly{display: flex; justify-content: space-evenly;}
   .flex_agn_center{display: flex; align-items: center;}
   .flex_start{align-items:flex-start}
   .flex_col{display: flex; flex-direction: column;}
@@ -268,7 +269,9 @@
   .second_btn:hover{background-color: #535353;}
 	
 
-  .submit_btn, .login_btn{
+  .submit_btn, 
+  .login_btn,
+  .del_btn{
     display:inline-flex;
     justify-content: center;
     align-items: center;

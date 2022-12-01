@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kosta.petner.bean.Notice;
+import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.Users;
 
 public interface UsersDAO {
@@ -77,4 +78,6 @@ public interface UsersDAO {
 	
 	// 타입 업데이트
 	void updateUserType(Users users);
+	
+	
 }
