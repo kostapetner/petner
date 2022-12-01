@@ -96,8 +96,7 @@ public class QnaController {
 				}
 
 				// 2. 파일정보 파일테이블에 넣
-				
-				fileVO.setUser_no(users.getUser_no());
+				fileVO.setUser_no(qna.getQna_no());
 				fileVO.setBoard_no(1);
 				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
 				fileVO.setServer_filename(server_filename);
@@ -110,12 +109,7 @@ public class QnaController {
 				System.out.println(users.toString());
 				qnaService.updateFileNoToQna(qna);
 				qnaService.resistQna(qna);
-
 				mav.setViewName("redirect:/qnaList");
-
-//			//////
-//			qnaService.resistQna(qna);
-//			model.addAttribute("redirect:/qnaList");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,20 +118,6 @@ public class QnaController {
 		return mav;
 	}
 
-//	// 글쓰기 DB insert
-//	@RequestMapping(value = "/qnawrite", method = RequestMethod.POST)
-//	public String qnawrite(@ModelAttribute Qna qna, BindingResult result, Model model) {
-//		
-//		try {
-//			qnaService.resistQna(qna);
-//			model.addAttribute("redirect:/qnaList");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			model.addAttribute("/qna/err");
-//		}
-//
-//		return "redirect:/qnaList";
-//	}
 
 	@RequestMapping(value = "/qnaList", method = { RequestMethod.GET, RequestMethod.POST })
 	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,

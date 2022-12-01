@@ -64,7 +64,7 @@ textarea {
 
 
 
-				<form action="./qnawrite" method="post"
+				<form action="/petner/qnawrite" method="post" id="qnawriteform"
 					enctype="multipart/form-data" name="qnawriteform" class="pn_write">
 
 <!-- <div class="input-group flex-nowrap">
@@ -74,7 +74,7 @@ textarea {
 						aria-describedby="addon-wrapping">
 				</div> -->
 				파일첨부
-				<input name="file" type="file" id="file" />
+				<input name="imageFile" type="file" id="file" />
 				
 					<!-- 사진 업로드 -->
 					<div class="f_row profile_upload">
