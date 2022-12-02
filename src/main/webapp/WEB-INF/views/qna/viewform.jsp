@@ -15,18 +15,8 @@
 <title>${title}</title>
 
 <style type="text/css">
-h2 {
-	text-align: center;
-}
-
 #basicInfoArea {
 	height: 40px;
-	text-align: center;
-}
-
-#commandList {
-	margin: auto;
-	width: 700px;
 	text-align: center;
 }
 </style>
@@ -44,38 +34,40 @@ h2 {
 					</div>
 					<div class="source">
 						<div>
-							<span>by</span>${article.user_id }&nbsp;&nbsp;${article.reg_date }</div>
-					</div>
-					<hr>
-					<section id="articleForm">
-						<section id="basicInfoArea">
-						<div class="source">
-							<!-- 첨부파일 다운로드 -->
-							첨부파일
-							<c:if test="${article.file_no!=null }">
-									<a href="qna_download?qnaNum=${article.qna_no}">
-										${article.file_no}
-										<i class="fas fa-download font-img"></i>
+							<span>by</span>${article.user_id }
+						</div>
+						<div class="data_box d-flex">
+							<div>
+								<c:if test="${article.file_no!=null }">
+										<!-- 첨부파일 다운로드 -->
+										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
+											<%-- ${article.file_no} --%>
+											<i class="fas fa-download font-img"></i>
 										</a>
-										<div id="image_preview">
-								<img src="/img.png" alt="사진영역"  style="width:126px; height:165px;">
+								</c:if>
 							</div>
-							</c:if>
-							
-							<li class="photo">
-								<img src="/loadImage.do?file_no=${article.file_no}"/>
-								<img src="/loadImage.do?file_no=${article.file_no}"/>
-							</li>
+							&nbsp;&nbsp;&nbsp;
+							<div>
+								<!-- day -->
+								${article.reg_date }
+							</div>
+						</div>
+					</div>
 
-							
-							</div>
-						</section>
+					<hr>
+					
+					<section id="articleForm">
 						<section id="articleContentArea">
+							<div id="image_preview">
+								<img id="rep" class="img_wrap img"
+									src="${pageContext.request.contextPath}/resources${article.filepath}"
+									 alt="사진영역" />
+							</div>
 							<div class="content">${article.qna_content }</div>
 						</section>
 					</section>
 					<hr>
-					<section id="commandList">
+					<section class="buttonList">
 						<div class="d-grid gap-2 d-md-block ad_button">
 							<button class="btn btn-outline-secondary" type="button">
 								<a class="admin_btn"
@@ -114,24 +106,5 @@ $(document).ready(function() {
 			reader.readAsDataURL(event.target.files[0]);	
 		});
 	})
-	
-	/* $(function() {
-	// 이미지 업로드
-    $('${article.file_no}').on('change', function() {
-    ext = $(this).val().split('.').pop().toLowerCase(); //확장자
-    //배열에 추출한 확장자가 존재하는지 체크
-    if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-        resetFormElement($(this)); //폼 초기화
-        window.alert('이미지 파일이 아닙니다! (gif, png, jpg, jpeg 만 업로드 가능)');
-    } else {
-        file = $('${article.file_no}').prop("files")[0];
-        blobURL = window.URL.createObjectURL(file);
-        $('#image_preview img').attr('src', blobURL);
-        $('#image_preview').slideDown(); //업로드한 이미지 미리보기 
-        $(this).slideUp(); //파일 양식 감춤
-    }
-    });
-	}) */
-	
 });
 </script>

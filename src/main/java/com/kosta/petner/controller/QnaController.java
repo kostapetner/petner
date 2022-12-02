@@ -2,6 +2,7 @@ package com.kosta.petner.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,8 +17,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,8 +66,30 @@ public class QnaController {
 		return "/layout/main";
 	}
 	
+	//펫 이미지 파일 화면에 띄우기List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
+		@RequestMapping(value = "/{QanNo}", method = RequestMethod.GET)
+		public void viewImages(@PathVariable Integer qnaNum, HttpServletResponse response, Qna qna) {
+			String path = servletContext.getRealPath("/resources/upload/");
+			FileInputStream fis = null;
+			try {
+				Qna server_filename = qnaService.getQna(qnaNum);
+				fis = new FileInputStream(path + server_filename);
+				OutputStream out = response.getOutputStream();
+				FileCopyUtils.copy(fis, out);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(fis != null) {
+					try {
+						fis.close();
+					} catch (Exception e) {} 
+				}
+			}
+		}
+		//
 	
-	
+
+
 	@RequestMapping(value="/loadImage.do")
 	public String displayPhoto(Integer qnaNum,@RequestParam(value="file_no") String file_no, HttpServletResponse response,Model model)throws Exception{
 
