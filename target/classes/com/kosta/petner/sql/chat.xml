@@ -3,8 +3,8 @@
 
 <mapper namespace="mapper.chat">
  	<select id="list" resultType="com.kosta.petner.bean.Chat">
- 		select c.*, photo from chat c, users
-		where id=sender
+ 		select* from chat 
+
  	</select>
  	<insert id="insert">
  		insert into chat(sender, message, chat_no, regdate)
