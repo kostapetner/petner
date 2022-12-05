@@ -5,6 +5,126 @@
 <script>
 	$(document).ready(function() {
 		
+		var serviceArr = [];
+		var petKindArr = []; 
+		var genderArr = [];
+		var dayArr = [];
+		//펫시터 성별
+		$(document).on("click", "input[name=gender]", function () {
+			genderArr = [];
+		    $("input[name='gender']:checked").each(function(e){
+		        var value = $(this).val();
+		        genderArr.push(value);        
+			})
+			console.log("genderArr:  "+genderArr);
+		    searchAjax();
+		});
+		//필요한 서비스
+		$(document).on("click", "input[name=service]", function () {
+			serviceArr = [];
+		    $("input[name='service']:checked").each(function(e){
+		        var value = $(this).val();
+		        serviceArr.push(value);        
+			})
+			console.log("serviceArr:  "+serviceArr);
+		    searchAjax();
+		});
+		//동물 종류
+		$(document).on("click", "input[name=pet_kind]", function () {
+			petKindArr = [];
+		    $("input[name='pet_kind']:checked").each(function(e){
+		        var value = $(this).val();
+		        petKindArr.push(value);        
+			})
+			console.log("petKindArr:  "+petKindArr);
+		    searchAjax();
+		});
+		//가능한 요일
+		$(document).on("click", "input[name=day]", function () {
+			dayArr = [];
+		    $("input[name='day']:checked").each(function(e){
+		        var value = $(this).val();
+		        dayArr.push(value);        
+			})
+			console.log("dayArr:  "+dayArr);
+		    searchAjax();
+		});
+		
+		function searchAjax(){
+			// 성별, 서비스, 동물종류, 요일
+			var gender = genderArr;
+			var service = serviceArr;
+			var pet_kind = petKindArr;
+			var day = dayArr;
+			//var zipcode = $("#zipcode").val();
+			
+			/*console.log("st_date : "+st_date);
+			console.log("end_date : "+end_date);
+			console.log("service : "+service);
+			console.log("pet_kind : "+pet_kind);
+			console.log("gender : "+gender);
+			console.log(zipcode);
+			*/
+			
+			// contentType: "application/json" 꼭 써주기
+	 		$.ajax({
+				url : "${pageContext.servletContext.contextPath}/findSitter/findSitterSearch",
+				type : "POST",
+				dataType: "json",
+				contentType: "application/json",
+				data:JSON.stringify({
+				    	 "gender":gender
+				    	,"service":service
+				    	,"pet_kind":pet_kind
+				    	,"day":day
+				    	//,"zipcode":zipcode
+				  }),
+				success : function(data) {
+					console.log(data);
+					var str = '';
+					$.each(data, function(i, item) { // 데이터 =item
+						str +='<ul>';
+						str +='<li>';
+						str +='<div class="data">';
+						<!-- 이미지영역 -->
+						str +='<div class="img_area">';
+						str +='<img src="${pageContext.request.contextPath}/getImg/'+ item.FILE_NO +'" alt="프로필이미지">';
+						str +='</div>';
+						<!-- 텍스트정보 영역 -->
+						str +='<div class="text_area">';
+						str +='<div class="row1">';
+						str +='<p><span class="nick">'+ item.NICKNAME +'</span></p>';
+						str +='</div>';
+						str +='<div class="row2">';
+						str +='<p><a href="#">팔로워<span class="f_val">122</span></a></p>';
+						str +='<p><a href="#">팔로잉<span class="f_val">122</span></a></p>';
+						str +='</div>';
+						str +='<div class="row3">';	
+						str +='<span>'+item.WORK_DAY+'</span>';
+						str +='<span class="see_info">펫시터자기소개</span>';
+						str +='</div>';
+						str +='<div class="row4">'+item.SITTER_INFO+'</div>';
+						str +='</div>';
+						str +='</div>';
+						str +='<div class="icons">';
+						str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
+						str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
+						str +='<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>';
+						str +='</div>';
+						str+='</li>';
+						str+='</ul>';
+					});
+					$("#card_list").empty();
+					$("#card_list").append(str);
+				},
+				error : function(xhr, error) {
+					console.error("error : " + error);
+				}
+			});//ajax();
+		}//searchAjax();
+		
+		 searchAjax();
+//----------------------------------------------------------------------------------------------------
 		$(document)
 		    .on("click", ".see_info", function(){
 		    	var infoStr = $(this).parents("li").find(".row4").text();
@@ -16,7 +136,6 @@
 		    .on("click", ".go_top", function(){
 		    	$('html, body').animate({scrollTop:0}, '200');
 		    }) 
-		    
 		
 	})
 	
@@ -28,9 +147,6 @@
       $('.go_top').fadeIn();
     }else {$('.go_top').fadeOut(); }
   });  
-  
-  
-	
 	
   function showModal(infoStr){
     $("body").prepend("<div class='modal_mask'></div>");
@@ -99,15 +215,15 @@
 		<div class="f_row">
 			<p class="filter_title">펫시터 성별</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="sex"><span>여성펫시터</span></label>
-				<label class="fcCbox1"><input type="checkbox" name="sex"><span>남성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="women"><span>여성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="male"><span>남성펫시터</span></label>
 			</div>
 		</div>
 		<!-- 서비스  -->
 		<div class="f_row">
 			<p class="filter_title">필요한 서비스</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="service" value="1"><span>방문</span>
+				<label class="fcCbox1"><input type="checkbox" name="service" value="visit"><span>방문</span>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="walk"><span>산책</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="shower"><span>목욕</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="education"><span>교육</span></label>
@@ -141,8 +257,8 @@
 	</div>
 
 	<!-- 카드형 리스트 -->
-	<div class="card_list_type">
-		<ul>
+	<div class="card_list_type" id="card_list">
+		<%-- <ul>
 			<c:forEach items="${dataList}" var="data">
 				<li uno="${data.USER_NO}">
 					<div class="data">
@@ -183,7 +299,7 @@
 					</div>
 				</li>
 		</c:forEach>
-		</ul>
+		</ul> --%>
 	</div>
 	
 </div>

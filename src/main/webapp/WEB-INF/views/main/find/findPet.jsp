@@ -218,7 +218,7 @@ $(document).ready(function() {
 			                    console.log(result[0].address.region_1depth_name);
 			                    console.log(result[0].address.region_2depth_name);
 			                    console.log(result[0].address.region_3depth_name);
-			                    if(result[0].road_address.zone_no == null){
+			                    if(!result[0].road_address.zone_no){
 			                    	alert("현재 위치의 정보를 불러올 수 없습니다.");
 			                    }else{
 			                    	console.log(result[0].road_address.zone_no);
@@ -391,29 +391,6 @@ $(document).ready(function() {
 								<br>
 							</div>
 						</div>
-						<%-- <div>
-							<c:if test="${empty authUser}">
-								<input type="button" value="내주변찾기">
-							</c:if>
-							<c:if test="${not empty authUser}">
-								<p class="filter_title">현재 위치</p>
-								<p class="filter_title" id="zipcodeP">[${userInfo.zipcode }]</p>
-								<input type="hidden" value="${userInfo.zipcode }" id="zipcode">
-								<p class="filter_title" id="addrP">${userInfo.addr }</p>
-								<input type="button" value="내주변찾기" class="filter_title" id="findAreaBtn">
-							</c:if>
-							<div class="content" id="mapDiv">
-								<h3 class="form_title fs24">지도</h3>
-								<div class="map_wrap">
-								    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-								     <div class="hAddr">
-								        <span class="title">지도중심기준 행정동 주소정보</span>
-								        <span id="centerAddr"></span>
-								    </div>
-								</div>
-								<br>
-							</div>
-						</div> --%>
 					</div>
 				</div>
 		</form>

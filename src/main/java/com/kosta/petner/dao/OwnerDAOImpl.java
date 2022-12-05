@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 
@@ -75,6 +76,42 @@ public class OwnerDAOImpl implements OwnerDAO {
 	@Override
 	public PetInfo getMyPetByPetNo(Map<String, Object> param) {
 		return sqlSession.selectOne("mapper.owner.getMyPetByPetNo", param);
+	}
+
+
+	/* 날짜:22.12.05
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 찾기 ajax검색(성별, 서비스, 동물종류, 요일)
+	 */
+	@Override
+	public List<SitterInfo> findSitterSearch(Find findVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//gender
+		if(findVO.getGender() != null && !findVO.getGender().equals("")) {
+			map.put("genderArray",findVO.getGender());
+		}else {
+			System.out.println("성별 null입니다.");
+		}
+		//service
+		if(findVO.getService() != null && !findVO.getService().equals("")) {
+			map.put("serviceArray",findVO.getService());
+		}else {
+			System.out.println("서비스 null입니다.");
+		}
+		//pet_kind
+		if(findVO.getPet_kind() != null && !findVO.getPet_kind().equals("")) {
+			map.put("petKindArray",findVO.getPet_kind());
+		}else {
+			System.out.println("동물종류 null입니다.");
+		}
+		//day
+		if(findVO.getDay() != null && !findVO.getDay().equals("")) {
+			map.put("dayArray",findVO.getDay());
+		}else {
+			System.out.println("가능한 요일 null입니다.");
+		}
+
+		return sqlSession.selectList("mapper.owner.findSitterSearch", map);
 	}
 	
 	

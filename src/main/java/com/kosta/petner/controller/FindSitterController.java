@@ -8,9 +8,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.service.OwnerService;
 
@@ -57,4 +61,26 @@ public class FindSitterController {
 		model.addAttribute("page", "main/find/findSitter");
 		return "/layout/main";
 	}
+	
+	
+	//돌봐줄 동물 찾기 검색
+	//검색조건 : 성별, 서비스, 동물종류, 요일
+	@ResponseBody
+	@RequestMapping(value = "/findSitter/findSitterSearch", method= RequestMethod.POST)
+	public List<SitterInfo> findSitterSearch(Model model, @RequestBody Find findVO) {
+		System.out.println("findSitterSearch findSitterSearch findSitterSearch");
+		List<SitterInfo> sitterSearchList = null;
+		try {
+			//리스트 불러오기
+			sitterSearchList = ownerService.findSitterSearch(findVO);
+			for (int i=0; i<sitterSearchList.size(); i++) {
+				System.out.println(sitterSearchList.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sitterSearchList;
+	}
+	
+	
 }

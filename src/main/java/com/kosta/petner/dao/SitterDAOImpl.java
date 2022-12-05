@@ -31,12 +31,6 @@ public class SitterDAOImpl implements SitterDAO {
 		return sqlSession.update("mapper.sitter.updateSitterInfo", sitterInfo);
 	}
 
-	//돌봐줄 동물찾기 게시글 가져오기
-//	@Override
-//	public List<CareService> findPetList(Integer row) {
-//		return sqlSession.selectList("mapper.sitter.findPetList", row);
-//	}
-
 	/* 날짜:22.11.22
 	 * 작성자: 김혜경
 	 * 내용: service_no에 맞는 돌봐줄 동물 찾기 viewForm(디테일페이지)
@@ -45,8 +39,6 @@ public class SitterDAOImpl implements SitterDAO {
 	public CareService getViewForm(Integer service_no) {
 		return sqlSession.selectOne("mapper.sitter.getViewForm", service_no);
 	}
-
-	
 
 	/* 날짜:22.11.30
 	 * 작성자: 김혜경
@@ -57,6 +49,10 @@ public class SitterDAOImpl implements SitterDAO {
 		sqlSession.update("mapper.sitter.updateFileNoToUsers", sitterInfo);
 	}
 
+	/* 날짜:22.11.30
+	 * 작성자: 김혜경
+	 * 내용: 돌봐줄 동물 찾기 검색
+	 */
 	@Override
 	public List<CareService> findPetSearch(Find findVO) {
 		HashMap<String, Object> map = new HashMap<String, Object>();

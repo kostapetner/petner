@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
@@ -91,6 +92,15 @@ public class OwnerServiceImpl implements OwnerService {
 	public List<Map<String, Object>> getAllAvailSitter() {
 		// TODO Auto-generated method stub
 		return ownerDAO.getAllAvailSitter();
+	}
+
+	/* 날짜:22.12.05
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 찾기 ajax검색
+	 */
+	@Override
+	public List<SitterInfo> findSitterSearch(Find findVO) {
+		return ownerDAO.findSitterSearch(findVO);
 	}
 
 
