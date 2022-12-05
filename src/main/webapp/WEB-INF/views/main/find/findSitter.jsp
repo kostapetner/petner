@@ -126,8 +126,8 @@
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
-							$("#card_list").append(str);
 						});
+						$("#card_list").append(str);
 					}
 				},
 				error : function(xhr, error) {
@@ -261,7 +261,7 @@
 	})
 	
 	
-	$(window).scroll(function(){  
+	$(window).scroll(function(){
 		//var scrollValue = $(document).scrollTop(); 
 		//console.log(scrollValue);
     if ($(this).scrollTop() > 400) {

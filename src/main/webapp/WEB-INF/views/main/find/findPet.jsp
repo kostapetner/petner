@@ -18,6 +18,11 @@
 </head>
 <script>
 $(document).ready(function() {
+	//위로가기	
+	$(document).on("click", ".go_top", function(){
+    	$('html, body').animate({scrollTop:0}, '200');
+    });
+	
 	//이미지 미리보기
 	$(function() {
 		$('#file').change(function(event) {
@@ -126,53 +131,58 @@ $(document).ready(function() {
 			  }),
 			success : function(data) {
 				var str = '';
-				$.each(data, function(i, item) { // 데이터 =item
-					str +='<ul class="flex_between" id="ulId">';
-					str +='<li>';
-					<!-- 글 간략정보 -->
-					str +='<div class="info">';
-					str +='<div class="flex_agn_center">';
-					str +='<div class="owner_img">';
-					str +='<img src="${imgPath}/noimg.webp" alt="노프로필"/>';
-					str +='<img src="" alt="프로필">';
-					str +='</div>';
-					str +='<span id="nickname">'+item.NICKNAME+'</span>';
-					str +='</div>';
-					var status = $.trim(item.STATUS);
-					if(status == '매칭중'){
-						str +='<span class="status open" style="background-color: yellowgreen;">'+item.STATUS+'</span>';
-					}else if(status == '매칭완료'){
-						str +='<span class="status open" style="background-color: #c7c2c2;">'+item.STATUS+'</span>';
-					}
-					str +='</div>';
-					<!-- 동물사진 -->
-					str +='<div class="img_area" style="width: 357px; height: 200px">';
-					str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?page=${pageInfo.page}">';
-					if(item.FILE_NO == null){
-						str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
-					}else{
-						str +='<img src="${pageContext.request.contextPath}/findPet/'+item.FILE_NO+'" id="rep" class="img_wrap img">';		
-					}
-					str +='</a>';	
-					str +='</div>';
-					<!-- 시팅요청사항디테일 -->
-					str +='<div class="text_area">';
-					str +='<div class="title ellipsis">'+item.REQUEST_TITLE+'</div>';
-					str +='<div class="content ellipsis">'+item.REQUEST_DETAIL+'</div>';
-					str +='<div class="view_info">';
-					str +='<span class="date">'+item.ST_DATE+'&nbsp;~&nbsp;'+item.END_DATE+'</span>';
-					str +='<p>';
-					str +='<span class="mr12"> <i class="fa-solid fa-comment-dots"></i>20</span>';
-					str +='<span><i class="fa-regular fa-eye"></i>13</span>';
-					str +='</p>';
-					str +='</div>';
-					str +='</div>';
-					str+='</li>';
-					str+='</ul>';
-				});
-				$("#card_list").empty();
-				$("#card_list").append(str);
-				
+				if(data.length == 0){
+					$("#card_list").empty();
+					str +='<span class="see_info">조회된 데이터가 없습니다.</span>';
+					$("#card_list").append(str);
+				}else{
+					$("#card_list").empty();
+					$.each(data, function(i, item) { // 데이터 =item
+						str +='<ul class="flex_between" id="ulId">';
+						str +='<li>';
+						<!-- 글 간략정보 -->
+						str +='<div class="info">';
+						str +='<div class="flex_agn_center">';
+						str +='<div class="owner_img">';
+						str +='<img src="${imgPath}/noimg.webp" alt="노프로필"/>';
+						str +='<img src="" alt="프로필">';
+						str +='</div>';
+						str +='<span id="nickname">'+item.NICKNAME+'</span>';
+						str +='</div>';
+						var status = $.trim(item.STATUS);
+						if(status == '매칭중'){
+							str +='<span class="status open" style="background-color: yellowgreen;">'+item.STATUS+'</span>';
+						}else if(status == '매칭완료'){
+							str +='<span class="status open" style="background-color: #c7c2c2;">'+item.STATUS+'</span>';
+						}
+						str +='</div>';
+						<!-- 동물사진 -->
+						str +='<div class="img_area" style="width: 357px; height: 200px">';
+						str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?page=${pageInfo.page}">';
+						if(item.FILE_NO == null){
+							str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
+						}else{
+							str +='<img src="${pageContext.request.contextPath}/findPet/'+item.FILE_NO+'" id="rep" class="img_wrap img">';		
+						}
+						str +='</a>';	
+						str +='</div>';
+						<!-- 시팅요청사항디테일 -->
+						str +='<div class="text_area">';
+						str +='<div class="title ellipsis">'+item.REQUEST_TITLE+'</div>';
+						str +='<div class="content ellipsis">'+item.REQUEST_DETAIL+'</div>';
+						str +='<div class="view_info">';
+						str +='<span class="date">'+item.ST_DATE+'&nbsp;~&nbsp;'+item.END_DATE+'</span>';
+						str +='<p>';
+						str +='<span class="mr12"> <i class="fa-solid fa-comment-dots"></i>20</span>';
+						str +='<span><i class="fa-regular fa-eye"></i>13</span>';
+						str +='</p>';
+						str +='</div>';
+						str +='</div>';
+						str+='</li>';
+						str+='</ul>';
+					});
+					$("#card_list").append(str);
+				}
 			},
 			error : function(xhr, error) {
 				console.error("error : " + error);
@@ -291,6 +301,14 @@ $(document).ready(function() {
 	}
 	
 });//ready
+
+	$(window).scroll(function(){
+		//var scrollValue = $(document).scrollTop(); 
+		//console.log(scrollValue);
+	if ($(this).scrollTop() > 400) {
+	  $('.go_top').fadeIn();
+	}else {$('.go_top').fadeOut(); }
+	});
 </script>
 <body>
 	<div id="wrapper">
@@ -398,5 +416,6 @@ $(document).ready(function() {
 		<div class="card_list_type find_pet_list" id="card_list"></div>
 	</div>
 	</div>
+	<div class="go_top"><i class="fa-solid fa-arrow-up-long"></i></div>
 </body>
 </html>
