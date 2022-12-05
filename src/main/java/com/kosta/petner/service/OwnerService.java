@@ -52,7 +52,7 @@ public interface OwnerService {
 	 * 작성자: 김혜경
 	 * 내용: 펫시터 찾기 ajax검색
 	 */
-	List<SitterInfo> findSitterSearch(Find findVO);
+	List<Map<String, Object>> findSitterSearch(Find findVO);
 
 	
 	

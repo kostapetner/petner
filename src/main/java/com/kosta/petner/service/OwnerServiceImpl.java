@@ -99,7 +99,7 @@ public class OwnerServiceImpl implements OwnerService {
 	 * 내용: 펫시터 찾기 ajax검색
 	 */
 	@Override
-	public List<SitterInfo> findSitterSearch(Find findVO) {
+	public List<Map<String, Object>> findSitterSearch(Find findVO) {
 		return ownerDAO.findSitterSearch(findVO);
 	}
 

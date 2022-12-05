@@ -81,40 +81,54 @@
 				success : function(data) {
 					console.log(data);
 					var str = '';
-					$.each(data, function(i, item) { // 데이터 =item
+					if(data.length == 0){
+						$("#card_list").empty();
 						str +='<ul>';
 						str +='<li>';
 						str +='<div class="data">';
-						<!-- 이미지영역 -->
-						str +='<div class="img_area">';
-						str +='<img src="${pageContext.request.contextPath}/getImg/'+ item.FILE_NO +'" alt="프로필이미지">';
+						str +='<div>';
+						str +='<span class="see_info">조회된 데이터가 없습니다.</span>';
 						str +='</div>';
-						<!-- 텍스트정보 영역 -->
-						str +='<div class="text_area">';
-						str +='<div class="row1">';
-						str +='<p><span class="nick">'+ item.NICKNAME +'</span></p>';
-						str +='</div>';
-						str +='<div class="row2">';
-						str +='<p><a href="#">팔로워<span class="f_val">122</span></a></p>';
-						str +='<p><a href="#">팔로잉<span class="f_val">122</span></a></p>';
-						str +='</div>';
-						str +='<div class="row3">';	
-						str +='<span>'+item.WORK_DAY+'</span>';
-						str +='<span class="see_info">펫시터자기소개</span>';
-						str +='</div>';
-						str +='<div class="row4">'+item.SITTER_INFO+'</div>';
-						str +='</div>';
-						str +='</div>';
-						str +='<div class="icons">';
-						str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
-						str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
-						str +='<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>';
 						str +='</div>';
 						str+='</li>';
 						str+='</ul>';
-					});
-					$("#card_list").empty();
-					$("#card_list").append(str);
+						$("#card_list").append(str);
+					}else{
+						$("#card_list").empty();
+						$.each(data, function(i, item) { // 데이터 =item
+							str +='<ul>';
+							str +='<li>';
+							str +='<div class="data">';
+							<!-- 이미지영역 -->
+							str +='<div class="img_area">';
+							str +='<img src="${pageContext.request.contextPath}/getImg/'+ item.FILE_NO +'" alt="프로필이미지">';
+							str +='</div>';
+							<!-- 텍스트정보 영역 -->
+							str +='<div class="text_area">';
+							str +='<div class="row1">';
+							str +='<p><span class="nick">'+ item.NICKNAME +'</span></p>';
+							str +='</div>';
+							str +='<div class="row2">';
+							str +='<p><a href="#">팔로워<span class="f_val">122</span></a></p>';
+							str +='<p><a href="#">팔로잉<span class="f_val">122</span></a></p>';
+							str +='</div>';
+							str +='<div class="row3">';	
+							str +='<span>'+item.WORK_DAY+'</span>';
+							str +='<span class="see_info">펫시터자기소개</span>';
+							str +='</div>';
+							str +='<div class="row4">'+item.SITTER_INFO+'</div>';
+							str +='</div>';
+							str +='</div>';
+							str +='<div class="icons">';
+							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
+							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
+							str +='<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>';
+							str +='</div>';
+							str+='</li>';
+							str+='</ul>';
+							$("#card_list").append(str);
+						});
+					}
 				},
 				error : function(xhr, error) {
 					console.error("error : " + error);
