@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
-import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.SitterInfo;
+import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.OwnerService;
+import com.kosta.petner.service.UsersService;
 
 @Controller
 public class FindSitterController {
@@ -25,9 +29,12 @@ public class FindSitterController {
 	@Autowired
 	OwnerService ownerService;
 	
+	@Autowired
+	UsersService usersService;
+	
 	//펫시터찾기
 	@RequestMapping(value = "/findSitter", method = RequestMethod.GET)
-	String findSitter(Model model){
+	String findSitter(Model model, HttpServletRequest request){
 		//System.out.print("체크");
 		//List<SitterInfo> sitterList = ownerService.getAllAvailSitter();
 		//List<Map<String, Object>> avaiSitterList = new ArrayList<Map<String, Object>>();
@@ -56,6 +63,16 @@ public class FindSitterController {
 		/*
 		 * 리스트의 수만큼 반복 돌면서 mon, tue > 월, 화 바꾼다.*/
 		
+		//user의 DB에 저장된 값 가져오기
+		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+		if(users == null) {
+			System.out.println("null");
+		}else {
+			Integer user_no = users.getUser_no();
+			Users userInfo = usersService.getUserByUserNo(user_no);
+			model.addAttribute("userInfo", userInfo);
+		}
+				
 		model.addAttribute("dataList", availSitterList);
 		model.addAttribute("title", "펫시터찾기");
 		model.addAttribute("page", "main/find/findSitter");

@@ -110,7 +110,15 @@ public class OwnerDAOImpl implements OwnerDAO {
 		}else {
 			System.out.println("가능한 요일 null입니다.");
 		}
-
+		//zipcode(우편번호)
+		if(findVO.getZipcode() != null && !findVO.getZipcode().equals("")) {
+			//앞의 2자리는 특별시 및 광역시·도, 세 번째 자리는 시·군·구를 나타내기 때문에 우편번호 앞3자리로 검색
+			String zipcode = findVO.getZipcode();
+			String subZipcode = zipcode.substring(0,3);
+			map.put("zipcode",subZipcode);
+		}else {
+			System.out.println("우편번호 null입니다.");
+		}
 		return sqlSession.selectList("mapper.owner.findSitterSearch", map);
 	}
 	

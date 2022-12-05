@@ -16,7 +16,7 @@ public class SitterInfo {
 	private String pet_specie;
 	private String work_day;
 	private String service;
-	private Integer zipcode;
+	private String zipcode;
 	private String addr;
 	private String addr_detail;
 	private String sitter_info;

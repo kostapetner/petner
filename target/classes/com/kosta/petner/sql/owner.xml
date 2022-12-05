@@ -166,11 +166,11 @@
 			left join users u on si.user_no = u.user_no
 			<where>
 				<!-- 우편번호 -->
-			    <!-- <if test="zipcode != null and zipcode != ''">
+			    <if test="zipcode != null and zipcode != ''">
 			    <![CDATA[
-			    	cs.zipcode LIKE #{zipcode}||'%'
+			    	si.zipcode LIKE #{zipcode}||'%'
 			    ]]>	
-			    </if> -->
+			    </if>
 			    <!-- 보호자 성별 -->
 			    <if test="genderArray != null and genderArray != ''">
 			    	<foreach item="item" index="index" collection="genderArray" separator="or" open="and">
