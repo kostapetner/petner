@@ -1,20 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cssPath"
+	value="${pageContext.request.contextPath}/resources/css" />
+<c:set var="imgPath"
+	value="${pageContext.request.contextPath}/resources/images" />
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-<title>MVC 게시판</title>
-
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<c:import url='/WEB-INF/views/include/common_head.jsp' />
+<link rel="stylesheet" href="${cssPath}/table.css">
 <style type="text/css">
-h2 {
-	text-align: center;
-}
-
 table {
 	margin: auto;
 	width: 450px;
 }
+
 .td_left {
 	width: 150px;
 	background: orange;
@@ -28,44 +33,80 @@ table {
 #commandCell {
 	text-align: center;
 }
+
+textarea {
+	width: 100%;
+	border: 1px solid #ced4da;
+	border-radius: 0.375rem;
+	max-height: 150px;
+}
 </style>
+
+<meta charset="UTF-8" />
+<title>MVC 게시판</title>
+
 </head>
 <body>
 	<!-- 게시판 답변 -->
-
-
-	<section id="writeForm">
-		<h2>게시판글등록</h2>
-		<form action="qnareply" method="post" name="qnaform">
+	<!-- QNA 글 등록 -->
+	<div id="wrapper">
+		<!-- CONTAINER -->
+		<div class="container w90">
+			<div class="">
+				<p class="list_title">QNA 답변</p>
+				
+				<form action="qnareply" method="post" name="qnaform">
 			<input type="hidden" name="page" value="${page}" /> 
-			<input type="hidden" name="qna_no" value="${qnaNum}">
-			<table>
-				<tr>
-					<td class="td_left"><label for="user_id">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="user_id"
-						id="user_id" /></td>
-				</tr>
-				<!-- <tr>
-					<td class="td_left"><label for="board_pass">비밀번호</label></td>
-					<td class="td_right"><input name="board_pass" type="password"
-						id="board_pass" /></td>
-				</tr> -->
-				<tr>
-					<td class="td_left"><label for="qna_title">제 목</label></td>
-					<td class="td_right"><input name="qna_title" type="text"
-						id="qna_title" /></td>
-				</tr>
-				<tr>
-					<td class="td_left"><label for="qna_content">내 용</label></td>
-					<td><textarea id="qna_content" name="qna_content"
-							cols="40" rows="15"></textarea></td>
-				</tr>
-			</table>
-			<section id="commandCell">
-				<input type="submit" value="답변글등록" />&nbsp;&nbsp; <input
-					type="reset" value="다시작성" />
-			</section>
-		</form>
-	</section>
+			<input
+				type="hidden" name="qna_no" value="${qnaNum}">
+				
+				파일첨부
+				<td class="left">
+					<label>
+						<input type="file" name="file" id="attach-file" />
+						<img src="img/select.png" class="file-img" />
+					</label>
+					<span id="file-name"></span>
+					<span id="delete-file" style="color: red; margin-lefT: 20px;"><i class="fas fa-times font-img" ></i></span>
+ 				</td>
+ 				
+ 				<div class="row user_id">
+					<div>
+					<!-- 글쓴이 -->
+						<span class="by">by</span><input name="user_id" id="user_id"
+								value="${authUser.id}">
+						</div>
+					</div>
+					<hr>
+					
+					<!-- title 제목 -->
+					<div class="title">
+						<input type="text" name="qna_title" id="qna_title"
+							required="required" placeholder="제목을 입력하세요" aria-label="제 목"
+							aria-describedby="addon-wrapping">
+					</div>
+					<hr>
+					
+					<!-- content 글내용 -->
+					<div class="content">
+						<textarea class="fcc_textarea" id="qna_content" name="qna_content"
+							cols="40" rows="15" required="required" placeholder="내용을 입력하세요"></textarea>
+					</div>
+
+					<hr>
+					<section id="commandCell">
+						<div class="d-grid gap-2 d-md-block">
+							<button type="submit" class="btn btn-outline-secondary">등록</button>
+							<button type="reset" class="btn btn-outline-secondary">다시쓰기</button>
+						</div>
+					</section>
+ 			
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	
 </body>
 </html>
