@@ -62,6 +62,23 @@ textarea {
 
 				<form action="./qnawrite" method="post"
 					enctype="multipart/form-data" name="qnawriteform" class="pn_write">
+
+					<!-- <input name="file" type="file" id="file_no" /> -->
+
+					<!-- 사진 업로드 -->
+					<!-- <div class="f_row profile_upload">
+						<p class="fc_title">사진을 올려주세요</p>
+						<div class="profile_upload_square">
+							<div class="prof_img">
+								<img id="qnaImg"> <br> <label for="file"
+									class="pet_btn edit_btn"> <i class="fa-solid fa-pen"
+									id="pen"></i>
+								</label> <input type="file" id="file_no" name="file" hidden="hidden"></input>
+							</div>
+						</div>
+					</div> -->
+					<!-- 사진 업로드.end -->
+
 					<div class="pn_view">
 						<div class="row user_id">
 							<div>

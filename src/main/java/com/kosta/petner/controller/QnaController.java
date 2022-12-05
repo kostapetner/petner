@@ -67,61 +67,27 @@ public class QnaController {
 	}
 	
 	//펫 이미지 파일 화면에 띄우기List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
-		@RequestMapping(value = "/{QanNo}", method = RequestMethod.GET)
-		public void viewImages(@PathVariable Integer qnaNum, HttpServletResponse response, Qna qna) {
-			String path = servletContext.getRealPath("/resources/upload/");
-			FileInputStream fis = null;
-			try {
-				Qna server_filename = qnaService.getQna(qnaNum);
-				fis = new FileInputStream(path + server_filename);
-				OutputStream out = response.getOutputStream();
-				FileCopyUtils.copy(fis, out);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if(fis != null) {
-					try {
-						fis.close();
-					} catch (Exception e) {} 
-				}
-			}
-		}
+//		@RequestMapping(value = "/getImg/{QanNo}", method = RequestMethod.GET)
+//		public void viewImages(@PathVariable Integer qnaNum, HttpServletResponse response, Qna qna) {
+//			String path = servletContext.getRealPath("/");
+//			FileInputStream fis = null;
+//			try {
+//				Qna server_filename = qnaService.getQna(qnaNum);
+//				fis = new FileInputStream(path + server_filename);
+//				OutputStream out = response.getOutputStream();
+//				FileCopyUtils.copy(fis, out);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			} finally {
+//				if(fis != null) {
+//					try {
+//						fis.close();
+//					} catch (Exception e) {} 
+//				}
+//			}
+//		}
 		//
 	
-
-
-	@RequestMapping(value="/loadImage.do")
-	public String displayPhoto(Integer qnaNum,@RequestParam(value="file_no") String file_no, HttpServletResponse response,Model model)throws Exception{
-
-		// Qna qna = qnaService.getQna(qnaNum);
-		//DB에 저장된 파일 정보를 불러오기
-		Qna qna = new Qna();
-		
-	    Qna result = qnaService.getQna(qnaNum);
-	    
-		response.setContentType("image/jpg");
-	    ServletOutputStream bout = response.getOutputStream();
-	    //파일의 경로 "qna", file, session
-	    
-	    String imgpath = qna.getFilepath() + result.getFile_no();
-	    //String imgpath = "qna" + qna.getFilepath() + File.separator + result.getFile_no();
-	    FileInputStream f = new FileInputStream(imgpath);
-//	    int length;
-//	    byte[] buffer = new byte[10];
-//	    while((length=f.read(buffer)) != -1){
-//	    	bout.write(buffer,0,length);
-//	    }
-	    model.addAttribute("file_no", file_no);
-	    return null;
-	}
-	
-	
-	
-	
-	
-	
-	
-
 	// qna_첨부 파일 다운로드 요청
 	@ResponseBody
 	@RequestMapping("/qna_download")
