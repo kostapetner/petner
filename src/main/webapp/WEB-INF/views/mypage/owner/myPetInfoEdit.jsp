@@ -21,6 +21,7 @@ $(document).ready(function(){
 	
 	// 삭제
 	$(".del_btn").click(function(){
+		confirm()
 		window.location.href = "${pageContext.request.contextPath}/mypage/myPetDel?petNo=${data.pet_no}";
 	})
 	
@@ -57,8 +58,9 @@ form{max-width:480px;}
 </style>
 <div class="content">
   <p class="menu_title">반려동물 정보 수정</p>
-  <form action="${pageContext.request.contextPath}/mypage/myPetInfoEdit" method="POST" class="data edit_form">
+  <form action="${pageContext.request.contextPath}/mypage/myPetInfoEdit" method="POST" class="data edit_form" enctype="multipart/form-data">
 		<input type="hidden" value="${data.pet_no}" name="pet_no"/>
+		<input type="hidden" value="${data.file_no}" name="file_no"/>
 		<!-- 동물사진 -->
 		<div class="f_row profile_upload">
 			<div class="profile_upload">

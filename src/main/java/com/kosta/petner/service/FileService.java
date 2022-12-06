@@ -16,8 +16,7 @@ public interface FileService {
 	 */
 	String getServerFilename(Integer file_no);
 	
-	// 시터 파일 정보 수정 (프로필 이미지 정보) 221129DSC
-
-	void updateSitterImage(FileVO fileVo);
+	//프로필 이미지 테이블정보수정 파일넘버로 (프로필 이미지 정보) 221206DSC
+	void updateFileInfo(FileVO fileVo);
 
 }

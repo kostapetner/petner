@@ -10,6 +10,6 @@ public interface FileDAO {
 
 	String getServerFilename(Integer file_no);
 
-	void updateSitterImage(FileVO fileVo);
+	void updateFileInfo(FileVO fileVo);
 
 }
