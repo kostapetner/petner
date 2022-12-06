@@ -26,10 +26,11 @@ public class FileDAOImpl implements FileDAO {
 	public String getServerFilename(Integer file_no) {
 		return sqlSession.selectOne("mapper.file.getServerFilename", file_no);
 	}
-
+	
+	// 파일테이블 업데이트 
 	@Override
-	public void updateSitterImage(FileVO fileVo) {
-		sqlSession.update("mapper.file.updateSitterFileInfo", fileVo);
+	public void updateFileInfo(FileVO fileVo) {
+		sqlSession.update("mapper.file.updateFileInfoByFileNo", fileVo);
 		
 	}
 

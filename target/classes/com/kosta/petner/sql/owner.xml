@@ -34,6 +34,7 @@
 		<![CDATA[
 			SELECT * FROM PET_INFO
 			WHERE USER_NO = #{user_no}
+			ORDER BY PET_NO DESC
 		]]> 
 	</select>
 	
@@ -54,6 +55,22 @@
 			WHERE USER_NO = #{user_no} AND PET_NO = #{pet_no}
 		]]> 
 	</select>
+	
+	<update id="updateMyPetInfo" parameterType="com.kosta.petner.bean.PetInfo">
+		<![CDATA[
+	    UPDATE PET_INFO
+		  SET 
+		  PET_NEUTRAL = #{pet_neutral, jdbcType=VARCHAR},
+			PET_INFO = #{pet_info, jdbcType=VARCHAR}	
+	    WHERE USER_NO = #{user_no} AND PET_NO = #{pet_no}
+		]]> 
+	</update>
+	
+	<delete id="deletePet" parameterType="int">
+		<![CDATA[
+			DELETE FROM PET_INFO WHERE PET_NO = #{pet_no}
+		]]>
+	</delete>
 	
 	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >

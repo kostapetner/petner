@@ -76,6 +76,18 @@ public class OwnerDAOImpl implements OwnerDAO {
 	public PetInfo getMyPetByPetNo(Map<String, Object> param) {
 		return sqlSession.selectOne("mapper.owner.getMyPetByPetNo", param);
 	}
+	
+	// 마이펫 정보 수정
+	@Override
+	public int updateMyPetInfo(PetInfo petInfo) {
+		return sqlSession.update("mapper.owner.updateMyPetInfo", petInfo);
+	}
+	
+	// 동물삭제
+	@Override
+	public int deletePet(int pet_no) {
+		return sqlSession.delete("mapper.owner.deletePet", pet_no);
+	}
 
 
 	/* 날짜:22.12.05
@@ -120,6 +132,12 @@ public class OwnerDAOImpl implements OwnerDAO {
 		}
 		return sqlSession.selectList("mapper.owner.findSitterSearch", map);
 	}
+
+
+	
+
+
+	
 	
 	
 

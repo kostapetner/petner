@@ -36,5 +36,11 @@ public interface MypageService {
 	// 나의 반려동물 한마리 가져오기
 	PetInfo getMyPetByPetNo(Map<String, Object> param);
 	
+	// 반려동물 정보수정하기
+	int updateMyPetInfo(PetInfo petInfo);
+	
+	// 반려동물 삭제하기
+	int deletePet(int pet_no);
+	
 	
 } 

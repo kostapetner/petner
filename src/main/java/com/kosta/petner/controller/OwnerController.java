@@ -111,7 +111,7 @@ public class OwnerController {
 				petInfo.setFile_no(file_no);
 
 				ownerService.regist(petInfo);
-				mav.setViewName("redirect:/");
+				mav.setViewName("redirect:/mypage/myPetInfo");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -38,7 +38,7 @@
 	</select>
 	
 	<!-- 프로필이미지 사진 수정  -->
-	<update id ="updateSitterFileInfo" parameterType="com.kosta.petner.bean.FileVO">
+	<update id ="updateFileInfoByFileNo" parameterType="com.kosta.petner.bean.FileVO">
 		<![CDATA[
 			UPDATE FILE_TB
 		  SET 
