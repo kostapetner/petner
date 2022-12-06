@@ -49,6 +49,7 @@
 		    searchAjax();
 		});
 		
+		var addr = [];
 		function searchAjax(){
 			// 성별, 서비스, 동물종류, 요일
 			var gender = genderArr;
@@ -79,7 +80,7 @@
 				    	,"zipcode":zipcode
 				  }),
 				success : function(data) {
-					console.log(data);
+					//console.log(data);
 					var str = '';
 					if(data.length == 0){
 						$("#card_list").empty();
@@ -126,6 +127,9 @@
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
+							str+='<input type="hidden" id="ajaxAddr" value="'+item.ADDR+'">';
+							
+							addr.push(item.ADDR);
 						});
 						$("#card_list").append(str);
 					}
@@ -139,34 +143,27 @@
 		$("#mapDiv").hide();
 		//내주변찾기 버튼
 		$("#findAreaBtn").click(function(){
-			//---------------------지도--------------------------------
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = { 
-			    center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			    level: 5 // 지도의 확대 레벨 
-			}; 
-
-			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-			//------------- 지도 띄우기 시작 ------------------
+			var mapContainer = document.getElementById("map");
+			var coordXY   = document.getElementById("coordXY");
+			var distanceGap  = document.getElementById("distance");
+			var radius = 2000;	// 반경 미터(m), 2km
+			var geocoder = new kakao.maps.services.Geocoder();
 			function curLocation(){
-				/////////////////지도의 중심을 현재 위치로 변경///////////////////////
-				// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+				//지도의 중심을 현재 위치로 변경(HTML5의 geolocation으로 사용할 수 있는지 확인합니다.)
 				if (navigator.geolocation) {
-				    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-				    navigator.geolocation.getCurrentPosition(function(position) {
-				        var lat = position.coords.latitude, // 위도
-				            lon = position.coords.longitude; // 경도
-				        var locPosition = new kakao.maps.LatLng(lat, lon) // geolocation으로 얻어온 좌표
-				        var message = '<div style="padding:5px;">현위치(오차발생가능)</div>'; // 인포윈도우에 표시될 내용입니다
-				       
-				        //map.setCenter(locPosition);   
-				        displayMarker(locPosition, message);// 마커와 인포윈도우를 표시합니다
-				        var lng = lon;
+					// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			    	navigator.geolocation.getCurrentPosition(function(position) {
+				        var x = position.coords.latitude, y = position.coords.longitude; // x:위도, y:경도
+				        var latlngyo = new daum.maps.LatLng(x, y);
+				        var mapOption = {
+				          		center: latlngyo, // 지도의 중심좌표
+				                level: 6      // 지도의 확대 레벨
+				         };
+				        var lat = x;
+				        var lng = y;
 				        //좌표 > 도로명주소
 				        getAddr(lat,lng);
 				        function getAddr(lat,lng){
-				            let geocoder = new kakao.maps.services.Geocoder();
-
 				            let coord = new kakao.maps.LatLng(lat, lng);
 				            let callback = function(result, status) {
 				                if (status === kakao.maps.services.Status.OK) {
@@ -186,54 +183,61 @@
 				               searchAjax();
 				            }
 				            geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-				        }
-				      });
-				    
-				} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+				            var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					        map.setCenter(coord);
+				            
+					        var circle = new daum.maps.Circle({
+					            map: map,
+					            center : latlngyo,
+					            radius: radius,
+					            strokeWeight: 2,
+					            strokeColor: '#FF00FF',
+					            strokeOpacity: 0.8,
+					            strokeStyle: 'dashed',
+					            fillColor: '#D3D5BF',
+					            fillOpacity: 0.5
+					        });
+		
+					        var marker = new daum.maps.Marker({
+					         position: latlngyo, // 마커의 좌표
+					         title: "현위치",
+					         map: map          // 마커를 표시할 지도 객체
+					        });
+//----------------------------------------------------------------------------------------------------------------
+					    	console.log(addr);
+					    	for(var i in addr){
+					    		// 주소로 좌표를 검색합니다
+						        geocoder.addressSearch(addr[i], function(result, status) {
+						            // 정상적으로 검색이 완료됐으면 
+						            if (status === kakao.maps.services.Status.OK) {
+						                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						                // 결과값으로 받은 위치를 마커로 표시합니다
+						                var marker = new kakao.maps.Marker({
+						                    map: map,
+						                    position: coords
+						                });
+						            } 
+					        	});//geocoder.addressSearch
+					    	}
+						    
+					}
+			    });//navigator.geolocation.getCurrentPosition
+			    	 
+			}else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 
-					var locPosition = new kakao.maps.LatLng(37.4812845080678, 126.952713197762),
-						message = '현재 위치를 알 수 없어 기본 위치로 이동합니다.'
+				var locPosition = new kakao.maps.LatLng(37.4812845080678, 126.952713197762),
+					message = '현재 위치를 알 수 없어 기본 위치로 이동합니다.'
 
-					currentLatLon['lat'] = 33.450701
-					currentLatLon['lon'] = 126.570667
+				currentLatLon['lat'] = 33.450701
+				currentLatLon['lon'] = 126.570667
 
-					displayMarker(locPosition, message);
-				}
+				displayMarker(locPosition, message);
+			}
 				
 				return true;
-			}
-			//------------- 지도 띄우기 끝 ------------------
-			//------------- 마커 생성 시작 ------------------
-			function displayMarker(locPosition, message) {
-				var imageSize = new kakao.maps.Size(24, 35);
-				var imageSrc ="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-				// 마커를 생성합니다
-				var marker = new kakao.maps.Marker({
-					map: map, 
-					position: locPosition, 
-					image : markerImage
-				});
-
-				var iwContent = message, // 인포윈도우에 표시할 내용
-					iwRemoveable = true;
-
-				// 인포윈도우를 생성합니다
-				var infowindow = new kakao.maps.InfoWindow({
-					content : iwContent,
-					removable : iwRemoveable
-				});
-
-				// 인포윈도우를 마커위에 표시합니다
-				infowindow.open(map, marker);
-
-				// 지도 중심좌표를 접속위치로 변경합니다
-				map.setCenter(locPosition);
-			}//마커 생성 끝
+			}//지도 띄우기 끝
 			
 			//지도 불러오기
-			setTimeout(function(){ map.relayout(); }, 0);
 			$("#mapDiv").show();
 			curLocation();
 		});
@@ -381,73 +385,35 @@
 		</div>
 		<!-- 위치 -->
 		<div class="f_row">
-			<div>
+			<p class="filter_title">위치</p>
+			<div class="select_box">
 				<input type="hidden" value="${authUser.user_no}" id="authUser">
 				<p class="filter_title">현재 위치</p>
 				<p class="filter_title" id="zipcodeP">[${userInfo.zipcode }]</p>
 				<input type="hidden" value="${userInfo.zipcode }" id="zipcode">
 				<p class="filter_title" id="addrP">${userInfo.addr }</p>
 				<input type="button" value="내주변찾기" class="filter_title" id="findAreaBtn">
-				<div class="content" id="mapDiv">
-					<h3 class="form_title fs24">지도</h3>
-					<div class="map_wrap">
-					    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-					     <div class="hAddr">
-					        <span class="title">지도중심기준 행정동 주소정보</span>
-					        <span id="centerAddr"></span>
-					    </div>
-					</div>
-					<br>
+			</div>
+		</div>
+	</div>
+	<!-- 위치 -->
+	<div>
+		<div>
+			<div class="content" id="mapDiv">
+				<h3 class="form_title fs24">지도</h3>
+				<div class="map_wrap">
+				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				     <div class="hAddr">
+				        <span id="centerAddr"></span>
+				    </div>
 				</div>
+				<br>
 			</div>
 		</div>
 	</div>
 
 	<!-- 카드형 리스트 -->
-	<div class="card_list_type" id="card_list">
-		<%-- <ul>
-			<c:forEach items="${dataList}" var="data">
-				<li uno="${data.USER_NO}">
-					<div class="data">
-						<!-- 이미지영역 -->
-						<div class="img_area">
-							<img src="${pageContext.request.contextPath}/getImg/${data.FILE_NO}" alt="프로필이미지">
-						</div>
-						<!-- 텍스트정보 영역 -->
-						<div class="text_area">
-							<div class="row1">
-								<p>
-									<span class="nick">${data.NICKNAME}</span>
-								</p>
-							<!-- 	<p>
-									<span class="badge">최강기요미</span>
-								</p> -->
-							</div>
-							<div class="row2">
-								<p>
-									<a href="#">팔로워<span class="f_val">122</span></a>
-								</p>
-								<p>
-									<a href="#">팔로잉<span class="f_val">122</span></a>
-								</p>
-							</div>
-							<div class="row3">
-								<span>${data.WORK_DAY}</span>
-								<span class="see_info">펫시터자기소개</span>
-							</div>
-							<div class="row4">${data.SITTER_INFO}</div>
-							
-						</div>
-					</div>
-					<div class="icons">
-						<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a> 
-						<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>
-						<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>
-					</div>
-				</li>
-		</c:forEach>
-		</ul> --%>
-	</div>
+	<div class="card_list_type" id="card_list"> </div>
 	
 </div>
 
