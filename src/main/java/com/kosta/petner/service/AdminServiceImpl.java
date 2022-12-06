@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
+import com.kosta.petner.bean.Qna;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.NoticeDAO;
+import com.kosta.petner.dao.QnaDAO;
 import com.kosta.petner.dao.UsersDAO;
 
 @Service
@@ -18,6 +20,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	NoticeDAO noticeDAO;
+	
+	@Autowired
+	QnaDAO qnaDAO;
 	
 
 	// 기본정보
@@ -95,5 +100,18 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void notice_read(int notice_id) throws Exception {
 		noticeDAO.notice_read(notice_id);
+	}
+	
+	@Override
+	public void deleteQna(Integer qnaNum) throws Exception {
+		Qna qna = getQna(qnaNum);
+		System.out.println("Service:"+qnaNum);
+		System.out.println("Service:"+qna);
+		qnaDAO.deleteQna(qnaNum);
+	}
+
+	private Qna getQna(Integer qnaNum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

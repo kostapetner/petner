@@ -8,6 +8,8 @@
 .pn_write .content textarea { border: none; padding: 20px; }
 .pn_write .content textarea::placeholder {color:#E1E3E6; }
 
+
+
 /* 공지사항 리스트 타입 */
   .pn_listForm { padding:30px 0 40px; }
   .pn_listForm td {padding: 10px 30px;}
@@ -24,9 +26,12 @@
   .pn_view .source span {color:#ff9113;}
   .pn_view .source .file { display: flex; }
   .pn_view .content { min-height: 200px; }
-  
+  .pn_view #image_preview img { width: auto; max-height: 350px; }
   .by { color:#ff9113; }
-
+  
+  
+ /* 버튼들 */
+.buttonList {text-align: center;}
 
 
 	

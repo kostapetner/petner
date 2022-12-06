@@ -1,3 +1,4 @@
+*, .btn {font-size:12px}
 /* ***** admin header ***** */
 .admin_header { align-items: center; padding-right: 25px; }
 .admin_header .header_btn { margin-left: 10px; border-radius: 5px; }
@@ -10,7 +11,26 @@
     justify-content: start;
     margin-top: 7px;
     }
+    
+    
 /**************/
+
+/* 게시물 뷰 */
+/* 게시물 뷰 - top */
+.source span {
+    color: #ff9113;}
+.source {display: flex;
+    justify-content: space-between;}
+    .source .b {display: flex; color:#0000008c;}
+    .source .b div {margin-left: 10px;}
+
+/* 게시물 이미지 */
+#image_preview img {width: auto;
+    max-height: 350px;margin: auto;
+    display: flex;}
+    
+/* 게시물 파일 */
+.data_box a {color:#0000008c}
 
 
 /* 반응형 */
@@ -298,8 +318,7 @@ header {
 /* ***** ad_button - admin_btn ***** */
 
 .ad_button {
-	margin-top: 30px;
-}
+	margin-top: 30px; justify-content: center;}
 
 .ad_button .admin_btn {
 	text-decoration: none;
@@ -309,6 +328,8 @@ header {
 .ad_button .admin_btn:hover {
     color: #FFF;
 }
+
+
 
 
 /* ***** user detail page ***** */

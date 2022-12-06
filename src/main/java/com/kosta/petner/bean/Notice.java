@@ -17,7 +17,8 @@ public class Notice {
 	private String notice_pass;
 	private String notice_title;
 	private String notice_content;
-	private Integer file_no;
+	private String filepath;
+	private String file_no;
 	private Integer notice_re_ref;
 	private Integer notice_re_lev;
 	private Integer notice_re_seq;

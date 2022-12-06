@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CareService extends PageInfo{
+public class CareService{
 	private Integer service_no;
 	private Integer user_no;
 	private Integer file_no;
 	private Integer pet_no;
-	private Integer zipcode;
+	private String zipcode;
 	private String addr;
 	private String addr_detail;
 	private String service;

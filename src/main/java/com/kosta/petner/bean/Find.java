@@ -13,6 +13,8 @@ public class Find {
 	private String[] service;
 	private String[] pet_kind;
 	private String[] gender;
+	private String[] day;
 	private String zipcode;
+	
 
 }

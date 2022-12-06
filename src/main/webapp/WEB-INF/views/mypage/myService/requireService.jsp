@@ -6,7 +6,7 @@
 	}
 	
 	.petSelected:after{
-		content: "\f058";
+	content: "\f058";
     font-family: "Font Awesome 5 Free";
     color: var(--orange);
     font-size: 2.5rem;

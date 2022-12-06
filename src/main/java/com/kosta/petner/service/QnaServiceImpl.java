@@ -78,5 +78,9 @@ public class QnaServiceImpl implements QnaService {
 	public void qna_read(int qna_id) throws Exception {
 		qnaDAO.qna_read(qna_id);
 	}
+	@Override
+	public void updateFileNoToQna(Qna qna) {
+		qnaDAO.updateFileNoToQna(qna);
+	}
 
 }

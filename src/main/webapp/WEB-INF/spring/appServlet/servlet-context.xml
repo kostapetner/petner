@@ -34,20 +34,22 @@
       <beans:property name="defaultEncoding" value="utf-8" />
    	</beans:bean>
    	
-   	<!-- 홍시원 추가 2022.11.17 -->
-   	<!-- WebSocket -->
-	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/webSocket/echo"/>
-        <websocket:handshake-interceptors>
-                <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-        </websocket:handshake-interceptors>
-	</websocket:handlers>
-	<beans:bean id="echoHandler" class="com.kosta.petner.websocket.WebSocketHandler"/>
-	<!-- WebSocket -->
-	
+   	
 	<!-- aop -->
 	<aop:aspectj-autoproxy/>
 	<!-- aop -->
+	
+	<!-- 웹소캣 등록  2022.11.30 최동인 추가-->
+	<beans:bean id="uploadPath" class="java.lang.String">
+	 	<beans:constructor-arg value="c:/zzz/upload"/>
+	</beans:bean>
+	<beans:bean id="echoHandler" class="com.kosta.petner.controller.ChatHandler"/>
+	<websocket:handlers>
+		<websocket:mapping handler="echoHandler" path="/echo"/>
+		<websocket:sockjs/>
+	</websocket:handlers>
+	
+	
 	
 		<!-- 최동인 추가 2022.11.22 -->	
 	  <!-- 인터셉터 객체 생성 -->

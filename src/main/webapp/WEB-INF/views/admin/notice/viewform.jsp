@@ -8,20 +8,6 @@
 
 
 <style type="text/css">
-h2 {
-	text-align: center;
-}
-
-#basicInfoArea {
-	height: 40px;
-	text-align: center;
-}
-
-#commandList {
-	margin: auto;
-	width: 700px;
-	text-align: center;
-}
 </style>
 
 <!-- 세션있을때  -->
@@ -31,20 +17,54 @@ h2 {
 		<!-- viewForm -->
 		<div class="card ad_card mb-4">
 			<div class="card-body">
-				<section id="articleForm">
-					<h2 class="card-title">글 내용 상세보기</h2>
-					<section id="basicInfoArea">
-						제 목 : ${article.notice_title } 첨부파일 :
-						<c:if test="${article.file_no!=null }">
-							<a href="file_down?downFile=${article.file_no}">
-								${article.file_no} </a>
-						</c:if>
-					</section>
-					<section id="articleContentArea">${article.notice_content }
-					</section>
+
+				<h2 class="card-title">글 내용 상세보기</h2>
+				<div class="title">
+					<h1>${article.notice_title }</h1>
+					<div class="source">
+					<div>
+						<span>by</span>${article.user_id }
+					</div>
+					<div class="b">
+					<div>
+						<!-- day -->
+						${article.reg_date }
+					</div>
+					<div>
+					<!-- hit -->
+					<i class="fa-regular fa-eye"></i> ${article.notice_hit }
+					</div>
+					</div>
+					</div>
+
+					<div class="data_box d-flex">
+
+						<div>
+							<c:if test="${article.file_no!=null }">
+								<!-- 첨부파일 다운로드 -->
+								첨부파일 <a href="ad_notice_download?noticeNum=${article.notice_no}">
+									${article.file_no} <i class="fas fa-download font-img"></i>
+								</a>
+							</c:if>
+						</div>
+					</div>
+
+					
+
+				
+				</div>
+				
+				<hr>
+					<div id="image_preview">
+						<img id="rep" class="img_wrap img"
+							src="${pageContext.request.contextPath}/resources${article.filepath}"
+							alt="사진영역" />
+
+					</div>
+				<section id="articleContentArea">${article.notice_content }
 				</section>
 				<section id="commandList">
-					<div class="d-grid gap-2 d-md-block ad_button">
+					<div class="d-grid gap-2 d-md-flex ad_button">
 						<button class="btn btn-outline-secondary" type="button">
 							<a class="admin_btn"
 								href="ad_noticereplyform?notice_no=${article.notice_no}">답변</a>
