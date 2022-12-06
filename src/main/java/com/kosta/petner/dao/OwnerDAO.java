@@ -45,6 +45,12 @@ public interface OwnerDAO {
 	 */
 	List<Map<String, Object>> findSitterSearch(Find findVO);
 	
+	// 마이펫정보 업데이트
+	int updateMyPetInfo(PetInfo petInfo);
+	
+	// 
+	int deletePet(int pet_no);
+	
 	
 	
 

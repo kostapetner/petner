@@ -289,6 +289,32 @@ public class MyPageController {
 		
 		return "/layout/mypage_default";
 	}
+	
+	// 마이펫정보 수정
+	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.POST)
+	public String myPetInfoUpdate(HttpSession session, @ModelAttribute PetInfo petInfo, BindingResult result, Model model) {
+		System.out.println("펫폼정보"+petInfo);
+		
+		int user_no = getLoginUserNo(session);
+		
+		petInfo.setUser_no(user_no);
+		
+		mypageService.updateMyPetInfo(petInfo);
+		
+		return "redirect:/mypage/myPetInfo";
+	}
+	
+	// 마이펫 삭제
+	@RequestMapping(value = "/mypage/myPetDel", method = RequestMethod.GET)
+	public String myPetDel(HttpSession session, HttpServletRequest request) {
+		
+		int pet_no = Integer.parseInt(request.getParameter("petNo"));
+		
+		mypageService.deletePet(pet_no);
+	
+		return "redirect:/mypage/myPetInfo";
+	}
+	
 
 	//리뷰작성페이지
 	@RequestMapping("/mypage/writeform")

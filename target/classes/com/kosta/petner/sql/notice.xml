@@ -5,8 +5,8 @@
 <mapper namespace="mapper.notice">
 	<insert id="insertNotice" parameterType="com.kosta.petner.bean.Notice">
 		<![CDATA[
-			insert into notice (notice_no,user_id,notice_title,notice_content,file_no, notice_re_ref, notice_re_lev, notice_re_seq, notice_hit, reg_date)
-			values(notice_seq.nextval,#{user_id},#{notice_title},#{notice_content},#{file_no, jdbcType=VARCHAR},
+			insert into notice (notice_no,user_id,notice_title,notice_content,file_no,filepath, notice_re_ref, notice_re_lev, notice_re_seq, notice_hit, reg_date)
+			values(notice_seq.nextval,#{user_id},#{notice_title},#{notice_content},#{file_no, jdbcType=VARCHAR},#{filepath, jdbcType=VARCHAR},
 				#{notice_re_ref},#{notice_re_lev},#{notice_re_seq},#{notice_hit},sysdate)
 		]]>
 	</insert>
@@ -21,8 +21,8 @@
 		<![CDATA[
 			select notice_no,user_id,notice_title,notice_content,file_no,notice_re_ref,
 				notice_re_lev,notice_re_seq,notice_hit,reg_date 
-			from (select row_number() over (order by notice_re_ref desc, notice_re_seq asc) num, B.*
-					from notice B order by notice_re_ref desc, notice_re_seq asc)
+			from (select row_number() over (order by notice_re_ref desc, notice_re_seq asc) num, N.*
+					from notice N order by notice_re_ref desc, notice_re_seq asc)
 			where num between #{row} and #{row}+9
 		]]>
 	</select>
@@ -64,6 +64,14 @@
 			delete from notice where notice_no=#{noticeNum}
 		]]>
 	</delete>
+	
+	<update id="updateFileNoToNotice" parameterType="com.kosta.petner.bean.Notice">
+	<![CDATA[
+		update notice
+		set file_no = #{file_no}
+		where notice_no = #{notice_no}
+	]]>	
+	</update>
 </mapper>
 
 
