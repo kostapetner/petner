@@ -43,6 +43,7 @@
 			SELECT u.NAME, u.NICKNAME, si.* 
 			FROM SITTER_INFO si, USERS u 
 			WHERE si.USER_NO = u.USER_NO
+			ORDER BY u.USER_NO DESC 
 		]]> 
 	</select>
 	

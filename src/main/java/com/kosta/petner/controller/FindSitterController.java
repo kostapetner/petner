@@ -34,19 +34,24 @@ public class FindSitterController {
 		String[] days_en = { "sun", "mon", "tue", "wed", "thu", "fri", "sat" };
 		
 		List<String> dayList = new ArrayList<>();
+		int i = 0 ;
 		
 		for(Map<String, Object> days : availSitterList ) {
 			
 			String work_days = (String) days.get("WORK_DAY"); // mon,tue
+			System.out.println("1차 List에서 workday=>"+work_days);
 			String[] daysArr = work_days.split(",");
 			
-			for (String days2 : daysArr) {
-				int i = Arrays.asList(days_en).indexOf(days2);
-				dayList.add(days_ko[i]);
+			System.out.println("2. 배열로=>"+Arrays.toString(daysArr));
+			
+			for (String arrToKr : daysArr) {
+				i = Arrays.asList(days_en).indexOf(arrToKr);
+				days.replace("WORK_DAY", days_ko[i]);
 			}
-			String daysKo = dayList.toString();
-			System.out.println(daysKo);
-			days.replace("WORK_DAY", daysKo);
+			//dayList.add(days_ko[i]);
+			//String daysKo = dayList.toString();
+			//System.out.println(daysKo);
+			
 		}
 		System.out.println("====뿅AFTER======:"+availSitterList);
 		/*
