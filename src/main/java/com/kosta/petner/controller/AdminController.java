@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.Qna;
+import com.kosta.petner.bean.QnaPage;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.AdminService;
@@ -33,6 +34,9 @@ import com.kosta.petner.service.UsersService;
 @Controller
 public class AdminController {
 
+	@Autowired
+	QnaPage qnaPage;
+	
 	@Autowired
 	CommonService common;
 
@@ -324,10 +328,12 @@ public class AdminController {
 
 	// qna_list 정보 불러오기
 	@RequestMapping(value = "/ad_qnaList", method = { RequestMethod.GET, RequestMethod.POST })
-	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,String search, String keyword,
 			Model model) {
 		PageInfo pageInfo = new PageInfo();
 		try {
+			qnaPage.setSearch(search);
+			qnaPage.setKeyword(keyword);
 			List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
 			model.addAttribute("articleList", articleList);
 			model.addAttribute("pageInfo", pageInfo);
@@ -401,6 +407,8 @@ public class AdminController {
 		}
 		return mav;
 	}
+	
+	
 	/////////////////////// qna.end
 
 }
