@@ -3,13 +3,20 @@ package com.kosta.petner.service;
 import java.util.List;
 
 import com.kosta.petner.bean.Board;
-import com.kosta.petner.bean.PageInfo;
+import com.kosta.petner.bean.BoardCommentVO;
+import com.kosta.petner.bean.BoardPage;
 
 public interface BoardService {
-	void resistBoard(Board board) throws Exception;
-	List<Board> getBoardList(int page, PageInfo pageInfo) throws Exception;
-	Board getBoard(Integer boardNum) throws Exception;
-	void modifyBoard(Board board) throws Exception;
-	void boardReply(Board board) throws Exception;
-	void deleteBoard(Integer boardNum) throws Exception;
+	//CRUD
+	int board_insert(Board vo);
+	BoardPage board_list(BoardPage page);
+	Board board_detail(int id);
+	void board_read(int id);
+	int board_update(Board vo);
+	int board_delete(int id);
+	
+	int board_comment_insert(BoardCommentVO vo);
+	List<BoardCommentVO> board_comment_list(int pid);
+	int board_comment_update(BoardCommentVO vo);
+	int board_comment_delete(int id);
 }
