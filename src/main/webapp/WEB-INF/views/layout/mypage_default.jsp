@@ -13,6 +13,21 @@
 <title>${title}</title>
 </head>
 
+
+<style>
+.my_profile .edit_btn{
+    width: 40px;
+    height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 6px;
+    bottom: 4px;}
+</style>
+
 <script>
 	$(document).ready(function(){	
 		$(".toggle input").click( function(){
@@ -67,6 +82,10 @@
 							<c:if test="${mypageSession.file_no != 0}">
 								<img id="rep" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${mypageSession.file_no}"/>
 							</c:if>
+							<label for="file" class="pet_btn edit_btn">
+								<i class="fa-solid fa-pen" id="pen"></i>
+							</label>
+							<input type="file" id="file" name="imageFile" hidden="hidden"></input>
 							
 						</div>
 						<!-- 텍스트정보 영역 -->
