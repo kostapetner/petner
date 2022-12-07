@@ -58,14 +58,6 @@
 			var day = dayArr;
 			var zipcode = $("#zipcode").val();
 			
-			/*console.log("st_date : "+st_date);
-			console.log("end_date : "+end_date);
-			console.log("service : "+service);
-			console.log("pet_kind : "+pet_kind);
-			console.log("gender : "+gender);
-			console.log(zipcode);
-			*/
-			
 			// contentType: "application/json" 꼭 써주기
 	 		$.ajax({
 				url : "${pageContext.servletContext.contextPath}/findSitter/findSitterSearch",
@@ -128,7 +120,6 @@
 							str+='</li>';
 							str+='</ul>';
 							str+='<input type="hidden" id="ajaxAddr" value="'+item.ADDR+'">';
-							
 							addr.push(item.ADDR);
 						});
 						$("#card_list").append(str);
@@ -140,7 +131,6 @@
 			});//ajax();
 		}//searchAjax();
 		
-		$("#mapDiv").hide();
 		//내주변찾기 버튼
 		$("#findAreaBtn").click(function(){
 			var mapContainer = document.getElementById("map");
@@ -203,8 +193,7 @@
 					         title: "현위치",
 					         map: map          // 마커를 표시할 지도 객체
 					        });
-//----------------------------------------------------------------------------------------------------------------
-					    	console.log(addr);
+					        
 					    	for(var i in addr){
 					    		// 주소로 좌표를 검색합니다
 						        geocoder.addressSearch(addr[i], function(result, status) {
@@ -238,9 +227,53 @@
 			}//지도 띄우기 끝
 			
 			//지도 불러오기
-			$("#mapDiv").show();
 			curLocation();
 		});
+		
+		function firstMap(){
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+	
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch($("#addrP").text(), function(result, status) {
+	
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					
+			        // 결과값으로 받은 위치를 마커로 표시합니다
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+	
+			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+			        map.setCenter(coords);
+			    } 
+			});
+			for(var i in addr){
+	    		// 주소로 좌표를 검색합니다
+		        geocoder.addressSearch(addr[i], function(result, status) {
+		            // 정상적으로 검색이 완료됐으면 
+		            if (status === kakao.maps.services.Status.OK) {
+		                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		                // 결과값으로 받은 위치를 마커로 표시합니다
+		                var marker = new kakao.maps.Marker({
+		                    map: map,
+		                    position: coords
+		                });
+		            } 
+	        	});//geocoder.addressSearch
+	    	}
+		}
 		
 		//ajax검색 실행
 		var authUser = $("#authUser").val();
@@ -248,6 +281,7 @@
 			$("#findAreaBtn").trigger("click");
 		}else{
 			searchAjax();
+			firstMap();
 		}
 //----------------------------------------------------------------------------------------------------
 		$(document)
@@ -331,14 +365,6 @@
 <!-- CONTAINER -->
 <div class="container w90">
 	<p class="list_title">펫시터 찾기</p>
-
-	<!-- 검색창 -->
-	<div class="search_form">
-		<form action="#">
-			<input type="text" class="keyword" placeholder="펫시터를 검색해요" /> <span
-				class="search_submit"><i class="fa-solid fa-magnifying-glass"></i></span>
-		</form>
-	</div>
 	<!-- 시터성별, 요일, 서비스, 동물종류 필터 피드-->
 	<div class="filter_feed">
 		<!-- 펫시터성별  -->
@@ -396,7 +422,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 위치 -->
 	<div>
 		<div>
 			<div class="content" id="mapDiv">
