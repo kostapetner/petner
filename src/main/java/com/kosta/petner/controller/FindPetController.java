@@ -44,9 +44,8 @@ public class FindPetController {
 
 	//돌봐줄 동물 찾기 페이지
 	@RequestMapping(value = "/findPet", method= {RequestMethod.POST, RequestMethod.GET})
-	String findPet(Model model, @RequestParam(value="page", required=false, defaultValue ="1") Integer page, Find findPetVO, HttpServletRequest request) {
-		System.out.println("findPet 들어옴");
-		
+	String findPet(Model model, @RequestParam(value="zipcode", required=false, defaultValue ="1") String qszipcode,
+					@RequestParam(value="addr", required=false) String addr, Find findPetVO, HttpServletRequest request) {
 		//user의 DB에 저장된 값 가져오기
 		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
 		if(users == null) {
@@ -56,7 +55,8 @@ public class FindPetController {
 			Users userInfo = usersService.getUserByUserNo(user_no);
 			model.addAttribute("userInfo", userInfo);
 		}
-		
+		model.addAttribute("qszipcode", qszipcode);
+		model.addAttribute("qsaddrp", addr);
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPet");
 		return "/layout/main";
@@ -103,10 +103,13 @@ public class FindPetController {
 		
 	//돌봐줄 동물 찾기 게시글에 따른 viewForm
 	@RequestMapping(value = "/findPet/viewForm/{serviceNo}", method= RequestMethod.GET)
-	String findPet(Model model, @PathVariable String serviceNo, @RequestParam(value="page", required=false) Integer page) {
+	String findPet(Model model, @PathVariable String serviceNo, @RequestParam(value="zipcode", required=false) String zipcode, 
+					@RequestParam(value="addr", required=false) String addr) {
 		CareService careService = new CareService();
 		Integer service_no = Integer.parseInt(serviceNo);
 		careService = sitterService.getViewForm(service_no);
+		careService.setZipcode(zipcode);
+		careService.setAddr(addr);
 		model.addAttribute("cs", careService);
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPetViewForm");

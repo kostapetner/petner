@@ -246,33 +246,47 @@
 			geocoder.addressSearch($("#addrP").text(), function(result, status) {
 	
 			    // 정상적으로 검색이 완료됐으면 
-			     if (status === kakao.maps.services.Status.OK) {
-			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					
-			        // 결과값으로 받은 위치를 마커로 표시합니다
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords
-			        });
-	
-			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-			        map.setCenter(coords);
-			    } 
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        
+		        var message = '<div style="padding:5px;">사용자 위치</div>'; // 인포윈도우에 표시될 내용입니다
+		        
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            title: "현위치",
+		            position: coords
+		        });
+
+		        var iwContent = message, // 인포윈도우에 표시할 내용
+                iwRemoveable = true;
+
+	            // 인포윈도우를 생성합니다
+	            var infowindow = new kakao.maps.InfoWindow({
+	                content : iwContent,
+	                removable : iwRemoveable
+	            });
+	            
+	            // 인포윈도우를 마커위에 표시합니다 
+	            infowindow.open(map, marker);
+            
+				for(var i in addr){
+		    		// 주소로 좌표를 검색합니다
+			        geocoder.addressSearch(addr[i], function(result, status) {
+			            // 정상적으로 검색이 완료됐으면 
+			            if (status === kakao.maps.services.Status.OK) {
+			                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			                // 결과값으로 받은 위치를 마커로 표시합니다
+			                var marker = new kakao.maps.Marker({
+			                    map: map,
+			                    position: coords
+			                });
+			            } 
+		        	});//geocoder.addressSearch
+		    	}
+				
+				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
 			});
-			for(var i in addr){
-	    		// 주소로 좌표를 검색합니다
-		        geocoder.addressSearch(addr[i], function(result, status) {
-		            // 정상적으로 검색이 완료됐으면 
-		            if (status === kakao.maps.services.Status.OK) {
-		                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		                // 결과값으로 받은 위치를 마커로 표시합니다
-		                var marker = new kakao.maps.Marker({
-		                    map: map,
-		                    position: coords
-		                });
-		            } 
-	        	});//geocoder.addressSearch
-	    	}
 		}
 		
 		//ajax검색 실행

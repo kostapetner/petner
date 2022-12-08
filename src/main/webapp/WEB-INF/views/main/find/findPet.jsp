@@ -18,6 +18,16 @@
 </head>
 <script>
 $(document).ready(function() {
+	var qszipcode = $("#qszipcode").val();
+	console.log("처음찍히는 qszipcode:  "+qszipcode);
+	var qsaddrp = $("#qsaddrp").val();
+	console.log("처음찍히는 qsaddrp:  "+qsaddrp);
+	if(qszipcode != 1){
+		$("#zipcodeP").text("["+qszipcode+"]");
+        $("#zipcode").val(qszipcode);
+        $("#addrP").text(qsaddrp);
+	}
+	
 	//위로가기	
 	$(document).on("click", ".go_top", function(){
     	$('html, body').animate({scrollTop:0}, '200');
@@ -107,8 +117,9 @@ $(document).ready(function() {
 		var pet_kind = petKindArr;
 		var gender = genderArr;
 		var zipcode = $("#zipcode").val();
+		var addrP = $("#addrP").text();
 		
-		// contentType: "application/json" 꼭 써주기
+		//contentType: "application/json",
  		$.ajax({
 			url : "${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch",
 			type : "POST",
@@ -123,6 +134,7 @@ $(document).ready(function() {
 			    	,"zipcode":zipcode
 			  }),
 			success : function(data) {
+				console.log(data);
 				var str = '';
 				if(data.length == 0){
 					$("#card_list").empty();
@@ -151,7 +163,7 @@ $(document).ready(function() {
 						str +='</div>';
 						<!-- 동물사진 -->
 						str +='<div class="img_area" style="width: 357px; height: 200px">';
-						str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?page=${pageInfo.page}">';
+						str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?zipcode='+ zipcode +'&addr='+addrP+' ">';
 						if(item.FILE_NO == null){
 							str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
 						}else{
@@ -192,6 +204,7 @@ $(document).ready(function() {
 		var distanceGap  = document.getElementById("distance");
 		var radius = 2000;	// 반경 미터(m), 2km
 		var geocoder = new kakao.maps.services.Geocoder();
+		
 		function curLocation(){
 			//지도의 중심을 현재 위치로 변경(HTML5의 geolocation으로 사용할 수 있는지 확인합니다.)
 			if (navigator.geolocation) {
@@ -212,17 +225,14 @@ $(document).ready(function() {
 			            let callback = function(result, status) {
 			                if (status === kakao.maps.services.Status.OK) {
 			                    console.log(result[0].address.address_name);
-			                    console.log(result[0].address.region_1depth_name);
-			                    console.log(result[0].address.region_2depth_name);
-			                    console.log(result[0].address.region_3depth_name);
+			                    console.log(result[0].road_address.zone_no);
 			                    if(!result[0].road_address.zone_no){
 			                    	alert("현재 위치의 정보를 불러올 수 없습니다.");
 			                    }else{
-			                    	console.log(result[0].road_address.zone_no);
-			                    	 $("#zipcodeP").text("["+result[0].road_address.zone_no+"]");
+		                    		 $("#zipcodeP").text("["+result[0].road_address.zone_no+"]");
 					                 $("#zipcode").val(result[0].road_address.zone_no);
+					                 $("#addrP").text(result[0].address.address_name);
 			                    }
-			                    $("#addrP").text(result[0].address.address_name);
 			                }
 			               searchAjax();
 			            }
@@ -262,7 +272,6 @@ $(document).ready(function() {
 					            } 
 				        	});//geocoder.addressSearch
 				    	}
-					    
 				}
 		    });//navigator.geolocation.getCurrentPosition
 		    	 
@@ -284,6 +293,7 @@ $(document).ready(function() {
 		curLocation();
 	});
 	
+	//페이지 처음 띄워질 때 나타나는 지도
 	function firstMap(){
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
@@ -295,38 +305,49 @@ $(document).ready(function() {
 
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
-
+		
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch($("#addrP").text(), function(result, status) {
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-		    // 정상적으로 검색이 완료됐으면 
-		     if (status === kakao.maps.services.Status.OK) {
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-				
-		        // 결과값으로 받은 위치를 마커로 표시합니다
-		        var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            title: "현위치",
+	            position: coords
+	        });
+	        
+	     	// 인포윈도우에 표시될 내용입니다
+	        var message = '<div style="padding:5px;">사용자 위치</div>'; 
+	     	// 인포윈도우에 표시할 내용
+            var iwContent = message, 
+                iwRemoveable = true;
 
-		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-		        map.setCenter(coords);
-		    } 
-		});
-		for(var i in addr){
-    		// 주소로 좌표를 검색합니다
-	        geocoder.addressSearch(addr[i], function(result, status) {
-	            // 정상적으로 검색이 완료됐으면 
-	            if (status === kakao.maps.services.Status.OK) {
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content : iwContent,
+                removable : iwRemoveable
+            });
+            
+            infowindow.open(map, marker);  
+            
+            for(var i in addr){
+	    		// 주소로 좌표를 검색합니다
+		        geocoder.addressSearch(addr[i], function(result, status) {
+		            // 정상적으로 검색이 완료됐으면 
 	                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	                // 결과값으로 받은 위치를 마커로 표시합니다
 	                var marker = new kakao.maps.Marker({
 	                    map: map,
 	                    position: coords
 	                });
-	            } 
-        	});//geocoder.addressSearch
-    	}
+	                
+	        	});//geocoder.addressSearch
+		    }
+            
+            // 지도 중심좌표를 접속위치로 변경합니다
+            map.setCenter(coords);
+		});
 	}
 	
 	//ajax검색 실행
@@ -427,29 +448,31 @@ $(document).ready(function() {
 		<div class="f_row">
 			<p class="filter_title">위치</p>
 			<div class="select_box">
-				<input type="hidden" value="${authUser.user_no}" id="authUser">
+				<input type="hidden" id="qszipcode" value="${qszipcode}" >
+				<input type="hidden" id="qsaddrp" value="${qsaddrp}" >
+				<input type="hidden" id="authUser" value="${authUser.user_no}" >
+				<input type="hidden" id="zipcode" value="${userInfo.zipcode }" >
 				<p class="filter_title" id="zipcodeP">[${userInfo.zipcode }]</p>
-				<input type="hidden" value="${userInfo.zipcode }" id="zipcode">
 				<p class="filter_title" id="addrP">${userInfo.addr }</p>
-				<input type="button" value="내주변찾기" class="filter_title" id="findAreaBtn">
+				<input type="button" id="findAreaBtn" value="내주변찾기" class="filter_title" >
 			</div>
-		</div>
-</div>
-<div>
-	<div>
-		<div class="content" id="mapDiv">
-			<h3 class="form_title fs24">지도</h3>
-			<div class="map_wrap">
-			    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-			     <div class="hAddr">
-			        <span id="centerAddr"></span>
-			    </div>
-			</div>
-			<br>
 		</div>
 	</div>
-</div>
-<!-- 카드형 리스트 펫찾기 -->
+	<div>
+		<div>
+			<div class="content" id="mapDiv">
+				<h3 class="form_title fs24">지도</h3>
+				<div class="map_wrap">
+				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				     <div class="hAddr">
+				        <span id="centerAddr"></span>
+				    </div>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+	<!-- 카드형 리스트 펫찾기 -->
 	<div class="card_list_type find_pet_list" id="card_list"></div>
 </div>
 <div class="go_top"><i class="fa-solid fa-arrow-up-long"></i></div>
