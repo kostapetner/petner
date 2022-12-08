@@ -1,11 +1,17 @@
 
-
+.hr {margin: 1rem 0;
+    color: inherit;
+    border: 0;
+    border-top: 1px solid;
+    opacity: .25;}
 .pn_write { margin: 35px auto; max-width: 600px; }
 
 .pn_write input { width: 100%; border: none; }
 .pn_write .user_id > div { display: flex; align-items: center; }
 .pn_write .title input {}
-.pn_write .content textarea { border: none; padding: 20px; }
+.pn_write .content textarea { border: none; padding: 20px; min-height: 220px;font-family: noto-sans;
+    font-size: 1.6rem;
+    box-sizing: border-box;}
 .pn_write .content textarea::placeholder {color:#E1E3E6; }
 
 
@@ -54,5 +60,13 @@
  /* 버튼들 */
 .buttonList {text-align: center;}
 
+
+/*-------------- MYPAGE_TABLE CSS ---------------*/
+.user_table {}
+.user_table .table {width: 100%;}
+.user_table .table tr > .left {text-align: start;}
+.user_table .table tr {}
+.user_table .table tr th {height: 30px;}
+.user_table .table tr td {height: 30px;text-align: center;}
 
 	

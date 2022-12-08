@@ -6,13 +6,7 @@
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
 	
-<head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-	<c:import url='/WEB-INF/views/include/common_head.jsp' />
-<link rel="stylesheet" href="${cssPath}/table.css">
-</head>
+
 
 <p class="list_title">board</p>
 <form id="list" method="post" action="">
@@ -64,16 +58,16 @@
 	</div>
 </form>
 
-<div class="data_list">
+<div class="user_table">
 	<c:if test="${board.viewType eq 'list' }">
 		<table class="table">
 			<tr>
-				<th class="col-1">번호</th>
-				<th class="col-4">제목</th>
-				<th class="col-2">작성자</th>
-				<th class="col-2">작성일자</th>
-				<th class="col-2">첨부 파일</th>
-				<th class="col-1">조회수</th>
+				<th>번호</th>
+				<th class="left">제목</th>
+				<th>작성자</th>
+				<th>작성일자</th>
+				<th>첨부 파일</th>
+				<th>조회수</th>
 			</tr>
 			<c:forEach items="${board.list }" var="vo">
 				<tr>
