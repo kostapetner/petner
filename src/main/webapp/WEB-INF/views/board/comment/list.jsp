@@ -6,7 +6,7 @@
 	${status.index eq 0 ? '<hr>' : '' }
 	<div data-id="${vo.id }"> <!-- data-* 속성 : 특별한 조작 없이 HTML 요소에 추가 정보를 저장할 수 있게 해주는 속성 -->
 		${vo.name } [${vo.writedate }]
-		<core:if test="${login_info.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
+		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
 			<span style="float:right;">
 				<a class="btn-fill-s btn-modify-save">수정</a>
 				<a class="btn-fill-s btn-delete-cancel">삭제</a>
@@ -18,20 +18,6 @@
 	<hr>
 </core:forEach>
 <script>
-/* closest()
- 현재 element 에서 탐색 출발
- DOM 트리에서 selector 에 매칭되는 하나의 element 를 찾을 때까지 위로 탐색
- 반환된 jQuery 객체는 0개 또는 1개의 element 를 포함한다.
-*/
-
-/*
-$('.original').each(function(){
-	$(this).text(
-		$(this).text().replace(/</g, '$lt;').replace(/>/g, '$gt;')
-			.replace(/&lt;br&gt;/g, '<br>')
-	);
-});
-*/
 
 //수정 / 저장 버튼 클릭
 $('.btn-modify-save').on('click', function(){

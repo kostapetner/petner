@@ -63,13 +63,13 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 			<core:if test="${!empty vo.filename }">
 				${vo.filename }
 				<span id="preview"></span>
-				<a href="download.bo?id=${vo.id }"><i class="fas fa-download font-img"></i></a>
+				<a href="download_board?id=${vo.id }"><i class="fas fa-download font-img"></i></a>
 			</core:if>
 		</td>
 	</tr>
 </table>
 <div class="btnSet">
-	<a class="btn-fill" onclick="go_list()">목록으로</a>
+	<a class="btn-fill" href="list_board">목록으로</a>
 	<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
 	<core:if test="${authUser.id eq vo.writer}"> 
 		<a class="btn-fill" onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
@@ -99,6 +99,7 @@ table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바�
 </form>
 <div id="popup" onclick ="$('#popup, #popup-background').css('display', 'none')"></div>
 <div id="popup-background"></div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script type="text/javascript">
 function go_list() {
 	$('form').submit();

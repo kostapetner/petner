@@ -12,9 +12,9 @@
 	rel="stylesheet">
 	<c:import url='/WEB-INF/views/include/common_head.jsp' />
 <link rel="stylesheet" href="${cssPath}/table.css">
-</head>	
+</head>
 
-<p class="list_title">1:1 문의</p>
+<p class="list_title">board</p>
 <form id="list" method="post" action="">
 	<input type="hidden" name="curPage" value="1" />
 	<input type="hidden" name="id" />
@@ -66,7 +66,7 @@
 
 <div class="data_list">
 	<c:if test="${board.viewType eq 'list' }">
-		<table>
+		<table class="table">
 			<tr>
 				<th class="col-1">번호</th>
 				<th class="col-4">제목</th>
@@ -78,7 +78,7 @@
 			<c:forEach items="${board.list }" var="vo">
 				<tr>
 					<td>${vo.no }</td>
-					<td class="left"><a href="go_detail(${vo.id})">${vo.title }</a></td>
+					<td class="left"><a onclick="go_detail(${vo.id})">${vo.title }</a></td>
 					<td>${vo.name }</td>
 					<td>${vo.writedate }</td>
 					<td>
@@ -93,11 +93,10 @@
 	</c:if>
 	
 	<c:if test="${board.viewType eq 'grid' }">
-		<ul class="grid">
+		<ul class="grid row" style="--bs-gap: .25rem 1rem;">
 			<c:forEach items="${board.list }" var="vo">
-				<li>
-				
-					<div><a href="go_detail(${vo.id})">${vo.title }</a></div>
+				<li class="col-4 card">
+					<div><a onclick="go_detail(${vo.id})">${vo.title }</a></div>
 					<div>${vo.name }</div>
 					<div>
 						${vo.writedate }
@@ -112,11 +111,8 @@
 
 <div class="btnSet">
 	<div class="page_list">
-	<c:if test="${board.curBlock gt 1 }">
 		<button class="page_first" onclick="go_page(1)">처음</button>
-		<button class="page_prev" onclick="go_page(${board.beginPage - page.blockPage })">이전</button>
-	</c:if>
-
+		
 	<!-- step : 지정하지 않아도 디폴트 1 -->
 	<c:forEach var="no" begin="${board.beginPage }" end="${board.endPage }" step="1">
 		<c:if test="${no eq board.curPage}">
@@ -127,11 +123,7 @@
 			<button class="page_off" onclick="go_page(${no })">${no }</button>
 		</c:if>
 	</c:forEach>
-	
-	<c:if test="${board.curBlock lt board.totalBlock }">
-		<button class="page_next" onclick="go_page(${board.endPage + 1 })">다음</button>
 		<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
-	</c:if>
 </div>
 </div>
 
@@ -143,7 +135,7 @@ $(function(){
 })
 
 function go_detail(id) {
-	/* $('[name=id]').val(id); */
+	$('[name=id]').val(id);
 	$('form').attr('action', 'detail_board');
 	$('form').submit();	
 }

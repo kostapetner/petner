@@ -15,4 +15,6 @@ public class BoardPage extends PageVO {
 	public void setList(List<Board> list) {
 		this.list = list;
 	}
+
 }
+

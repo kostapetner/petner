@@ -1,6 +1,7 @@
 package com.kosta.petner.bean;
 
 public class BoardCommentVO {
+//	답글 개념
 	private int id, pid;
 	private String writer, name, content;
 	private String writedate;
