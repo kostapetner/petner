@@ -15,6 +15,7 @@ public interface BoardService {
 	int board_update(Board vo);
 	int board_delete(int id);
 	
+	// 댓글
 	int board_comment_insert(BoardCommentVO vo);
 	List<BoardCommentVO> board_comment_list(int pid);
 	int board_comment_update(BoardCommentVO vo);

@@ -27,7 +27,6 @@ import com.kosta.petner.service.AdminService;
 import com.kosta.petner.service.CommonService;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
-import com.kosta.petner.service.NoticeService;
 import com.kosta.petner.service.QnaService;
 import com.kosta.petner.service.UsersService;
 
@@ -46,8 +45,8 @@ public class AdminController {
 	@Autowired
 	QnaService qnaService;
 
-	@Autowired
-	NoticeService noticeService;
+//	@Autowired
+//	NoticeService noticeService;
 
 	@Autowired
 	UsersService usersService;
@@ -169,160 +168,160 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
-	// 관리자 공지사항 DB insert
-	@RequestMapping(value = "/ad_noticewrite", method = RequestMethod.POST)
-	public String ad_noticewrite(MultipartFile file, @ModelAttribute Notice notice, HttpSession session)
-			throws Exception {
-		// 첨부한 파일을 서버 시스템에 업로드하는 처리
-		if (!file.isEmpty()) {
-			notice.setFilepath(common.upload("qna", file, session));
-			notice.setFile_no(file.getOriginalFilename());
-		}
-
-		noticeService.resistNotice(notice);
-
-		return "redirect:ad_noticeList";
-
-	}
-
-	// notice_첨부 파일 다운로드 요청
-	@ResponseBody
-	@RequestMapping("/ad_notice_download")
-	public void download(Integer noticeNum, HttpSession session, HttpServletResponse response) throws Exception {
-		Notice notice = noticeService.getNotice(noticeNum);
-		common.download(notice.getFile_no(), notice.getFilepath(), session, response);
-	} // download()
-
-	
-	// 관리자 notice 공지사항 리스트
-	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-			Model model) {
-		PageInfo pageInfo = new PageInfo();
-		try {
-			// 페이징
-			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
-			model.addAttribute("articleList", articleList);
-			model.addAttribute("pageInfo", pageInfo);
-			model.addAttribute("page", "admin/notice/listform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 notice 공지사항 뷰페이지 디테일
-	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
-	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum, String server_filename,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-		try {
-			// 조회수 증가
-			noticeService.notice_read(noticeNum);
-			Notice notice = noticeService.getNotice(noticeNum);
-			model.addAttribute("article", notice);
-			model.addAttribute("page", page);
-			model.addAttribute("page", "admin/notice/viewform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 notice 공지사항 수정 페이지이동
-	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
-	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
-		try {
-			Notice notice = noticeService.getNotice(noticeNum);
-
-			model.addAttribute("article", notice);
-			model.addAttribute("page", "admin/notice/modifyform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", "조회 실패");
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 notice 공지사항 수정
-	@RequestMapping(value = "/ad_noticemodify", method = RequestMethod.POST)
-	public String ad_noticemodify(@ModelAttribute Notice notice, Model model) {
-		try {
-			noticeService.modifyNotice(notice);
-			model.addAttribute("notice_no", notice.getNotice_no());
-			model.addAttribute("redirect:/ad_noticedetail");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "redirect:/ad_noticedetail";
-	}
-
-	// 관리자 공지사항 답글 페이지 이동 ( test )
-	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
-	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-
-		try {
-			model.addAttribute("noticeNum", noticeNum);
-			model.addAttribute("age", page);
-			model.addAttribute("page", "admin/notice/replyform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 notice 공지사항 답글쓰기
-	@RequestMapping(value = "/ad_noticereply", method = RequestMethod.POST)
-	public String ad_noticereply(@ModelAttribute Notice notice, Model model) {
-		try {
-			noticeService.noticeReply(notice);
-			model.addAttribute("redirect:/ad_noticeList");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "redirect:/ad_noticeList";
-	}
-
-	// 관리자 notice 공지사항 삭제 페이지 이동
-	@RequestMapping(value = "/ad_noticedeleteform", method = RequestMethod.GET)
-	public ModelAndView ad_nodeleteform(@RequestParam("notice_no") Integer noticeNum,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("notice_no", noticeNum);
-		mav.addObject("page", page);
-		mav.setViewName("admin/notice/deleteform");
-		return mav;
-	}
-
-	// 관리자 notice 공지사항 삭제
-	@RequestMapping(value = "/ad_noticedelete", method = RequestMethod.POST)
-	public ModelAndView ad_noticedelete(@RequestParam("notice_no") Integer noticeNum,
-//				@RequestParam(value="board_pass") String password,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		System.out.println("Controller:" + noticeNum);
-		ModelAndView mav = new ModelAndView();
-		try {
-//				boardService.deleteBoard(boardNum, password);
-			adminService.deleteNotice(noticeNum);
-			mav.addObject("page", page);
-			mav.setViewName("redirect:/ad_noticeList");
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("err", e.getMessage());
-			mav.setViewName("/notice/err");
-		}
-		return mav;
-	}
+//	// 관리자 공지사항 DB insert
+//	@RequestMapping(value = "/ad_noticewrite", method = RequestMethod.POST)
+//	public String ad_noticewrite(MultipartFile file, @ModelAttribute Notice notice, HttpSession session)
+//			throws Exception {
+//		// 첨부한 파일을 서버 시스템에 업로드하는 처리
+//		if (!file.isEmpty()) {
+//			notice.setFilepath(common.upload("qna", file, session));
+//			notice.setFile_no(file.getOriginalFilename());
+//		}
+//
+//		noticeService.resistNotice(notice);
+//
+//		return "redirect:ad_noticeList";
+//
+//	}
+//
+//	// notice_첨부 파일 다운로드 요청
+//	@ResponseBody
+//	@RequestMapping("/ad_notice_download")
+//	public void download(Integer noticeNum, HttpSession session, HttpServletResponse response) throws Exception {
+//		Notice notice = noticeService.getNotice(noticeNum);
+//		common.download(notice.getFile_no(), notice.getFilepath(), session, response);
+//	} // download()
+//
+//	
+//	// 관리자 notice 공지사항 리스트
+//	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+//			Model model) {
+//		PageInfo pageInfo = new PageInfo();
+//		try {
+//			// 페이징
+//			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
+//			model.addAttribute("articleList", articleList);
+//			model.addAttribute("pageInfo", pageInfo);
+//			model.addAttribute("page", "admin/notice/listform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 뷰페이지 디테일
+//	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
+//	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum, String server_filename,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+//		try {
+//			// 조회수 증가
+//			noticeService.notice_read(noticeNum);
+//			Notice notice = noticeService.getNotice(noticeNum);
+//			model.addAttribute("article", notice);
+//			model.addAttribute("page", page);
+//			model.addAttribute("page", "admin/notice/viewform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 수정 페이지이동
+//	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
+//	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
+//		try {
+//			Notice notice = noticeService.getNotice(noticeNum);
+//
+//			model.addAttribute("article", notice);
+//			model.addAttribute("page", "admin/notice/modifyform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", "조회 실패");
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 수정
+//	@RequestMapping(value = "/ad_noticemodify", method = RequestMethod.POST)
+//	public String ad_noticemodify(@ModelAttribute Notice notice, Model model) {
+//		try {
+//			noticeService.modifyNotice(notice);
+//			model.addAttribute("notice_no", notice.getNotice_no());
+//			model.addAttribute("redirect:/ad_noticedetail");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "redirect:/ad_noticedetail";
+//	}
+//
+//	// 관리자 공지사항 답글 페이지 이동 ( test )
+//	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
+//	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+//
+//		try {
+//			model.addAttribute("noticeNum", noticeNum);
+//			model.addAttribute("age", page);
+//			model.addAttribute("page", "admin/notice/replyform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 답글쓰기
+//	@RequestMapping(value = "/ad_noticereply", method = RequestMethod.POST)
+//	public String ad_noticereply(@ModelAttribute Notice notice, Model model) {
+//		try {
+//			noticeService.noticeReply(notice);
+//			model.addAttribute("redirect:/ad_noticeList");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "redirect:/ad_noticeList";
+//	}
+//
+//	// 관리자 notice 공지사항 삭제 페이지 이동
+//	@RequestMapping(value = "/ad_noticedeleteform", method = RequestMethod.GET)
+//	public ModelAndView ad_nodeleteform(@RequestParam("notice_no") Integer noticeNum,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("notice_no", noticeNum);
+//		mav.addObject("page", page);
+//		mav.setViewName("admin/notice/deleteform");
+//		return mav;
+//	}
+//
+//	// 관리자 notice 공지사항 삭제
+//	@RequestMapping(value = "/ad_noticedelete", method = RequestMethod.POST)
+//	public ModelAndView ad_noticedelete(@RequestParam("notice_no") Integer noticeNum,
+////				@RequestParam(value="board_pass") String password,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//		System.out.println("Controller:" + noticeNum);
+//		ModelAndView mav = new ModelAndView();
+//		try {
+////				boardService.deleteBoard(boardNum, password);
+//			adminService.deleteNotice(noticeNum);
+//			mav.addObject("page", page);
+//			mav.setViewName("redirect:/ad_noticeList");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			mav.addObject("err", e.getMessage());
+//			mav.setViewName("/notice/err");
+//		}
+//		return mav;
+//	}
 
 	/////////////////////// qna ///////////////////////
 

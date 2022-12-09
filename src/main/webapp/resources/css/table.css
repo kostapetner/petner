@@ -1,4 +1,4 @@
-
+.formbox {max-width: 800px;margin: 30px auto;}
 .hr {margin: 1rem 0;
     color: inherit;
     border: 0;
@@ -16,9 +16,20 @@
 
 
 .table_top > div {display: flex; justify-content: space-between; align-items: center;}
+/*  search  */
 .search_box {display: flex;
     justify-content: flex-end;
     align-items: center;}
+.search_box .search {box-sizing: border-box;
+  width: 100px;
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 6px; border: 1px solid var(--fcc-border);height: 38px;margin-right: 6px;}
+  .search_box .pet_btn {margin-left:6px}
+  .search_box option {padding: 4px;
+  font-size: 14px;
+  color: #fff;
+  background: #272822;}
 .option_box {display: flex;
     justify-content: flex-end;
     align-items: center;}
@@ -65,8 +76,17 @@
 .user_table {}
 .user_table .table {width: 100%;}
 .user_table .table tr > .left {text-align: start;}
-.user_table .table tr {}
-.user_table .table tr th {height: 30px;}
-.user_table .table tr td {height: 30px;text-align: center;}
-
-	
+.user_table .table tr {border-bottom: 1px solid #f0f0f0;height: 110px;
+    padding: 32px 0 18px;}
+.user_table .table tr th {}
+.user_table .table tr td {display: flex; height: 110px; padding: 18px 0; align-items: center; justify-content: space-between;}
+.user_table .table tr td .box1 {display:flex;flex-direction: column;color:#808080;font-size: 14px;font-weight: 300;height: 100%;}
+.user_table .table tr td .box1 .user_by {margin-bottom: 25px;margin-top: 5px;}
+.user_table .table tr td .box1 .day {margin-bottom: 5px;}
+.user_table .table tr td .box2 {height: 100%;}
+.user_table .table tr td .box2 .notice_indent {background: #ffaa77;font-size: 12px;display: inline-block;padding: 3px 10px; border-radius: 4px;font-weight: 400; color: #fff;margin-top: 4px;}
+.user_table .table tr td .box2 h2 {margin-bottom: 12px;align-items: center; display: flex;}
+.user_table .table tr td .box2 p {color:#777}
+.user_table .table tr td .box2 .content {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:580px;}
+        /* 공지사항 이미지 없을때 */
+.user_table .table tr td .box3 .preview_no {display: flex; width: 110px; height: 110px; background: #e0e0e0;}

@@ -42,7 +42,7 @@ $(document).ready(function(){
       <ul>
         <li><a href="${pageContext.request.contextPath}/findSitter">펫시터 찾기</a></li>
         <li><a href="${pageContext.request.contextPath}/findPet">돌봐줄 동물 찾기</a></li>
-        <li><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></li>
+        <li><a href="${pageContext.request.contextPath}/list_notice">공지사항</a></li>
       </ul>
     </nav>
     <div class="login_menu">
