@@ -82,6 +82,16 @@ public class MypageServiceImpl implements MypageService {
 		return ownerDAO.getMyPetByPetNo(param);
 	}
 	
+	// 마이펫정보 수정
+	@Override
+	public int updateMyPetInfo(PetInfo petInfo) {
+		return ownerDAO.updateMyPetInfo(petInfo);
+	}
+	@Override
+	public int deletePet(int pet_no) {
+		return ownerDAO.deletePet(pet_no);
+	}
+	
 	
 
 

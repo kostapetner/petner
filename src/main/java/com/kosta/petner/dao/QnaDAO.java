@@ -16,6 +16,5 @@ public interface QnaDAO {
 	void updateQnaReReq(Qna qna) throws Exception;
 	void deleteQna(Integer qnaNum) throws Exception;
 	void qna_read(int qna_no) throws Exception; // 조회수 증가
-	
 	void updateFileNoToQna(Qna qna);
 }

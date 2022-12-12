@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.kosta.petner.bean.CareService;
+import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 
@@ -37,6 +38,18 @@ public interface OwnerDAO {
 	
 	// 동물 한마리 정보 가져오기 221130DSC
 	PetInfo getMyPetByPetNo(Map<String, Object> param);
+
+	/* 날짜:22.12.05
+	 * 작성자: 김혜경
+	 * 내용: 펫시터 찾기 ajax검색
+	 */
+	List<Map<String, Object>> findSitterSearch(Find findVO);
+	
+	// 마이펫정보 업데이트
+	int updateMyPetInfo(PetInfo petInfo);
+	
+	// 
+	int deletePet(int pet_no);
 	
 	
 	

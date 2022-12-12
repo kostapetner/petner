@@ -202,7 +202,6 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.POST)
 	public String mySitterInfoUpdata(HttpSession session, @ModelAttribute SitterInfo sitterInfo, BindingResult result, Model model) throws IllegalStateException, IOException {
 		
-		System.out.println( "시터정보없데이트===== file_no?:"+sitterInfo.getFile_no());
 		mypageService.updateMySitterInfo(sitterInfo);
 		
 		if(sitterInfo.getImageFile().isEmpty()== false) { 
@@ -230,14 +229,9 @@ public class MyPageController {
 			fileVo.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
 			fileVo.setServer_filename(server_filename);
 			
-			
-			fileServie.updateSitterImage(fileVo);
+			fileServie.updateFileInfo(fileVo);
 		}
 		// 이미지 변경이 있을 경우에만 파일테이블의 파일이름도 업데이트 하기
-		//int user_no = getLoginUserNo(session);
-		
-		
-		
 		
 		return "redirect:/mypage/mySitterInfo";
 	
@@ -281,7 +275,7 @@ public class MyPageController {
 		param.put("user_no", user_no);
 		
 		PetInfo petInfo = mypageService.getMyPetByPetNo(param);
-		System.out.println("동물한마리정보DATA: " + petInfo);		
+		//System.out.println("동물한마리정보DATA: " + petInfo);		
 		
 		model.addAttribute("data", petInfo);
 		model.addAttribute("page", "mypage/owner/myPetInfoEdit");
@@ -289,6 +283,66 @@ public class MyPageController {
 		
 		return "/layout/mypage_default";
 	}
+	
+	// 마이펫정보 수정
+	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.POST)
+	public String myPetInfoUpdate(HttpSession session, @ModelAttribute PetInfo petInfo, BindingResult result, Model model) throws IllegalStateException, IOException {
+		
+		
+		int user_no = getLoginUserNo(session);		
+		petInfo.setUser_no(user_no);
+		System.out.println("펫폼수정할꺼야============="+petInfo);
+		
+		mypageService.updateMyPetInfo(petInfo);
+		
+		if(petInfo.getImageFile().isEmpty()== false) { 
+			//이미지도 수정한경우 파일테이블 업데이트해야하고 파일을 올려야함
+			System.out.println("이미지파일 처리할게 있음"+petInfo.getImageFile().getOriginalFilename());
+			
+			MultipartFile file = petInfo.getImageFile(); //파일 자체를 가져옴
+			
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");//확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);//확장자분리
+			String server_filename = real_filename + generatedString + ext;
+			
+			String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
+			File fileLocation = new File(path);
+			File destFile = new File(path+server_filename);
+			file.transferTo(destFile);
+			
+			FileVO fileVo  = new FileVO();
+			int file_no = petInfo.getFile_no();
+			
+			fileVo.setFile_no(file_no);
+			fileVo.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
+			fileVo.setServer_filename(server_filename);
+			
+			fileServie.updateFileInfo(fileVo);
+		}
+		
+		
+		
+		
+		
+		
+		return "redirect:/mypage/myPetInfo";
+	}
+	
+	// 마이펫 삭제
+	@RequestMapping(value = "/mypage/myPetDel", method = RequestMethod.GET)
+	public String myPetDel(HttpSession session, HttpServletRequest request) {
+		
+		int pet_no = Integer.parseInt(request.getParameter("petNo"));
+		
+		mypageService.deletePet(pet_no);
+	
+		return "redirect:/mypage/myPetInfo";
+	}
+	
 
 	//리뷰작성페이지
 	@RequestMapping("/mypage/writeform")

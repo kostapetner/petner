@@ -34,3 +34,7 @@
 <script src="${pluginsPath}/air-datepicker/js/datepicker.min.js"></script>
 <script src="${pluginsPath}/air-datepicker/js/datepicker-ko.js"></script>
 
+<!-- slick -->
+<link rel="stylesheet" href="${pluginsPath}/slick/slick.css">
+<script src="${pluginsPath}/slick/slick.min.js"></script>
+

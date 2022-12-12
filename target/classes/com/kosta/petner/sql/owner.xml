@@ -34,6 +34,7 @@
 		<![CDATA[
 			SELECT * FROM PET_INFO
 			WHERE USER_NO = #{user_no}
+			ORDER BY PET_NO DESC
 		]]> 
 	</select>
 	
@@ -43,6 +44,7 @@
 			SELECT u.NAME, u.NICKNAME, si.* 
 			FROM SITTER_INFO si, USERS u 
 			WHERE si.USER_NO = u.USER_NO
+			ORDER BY u.USER_NO DESC 
 		]]> 
 	</select>
 	
@@ -53,6 +55,22 @@
 			WHERE USER_NO = #{user_no} AND PET_NO = #{pet_no}
 		]]> 
 	</select>
+	
+	<update id="updateMyPetInfo" parameterType="com.kosta.petner.bean.PetInfo">
+		<![CDATA[
+	    UPDATE PET_INFO
+		  SET 
+		  PET_NEUTRAL = #{pet_neutral, jdbcType=VARCHAR},
+			PET_INFO = #{pet_info, jdbcType=VARCHAR}	
+	    WHERE USER_NO = #{user_no} AND PET_NO = #{pet_no}
+		]]> 
+	</update>
+	
+	<delete id="deletePet" parameterType="int">
+		<![CDATA[
+			DELETE FROM PET_INFO WHERE PET_NO = #{pet_no}
+		]]>
+	</delete>
 	
 	<!-- select * from pet_info where user_no = #{user_no} -->
 	<select id= "getPetByUserNo" parameterType = "Integer" resultType= "com.kosta.petner.bean.PetInfo" >
@@ -159,4 +177,42 @@
 	]]>	
 	</select>
 	
+	<!-- 펫시터 찾기 검색 -->
+	<select id="findSitterSearch" parameterType="hashMap" resultType="hashMap">
+			SELECT si.*, u.gender, u.nickname
+			FROM SITTER_INFO si
+			left join users u on si.user_no = u.user_no
+			<where>
+				<!-- 우편번호 -->
+			    <if test="zipcode != null and zipcode != ''">
+			    <![CDATA[
+			    	si.zipcode LIKE #{zipcode}||'%'
+			    ]]>	
+			    </if>
+			    <!-- 보호자 성별 -->
+			    <if test="genderArray != null and genderArray != ''">
+			    	<foreach item="item" index="index" collection="genderArray" separator="or" open="and">
+						u.gender LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 서비스 -->
+			    <if test="serviceArray != null and serviceArray != ''">
+			    	<foreach item="item" index="index" collection="serviceArray" separator="and" open="and">
+						service LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			    <!-- 동물종류 -->
+			    <if test="petKindArray != null and petKindArray != ''">
+			    	<foreach item="item" index="index" collection="petKindArray" separator="and" open="and">
+						pet_kind LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			   <!-- 요일 -->
+			    <if test="dayArray != null and dayArray != ''">
+			    	<foreach item="item" index="index" collection="dayArray" separator="and" open="and">
+						work_day LIKE '%'||#{item}||'%'
+					</foreach>
+			    </if>
+			</where>
+	</select>
 </mapper>

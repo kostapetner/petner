@@ -81,7 +81,7 @@ h2 {
 					<hr>
 					<div id="commandList">
 						<div class="d-grid gap-2 d-md-block ad_button">
-							<a class="admin_btn" href="${pageContext.request.contextPath}/findPet?page=${pageInfo.page}">
+							<a class="admin_btn" href="${pageContext.request.contextPath}/findPet?zipcode=${cs.zipcode}&addr=${cs.addr}">
 								<button class="btn btn-outline-secondary" type="button">목록</button>
 							</a>
 						</div>

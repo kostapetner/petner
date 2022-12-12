@@ -29,6 +29,11 @@
 
 <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css"
 	rel="stylesheet">
+	
+	<!-- font-awesome -->
+<link rel="stylesheet" href="${pluginsPath}/font-awesome/all.min.css">
+<script src="${pluginsPath}/font-awesome/all.min.js"></script>
+
 <title>${title}</title>
 <script>
     /* global bootstrap: false */

@@ -111,7 +111,7 @@ public class OwnerController {
 				petInfo.setFile_no(file_no);
 
 				ownerService.regist(petInfo);
-				mav.setViewName("redirect:/");
+				mav.setViewName("redirect:/mypage/myPetInfo");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,17 +225,6 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				careService.setFile_no(file_no);
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
-				System.out.println(careService.getZipcode());
 				ownerService.insertRequireServiceFrom(careService);
 				mav.setViewName("redirect:/mypage");
 			}

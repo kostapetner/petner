@@ -12,13 +12,12 @@
 		margin:auto;
 		border : 1px solid orange;
 	}
-	
 </style>
 </head>
 <body>
 <section id = "passForm">
-<form name="deleteForm" action="boarddelete" method="post">
-<input type = "hidden" name = "board_num" value = '${board_num}'/>
+<form name="deleteForm" action="qnadelete" method="post">
+<input type = "hidden" name = "qna_no" value = '${qna_no}'/>
 <input type = "hidden" name = "page" value = '${page }'/>
 <table>
 <!-- <tr>

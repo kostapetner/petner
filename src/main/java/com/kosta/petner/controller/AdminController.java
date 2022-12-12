@@ -1,15 +1,11 @@
 package com.kosta.petner.controller;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,29 +13,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kosta.petner.bean.AdminSession;
-import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.PageInfo;
+import com.kosta.petner.bean.Qna;
+import com.kosta.petner.bean.QnaPage;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.AdminService;
+import com.kosta.petner.service.CommonService;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
-import com.kosta.petner.service.NoticeService;
+import com.kosta.petner.service.QnaService;
 import com.kosta.petner.service.UsersService;
 
 @Controller
 public class AdminController {
+
+	@Autowired
+	QnaPage qnaPage;
 	
+	@Autowired
+	CommonService common;
+
 	@Autowired
 	AdminService adminService;
 
 	@Autowired
-	NoticeService noticeService;
+	QnaService qnaService;
+
+//	@Autowired
+//	NoticeService noticeService;
 
 	@Autowired
 	UsersService usersService;
@@ -59,9 +66,9 @@ public class AdminController {
 	@Autowired
 	FileService fileService;
 
-	// 관리자 메인화면
+	// ******* 관리자 메인화면
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	String main( Model model) {
+	String main(Model model) {
 
 		model.addAttribute("page", "admin/ad_main");
 		model.addAttribute("title", "관리자 메인 페이지");
@@ -95,16 +102,16 @@ public class AdminController {
 		model.addAttribute("page", "admin/ad_detail");
 		return "/layout/admin_main";
 	}
-	
+
 	// 관리자 유저 타입 업데이트 요청
-		@RequestMapping(value = "/ad_userupdate")
-		public String ad_userupdate(Users users, Model model) {
-			usersService.updateUserType(users);
+	@RequestMapping(value = "/ad_userupdate")
+	public String ad_userupdate(Users users, Model model) {
+		usersService.updateUserType(users);
 //			model.addAttribute("users", users);
 //			model.addAttribute("page", "admin/ad_detail");
-			return "redirect:/admin_user";
-			//return "redirect:ad_detailForm?user_no=" + users.getUser_no();
-		}
+		return "redirect:/admin_user";
+		// return "redirect:ad_detailForm?user_no=" + users.getUser_no();
+	}
 
 //		@RequestMapping(value = "/ad_authorityForm", method = RequestMethod.GET)
 //		String admin_authorityForm(@RequestParam("user_no") Integer user_no,
@@ -135,10 +142,6 @@ public class AdminController {
 //			return "redirect:/admin/ad_authority";
 //		}
 
-		
-		
-		
-		
 	// 관리자 회원탈퇴
 	@RequestMapping(value = "/ad_usersdelete", method = RequestMethod.POST)
 	public ModelAndView ad_usersdelete(@RequestParam("user_no") Integer user_no) {
@@ -156,6 +159,8 @@ public class AdminController {
 		return mav;
 	}
 
+	/////////////////////// notice ///////////////////////
+
 	// 관리자 공지사항 글쓰기 화면 이동
 	@RequestMapping(value = "/ad_noticewriteform", method = RequestMethod.GET)
 	public String ad_noticewriteform(Model model) {
@@ -163,108 +168,220 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
-//	// 글쓰기
+//	// 관리자 공지사항 DB insert
 //	@RequestMapping(value = "/ad_noticewrite", method = RequestMethod.POST)
-//	public String ad_noticewrite(@ModelAttribute Notice notice, BindingResult result, Model model) {
+//	public String ad_noticewrite(MultipartFile file, @ModelAttribute Notice notice, HttpSession session)
+//			throws Exception {
+//		// 첨부한 파일을 서버 시스템에 업로드하는 처리
+//		if (!file.isEmpty()) {
+//			notice.setFilepath(common.upload("qna", file, session));
+//			notice.setFile_no(file.getOriginalFilename());
+//		}
+//
+//		noticeService.resistNotice(notice);
+//
+//		return "redirect:ad_noticeList";
+//
+//	}
+//
+//	// notice_첨부 파일 다운로드 요청
+//	@ResponseBody
+//	@RequestMapping("/ad_notice_download")
+//	public void download(Integer noticeNum, HttpSession session, HttpServletResponse response) throws Exception {
+//		Notice notice = noticeService.getNotice(noticeNum);
+//		common.download(notice.getFile_no(), notice.getFilepath(), session, response);
+//	} // download()
+//
+//	
+//	// 관리자 notice 공지사항 리스트
+//	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+//			Model model) {
+//		PageInfo pageInfo = new PageInfo();
 //		try {
-//			noticeService.resistNotice(notice);
-//			model.addAttribute("redirect:/ad_noticeList");
+//			// 페이징
+//			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
+//			model.addAttribute("articleList", articleList);
+//			model.addAttribute("pageInfo", pageInfo);
+//			model.addAttribute("page", "admin/notice/listform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 뷰페이지 디테일
+//	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
+//	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum, String server_filename,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+//		try {
+//			// 조회수 증가
+//			noticeService.notice_read(noticeNum);
+//			Notice notice = noticeService.getNotice(noticeNum);
+//			model.addAttribute("article", notice);
+//			model.addAttribute("page", page);
+//			model.addAttribute("page", "admin/notice/viewform");
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //			model.addAttribute("/notice/err");
 //		}
+//		return "/layout/admin_main";
+//	}
 //
+//	// 관리자 notice 공지사항 수정 페이지이동
+//	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
+//	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
+//		try {
+//			Notice notice = noticeService.getNotice(noticeNum);
+//
+//			model.addAttribute("article", notice);
+//			model.addAttribute("page", "admin/notice/modifyform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", "조회 실패");
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 수정
+//	@RequestMapping(value = "/ad_noticemodify", method = RequestMethod.POST)
+//	public String ad_noticemodify(@ModelAttribute Notice notice, Model model) {
+//		try {
+//			noticeService.modifyNotice(notice);
+//			model.addAttribute("notice_no", notice.getNotice_no());
+//			model.addAttribute("redirect:/ad_noticedetail");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "redirect:/ad_noticedetail";
+//	}
+//
+//	// 관리자 공지사항 답글 페이지 이동 ( test )
+//	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
+//	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+//
+//		try {
+//			model.addAttribute("noticeNum", noticeNum);
+//			model.addAttribute("age", page);
+//			model.addAttribute("page", "admin/notice/replyform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 notice 공지사항 답글쓰기
+//	@RequestMapping(value = "/ad_noticereply", method = RequestMethod.POST)
+//	public String ad_noticereply(@ModelAttribute Notice notice, Model model) {
+//		try {
+//			noticeService.noticeReply(notice);
+//			model.addAttribute("redirect:/ad_noticeList");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/notice/err");
+//		}
 //		return "redirect:/ad_noticeList";
 //	}
+//
+//	// 관리자 notice 공지사항 삭제 페이지 이동
+//	@RequestMapping(value = "/ad_noticedeleteform", method = RequestMethod.GET)
+//	public ModelAndView ad_nodeleteform(@RequestParam("notice_no") Integer noticeNum,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("notice_no", noticeNum);
+//		mav.addObject("page", page);
+//		mav.setViewName("admin/notice/deleteform");
+//		return mav;
+//	}
+//
+//	// 관리자 notice 공지사항 삭제
+//	@RequestMapping(value = "/ad_noticedelete", method = RequestMethod.POST)
+//	public ModelAndView ad_noticedelete(@RequestParam("notice_no") Integer noticeNum,
+////				@RequestParam(value="board_pass") String password,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//		System.out.println("Controller:" + noticeNum);
+//		ModelAndView mav = new ModelAndView();
+//		try {
+////				boardService.deleteBoard(boardNum, password);
+//			adminService.deleteNotice(noticeNum);
+//			mav.addObject("page", page);
+//			mav.setViewName("redirect:/ad_noticeList");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			mav.addObject("err", e.getMessage());
+//			mav.setViewName("/notice/err");
+//		}
+//		return mav;
+//	}
 
-	// 관리자 공지사항 DB insert
-	@RequestMapping(value = "/ad_noticewriteform/register", method = RequestMethod.POST)
-	public ModelAndView ad_noticeregister(Model model, @ModelAttribute Notice notice) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			// 파일
-			MultipartFile file = notice.getImageFile(); // 파일 자체를 가져옴
-			// 서버에 올라갈 랜덤한 파일 이름을 만든다
-			String generatedString = RandomStringUtils.randomAlphanumeric(10);
-			String filename = file.getOriginalFilename();
-			int idx = filename.lastIndexOf(".");// 확장자 위치
-			String ext = filename.substring(filename.lastIndexOf("."));
-			String real_filename = filename.substring(0, idx);// 확장자분리
-			String server_filename = real_filename + generatedString + ext;
-			if (!file.isEmpty()) {
-				// 1.폴더생성
-				FileVO fileVO = new FileVO();
-				String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
-				File fileLocation = new File(path);
-				File destFile = new File(path + server_filename);
-				System.out.println(destFile);
-				if (fileLocation.exists()) {
-					System.out.println("이미 폴더가 생성되어 있습니다.");
-					file.transferTo(destFile);
-				} else {
-					try {
-						Path directoryPath = Paths.get(path);
-						System.out.println(directoryPath);
-						Files.createDirectory(directoryPath);// 폴더생성
-						System.out.println("폴더가 생성되었습니다.");
-						file.transferTo(destFile);
-					} catch (Exception e) {
-						e.getStackTrace();
-					}
-				}
+	/////////////////////// qna ///////////////////////
 
-				// 2. 파일정보 파일테이블에 넣기
-				fileVO.setUser_no(notice.getNotice_no());
-				fileVO.setBoard_no(1);
-				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
-				fileVO.setServer_filename(server_filename);
-				fileService.insertFile(fileVO);
-
-				// 3. notice_info테이블에 정보 넣기
-				// 3-1. server_filname에 맞는 file_no가져오기
-				Integer file_no = fileService.getFileNo(server_filename);
-				notice.setFile_no(file_no);
-				System.out.println(notice.toString());
-				noticeService.resistNotice(notice);
-
-				mav.setViewName("redirect:/");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mav;
-	}
-
-	// 관리자 공지사항 리스트
-	@RequestMapping(value = "/ad_noticeList", method = { RequestMethod.GET, RequestMethod.POST })
-	public String ad_noticeList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+	// qna_list 정보 불러오기
+	@RequestMapping(value = "/ad_qnaList", method = { RequestMethod.GET, RequestMethod.POST })
+	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,String search, String keyword,
 			Model model) {
 		PageInfo pageInfo = new PageInfo();
 		try {
-			// 페이징
-			List<Notice> articleList = noticeService.getNoticeList(page, pageInfo);
+			qnaPage.setSearch(search);
+			qnaPage.setKeyword(keyword);
+			List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
 			model.addAttribute("articleList", articleList);
 			model.addAttribute("pageInfo", pageInfo);
-			model.addAttribute("page", "admin/notice/listform");
+			model.addAttribute("page", "/admin/qna/listform");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
+			model.addAttribute("/qna/err");
 		}
 		return "/layout/admin_main";
 	}
 
-	// 관리자 공지사항 뷰페이지 디테일
-	@RequestMapping(value = "/ad_noticedetail", method = RequestMethod.GET)
-	String ad_noticedetail(@RequestParam("notice_no") Integer noticeNum, String server_filename,
+	// qna_글쓰기 화면 이동
+	@RequestMapping(value = "/ad_qnawriteform", method = RequestMethod.GET)
+	public String qnawriteform(Model model) {
+
+		model.addAttribute("page", ".admin/qna/writeform");
+		model.addAttribute("title", "글쓰기");
+		return "/layout/admin_main";
+	}
+
+	// qna_글쓰기 DB insert
+	@RequestMapping(value = "/ad_qnawrite", method = RequestMethod.POST)
+	public String qnawrite(MultipartFile file, @ModelAttribute Qna qna, Model model, HttpSession session)
+			throws Exception {
+
+		// 첨부한 파일을 서버 시스템에 업로드하는 처리
+		if (!file.isEmpty()) {
+			qna.setFilepath(common.upload("qna", file, session));
+			qna.setFile_no(file.getOriginalFilename());
+		}
+
+		// 화면에서 입력한 정보를 DB에 저장한 후
+		qnaService.resistQna(qna);
+		// 목록 화면으로 연결
+		return "redirect:ad_qnaList";
+	}
+
+	// 관리자 qna 뷰페이지 디테일
+	@RequestMapping(value = "/ad_qnadetail", method = RequestMethod.GET)
+	String ad_qnadetail(@RequestParam("qna_no") Integer qnaNum, String server_filename,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
 		try {
 			// 조회수 증가
-			noticeService.notice_read(noticeNum);
-			Notice notice = noticeService.getNotice(noticeNum);
-			model.addAttribute("article", notice);
+			qnaService.qna_read(qnaNum);
+			Qna qna = qnaService.getQna(qnaNum);
+			model.addAttribute("article", qna);
 			model.addAttribute("page", page);
-			model.addAttribute("page", "admin/notice/viewform");
+			model.addAttribute("page", "admin/qna/viewform");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("/notice/err");
@@ -272,90 +389,16 @@ public class AdminController {
 		return "/layout/admin_main";
 	}
 
-	// 관리자 공지사항 수정 페이지
-	@RequestMapping(value = "/ad_noticemodifyform", method = RequestMethod.GET)
-	String ad_noticemodifyform(@RequestParam("notice_no") Integer noticeNum, Model model) {
-		try {
-			Notice notice = noticeService.getNotice(noticeNum);
-
-			model.addAttribute("article", notice);
-			model.addAttribute("page", "admin/notice/modifyform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", "조회 실패");
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	@RequestMapping(value = "/ad_noticemodify", method = RequestMethod.POST)
-	public String ad_noticemodify(@ModelAttribute Notice notice, Model model) {
-		try {
-			noticeService.modifyNotice(notice);
-			model.addAttribute("notice_no", notice.getNotice_no());
-			model.addAttribute("redirect:/ad_noticedetail");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "redirect:/ad_noticedetail";
-	}
-
-	// 관리자 공지사항 답글 페이지 이동 ( test )
-	@RequestMapping(value = "/ad_noticereplyform", method = RequestMethod.GET)
-	public String ad_noticereplyform(@RequestParam("notice_no") Integer noticeNum,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-
-		try {
-			model.addAttribute("noticeNum", noticeNum);
-			model.addAttribute("age", page);
-			model.addAttribute("page", "admin/notice/replyform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 답글쓰기
-	@RequestMapping(value = "/ad_noticereply", method = RequestMethod.POST)
-	public String ad_noticereply(@ModelAttribute Notice notice, Model model) {
-		try {
-			noticeService.noticeReply(notice);
-			model.addAttribute("redirect:/ad_noticeList");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/notice/err");
-		}
-		return "redirect:/ad_noticeList";
-	}
-
-	// 관리자 공지사항 삭제 페이지 이동
-	@RequestMapping(value = "/ad_noticedeleteform", method = RequestMethod.GET)
-	public ModelAndView ad_nodeleteform(@RequestParam("notice_no") Integer noticeNum,
+	// 관리자 qna 삭제
+	@RequestMapping(value = "/ad_qnadelete", method = RequestMethod.POST)
+	public ModelAndView ad_qnadelete(@RequestParam("qna_no") Integer qnaNum,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("notice_no", noticeNum);
-		mav.addObject("page", page);
-		mav.setViewName("admin/notice/deleteform");
-		return mav;
-	}
-
-	// 관리자 공지사항 삭제
-	@RequestMapping(value = "/ad_noticedelete", method = RequestMethod.POST)
-	public ModelAndView ad_noticedelete(@RequestParam("notice_no") Integer noticeNum,
-//				@RequestParam(value="board_pass") String password,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		System.out.println("Controller:" + noticeNum);
+		System.out.println("Controller:" + qnaNum);
 		ModelAndView mav = new ModelAndView();
 		try {
-//				boardService.deleteBoard(boardNum, password);
-			adminService.deleteNotice(noticeNum);
+			adminService.deleteQna(qnaNum);
 			mav.addObject("page", page);
-			mav.setViewName("redirect:/ad_noticeList");
+			mav.setViewName("redirect:/ad_qnaList");
 		} catch (Exception e) {
 			e.printStackTrace();
 			mav.addObject("err", e.getMessage());
@@ -363,5 +406,8 @@ public class AdminController {
 		}
 		return mav;
 	}
+	
+	
+	/////////////////////// qna.end
 
 }

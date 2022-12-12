@@ -4,9 +4,27 @@
 
 <script>
 $(document).ready(function(){
+	// 동물종류체크
+	let neut = '${data.pet_neutral}';
+	console.log("중성화여부"+neut);
+	if(neut !=''){
+		$("input[name=pet_neutral]").val(neut).prop("checked", true);
+	}else{
+		console.log("중성화정보없음");
+	}
+
+	
+	
 	//자기소개
 	let str = '${data.pet_info}';
 	$("textarea[name=pet_info").text(str);
+	
+	// 삭제
+	$(".del_btn").click(function(){
+		confirm()
+		window.location.href = "${pageContext.request.contextPath}/mypage/myPetDel?petNo=${data.pet_no}";
+	})
+	
 	//제출
 	$(".submit_btn").click(function(){
 		$(".edit_form").submit();
@@ -32,11 +50,17 @@ form{max-width:480px;}
     justify-content: center;
  }
  .profile_upload .prof_img{margin:0;}
+ .btn_area{
+    display: flex;
+    gap: 15px;
+  }
+  .del_btn{background-color:#ddd;}
 </style>
 <div class="content">
   <p class="menu_title">반려동물 정보 수정</p>
-  <form action="${pageContext.request.contextPath}/mypage/myPetInfoEdit" method="POST" class="data edit_form">
-		<input type="hidden" value="" name=""/>
+  <form action="${pageContext.request.contextPath}/mypage/myPetInfoEdit" method="POST" class="data edit_form" enctype="multipart/form-data">
+		<input type="hidden" value="${data.pet_no}" name="pet_no"/>
+		<input type="hidden" value="${data.file_no}" name="file_no"/>
 		<!-- 동물사진 -->
 		<div class="f_row profile_upload">
 			<div class="profile_upload">
@@ -56,11 +80,14 @@ form{max-width:480px;}
     </div>
     <div>
       <span class="key">반려동물성별</span>
-      <span class="value"><input type="text" value="${data.pet_gender}" name="nickname"></span>
+      <span class="value"><input type="text" value="${data.pet_gender}" disabled></span>
     </div>
     <div>
       <span class="key">중성화여부</span>
-      <span class="value"><input type="text" value="${data.pet_name}" name="email"></span>
+      <span class="value">
+      	<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="YES"><span>O</span></label>
+      	<label class="fcRadio1 mr12"><input type="radio" name="pet_neutral" value="NO"><span>X</span></label>
+      </span>
     </div>
     <div class="f_row">
 			<p class="fc_title">특이사항</p>

@@ -43,10 +43,10 @@ textarea {
 <script>
 	//이미지 미리보기
 	$(document).ready(function() {
-		$('#file').change(function(event) {
+		$('#attach-file').change(function(event) {
 			let reader = new FileReader();
 			reader.onload = function(e) {
-				$('#qnaImg').attr('src', e.target.result);
+				$('#rep').attr('src', e.target.result);
 			};
 			reader.readAsDataURL(event.target.files[0]);
 		});
@@ -60,51 +60,25 @@ textarea {
 			<div class="">
 				<p class="list_title">QNA 글 등록</p>
 
-
-
-
-
-				<form action="/petner/qnawrite" method="post" id="qnawriteform"
+				<form action="./qnawrite" method="post"
 					enctype="multipart/form-data" name="qnawriteform" class="pn_write">
-
-<!-- <div class="input-group flex-nowrap">
-					<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
-						type="file" class="form-control" name="file" id="file_no"
-						required="required" placeholder="Username" aria-label="파일첨부"
-						aria-describedby="addon-wrapping">
-				</div> -->
-				파일첨부
-				<input name="imageFile" type="file" id="file" />
-				
-					<!-- 사진 업로드 -->
-					<div class="f_row profile_upload">
-						<p class="fc_title">사진을 올려주세요</p>
-						<div class="profile_upload_square">
-							<div class="prof_img">
-								<img id="qnaImg"> <br> <label for="file"
-									class="pet_btn edit_btn"> <i class="fa-solid fa-pen"
-									id="pen"></i>
-								</label> <input type="file" id="file" name="imageFile" hidden="hidden"></input>
+					<div class="pn_view">
+						<div class="row user_id">
+							<div>
+								<!-- 글쓴이 -->
+								<span class="by">by</span><input name="user_id" id="user_id"
+									value="${authUser.id}">
 							</div>
 						</div>
-					</div>
-					<!-- 사진 업로드.end -->
-
-					<div class="row user_id">
-						<div>
-						<!-- 글쓴이 -->
-							<span class="by">by</span><input name="user_id" id="user_id"
-								value="${authUser.id}">
+						<hr>
+						<!-- title 제목 -->
+						<div class="title">
+							<input type="text" name="qna_title" id="qna_title"
+								required="required" placeholder="제목을 입력하세요" aria-label="제 목"
+								aria-describedby="addon-wrapping">
 						</div>
-					</div>
-					<hr>
-					<!-- title 제목 -->
-					<div class="title">
-						<input type="text" name="qna_title" id="qna_title"
-							required="required" placeholder="제목을 입력하세요" aria-label="제 목"
-							aria-describedby="addon-wrapping">
-					</div>
-					<hr>
+						<hr>
+					
 					<!-- <div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">비밀번호</span> <input
 					type="password" class="form-control" name="board_pass"
@@ -112,14 +86,31 @@ textarea {
 					aria-label="****" aria-describedby="addon-wrapping">
 			</div> -->
 
-
 					<!-- content 글내용 -->
 					<div class="content">
+					
+					<c:if test="${!empty ('#attach-file')}">
+					<div id="image_preview">
+					<img id="rep" class="img_wrap img"
+									src="${pageContext.request.contextPath}/resources${article.filepath}"
+									alt="사진영역" />
+						</div>
+					</c:if>
+						
 						<textarea class="fcc_textarea" id="qna_content" name="qna_content"
 							cols="40" rows="15" required="required" placeholder="내용을 입력하세요"></textarea>
+						<div class="data_box d-flex">
+							<p>파일첨부</p>
+							<label> <input type="file" name="file" id="attach-file" />
+
+							</label> <span id="file-name"></span> <span id="delete-file"
+								style="color: red; margin-lefT: 20px;"><i
+								class="fas fa-times font-img"></i></span>
+						</div>
 					</div>
 
 					<hr>
+					</div>
 					<section id="commandCell">
 						<div class="d-grid gap-2 d-md-block">
 							<button type="submit" class="btn btn-outline-secondary">등록</button>

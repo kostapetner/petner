@@ -15,18 +15,8 @@
 <title>${title}</title>
 
 <style type="text/css">
-h2 {
-	text-align: center;
-}
-
 #basicInfoArea {
 	height: 40px;
-	text-align: center;
-}
-
-#commandList {
-	margin: auto;
-	width: 700px;
 	text-align: center;
 }
 </style>
@@ -44,49 +34,54 @@ h2 {
 					</div>
 					<div class="source">
 						<div>
-							<span>by</span>${article.user_id }&nbsp;&nbsp;${article.reg_date }</div>
-						<div class="file">
-							첨부파일
-							<section>
-								<!-- 첨부파일 -->
+							<span>by</span>${article.user_id }
+						</div>
+						<div class="data_box d-flex">
+							<div>
 								<c:if test="${article.file_no!=null }">
-									<div>
-										<a href="file_down?downFile=${article.file_no}">
-											${article.file_no} </a>
-									</div>
+										<!-- 첨부파일 다운로드 -->
+										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
+											<%-- ${article.file_no} --%>
+											<i class="fas fa-download font-img"></i>
+										</a>
 								</c:if>
-							</section>
+							</div>
+							&nbsp;&nbsp;&nbsp;
+							<div>
+								<!-- day -->
+								${article.reg_date }
+							</div>
 						</div>
 					</div>
+
 					<hr>
+					
 					<section id="articleForm">
-						<section id="basicInfoArea">
-						<!-- 첨부파일 -->
-						<c:if test="${article.file_no!=null }">
-							<div>
-								<a href="file_down?downFile=${article.file_no}">
-									${article.file_no} </a>
-							</div>
-						</c:if>
-					</section>
 						<section id="articleContentArea">
+							<div id="image_preview">
+								<img id="rep" class="img_wrap img"
+									src="${pageContext.request.contextPath}/resources${article.filepath}"
+									 alt="사진영역" />
+							</div>
 							<div class="content">${article.qna_content }</div>
 						</section>
 					</section>
 					<hr>
-					<section id="commandList">
+					<section class="buttonList">
 						<div class="d-grid gap-2 d-md-block ad_button">
-						<button class="btn btn-outline-secondary" type="button">
-							<a class="admin_btn" href="qnamodifyform?qna_no=${article.qna_no}">수정</a>
-						</button>
-						<button class="btn btn-outline-secondary" type="button">
+							<button class="btn btn-outline-secondary" type="button">
+								<a class="admin_btn"
+									href="qnamodifyform?qna_no=${article.qna_no}">수정</a>
+							</button>
+							<button class="btn btn-outline-secondary" type="button">
 								<a href="qnareplyform?qna_no=${article.qna_no}">답변</a>
 							</button>
-							
-							
-						<button class="btn btn-outline-secondary" type="button">
-					<a class="admin_btn" href="qnadeleteform?qna_no=${article.qna_no}">삭제</a>
-				</button>
+
+
+							<button class="btn btn-outline-secondary" type="button">
+								<a class="admin_btn"
+									href="qnadeleteform?qna_no=${article.qna_no}">삭제</a>
+							</button>
 							<button class="btn btn-outline-secondary" type="button">
 								<a class="admin_btn" href="./qnaList">목록</a>
 							</button>
@@ -98,3 +93,18 @@ h2 {
 	</div>
 </body>
 </html>
+
+<script>
+$(document).ready(function() {
+	//이미지 미리보기
+	$(function() {
+		$('#file').change(function(event) {
+			let reader = new FileReader();
+			reader.onload = function(e) {
+				$('#rep').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(event.target.files[0]);	
+		});
+	})
+});
+</script>

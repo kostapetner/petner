@@ -6,7 +6,7 @@
 
 <style>
    .mypet_card{max-width: 460px;}
-   .mypet_card img{width:100%; height:auto;}
+   .mypet_card img{width:100%; height: inherit;}
    .mypet_card li{
      padding: 28px;
      margin-top:20px;

@@ -1,10 +1,303 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e2d6fc6008c147d8c5d81603f2166c5d&libraries=services"></script>
 <script>
 	$(document).ready(function() {
 		
+		var serviceArr = [];
+		var petKindArr = []; 
+		var genderArr = [];
+		var dayArr = [];
+		//펫시터 성별
+		$(document).on("click", "input[name=gender]", function () {
+			genderArr = [];
+		    $("input[name='gender']:checked").each(function(e){
+		        var value = $(this).val();
+		        genderArr.push(value);        
+			})
+			console.log("genderArr:  "+genderArr);
+		    searchAjax();
+		});
+		//필요한 서비스
+		$(document).on("click", "input[name=service]", function () {
+			serviceArr = [];
+		    $("input[name='service']:checked").each(function(e){
+		        var value = $(this).val();
+		        serviceArr.push(value);        
+			})
+			console.log("serviceArr:  "+serviceArr);
+		    searchAjax();
+		});
+		//동물 종류
+		$(document).on("click", "input[name=pet_kind]", function () {
+			petKindArr = [];
+		    $("input[name='pet_kind']:checked").each(function(e){
+		        var value = $(this).val();
+		        petKindArr.push(value);        
+			})
+			console.log("petKindArr:  "+petKindArr);
+		    searchAjax();
+		});
+		//가능한 요일
+		$(document).on("click", "input[name=day]", function () {
+			dayArr = [];
+		    $("input[name='day']:checked").each(function(e){
+		        var value = $(this).val();
+		        dayArr.push(value);        
+			})
+			console.log("dayArr:  "+dayArr);
+		    searchAjax();
+		});
+		
+		var addr = [];
+		function searchAjax(){
+			// 성별, 서비스, 동물종류, 요일
+			var gender = genderArr;
+			var service = serviceArr;
+			var pet_kind = petKindArr;
+			var day = dayArr;
+			var zipcode = $("#zipcode").val();
+			
+			// contentType: "application/json" 꼭 써주기
+	 		$.ajax({
+				url : "${pageContext.servletContext.contextPath}/findSitter/findSitterSearch",
+				type : "POST",
+				dataType: "json",
+				contentType: "application/json",
+				data:JSON.stringify({
+				    	 "gender":gender
+				    	,"service":service
+				    	,"pet_kind":pet_kind
+				    	,"day":day
+				    	,"zipcode":zipcode
+				  }),
+				success : function(data) {
+					//console.log(data);
+					var str = '';
+					if(data.length == 0){
+						$("#card_list").empty();
+						str +='<ul>';
+						str +='<li>';
+						str +='<div class="data">';
+						str +='<div>';
+						str +='<span class="see_info">조회된 데이터가 없습니다.</span>';
+						str +='</div>';
+						str +='</div>';
+						str+='</li>';
+						str+='</ul>';
+						$("#card_list").append(str);
+					}else{
+						$("#card_list").empty();
+						$.each(data, function(i, item) { // 데이터 =item
+							str +='<ul>';
+							str +='<li>';
+							str +='<div class="data">';
+							<!-- 이미지영역 -->
+							str +='<div class="img_area">';
+							str +='<img src="${pageContext.request.contextPath}/getImg/'+ item.FILE_NO +'" alt="프로필이미지">';
+							str +='</div>';
+							<!-- 텍스트정보 영역 -->
+							str +='<div class="text_area">';
+							str +='<div class="row1">';
+							str +='<p><span class="nick">'+ item.NICKNAME +'</span></p>';
+							str +='</div>';
+							str +='<div class="row2">';
+							str +='<p><a href="#">팔로워<span class="f_val">122</span></a></p>';
+							str +='<p><a href="#">팔로잉<span class="f_val">122</span></a></p>';
+							str +='</div>';
+							str +='<div class="row3">';	
+							str +='<span>'+item.WORK_DAY+'</span>';
+							str +='<span class="see_info">펫시터자기소개</span>';
+							str +='</div>';
+							str +='<div class="row4">'+item.SITTER_INFO+'</div>';
+							str +='</div>';
+							str +='</div>';
+							str +='<div class="icons">';
+							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
+							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
+							str +='<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>';
+							str +='</div>';
+							str+='</li>';
+							str+='</ul>';
+							str+='<input type="hidden" id="ajaxAddr" value="'+item.ADDR+'">';
+							addr.push(item.ADDR);
+						});
+						$("#card_list").append(str);
+					}
+				},
+				error : function(xhr, error) {
+					console.error("error : " + error);
+				}
+			});//ajax();
+		}//searchAjax();
+		
+		//내주변찾기 버튼
+		$("#findAreaBtn").click(function(){
+			var mapContainer = document.getElementById("map");
+			var coordXY   = document.getElementById("coordXY");
+			var distanceGap  = document.getElementById("distance");
+			var radius = 2000;	// 반경 미터(m), 2km
+			var geocoder = new kakao.maps.services.Geocoder();
+			function curLocation(){
+				//지도의 중심을 현재 위치로 변경(HTML5의 geolocation으로 사용할 수 있는지 확인합니다.)
+				if (navigator.geolocation) {
+					// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+			    	navigator.geolocation.getCurrentPosition(function(position) {
+				        var x = position.coords.latitude, y = position.coords.longitude; // x:위도, y:경도
+				        var latlngyo = new daum.maps.LatLng(x, y);
+				        var mapOption = {
+				          		center: latlngyo, // 지도의 중심좌표
+				                level: 6      // 지도의 확대 레벨
+				         };
+				        var lat = x;
+				        var lng = y;
+				        //좌표 > 도로명주소
+				        getAddr(lat,lng);
+				        function getAddr(lat,lng){
+				            let coord = new kakao.maps.LatLng(lat, lng);
+				            let callback = function(result, status) {
+				                if (status === kakao.maps.services.Status.OK) {
+				                    console.log(result[0].address.address_name);
+				                    console.log(result[0].address.region_1depth_name);
+				                    console.log(result[0].address.region_2depth_name);
+				                    console.log(result[0].address.region_3depth_name);
+				                    if(!result[0].road_address.zone_no){
+				                    	alert("현재 위치의 정보를 불러올 수 없습니다.");
+				                    }else{
+				                    	console.log(result[0].road_address.zone_no);
+				                    	 $("#zipcodeP").text("["+result[0].road_address.zone_no+"]");
+						                 $("#zipcode").val(result[0].road_address.zone_no);
+				                    }
+				                    $("#addrP").text(result[0].address.address_name);
+				                }
+				               searchAjax();
+				            }
+				            geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+				            var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					        map.setCenter(coord);
+				            
+					        var circle = new daum.maps.Circle({
+					            map: map,
+					            center : latlngyo,
+					            radius: radius,
+					            strokeWeight: 2,
+					            strokeColor: '#FF00FF',
+					            strokeOpacity: 0.8,
+					            strokeStyle: 'dashed',
+					            fillColor: '#D3D5BF',
+					            fillOpacity: 0.5
+					        });
+		
+					        var marker = new daum.maps.Marker({
+					         position: latlngyo, // 마커의 좌표
+					         title: "현위치",
+					         map: map          // 마커를 표시할 지도 객체
+					        });
+					        
+					    	for(var i in addr){
+					    		// 주소로 좌표를 검색합니다
+						        geocoder.addressSearch(addr[i], function(result, status) {
+						            // 정상적으로 검색이 완료됐으면 
+						            if (status === kakao.maps.services.Status.OK) {
+						                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						                // 결과값으로 받은 위치를 마커로 표시합니다
+						                var marker = new kakao.maps.Marker({
+						                    map: map,
+						                    position: coords
+						                });
+						            } 
+					        	});//geocoder.addressSearch
+					    	}
+						    
+					}
+			    });//navigator.geolocation.getCurrentPosition
+			    	 
+			}else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+				var locPosition = new kakao.maps.LatLng(37.4812845080678, 126.952713197762),
+					message = '현재 위치를 알 수 없어 기본 위치로 이동합니다.'
+
+				currentLatLon['lat'] = 33.450701
+				currentLatLon['lon'] = 126.570667
+
+				displayMarker(locPosition, message);
+			}
+				
+				return true;
+			}//지도 띄우기 끝
+			
+			//지도 불러오기
+			curLocation();
+		});
+		
+		function firstMap(){
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+	
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch($("#addrP").text(), function(result, status) {
+	
+			    // 정상적으로 검색이 완료됐으면 
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        
+		        var message = '<div style="padding:5px;">사용자 위치</div>'; // 인포윈도우에 표시될 내용입니다
+		        
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            title: "현위치",
+		            position: coords
+		        });
+
+		        var iwContent = message, // 인포윈도우에 표시할 내용
+                iwRemoveable = true;
+
+	            // 인포윈도우를 생성합니다
+	            var infowindow = new kakao.maps.InfoWindow({
+	                content : iwContent,
+	                removable : iwRemoveable
+	            });
+	            
+	            // 인포윈도우를 마커위에 표시합니다 
+	            infowindow.open(map, marker);
+            
+				for(var i in addr){
+		    		// 주소로 좌표를 검색합니다
+			        geocoder.addressSearch(addr[i], function(result, status) {
+			            // 정상적으로 검색이 완료됐으면 
+			            if (status === kakao.maps.services.Status.OK) {
+			                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			                // 결과값으로 받은 위치를 마커로 표시합니다
+			                var marker = new kakao.maps.Marker({
+			                    map: map,
+			                    position: coords
+			                });
+			            } 
+		        	});//geocoder.addressSearch
+		    	}
+				
+				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+			});
+		}
+		
+		//ajax검색 실행
+		var authUser = $("#authUser").val();
+		if(!authUser){
+			$("#findAreaBtn").trigger("click");
+		}else{
+			searchAjax();
+			firstMap();
+		}
+//----------------------------------------------------------------------------------------------------
 		$(document)
 		    .on("click", ".see_info", function(){
 		    	var infoStr = $(this).parents("li").find(".row4").text();
@@ -16,21 +309,17 @@
 		    .on("click", ".go_top", function(){
 		    	$('html, body').animate({scrollTop:0}, '200');
 		    }) 
-		    
 		
 	})
 	
 	
-	$(window).scroll(function(){  
+	$(window).scroll(function(){
 		//var scrollValue = $(document).scrollTop(); 
 		//console.log(scrollValue);
     if ($(this).scrollTop() > 400) {
       $('.go_top').fadeIn();
     }else {$('.go_top').fadeOut(); }
   });  
-  
-  
-	
 	
   function showModal(infoStr){
     $("body").prepend("<div class='modal_mask'></div>");
@@ -80,34 +369,31 @@
     min-height: 300px
    
   }
+  .map_wrap {position:relative;width:100%;height:350px;}
+  .title {font-weight:bold;display:block;}
+  .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+  #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+  .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
 </style>
 
 <!-- CONTAINER -->
 <div class="container w90">
 	<p class="list_title">펫시터 찾기</p>
-
-	<!-- 검색창 -->
-	<div class="search_form">
-		<form action="#">
-			<input type="text" class="keyword" placeholder="펫시터를 검색해요" /> <span
-				class="search_submit"><i class="fa-solid fa-magnifying-glass"></i></span>
-		</form>
-	</div>
 	<!-- 시터성별, 요일, 서비스, 동물종류 필터 피드-->
 	<div class="filter_feed">
 		<!-- 펫시터성별  -->
 		<div class="f_row">
 			<p class="filter_title">펫시터 성별</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="sex"><span>여성펫시터</span></label>
-				<label class="fcCbox1"><input type="checkbox" name="sex"><span>남성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="women"><span>여성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="male"><span>남성펫시터</span></label>
 			</div>
 		</div>
 		<!-- 서비스  -->
 		<div class="f_row">
 			<p class="filter_title">필요한 서비스</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="service" value="1"><span>방문</span>
+				<label class="fcCbox1"><input type="checkbox" name="service" value="visit"><span>방문</span>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="walk"><span>산책</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="shower"><span>목욕</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="education"><span>교육</span></label>
@@ -137,54 +423,36 @@
 				<label class="fcCbox1"><input type="checkbox" name="day" value="sun"><span>일</span></label>  
 			</div>
 		</div>
-		
+		<!-- 위치 -->
+		<div class="f_row">
+			<p class="filter_title">위치</p>
+			<div class="select_box">
+				<input type="hidden" value="${authUser.user_no}" id="authUser">
+				<p class="filter_title">현재 위치</p>
+				<p class="filter_title" id="zipcodeP">[${userInfo.zipcode }]</p>
+				<input type="hidden" value="${userInfo.zipcode }" id="zipcode">
+				<p class="filter_title" id="addrP">${userInfo.addr }</p>
+				<input type="button" value="내주변찾기" class="filter_title" id="findAreaBtn">
+			</div>
+		</div>
+	</div>
+	<div>
+		<div>
+			<div class="content" id="mapDiv">
+				<h3 class="form_title fs24">지도</h3>
+				<div class="map_wrap">
+				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				     <div class="hAddr">
+				        <span id="centerAddr"></span>
+				    </div>
+				</div>
+				<br>
+			</div>
+		</div>
 	</div>
 
 	<!-- 카드형 리스트 -->
-	<div class="card_list_type">
-		<ul>
-			<c:forEach items="${dataList}" var="data">
-				<li uno="${data.USER_NO}">
-					<div class="data">
-						<!-- 이미지영역 -->
-						<div class="img_area">
-							<img src="${pageContext.request.contextPath}/getImg/${data.FILE_NO}" alt="프로필이미지">
-						</div>
-						<!-- 텍스트정보 영역 -->
-						<div class="text_area">
-							<div class="row1">
-								<p>
-									<span class="nick">${data.NICKNAME}</span>
-								</p>
-							<!-- 	<p>
-									<span class="badge">최강기요미</span>
-								</p> -->
-							</div>
-							<div class="row2">
-								<p>
-									<a href="#">팔로워<span class="f_val">122</span></a>
-								</p>
-								<p>
-									<a href="#">팔로잉<span class="f_val">122</span></a>
-								</p>
-							</div>
-							<div class="row3">
-								<span>${data.WORK_DAY}</span>
-								<span class="see_info">펫시터자기소개</span>
-							</div>
-							<div class="row4">${data.SITTER_INFO}</div>
-							
-						</div>
-					</div>
-					<div class="icons">
-						<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a> 
-						<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>
-						<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>
-					</div>
-				</li>
-		</c:forEach>
-		</ul>
-	</div>
+	<div class="card_list_type" id="card_list"> </div>
 	
 </div>
 
