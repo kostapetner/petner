@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,8 @@
 			<p class="tip">프로필 사진이 있으면 보호자에게 연락올 확률이 높아져요</p>
 			<div class="profile_upload">
 				<div class="prof_img">
-					<img id="rep2" class="img_wrap img"/> <br>
+					<img src="${imgPath}/noimg.webp" id="rep2" class="img_wrap img"> 
+					<!-- <img id="rep2" class="img_wrap img"/> <br> -->
 					<label for="file" class="pet_btn edit_btn">
 						<i class="fa-solid fa-pen" id="pen"></i>
 					</label>
@@ -118,9 +120,10 @@
 </div>
 <script>
 $(document).ready(function() {
+	console.log("시터폼");
 	//이미지 미리보기
 	$(function() {
-		$('#file').change(function(event) {
+		$('#sitterForm #file').change(function(event) {
 			let reader = new FileReader();
 			reader.onload = function(e) {
 				$('#rep2').attr('src', e.target.result);

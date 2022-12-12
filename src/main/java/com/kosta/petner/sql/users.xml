@@ -170,18 +170,19 @@
 		    where id = #{id}		    
 		]]>
 	</select>
-	<update id="updateMyinfo"
-		parameterType="com.kosta.petner.bean.Users">
-	<![CDATA[
-	    update users 
-	    set nickname = #{nickname,jdbcType=VARCHAR},
-	    		email = #{email},
-	    		zipcode = #{zipcode},
-	    		addr = #{addr},
-	    		addr_detail = #{addr_detail}	    		
-	    where id = #{id,jdbcType=VARCHAR}
-	    
-	]]>
+	
+	<update id="updateMyinfo"	parameterType="com.kosta.petner.bean.Users">
+		<![CDATA[
+		    update users 
+		    set nickname = #{nickname,jdbcType=VARCHAR},
+		    		email = #{email},
+		    		zipcode = #{zipcode},
+		    		addr = #{addr},
+		    		addr_detail = #{addr_detail},
+		    		file_no = #{file_no, jdbcType=VARCHAR}
+		    where id = #{id,jdbcType=VARCHAR}
+		    
+		]]>
 	</update>
 
 

@@ -26,7 +26,8 @@ public class CheckAuth {
 	@Autowired
 	MypageService mypageService;
 	
-	@Around("execution(* com.kosta.petner.controller.MyPageController.*(..)) ")
+	@Around(  "execution(* com.kosta.petner.controller.MyPageController.*(..)) || "
+			+ "execution(* com.kosta.petner.controller.OwnerController.*(..)) ")
 	// ("execution(public * com.pamyferret.test.controller.*.*(..)")
 	public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
 		System.out.println("====CheckAuth 시작====");

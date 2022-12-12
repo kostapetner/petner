@@ -115,7 +115,7 @@ public class UsersController {
 				//ID 비밀번호와 대조해서 로그인성공 (암호화 된 비밀번호랑 대조)
 				Users authUser = usersService.login(users);
 				if(authUser != null && bcryptPasswordEncoder.matches(users.getPassword(), authUser.getPassword())) {
-					System.out.println(authUser);
+					//System.out.println(authUser);
 					session.setAttribute("authUser", authUser);
 					returnURL = "redirect:/";
 					

@@ -15,17 +15,19 @@
 
 
 <style>
-.my_profile .edit_btn{
-    width: 40px;
-    height: 40px;
-    background: var(--orange);
+	.my_profile .edit_btn{
+	  width: 25px;
+    height: 25px;
+    background: #e8a87e;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 6px;
-    bottom: 4px;}
+    right: -4px;
+    bottom: 3px;
+    font-size: 1rem;
+	}
 </style>
 
 <script>
@@ -38,7 +40,7 @@
 				if ($(this).is(':checked')) { // check가 보호자임        
 					var owner_menu1 = "";
 					owner_menu1 += "<a href='${pageContext.request.contextPath}/mypage'>나의 정보</a>"
-											+ "<a href='${pageContext.request.contextPath}/mypage/myPetInfo'>나의반려동물정보</a>";
+											+  "<a href='${pageContext.request.contextPath}/mypage/myPetInfo'>나의반려동물정보</a>";
 
 					var owner_menu2 = "";
 					owner_menu2 += "<a href='${pageContext.request.contextPath}/mypage/myService/requireServic'>서비스 요청하기</a>"
@@ -63,6 +65,37 @@
 							sitter_menu2);
 				}
 		})
+		
+		//console.log("첵첵ㅎg")
+		// 프로필 ajax
+		/* $("#file").change(function(){
+			// 필요한 정보 id users=>file_no 업데이트,
+			// file_tb에 user_no=와 board_no 5인것이 없다면 insert, 있다면 update처리 
+			let user_no = ${mypageSession.user_no};
+			
+			console.log("첵첵"+user_no)
+			$.ajax({
+				url : "${pageContext.request.contextPath}/mypage/profileImgEdit", //문자열로 인식이 되는게 아니라 서버에서 el값으로 먼저 치환후 js통신을 한다.
+				type : "POST",
+				data : {"user_no":user_no}, //post방식일때 값을 여기에 넣어줌
+				success:function(response){
+					
+					console.log(response);
+					
+					if(response.result != "success"){
+						console.error(response.message);
+						return;
+					}else{ //성공일때 jason 렌더
+						console.log("보고싶다이문구")
+						//arrData = response.data;
+						//getList();
+					}
+				},
+				error : function(xhr, error){ //xmlHttpRequest?
+						console.error("완전error : "+error);
+				}
+			});
+		}) */
 	})
 </script>
 <body>
@@ -77,22 +110,21 @@
 						<!-- 이미지영역 -->
 						<div class="prof_img">
 							<c:if test="${mypageSession.file_no==0}">
-								<img src="${imgPath}/noimg.webp" alt="노프로필"/>
+								<img src="${imgPath}/noimg.webp" alt="노프로필" id="prof_img_view"/>
 							</c:if>
 							<c:if test="${mypageSession.file_no != 0}">
-								<img id="rep" class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${mypageSession.file_no}"/>
+								<img class="img_wrap img" src="${pageContext.request.contextPath}/getImg/${mypageSession.file_no}"/>
 							</c:if>
-							<label for="file" class="pet_btn edit_btn">
+							<!-- <label for="file" class="pet_btn edit_btn prof_btn">
 								<i class="fa-solid fa-pen" id="pen"></i>
-							</label>
-							<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+							</label> -->
+							<!-- <input type="file" id="file_root" name="imageFileRoot" hidden="hidden"></input> -->
 							
 						</div>
 						<!-- 텍스트정보 영역 -->
 						<div class="prof_text">
 							<div class="row1">
 								<p>${mypageSession.nickname}</p>
-								
 							</div>
 							<div class="row2">
 								<p>
