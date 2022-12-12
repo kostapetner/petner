@@ -30,7 +30,7 @@ DROP SEQUENCE seq_user_no;
 ------------간단로그인 전용-----------
 
 INSERT INTO USERS(user_no, user_type, id, nickname, email, password, name, joindate, gender, zipcode, addr, addr_detail, user_level, user_auth, file_no)
-values(seq_user_no.nextval, 1, '1234', '펫트너', 'petner@petner.com', '1234','펫트너', sysdate, '미정', '12345', '가디역', '호서대벤처타워', 'VIP', 1, 0);
+values(seq_user_no.nextval, 1, '12345', '펫트너', 'petner@petner.com', '1234','펫트너', sysdate, '미정', '12345', '가디역', '호서대벤처타워', 'VIP', 10, 0);
 
 
 -----조회-----
@@ -51,8 +51,17 @@ SELECT * FROM users;
 ALTER table users ADD sessionkey varchar2(50) DEFAULT 'none' NOT NULL ;
 alter table users add  sessionlimit timestamp;
 
+alter table users add photo varchar2(200);
 
 --------비밀번호 사이즈 수정----------
 
 ALTER TABLE users MODIFY password varchar2(2000);
+
+ALTER TABLE users MODIFY id unique;
+
+
+
+--회원 삭제---
+
+DELETE FROM users WHERE user_no = 81;
 

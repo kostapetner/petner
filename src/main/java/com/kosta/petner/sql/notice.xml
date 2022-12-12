@@ -1,77 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-                        
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.notice">
-	<insert id="insertNotice" parameterType="com.kosta.petner.bean.Notice">
-		<![CDATA[
-			insert into notice (notice_no,user_id,notice_title,notice_content,file_no,filepath, notice_re_ref, notice_re_lev, notice_re_seq, notice_hit, reg_date)
-			values(notice_seq.nextval,#{user_id},#{notice_title},#{notice_content},#{file_no, jdbcType=VARCHAR},#{filepath, jdbcType=VARCHAR},
-				#{notice_re_ref},#{notice_re_lev},#{notice_re_seq},#{notice_hit},sysdate)
-		]]>
+	<sql id="search_where">
+		<if test="search == 'title' or search == 'content'">
+			WHERE ${search } LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test="search == 'writer'">
+			WHERE <include refid="search_writer" />
+		</if>
+		<if test="search == 'all'">
+			WHERE title LIKE '%' || #{keyword } || '%'
+			OR content LIKE '%' || #{keyword } || '%'
+			OR <include refid="search_writer" />
+		</if>
+	</sql>
+	
+	<sql id="search_writer">
+		writer IN (SELECT id FROM users WHERE name LIKE '%' || #{keyword } || '%')
+	</sql>
+	
+	<select id="list" resultType="com.kosta.petner.bean.Notice">
+		SELECT * 
+		FROM (SELECT ROWNUM no, n.*, (SELECT name FROM users WHERE users.id = writer) name
+				FROM (SELECT * FROM notice <include refid="search_where" /> ORDER BY root, step DESC) n
+				ORDER BY no DESC) n 
+		WHERE no BETWEEN #{beginList} and #{endList}				
+		
+	</select>
+
+	<select id="totalList" resultType="integer">
+		SELECT COUNT(*) FROM notice <include refid="search_where" />
+	</select>
+	
+	<insert id="insert">	
+		INSERT INTO notice (id, root, title, content, writer, filename, filepath)
+		VALUES (seq_notice.nextval, seq_notice.currval, #{title }, #{content }, #{writer }, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }) 
 	</insert>
 	
-	<select id="selectMaxNoticeNum" resultType="Integer">
-		<![CDATA[
-			select max(notice_no) from notice
-		]]>
+	<select id="detail" resultType="com.kosta.petner.bean.Notice">
+		SELECT n.*, (SELECT name FROM users u WHERE u.id = n.writer) name FROM notice n WHERE id=#{id }
 	</select>
-	
-	<select id="selectNoticeList" resultType="com.kosta.petner.bean.Notice" parameterType="Integer">
-		<![CDATA[
-			select notice_no,user_id,notice_title,notice_content,file_no,notice_re_ref,
-				notice_re_lev,notice_re_seq,notice_hit,reg_date 
-			from (select row_number() over (order by notice_re_ref desc, notice_re_seq asc) num, N.*
-					from notice N order by notice_re_ref desc, notice_re_seq asc)
-			where num between #{row} and #{row}+9
-		]]>
-	</select>
-	
-	<select id="selectNoticeCount" resultType="Integer">
-		<![CDATA[
-			select count(*) from notice
-		]]>
-	</select>
-	
-	<select id="selectNotice" resultType="com.kosta.petner.bean.Notice" parameterType="Integer">
-		<![CDATA[
-			select * from notice where notice_no=#{notice_no} ORDER BY notice_no DESC
-		]]>
-	</select>
-	
-	<update id="updateNotice" parameterType="com.kosta.petner.bean.Notice">
-		<![CDATA[
-			update notice set notice_title=#{notice_title}, notice_content=#{notice_content}
-			where notice_no=#{notice_no}
-		]]>
-	</update>
+	<!-- jdbcType=VARCHAR 속성을 넣으면 null값이 허용된다. -->
 	
 	<update id="read">
-		<![CDATA[
-			UPDATE notice SET notice_hit = notice_hit + 1 WHERE notice_no=#{notice_no}
-		]]>
+		UPDATE notice SET readcnt = readcnt + 1 WHERE id=#{id}
 	</update>
 	
-	<update id="updateNoticeReReq" parameterType="com.kosta.petner.bean.Notice">
-		<![CDATA[
-			update notice set notice_re_seq=notice_re_seq+1
-			where notice_re_ref=#{notice_re_ref} and notice_re_seq>#{notice_re_seq}
-		]]>
-	</update>
-	
-	<delete id="deleteNotice" parameterType="Integer">
-		<![CDATA[
-			delete from notice where notice_no=#{noticeNum}
-		]]>
+	<delete id="delete">
+		DELETE FROM notice WHERE id=#{id }
 	</delete>
 	
-	<update id="updateFileNoToNotice" parameterType="com.kosta.petner.bean.Notice">
-	<![CDATA[
-		update notice
-		set file_no = #{file_no}
-		where notice_no = #{notice_no}
-	]]>	
+	<update id="update">
+		UPDATE notice set title = #{title }, content = #{content }, filename = #{filename, jdbcType=VARCHAR }, filepath = #{filepath, jdbcType=VARCHAR }
+		WHERE id=#{id }
 	</update>
+	
+	<insert id="reply_insert">
+		<!-- 원글의 step보다 더 큰 step을 가진 글이 있다면 그 글들의 step을 먼저 +1 한다. -->
+		<![CDATA[
+			{CALL DECLARE BEGIN
+				UPDATE notice SET step = step + 1
+				WHERE root = #{root } AND step > #{step };
+				
+				INSERT INTO notice (id, root, title, content , writer, step, indent, filename, filepath)
+				VALUES (seq_notice.NEXTVAL, #{root }, #{title }, #{content }, #{writer }, #{step } + 1, #{indent } + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
+			END}
+		]]>
+	</insert>
 </mapper>
 
 

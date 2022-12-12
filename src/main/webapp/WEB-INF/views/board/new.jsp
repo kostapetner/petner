@@ -45,12 +45,12 @@ textarea {
 			</div>
 
 			<!-- 첨부 파일 영역 -->
-			<div>
-				<div>첨부 파일</div>
-				<div class="left">
+			<div class="file_box">
+				<p>첨부 파일</p>
+				<div>
 					<label> 
 					<input type="file" name="file" id="attach-file" />
-						<img src="img/select.png" class="file-img" />
+						<img src="${imgPath}/select.png" class="file-img" />
 					</label> 
 					<span id="file-name"></span>
 					<!-- 첨부파일 이미지 영역 -->
@@ -67,9 +67,9 @@ textarea {
 	</div>
 
 	<div class="btnSet">
-		<button type="submit"
+		<button type="submit" class="btn"
 			onclick="if( necessary() ){ $('form').submit() }">저장</button>
-		<a class="btn-empty" href="list_board">취소</a>
+		<a class="btn" href="list_board">취소</a>
 	</div>
 </form>
 <script type="text/javascript">

@@ -47,7 +47,7 @@ public interface UsersService {
 	public Users getUserByUserNo(Integer user_no);
 
 	// 아이디로 회원의 모든 정보 조회
-	Users inquiryOfUserById(String id) throws Exception;
+	Users inquiryOfUserById(String id);
 
 	// 아이디로 회원의 모든 정보 조회
 	Users inquiryOfUserByUserNo(int userNo) throws Exception;

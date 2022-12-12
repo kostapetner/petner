@@ -6,78 +6,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.Notice;
-import com.kosta.petner.bean.PageInfo;
+import com.kosta.petner.bean.NoticePage;
 import com.kosta.petner.dao.NoticeDAO;
+
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
+	@Autowired private NoticeDAO dao;
+	
+	@Override
+	public void notice_insert(Notice vo) {
+		dao.notice_insert(vo);
+	}
 
-	@Autowired
-	NoticeDAO noticeDAO;
 	@Override
-	public void resistNotice(Notice notice) throws Exception {
-		Integer noticeNum = noticeDAO.selectMaxNoticeNum();
-		if(noticeNum==null) noticeNum = 1;
-		else noticeNum = noticeNum+1; 
-		notice.setNotice_no(noticeNum);
-		notice.setNotice_re_ref(noticeNum);
-		notice.setNotice_re_lev(0);
-		notice.setNotice_re_seq(0);
-		notice.setNotice_hit(0);
-		noticeDAO.insertNotice(notice);
+	public List<Notice> notice_list() {
+		return dao.notice_list();
 	}
+
 	@Override
-	public List<Notice> getNoticeList(int page, PageInfo pageInfo) throws Exception {
-		int listCount = noticeDAO.selectNoticeCount();  // 전체 게시글 수
-		int maxPage = (int)Math.ceil((double)listCount/10);  //전체 페이지 수, 올림처리
-		int startPage = page/10 * 10 + 1; //현재 페이지에 보여줄 시작 페이지 버튼(1,11,21 등...) 
-		int endPage = startPage + 10 - 1; //현제 페이지에 보여줄 마지막 페이지 버튼(10,20,30 등...) 
-		if(endPage>maxPage) endPage = maxPage;
-		
-		pageInfo.setPage(page);
-		pageInfo.setListCount(listCount);
-		pageInfo.setMaxPage(maxPage);
-		pageInfo.setStartPage(startPage);
-		pageInfo.setEndPage(endPage);
-		
-		int row = (page-1)*10+1;		
-		return noticeDAO.selectNoticeList(row);
+	public Notice notice_detail(int id) {
+		return dao.notice_detail(id);
 	}
+
 	@Override
-	public Notice getNotice(Integer noticeNum) throws Exception {
-		return noticeDAO.selectNotice(noticeNum);
+	public void notice_update(Notice vo) {
+		dao.notice_update(vo);
 	}
+
 	@Override
-	public void modifyNotice(Notice notice) throws Exception {
-		String password = noticeDAO.selectNotice(notice.getNotice_no()).getNotice_pass();
-		if(!password.equals(notice.getNotice_pass())) {
-			throw new Exception("수정 권한 없음");
-		}
-		noticeDAO.updateNotice(notice);
+	public void notice_delete(int id) {
+		dao.notice_delete(id);
 	}
+
 	@Override
-	public void noticeReply(Notice notice) throws Exception {
-		Notice srcNotice = getNotice(notice.getNotice_no());  //원글정보
-		noticeDAO.updateNoticeReReq(srcNotice);
-		Integer noticeNum = noticeDAO.selectMaxNoticeNum()+1;
-		notice.setNotice_no(noticeNum);
-		notice.setNotice_re_ref(srcNotice.getNotice_re_ref());
-		notice.setNotice_re_lev(srcNotice.getNotice_re_lev()+1);
-		notice.setNotice_re_seq(srcNotice.getNotice_re_seq()+1);
-		noticeDAO.insertNotice(notice);
+	public void notice_read(int id) {
+		dao.notice_read(id);
 	}
-//	@Override
-//	public void deleteNotice(Integer noticeNum) throws Exception {
-//		Notice notice = getNotice(noticeNum);
-//		System.out.println("Service:"+noticeNum);
-//		System.out.println("Service:"+notice);
-//		noticeDAO.deleteNotice(noticeNum);
-//	}
-	
-	// 조회수 증가
+
 	@Override
-	public void notice_read(int notice_id) throws Exception {
-		noticeDAO.notice_read(notice_id);
+	public NoticePage notice_list(NoticePage page) {
+		return dao.notice_list(page);
 	}
-	
+
+	@Override
+	public void notice_reply_insert(Notice vo) {
+		dao.notice_reply_insert(vo);
+	}
 }

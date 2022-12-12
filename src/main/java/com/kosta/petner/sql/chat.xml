@@ -2,18 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.chat">
- 	<select id="list" resultType="com.kosta.petner.bean.Chat">
- 		select* from chat 
 
- 	</select>
- 	<insert id="insert">
- 		insert into chat(sender, message, chat_no, regdate)
- 		value(#{sender}, #{message},seq_chat_no.nextval,sysdate)
- 	</insert>
- 	<delete id="delete">
- 		delete from chat where chat_no=#{chat_no}
- 	</delete>
- 	<select id="last" resultType="int">
- 		select max(chat_no) from chat
- 	</select>
+	
+
+	 <!-- 신규 채팅방일 때 채팅 방 생성 -->
+    <insert id="createChat" parameterType="com.kosta.petner.bean.ChatRoom">
+        insert into CHATROOM values(SEQ_CHATroomid.NEXTVAL, #{userEmail}, #{userName}, DEFAULT, #{masterEmail}, #{masterName}, #{masterPic})
+    </insert>
+ 
+ 	
+    <select id="selectChatRoom" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
+        SELECT * FROM CHATROOM 
+        WHERE roomid = #{roomId} 
+    </select>
+    
+    <insert id="insertMessage" parameterType="com.kosta.petner.bean.ChatMessage">
+        <if test="sessionCount == 1">
+        INSERT INTO CHATMESSAGE (roomId, messageId, message, name, useremail, unreadCount)
+        VALUES (#{roomId}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{name}, #{email}, DEFAULT)
+        </if>
+        <if test="sessionCount == 2">
+        INSERT INTO CHATMESSAGE (roomId, messageId, message, name, useremail, unreadCount)
+        VALUES (#{roomId}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{name}, #{email}, 0)
+        </if>
+    </insert>
+    
+    <select id="messageList" parameterType="string" resultType="com.kosta.petner.bean.ChatMessage">
+        SELECT * FROM CHATMESSAGE
+        WHERE roomid = #{rooomId}
+    </select>
+    
+    <select id="searchChatRoom" parameterType="com.kosta.petner.bean.ChatRoom" resultType="com.kosta.petner.bean.ChatRoom">
+        SELECT * FROM CHATROOM
+        WHERE USEREMAIL = #{userEmail} AND MASTEREMAIL = #{masterEmail}
+    </select>
+    
+    <select id="chatRoomList" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
+        SELECT * FROM CHATROOM
+        WHERE USEREMAIL = #{userEmail} OR MASTEREMAIL = #{userEmail}
+    </select>
+    
+    <select id="selectUnReadCount" parameterType="com.kosta.petner.bean.ChatMessage" resultType="int">
+        SELECT COUNT(*) FROM CHATMESSAGE
+        WHERE roomid = #{roomId} AND USEREMAIL != #{email} AND UNREADCOUNT = 1
+    </select>
+    
+    <update id="updateCount" parameterType="com.kosta.petner.bean.ChatMessage">
+        UPDATE CHATMESSAGE
+        SET UNREADCOUNT = 0
+        WHERE roomid = #{roomId} AND USEREMAIL != #{email} AND UNREADCOUNT = 1
+    </update>
 </mapper>
+
