@@ -273,7 +273,7 @@ public class UsersServiceImpl implements UsersService {
 
 
 	@Override
-	public Users inquiryOfUserById(String id) throws Exception {
+	public Users inquiryOfUserById(String id){
 		// TODO Auto-generated method stub
 		return usersDAO.inquiryOfUserById(id);
 	}

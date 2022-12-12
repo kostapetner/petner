@@ -78,7 +78,7 @@
   label.fcCbox2 span{
     margin: 0;
     padding: 0 20px 0 20px;
-    /* width: 320px; */
+    width: 320px;
     height: 38px;
     color: var(--fcc-font02);
     text-align: center;
@@ -188,15 +188,15 @@
     align-items: center;
     border-bottom: 1px solid var(--fcc-border);
     flex-wrap: wrap;
-    /* flex-direction: column;
-    justify-content: center */;
+    flex-direction: column;
+    justify-content: center;
   }
   .filter_feed label{cursor:pointer}
   .filter_feed .f_row{
     padding-bottom: 5px;
     display: flex;
     margin-right: 24px;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     padding-bottom: 10px;
   }
@@ -211,15 +211,20 @@
     width: fit-content;
 
   }
-  /* 펫시터 / 동물 찾기 부분 소팅 검색 창 */
   .select_box{    
-    display: flex;
-    gap:12px;
+    display: inline-block;
     width:max-content;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
-  	
+    /* display:none; */
+    /* position:absolute;
+    top:26px;
+    left:0; */
+    /* box-shadow: 1px 1px 5px 2px rgb(222 222 222 / 75%);
+    -webkit-box-shadow: 1px 1px 5px 2px rgb(222 222 222 / 75%);
+    -moz-box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75); */
+
   }
   input[type=text].date-picker{
     height: 38px;

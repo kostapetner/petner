@@ -30,7 +30,6 @@
   .my_view{display:flex;}
   .my_view .side_menu{
     width: 250px;
-    max-height:580px;
     background-color: #f8f8f8;
     padding: 30px 20px;
     margin-right: 85px;
