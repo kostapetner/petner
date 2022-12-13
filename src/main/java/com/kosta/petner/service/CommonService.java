@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -150,34 +148,63 @@ public class CommonService {
 	}
 	
 	
+//	//첨부 파일 업로드 처리////////////////////////////////////////////////////////
+//	public String upload(String category, MultipartFile file, HttpSession session) {
+//		//서버의 업로드할 물리적 위치
+//		// workspace/.metadata/....../wtpwebapps/iot/resources
+//		String resources = session.getServletContext().getRealPath("resources");
+//		String upload = resources + "/upload";
+//		
+//		//업로드할 파일의 형태 : .../upload/notice/2020/07/13/abc.txt
+//		//String folder = upload + "/upload/2020/07/13";
+//		String folder = upload + "/" + category + "/" + new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+//		
+//		//폴더가 없다면 폴더를 생성
+//		File f = new File(folder);
+//		if(!f.exists()) { f.mkdirs(); } //폴더가 존재하지 않으면 경로 생성
+//		
+//		//동시 다발적 동일명의 파일 업로드를 위한 고유 ID 부여: afd324adfa_abc.txt
+//		String uuid = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+//		try {
+//			file.transferTo( new File(folder, uuid) );
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());		
+//		}
+//		
+//		// /upload/.../asdfadsfsa_abc.txt ▶ 업로드한 파일의 경로를 반환
+//		// ① folder.replace(resources, "")
+//		// ② folder.substring(resources.length()) + "/" + uuid;
+//		return folder.substring(resources.length()) + "/" + uuid;
+//	} //upload()
+	
 	//첨부 파일 업로드 처리////////////////////////////////////////////////////////
-	public String upload(String category, MultipartFile file, HttpSession session) {
-		//서버의 업로드할 물리적 위치
-		// workspace/.metadata/....../wtpwebapps/iot/resources
-		String resources = session.getServletContext().getRealPath("resources");
-		String upload = resources + "/upload";
-		
-		//업로드할 파일의 형태 : .../upload/notice/2020/07/13/abc.txt
-		//String folder = upload + "/upload/2020/07/13";
-		String folder = upload + "/" + category + "/" + new SimpleDateFormat("yyyy/MM/dd").format(new Date());
-		
-		//폴더가 없다면 폴더를 생성
-		File f = new File(folder);
-		if(!f.exists()) { f.mkdirs(); } //폴더가 존재하지 않으면 경로 생성
-		
-		//동시 다발적 동일명의 파일 업로드를 위한 고유 ID 부여: afd324adfa_abc.txt
-		String uuid = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-		try {
-			file.transferTo( new File(folder, uuid) );
-		} catch (Exception e) {
-			System.out.println(e.getMessage());		
-		}
-		
-		// /upload/.../asdfadsfsa_abc.txt ▶ 업로드한 파일의 경로를 반환
-		// ① folder.replace(resources, "")
-		// ② folder.substring(resources.length()) + "/" + uuid;
-		return folder.substring(resources.length()) + "/" + uuid;
-	} //upload()
+		public String upload(String category, MultipartFile file, HttpSession session) {
+			//서버의 업로드할 물리적 위치
+			// workspace/.metadata/....../wtpwebapps/iot/resources
+			String resources = session.getServletContext().getRealPath("resources");
+			String upload = resources + "/upload/board";
+			
+			//업로드할 파일의 형태 : .../upload/notice/2020/07/13/abc.txt
+			//String folder = upload + "/upload/2020/07/13";
+			String folder = upload + "/" + category;
+			
+			//폴더가 없다면 폴더를 생성
+			File f = new File(folder);
+			if(!f.exists()) { f.mkdirs(); } //폴더가 존재하지 않으면 경로 생성
+			
+			//동시 다발적 동일명의 파일 업로드를 위한 고유 ID 부여: afd324adfa_abc.txt
+			String uuid = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			try {
+				file.transferTo( new File(folder, uuid) );
+			} catch (Exception e) {
+				System.out.println(e.getMessage());		
+			}
+			
+			// /upload/.../asdfadsfsa_abc.txt ▶ 업로드한 파일의 경로를 반환
+			// ① folder.replace(resources, "")
+			// ② folder.substring(resources.length()) + "/" + uuid;
+			return folder.substring(resources.length()) + "/" + uuid;
+		} //upload()
 	
 	//첨부 파일 다운로드 처리///////////////////////////////////////////////////////
 	public File download(String filename, String filepath, HttpSession session, HttpServletResponse response) {

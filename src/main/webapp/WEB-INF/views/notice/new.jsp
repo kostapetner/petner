@@ -76,7 +76,7 @@
 							<hr class="hr">
 							<div class="btnSet">
 								<a class="btn" onclick="if(necessary()) $('form').submit()">저장</a>
-								<a class="btn" href="list.no">취소</a>
+								<a class="btn" href="list_notice">취소</a>
 							</div>
 						</div>
 					</form>

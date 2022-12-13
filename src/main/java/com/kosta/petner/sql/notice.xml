@@ -33,8 +33,8 @@
 	</select>
 	
 	<insert id="insert">	
-		INSERT INTO notice (id, root, title, content, writer, filename, filepath)
-		VALUES (seq_notice.nextval, seq_notice.currval, #{title }, #{content }, #{writer }, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }) 
+		INSERT INTO notice (id, root, title, content, writer,file_no, filename, filepath)
+		VALUES (seq_notice.nextval, seq_notice.currval, #{title }, #{content }, #{writer }, #{file_no, jdbcType=VARCHAR }, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR }) 
 	</insert>
 	
 	<select id="detail" resultType="com.kosta.petner.bean.Notice">
@@ -51,7 +51,7 @@
 	</delete>
 	
 	<update id="update">
-		UPDATE notice set title = #{title }, content = #{content }, filename = #{filename, jdbcType=VARCHAR }, filepath = #{filepath, jdbcType=VARCHAR }
+		UPDATE notice set title = #{title }, content = #{content },file_no = #{file_no, jdbcType=VARCHAR }, filename = #{filename, jdbcType=VARCHAR }, filepath = #{filepath, jdbcType=VARCHAR }
 		WHERE id=#{id }
 	</update>
 	
@@ -62,8 +62,8 @@
 				UPDATE notice SET step = step + 1
 				WHERE root = #{root } AND step > #{step };
 				
-				INSERT INTO notice (id, root, title, content , writer, step, indent, filename, filepath)
-				VALUES (seq_notice.NEXTVAL, #{root }, #{title }, #{content }, #{writer }, #{step } + 1, #{indent } + 1, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
+				INSERT INTO notice (id, root, title, content , writer, step, indent,file_no, filename, filepath)
+				VALUES (seq_notice.NEXTVAL, #{root }, #{title }, #{content }, #{writer }, #{step } + 1, #{indent } + 1,#{file_no, jdbcType=VARCHAR }, #{filename, jdbcType=VARCHAR }, #{filepath, jdbcType=VARCHAR });
 			END}
 		]]>
 	</insert>

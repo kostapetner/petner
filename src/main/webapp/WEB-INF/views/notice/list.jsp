@@ -65,21 +65,24 @@
 					<h2>
 						<c:forEach var="i" begin="1" end="${vo.indent }">
 							<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
-							<span class="notice_indent">답변</span>&nbsp;&nbsp;
+							<span class="notice_indent">
+							<c:if test="detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}답변</c:if></span>&nbsp;&nbsp;
 						</c:forEach>
 						<a href="detail_notice?id=${vo.id }&curPage=${notice.curPage }" >${vo.title }</a>
 					</h2>
 					<p class="content">${vo.content}</p>
 				</div>
 				<!-- 이미지 있을때 -->
-				<div class="box3">
-				<c:if test="${!empty vo.filename }">
-				<div id="preview"></div>
-				</c:if>
-				<!-- 업로드한 이미지 없을때 -->
-				<c:if test="${empty vo.filename }">
-				<div class="preview_no"></div>
-				</c:if>
+				<div class="box3" id="box3">
+					<c:if test="${!empty vo.filename }">
+					<div class="preview">
+						<img src="resources/${vo.filepath }" class="img3" />
+					</div>
+					</c:if>
+					<!-- 업로드한 이미지 없을때 -->
+					<c:if test="${empty vo.filename }">
+					<div class="preview_no"></div>
+					</c:if>
 					
 				</div>
 			</td>
@@ -146,4 +149,8 @@ function go_page(no) {
 	$('[name=keyword]').val('${notice.keyword}');
 	$('#list').submit();
 }
+
+
+
+
 </script>
