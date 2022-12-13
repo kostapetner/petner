@@ -30,6 +30,8 @@
 .pn_write .content textarea::placeholder {color:#E1E3E6; }
 
 
+#list .table_top {margin: 30px 0px;}
+
 .table_top > div {display: flex; justify-content: space-between; align-items: center;}
 /*  search  */
 .search_box {display: flex;
@@ -101,7 +103,7 @@
 
 
 /*-------------- MYPAGE_TABLE CSS ---------------*/
-.user_table {}
+.user_table {background:red}
 .user_table .table {width: 100%;}
 .user_table .table tr > .left {text-align: start;}
 .user_table .table tr {border-bottom: 1px solid #f0f0f0;height: 110px;
