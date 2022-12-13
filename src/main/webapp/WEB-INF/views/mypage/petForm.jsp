@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images" />
 
 <div class="content">
 <h3 class="form_title fs24">나의 반려동물 정보</h3>
@@ -13,11 +15,10 @@
 	
 	<!-- 사진등록 -->
 	<div class="f_row profile_upload">
-		<p class="fc_title">프로필 사진을 올려주세요</p>
-		<p class="tip">프로필 사진이 있으면 펫시터에게 연락올 확률이 높아져요</p>
+		<p class="fc_title">반려동물의 사진을 올려주세요</p>
 		<div class="profile_upload">
 			<div class="prof_img">
-				<img id="rep" class="img_wrap img"> <br>
+				<img src="${imgPath}/noimg.webp" id="rep" class="img_wrap img"> 
 				<label for="file" class="pet_btn edit_btn"> 
 					<i class="fa-solid fa-pen" id="pen"></i>
 				</label> 

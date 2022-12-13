@@ -3,6 +3,7 @@ package com.kosta.petner.bean;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class Users {
 	private String sessionkey;
 	private Date sessionlimit;
 	private String photo;
+	private MultipartFile imageFile;
 
 }
 	

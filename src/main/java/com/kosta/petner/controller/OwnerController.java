@@ -55,7 +55,7 @@ public class OwnerController {
 	UsersService usersService;
 	
 	//펫 정보등록 페이지
-	@RequestMapping(value = "/petForm", method = RequestMethod.GET)
+	public @RequestMapping(value = "/petForm", method = RequestMethod.GET)
 	String petForm(Model model) {
 		model.addAttribute("title", "펫정보등록");
 		model.addAttribute("page", "mypage/petForm");

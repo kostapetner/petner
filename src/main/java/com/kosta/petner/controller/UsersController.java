@@ -116,7 +116,7 @@ public class UsersController {
 				Users authUser = usersService.login(users);
 				
 				if(authUser != null && bcryptPasswordEncoder.matches(users.getPassword(), authUser.getPassword())) {
-					System.out.println(authUser);
+					//System.out.println(authUser);
 					session.setAttribute("authUser", authUser);
 					session.setAttribute("uid", users.getId());
 					session.setAttribute("photo", users.getPhoto());

@@ -452,7 +452,8 @@
 	</div>
 
 	<!-- 카드형 리스트 -->
-	<div class="card_list_type" id="card_list"> </div>
+	<div class="card_list_type" id="card_list">
+	</div>
 	
 </div>
 
