@@ -22,8 +22,8 @@ public class ChatDAOImpl implements ChatDAO{
 	}
 
 	@Override
-	public ChatRoom selectChatRoom(String roomId) {
-		return sqlSession.selectOne("mapper.chat.selectChatRoom", roomId);
+	public ChatRoom selectChatRoom(String room_id) {
+		return sqlSession.selectOne("mapper.chat.selectChatRoom", room_id);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class ChatDAOImpl implements ChatDAO{
     }
     
 	@Override
-    public List<ChatMessage> messageList(String roomId) {
-        return sqlSession.selectList("mapper.chat.messageList", roomId);
+    public List<ChatMessage> messageList(String room_id) {
+        return sqlSession.selectList("mapper.chat.messageList", room_id);
     }
  
 	@Override
@@ -47,8 +47,8 @@ public class ChatDAOImpl implements ChatDAO{
     }
 	
 	@Override
-    public List<ChatRoom> chatRoomList(String userEmail) {
-        return sqlSession.selectList("mapper.chat.chatRoomList", userEmail);
+    public List<ChatRoom> chatRoomList(String user_id) {
+        return sqlSession.selectList("mapper.chat.chatRoomList", user_id);
     }
  
 	@Override

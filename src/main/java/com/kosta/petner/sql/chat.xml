@@ -7,50 +7,50 @@
 
 	 <!-- 신규 채팅방일 때 채팅 방 생성 -->
     <insert id="createChat" parameterType="com.kosta.petner.bean.ChatRoom">
-        insert into CHATROOM values(SEQ_CHATroomid.NEXTVAL, #{userEmail}, #{userName}, DEFAULT, #{masterEmail}, #{masterName}, #{masterPic})
+        insert into CHATROOM values(seq_chatRoom_id.nextval, #{user_id}, #{user_name}, DEFAULT, #{master_id}, #{master_name}, #{master_pic}, 0)
     </insert>
  
  	
     <select id="selectChatRoom" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM 
-        WHERE roomid = #{roomId} 
+        WHERE room_id = #{room_id} 
     </select>
     
     <insert id="insertMessage" parameterType="com.kosta.petner.bean.ChatMessage">
         <if test="sessionCount == 1">
-        INSERT INTO CHATMESSAGE (roomId, messageId, message, name, useremail, unreadCount)
-        VALUES (#{roomId}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{name}, #{email}, DEFAULT)
+        INSERT INTO CHATMESSAGE (room_id, message_id, message, user_name, user_id, unreadCount)
+        VALUES (#{room_id}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{user_name}, #{user_id}, DEFAULT)
         </if>
         <if test="sessionCount == 2">
-        INSERT INTO CHATMESSAGE (roomId, messageId, message, name, useremail, unreadCount)
-        VALUES (#{roomId}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{name}, #{email}, 0)
+        INSERT INTO CHATMESSAGE (room_id, message_id, message, user_name, user_id, unreadCount)
+        VALUES (#{room_id}, SEQ_CHATMESSAGE_ID.NEXTVAL, #{message}, #{user_name}, #{user_id}, 0)
         </if>
     </insert>
     
     <select id="messageList" parameterType="string" resultType="com.kosta.petner.bean.ChatMessage">
         SELECT * FROM CHATMESSAGE
-        WHERE roomid = #{rooomId}
+        WHERE room_id = #{rooom_id}
     </select>
     
     <select id="searchChatRoom" parameterType="com.kosta.petner.bean.ChatRoom" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM
-        WHERE USEREMAIL = #{userEmail} AND MASTEREMAIL = #{masterEmail}
+        WHERE user_id = #{user_id} AND MASTER_id = #{master_id}
     </select>
     
     <select id="chatRoomList" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM
-        WHERE USEREMAIL = #{userEmail} OR MASTEREMAIL = #{userEmail}
+        WHERE user_id = #{user_id} OR MASTER_id = #{user_id}
     </select>
     
     <select id="selectUnReadCount" parameterType="com.kosta.petner.bean.ChatMessage" resultType="int">
         SELECT COUNT(*) FROM CHATMESSAGE
-        WHERE roomid = #{roomId} AND USEREMAIL != #{email} AND UNREADCOUNT = 1
+        WHERE room_id = #{room_id} AND user_id != #{user_id} AND UNREADCOUNT = 1
     </select>
     
     <update id="updateCount" parameterType="com.kosta.petner.bean.ChatMessage">
         UPDATE CHATMESSAGE
         SET UNREADCOUNT = 0
-        WHERE roomid = #{roomId} AND USEREMAIL != #{email} AND UNREADCOUNT = 1
+        WHERE room_id = #{room_id} AND user_id != #{user_id} AND UNREADCOUNT = 1
     </update>
 </mapper>
 

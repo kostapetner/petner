@@ -83,11 +83,11 @@ textarea {
 				</li>
 				<li>
 					<p>이름 :</p>
-					<p>${users.name}</p>
+					<p>${users.name}</p>					
 				</li>
 				<li>
 					<p>아이디 :</p>
-					<p>${users.id}</p>
+					<p>${users.id}</p>				
 				</li>
 				<li>
 					<p>닉네임 :</p>
@@ -120,10 +120,19 @@ textarea {
 
 			</ul>
 
-			<button type="submit" class="btn btn-outline-secondary">
+			<button type="submit" class="btn btn-outline-secondary" style="display:inline-block;">
 			<%-- <a href="javascript:ad_detailmodify?user_type=${users.user_type}">회원정보 변경</a> --%>
 				회원정보 변경
 				</button>
+				<!-- 특정대상과 채팅방 만들기  -->
+				</form>
+				<form action= "createChat.do" method="post">
+				<input type="hidden" name=user_name value= "${authUser.name}"/>
+				<input type="hidden" name=user_id value= "${authUser.id}"/>			
+				<input type="hidden" name=master_name value= "${users.name}"/>
+				<input type="hidden" name=master_id value= "${users.id}"/>
+				<input type="hidden" name=master_pic value= "${users.file_no}"/>
+				<button type="submit" class="btn btn-outline-secondary" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>
 				</form>
 	</div>
 </div>

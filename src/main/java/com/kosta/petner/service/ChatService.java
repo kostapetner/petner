@@ -13,10 +13,10 @@ public interface ChatService {
 
 	 /**
      * 방 번호를 선택하는 메소드
-     * @param roomId
+     * @param room_id
      * @return
      */
-    ChatRoom selectChatRoom(String roomId);
+    ChatRoom selectChatRoom(String room_id);
  
     /**
      * 채팅 메세지 DB 저장
@@ -27,10 +27,10 @@ public interface ChatService {
  
     /**
      * 메세지 내용 리스트 출력
-     * @param roomId
+     * @param room_id
      * @return
      */
-    List<ChatMessage> messageList(String roomId);
+    List<ChatMessage> messageList(String room_id);
  
     /**
      * 채팅 방 DB 저장
@@ -48,10 +48,10 @@ public interface ChatService {
  
     /**
      * 채팅 방 리스트 출력
-     * @param userEmail
+     * @param user_id
      * @return
      */
-    List<ChatRoom> chatRoomList(String userEmail);
+    List<ChatRoom> chatRoomList(String user_id);
  
     /**
      * 채팅 읽지 않은 메세지 수 출력

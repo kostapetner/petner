@@ -1,20 +1,14 @@
 package com.kosta.petner.controller;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,16 +57,16 @@ public class ChatController {
     * @throws JsonIOException
     * @throws IOException
     */
-   @RequestMapping(value="{roomId}.do")
-   public void messageList(@PathVariable String roomId, String userEmail, Model model, HttpServletResponse response) throws JsonIOException, IOException {
+   @RequestMapping(value="{room_id}.do")
+   public void messageList(@PathVariable String room_id, String user_id, Model model, HttpServletResponse response) throws JsonIOException, IOException {
        
-       List<ChatMessage> mList = cService.messageList(roomId);
+       List<ChatMessage> mList = cService.messageList(room_id);
        response.setContentType("application/json; charset=utf-8");
 
        // 안읽은 메세지의 숫자 0으로 바뀌기
        ChatMessage message = new ChatMessage();
-       message.setEmail(userEmail);
-       message.setRoomId(roomId);
+       message.setUser_id(user_id);
+       message.setRoom_id(room_id);
        cService.updateCount(message);
        
        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -86,14 +80,14 @@ public class ChatController {
     * @param masterNickname
     * @return
     */
-   @ResponseBody
-   @RequestMapping("createChat.do")
-   public String createChat(ChatRoom room, String userName, String userEmail, String masterNickname){
+ 
+   @RequestMapping(value="createChat.do", method = RequestMethod.POST)
+   public String createChat(ChatRoom room, String user_name, String user_id){
        
 		/* UserMaster m = pService.getProductDetail(masterNickname); */
        
-       room.setUserEmail(userEmail);
-       room.setUserName(userName);
+       room.setUser_id(user_id);
+       room.setUser_name(user_name);
 		/*
 		 * room.setMasterEmail(m.getEmail()); room.setMasterName(m.getmNickname());
 		 * room.setMasterPic(m.getmProPicRe());
@@ -107,15 +101,15 @@ public class ChatController {
            int result = cService.createChat(room);
            if(result == 1) {
                System.out.println("방 만들었다!!");
-               return "new";
+               return "mypage/chat/chatForm";
            }else {
-               return "fail";
+               return "redirect:/";
            }
        }
        // DB에 방이 있을 때
        else{
            System.out.println("방이 있다!!");
-           return "exist";
+           return "mypage/chat/chatForm";
        }
    }
    
@@ -128,12 +122,12 @@ public class ChatController {
     * @throws IOException
     */
    @RequestMapping("chatRoomList.do")
-   public void createChat(ChatRoom room, ChatMessage message, String userEmail, HttpServletResponse response) throws JsonIOException, IOException{
-       List<ChatRoom> cList = cService.chatRoomList(userEmail);
+   public void createChat(ChatRoom room, ChatMessage message, String user_id, HttpServletResponse response) throws JsonIOException, IOException{
+       List<ChatRoom> cList = cService.chatRoomList(user_id);
        
        for(int i = 0; i < cList.size(); i++) {
-           message.setRoomId(cList.get(i).getRoomId());
-           message.setEmail(userEmail);
+           message.setRoom_id(cList.get(i).getRoom_id());
+           message.setUser_id(user_id);
            int count = cService.selectUnReadCount(message);
            cList.get(i).setUnReadCount(count);
        }

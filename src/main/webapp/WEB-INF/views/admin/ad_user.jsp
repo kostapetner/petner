@@ -30,6 +30,8 @@
 								<th scope="col">회원구분</th>
 								<th scope="col">주소</th>
 								<th scope="col" style="text-align: end;">탈퇴</th>
+								
+								
 							</tr>
 						</thead>
 						<tbody>

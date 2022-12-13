@@ -296,11 +296,7 @@ public class UsersController {
 			return "mypage/chat/chatForm";
 		}
 		
-		@RequestMapping(value = "/chatBox", method = RequestMethod.GET)
-		public String chatBox() {
-			return "mypage/chat/chatBox";
-		}
-
+	
 	
 	}
 	

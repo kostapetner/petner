@@ -20,8 +20,8 @@ public class ChatServiceImpl implements ChatService {
 	ChatDAO chatDAO;
 
 	@Override
-	public ChatRoom selectChatRoom(String roomId) {
-		return chatDAO.selectChatRoom(roomId);
+	public ChatRoom selectChatRoom(String room_id) {
+		return chatDAO.selectChatRoom(room_id);
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatMessage> messageList(String roomId) {
-		return chatDAO.messageList(roomId);
+	public List<ChatMessage> messageList(String room_id) {
+		return chatDAO.messageList(room_id);
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatRoom> chatRoomList(String userEmail) {
-		return chatDAO.chatRoomList(userEmail);
+	public List<ChatRoom> chatRoomList(String user_id) {
+		return chatDAO.chatRoomList(user_id);
 	}
 
 	@Override
