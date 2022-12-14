@@ -285,22 +285,7 @@ public class UsersController {
 			return "redirect:/";
 		}
 		
-		//카카오 1:1채팅으로 이동
-		@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
-		public String kaChat() {
-			return "mypage/chat/kaChat";
-		}
-		
-		@RequestMapping(value = "/chat", method = RequestMethod.GET)
-		public String chat() {
-			return "mypage/chat/chatForm";
-		}
-		
-		@RequestMapping(value = "/chatgo", method = RequestMethod.GET)
-		public String chatgo() {
-			return "mypage/inquiry";
-		}
-		
+	
 	
 	}
 	

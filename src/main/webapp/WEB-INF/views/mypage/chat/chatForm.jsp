@@ -1,32 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cssPath"
+	value="${pageContext.request.contextPath}/resources/css"/>
+<c:set var="imgPath"
+	value="${pageContext.request.contextPath}/resources/images"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<c:import url='/WEB-INF/views/include/common_head.jsp' />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Petner Chat</title>
 
 <style>
-
-
 .display-none {
 display: none;
 }
 .chatListContainer{
-	
-    z-index: 98;
+	border: 1px solid yellow;
+	border-radius: 10px;
+	width: 400px;
+	height: 500px;
+	margin: auto;
 }
+
+.chatList{
+	margin: 20px 10px;
+}
+
+.chatContainer{
+	border: 1px solid yellow;
+	border-radius: 10px;
+	width: 400px;
+	height: 500px;
+	margin: auto;
+	position:relative;
+	
+}
+
 .chatTop{
- grid-area: setting;
-    line-height: 2.5rem;
-    vertical-align: middle;
-    margin-right: 0.625rem;
-    position: sticky;
-    top: 0;
+	border: 1px solid yellow;
+	border-radius: 10px;
+	width: 400px;
+	height: 50px;
+		
 }
 .chatIcon{
-	display:inline-block;vertical-align:middle;
+	display:inline-block;vertical-align:middle;	
+	background-color: yellow;
+	border-radius: 50%;
 }
 .listTitle{
 	font-size: 30px;
@@ -43,25 +66,16 @@ display: none;
 }
 
 .format{
-    top: 0;
-    left: 0;
-    display: grid;
-    grid-template-columns: minmax(3.125rem, auto) 6.25rem;
-    grid-template-rows: 2.5rem 2.5rem auto;
-    align-items: stretch;
-    grid-template-areas:
-        " header   setting  "
-        " header  main_menu "
-        "  main     main    ";
+    
 
 }
 
 .right {
-float: right;
+text-align: right;
 }
 
 .Left {
-float: left;
+text-align: left;
 }
 
 .profile_img {
@@ -71,14 +85,29 @@ float: left;
     height: 50px;
     border-radius: 50%;
     background-color: #eee;
+    cursor: pointer;
 }
 
-.chatMiddle .sender {
+.chat_main {
+ 	position: relative;
+    width: 70px;
+    height: 70px;
+   
+}
+
+.chatMiddle {
+		position:absolute;
+		width:400px;
+		height:360px;
+		overflow: auto;
+}
+
+.sender {
 	margin: 10px 25px 0px 10px;
 	font-weight: bold;
 }
 
-.chatMiddle .message {
+.message {
 	display: inline-block;
 	margin: 5px 20px 0px 10px;
 	max-width: 75%;
@@ -87,24 +116,44 @@ float: left;
 	border-radius: 5px;
 	background-color: #FCFCFC;
 	text-align: left;
+	}
+	
+.chatBottom {
+		position:absolute;
+		margin:360px 0px;
+}
+	
 	
   textarea {
-    width: 300px;
-    height: 6.25em;
-    border: none;
+    width: 400px;
+    height: 86.25px;
+    border: 1px solid yellow;
+	border-radius: 10px;
     resize: none;
   }	
+  
+  .chatTitle {
+  		  margin:auto;
+  	  	  width:400px;
+  	  	  border-radius: 10px;
+  	  	  cursor: pointer;
+  }
 </style>
 <body>
+	<!-- HEADER BASIC -->
+		<c:import url='/WEB-INF/views/include/header.jsp' />
     <!-- 채팅 아이콘 -->
-    <div class="chatIcon">
-        <img src="resources/images/header_logo.png"  style= "width: 100px; cursor:pointer"></div>
-        <div style="display:inline-block;" class="listTitle chatIcon">${uid}님의 채팅목록 </div>
+    <div class="chatTitle">
+	 	<div class= "chatIcon">
+    		 <img src="resources/images/paw.png" class= "chat_main" >   	
+    	</div>
+        <div style="display:inline-block;" class="listTitle">Petner Chat</div>
+    </div>    
     <!-- 채팅 리스트 / 채팅 방 OPEN / CLOSE -->
       <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
         <script>
     
-         $(document).on("click", ".chatIcon", function(){                // 채팅 Icon 클릭 시,
+         $(document).on("click", ".chatTitle", function(){                // 채팅 Icon 클릭 시,
             if($('.chatContainer').hasClass("display-none")){           // if ) 채팅방이 열려있지 않을 때,
                 $('.chatListContainer').toggleClass('display-none');    // 리스트를 연다.
             }else{                                                      // else ) 채팅방이 열려있다면,
@@ -131,15 +180,15 @@ float: left;
     <!-- 채팅 창 -->
     <div class="chatContainer display-none">
         <div class="chatTop">
-            <div class="floatLeft" id="loginOn" style="display:inline-block;vertical-align:middle;">
-                <img class="profile_img" id="setPic"><!-- src 사진 경로 동적 생성 -->
+            <div class="floatLeft" id="loginOn">
+                <img class="profile_img" id="setPic"style="display:inline-block;vertical-align:bottom;"><!-- src 사진 경로 동적 생성 -->
             </div>
-            <div class="name_container font_noto" id="setName" style="display:inline-block;vertical-align:middle;"><!-- 이름 동적 생성 --></div>
+            <div class="name_container font_noto" id="setName" ><!-- 이름 동적 생성 --></div>
             <div class="floatRight">
-                <img src="resources/images/chat-close.png" style= "width:20px;"  class="btnImgclose">
+                <img src="resources/images/chat-close.png" style= "width:20px; cursor:pointer;"  class="btnImgclose">
             </div>
             <div class="floatRight">
-                <img src="resources/images/chat-minus.png" style= "width:20px;" class="btnImgdown">
+                <img src="resources/images/chat-minus.png" style= "width:20px; cursor:pointer;" class="btnImgdown">
             </div>
         </div>
         <div class="chatMiddle">
@@ -168,9 +217,6 @@ float: left;
  
     <!-- 채팅 리스트 -->
     <div class="chatListContainer font_jua display-none">
-        <div class="chatTop">
-            <div style="padding: 10px; margin-left: 4px;">채팅 리스트</div>
-        </div>
         <div class="chatList">
             <!-- 동적 생성 -->
         </div>
@@ -224,26 +270,26 @@ float: left;
                         // 태그 동적 추가
                         for(var i in data){
                         
-                            // 자신이 구매자 입장일 때
+                            // 자신이 채팅거는 입장일 때
                             if(data[i].user_id == "${authUser.id}"){
-                                // 현재 판매자가 로그인 상태 일 때
+                                // 현재 상대방 로그인 상태 일 때
                                 if(loginList.indexOf(data[i].another_id) != -1){
                                     $div = $("<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("another_id",data[i].another_id);
                                 }
-                                // 현재 판매자가 로그아웃 상태 일 때
+                                // 현재 상대방 로그아웃 상태 일 때
                                 else{
                                     $div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("another_id",data[i].another_id);
                                 }
                                 $img = $("<img class='profile_img'>").attr("src", "getImg/" + data[i].another_pic);
                                 $divs = $("<div class='userNameId'>").text(data[i].another_nickname);
                             }
-                            // 자신이 판매자 입장일 때
+                            // 자신이 채팅 받는 입장일 때
                             else{                        
-                                // 현재 구매자가 로그인 상태 일 때
+                                // 현재 보낸사람이 로그인 상태 일 때
                                 if(loginList.indexOf(data[i].user_id) != -1){
                                     $div = $("<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("user_id",data[i].user_id);
                                 }
-                                // 현재 구매자가 로그아웃 상태 일 때
+                                // 현재 보낸사람이 로그아웃 상태 일 때
                                 else{
                                     $div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("user_id",data[i].user_id);
                                 }                                
@@ -266,7 +312,7 @@ float: left;
                             
                             // String을 int로 바꿔주고 더해준다.
                             countAll += parseInt(data[i].unReadCount);
-                        }
+                        }//For문 끝
                     }
                 }
             });
@@ -464,5 +510,8 @@ float: left;
              return false;
         };
     </script>
+			<!-- FOOTER BASIC -->
+		<c:import url='/WEB-INF/views/include/footer.jsp' />
+		
 </body>
 </html>

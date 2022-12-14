@@ -49,6 +49,21 @@ public class ChatController {
    @Autowired
    private ChatSession cSession;
    
+   
+	//카카오 1:1채팅으로 이동
+	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
+	public String kaChat() {
+		return "mypage/chat/kaChat";
+	}
+	
+	@RequestMapping(value = "/chat", method = RequestMethod.GET)
+	public String chat() {
+		return "mypage/chat/chatForm";
+	}
+	
+		
+   
+   
    /**
     * 해당 채팅방의 채팅 메세지 불러오기
     * @param roomId
@@ -100,7 +115,7 @@ public class ChatController {
            System.out.println("방이 없다!!");
            int result = cService.createChat(room);
            if(result == 1) {
-               System.out.println("방 만들었다!!");
+               System.out.println("방 만들었다!! =>새로운 채팅방으로");
                return "mypage/chat/chatForm";
            }else {
                return "redirect:/";
@@ -108,7 +123,7 @@ public class ChatController {
        }
        // DB에 방이 있을 때
        else{
-           System.out.println("방이 있다!!");
+           System.out.println("방이 있다!! =>기존 채팅방으로");
            return "mypage/chat/chatForm";
        }
    }

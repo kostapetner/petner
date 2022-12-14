@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
+
 
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<c:import url='/WEB-INF/views/include/common_head.jsp' />
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,6 +247,8 @@
 
 <body>
   <div id="wrapper">
+  		<!-- HEADER BASIC -->
+		<c:import url='/WEB-INF/views/include/header.jsp' />
 
     <div class="login_form w50">      
       <h3 class="form_title">회원가입</h3>
@@ -330,4 +336,7 @@
       </form>
     </div>
   </div>
+  
+		<!-- FOOTER BASIC -->
+		<c:import url='/WEB-INF/views/include/footer.jsp' />
 </body>

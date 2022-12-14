@@ -115,7 +115,13 @@
 							str +='<div class="icons">';
 							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
 							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
-							str +='<a href="#" title="펫시터에게 메시지 보내기" class="transition02 chat"><i class="fa-solid fa-comment-dots"></i></a>';
+							str +='<form action= "createChat.do" method="post">'+
+							'<input type="hidden" name=user_nickname value= "${authUser.nickname}"/>' +
+							'<input type="hidden" name=user_id value= "${authUser.id}"/>' +
+							'<input type="hidden" name=another_nickname value= "${userInfo.nickname}"/>' +
+							'<input type="hidden" name=another_id value= "${userInfo.id}"/>' +				
+							'<button type="submit" class="btn btn-outline-secondary btn_position" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>' +
+							'</form>';
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
@@ -374,6 +380,13 @@
   .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
   #centerAddr {display:block;margin-top:2px;font-weight: normal;}
   .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  
+  
+/*  .btn_position {
+  position: absolute;
+  top:1270px;
+  left:1090px;
+  }  */
 </style>
 
 <!-- CONTAINER -->
