@@ -14,12 +14,16 @@
 display: none;
 }
 .chatListContainer{
-	     border: 2px solid yellow;
-    border-radius: 5px;
+	
+    z-index: 98;
 }
 .chatTop{
-	    border: 2px solid orange;
-    border-radius: 5px;
+ grid-area: setting;
+    line-height: 2.5rem;
+    vertical-align: middle;
+    margin-right: 0.625rem;
+    position: sticky;
+    top: 0;
 }
 .chatIcon{
 	display:inline-block;vertical-align:middle;
@@ -38,9 +42,18 @@ display: none;
 	float: right;
 }
 
-.chatMiddle{
- 	border: 2px solid yellow;
-    border-radius: 5px;
+.format{
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: minmax(3.125rem, auto) 6.25rem;
+    grid-template-rows: 2.5rem 2.5rem auto;
+    align-items: stretch;
+    grid-template-areas:
+        " header   setting  "
+        " header  main_menu "
+        "  main     main    ";
+
 }
 
 .right {
@@ -51,7 +64,36 @@ float: right;
 float: left;
 }
 
+.profile_img {
+ 	position: relative;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #eee;
+}
 
+.chatMiddle .sender {
+	margin: 10px 25px 0px 10px;
+	font-weight: bold;
+}
+
+.chatMiddle .message {
+	display: inline-block;
+	margin: 5px 20px 0px 10px;
+	max-width: 75%;
+	border: 1px solid gray;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: #FCFCFC;
+	text-align: left;
+	
+  textarea {
+    width: 300px;
+    height: 6.25em;
+    border: none;
+    resize: none;
+  }	
 </style>
 <body>
     <!-- 채팅 아이콘 -->
@@ -75,12 +117,12 @@ float: left;
              }
          });
          
-         $(document).on("click", "btnImg close", function(){                // X 버튼 클릭 시,
+         $(document).on("click", ".btnImgclose", function(){                // X 버튼 클릭 시,
              $('.chatContainer').toggleClass('display-none');           // 채팅방을 닫는다.
              websocket.close();                                            // socket 연결 종료
          });
          
-         $(document).on("click", "btnImg down", function(){                 // - 버튼 클릭 시,
+         $(document).on("click", ".btnImgdown", function(){                 // - 버튼 클릭 시,
              $('.chatContainer').toggleClass('display-none');           // 채팅방을 닫고,
              $('.chatListContainer').toggleClass('display-none');       // 리스트를 연다.
              websocket.close();                                            // socket 연결 종료
@@ -94,10 +136,10 @@ float: left;
             </div>
             <div class="name_container font_noto" id="setName" style="display:inline-block;vertical-align:middle;"><!-- 이름 동적 생성 --></div>
             <div class="floatRight">
-                <img src="resources/images/chat-close.png" style= "width:20px;"  class="btnImg close">
+                <img src="resources/images/chat-close.png" style= "width:20px;"  class="btnImgclose">
             </div>
             <div class="floatRight">
-                <img src="resources/images/chat-minus.png" style= "width:20px;" class="btnImg down">
+                <img src="resources/images/chat-minus.png" style= "width:20px;" class="btnImgdown">
             </div>
         </div>
         <div class="chatMiddle">
@@ -185,15 +227,15 @@ float: left;
                             // 자신이 구매자 입장일 때
                             if(data[i].user_id == "${authUser.id}"){
                                 // 현재 판매자가 로그인 상태 일 때
-                                if(loginList.indexOf(data[i].master_id) != -1){
-                                    $div = $("<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("user_id",data[i].master_id);
+                                if(loginList.indexOf(data[i].another_id) != -1){
+                                    $div = $("<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("another_id",data[i].another_id);
                                 }
                                 // 현재 판매자가 로그아웃 상태 일 때
                                 else{
-                                    $div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("user_id",data[i].master_id);
+                                    $div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("another_id",data[i].another_id);
                                 }
-                                $img = $("<img class='profile_img'>").attr("src", "resources/images/" + data[i].master_Pic);
-                                $divs = $("<div class='userNameId'>").text(data[i].master_name);
+                                $img = $("<img class='profile_img'>").attr("src", "getImg/" + data[i].another_pic);
+                                $divs = $("<div class='userNameId'>").text(data[i].another_nickname);
                             }
                             // 자신이 판매자 입장일 때
                             else{                        
@@ -205,8 +247,8 @@ float: left;
                                 else{
                                     $div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>").attr("id",data[i].room_id).attr("user_id",data[i].user_id);
                                 }                                
-                                $img = $("<img class='profile_img'>").attr("src", "resources/imgages/" + data[i].user_pic);
-                                $divs = $("<div class='userNameId'>").text(data[i].user_name);
+                                $img = $("<img class='profile_img'>").attr("src", "getImg/" + data[i].user_pic);
+                                $divs = $("<div class='userNameId'>").text(data[i].user_nickname);
                             }
                             
                             // 읽지 않은 메세지가 0이 아닐 때
@@ -341,7 +383,7 @@ float: left;
              // ENTER-CHAT 이라는 메세지를 보내어, Java Map에 session 추가
              const data = {
                     "room_id" : room_id,
-                    "user_name" : "${ authUser.name }",
+                    "user_nickname" : "${ authUser.nickname }",
                     "user_id" : "${ authUser.id }",
                  	"message" : "ENTER-CHAT"
             };
@@ -355,7 +397,7 @@ float: left;
             
             const data = {
                 "room_id" : room_id,
-                "user_name" : "${ authUser.name }",
+                "user_nickname" : "${ authUser.nickname }",
                 "user_id" : "${ authUser.id }",
                 "message"   : message 
             };
@@ -373,7 +415,7 @@ float: left;
             let receive = evt.data.split(",");
              
             const data = {
-                    "user_name" : receive[0],
+                    "user_nickname" : receive[0],
                     "user_id" : receive[1],
              	    "message" : receive[2]
             };
@@ -388,13 +430,13 @@ float: left;
             // email이 loginSession의 email과 다르면 왼쪽, 같으면 오른쪽
             const LR = (data.user_id != "${ authUser.id}") ? "left" : "right";
              // 메세지 추가
-            appendMessageTag(LR, data.user_id, data.message, data.user_name);
+            appendMessageTag(LR, data.user_id, data.message, data.user_nickname);
         }
          
         // * 3 메세지 태그 append
-        function appendMessageTag(LR_className, user_id, message, user_name) {
+        function appendMessageTag(LR_className, user_id, message, user_nickname) {
              
-            const chatLi = createMessageTag(LR_className, user_id, message, user_name);
+            const chatLi = createMessageTag(LR_className, user_id, message, user_nickname);
          
             $('div.chatMiddle:not(.format) ul').append(chatLi);
          
@@ -403,14 +445,14 @@ float: left;
         }
          
         // * 4 메세지 태그 생성
-        function createMessageTag(LR_className, user_email, message, user_name) {
+        function createMessageTag(LR_className, user_email, message, user_nickname) {
          
              // 형식 가져오기
              let chatLi = $('div.chatMiddle.format ul li').clone();
          
              chatLi.addClass(LR_className);              // left : right 클래스 추가
              // find() : chatLi의 하위 요소 찾기
-             chatLi.find('.sender span').text(user_name);      // 이름 추가
+             chatLi.find('.sender span').text(user_nickname);      // 이름 추가
              chatLi.find('.message span').text(message); // 메세지 추가
          
              return chatLi;

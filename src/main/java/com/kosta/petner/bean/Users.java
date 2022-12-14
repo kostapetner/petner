@@ -32,7 +32,6 @@ public class Users {
 	private boolean useCookie;
 	private String sessionkey;
 	private Date sessionlimit;
-	private String photo;
 	private MultipartFile imageFile;
 
 }

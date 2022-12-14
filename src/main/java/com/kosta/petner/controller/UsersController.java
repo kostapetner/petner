@@ -119,7 +119,7 @@ public class UsersController {
 					//System.out.println(authUser);
 					session.setAttribute("authUser", authUser);
 					session.setAttribute("uid", users.getId());
-					session.setAttribute("photo", users.getPhoto());
+					
 					returnURL = "redirect:/";
 					
 		            // 1. 로그인이 성공하면, 그 다음으로 로그인 폼에서 쿠키가 체크된 상태로 로그인 요청이 왔는지를 확인한다.
@@ -296,7 +296,11 @@ public class UsersController {
 			return "mypage/chat/chatForm";
 		}
 		
-	
+		@RequestMapping(value = "/chatgo", method = RequestMethod.GET)
+		public String chatgo() {
+			return "mypage/inquiry";
+		}
+		
 	
 	}
 	

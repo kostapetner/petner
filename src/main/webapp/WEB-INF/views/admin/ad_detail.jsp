@@ -127,11 +127,11 @@ textarea {
 				<!-- 특정대상과 채팅방 만들기  -->
 				</form>
 				<form action= "createChat.do" method="post">
-				<input type="hidden" name=user_name value= "${authUser.name}"/>
+				<input type="hidden" name=user_nickname value= "${authUser.nickname}"/>
 				<input type="hidden" name=user_id value= "${authUser.id}"/>			
-				<input type="hidden" name=master_name value= "${users.name}"/>
-				<input type="hidden" name=master_id value= "${users.id}"/>
-				<input type="hidden" name=master_pic value= "${users.file_no}"/>
+				<input type="hidden" name=another_nickname value= "${users.nickname}"/>
+				<input type="hidden" name=another_id value= "${users.id}"/>
+			
 				<button type="submit" class="btn btn-outline-secondary" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>
 				</form>
 	</div>

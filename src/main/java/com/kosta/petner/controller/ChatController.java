@@ -82,12 +82,12 @@ public class ChatController {
     */
  
    @RequestMapping(value="createChat.do", method = RequestMethod.POST)
-   public String createChat(ChatRoom room, String user_name, String user_id){
+   public String createChat(ChatRoom room, String user_nickname, String user_id){
        
 		/* UserMaster m = pService.getProductDetail(masterNickname); */
        
        room.setUser_id(user_id);
-       room.setUser_name(user_name);
+       room.setUser_nickname(user_nickname);
 		/*
 		 * room.setMasterEmail(m.getEmail()); room.setMasterName(m.getmNickname());
 		 * room.setMasterPic(m.getmProPicRe());

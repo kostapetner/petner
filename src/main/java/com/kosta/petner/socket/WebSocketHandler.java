@@ -100,7 +100,7 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         else if(RoomList.get(chatRoom.getRoom_id()) != null && !chatMessage.getMessage().equals("ENTER-CHAT") && chatRoom != null) {
             
             // 메세지에 이름, 이메일, 내용을 담는다.
-            TextMessage textMessage = new TextMessage(chatMessage.getUser_name() + "," + chatMessage.getUser_id() + "," + chatMessage.getMessage());
+            TextMessage textMessage = new TextMessage(chatMessage.getUser_nickname() + "," + chatMessage.getUser_id() + "," + chatMessage.getMessage());
             
             // 현재 session 수
             int sessionCount = 0;
