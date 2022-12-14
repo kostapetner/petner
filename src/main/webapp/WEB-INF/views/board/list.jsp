@@ -59,7 +59,7 @@
 	</div>
 </form>
 
-<div class="user_table">
+<div class="user_table_list">
 	<c:if test="${board.viewType eq 'list' }">
 		<table class="table">
 			<tr>

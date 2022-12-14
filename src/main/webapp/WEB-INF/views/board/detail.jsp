@@ -1,105 +1,115 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>board detail jsp</title>
-<style type="text/css">
-table td { word-break:break-all; } /* 영문으로'만' 이루어진 글 줄바꿈 되게끔 처리 */
-
-#popup { 
-	width: 350px;
- 	height: 350px; 
- 	position:absolute; 
- 	left:50%; 
- 	top:15%; 
- 	transform:translate(-50%);
- 	border: 3px solid #666;
- 	border-radius: 50%;
- 	z-index: 9999999999;
- 	display: none;
-}
-
-
-#popup-background {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #000;
-	opacity: 0.3;
-	display: none;
-}
-
-.popup{ width: 100%; height: 100%;}
-#comment_regist span{ width:50%; float:left; }
-</style>
 </head>
-<body>
-<h3>방명록 상세 조회</h3>
-<table>
-	<tr>
-		<th class="w-px160">제목</th>
-		<td class="left" colspan="5" class="left">${vo.title }</td>
-	</tr>
-	<tr>
-		<th>작성자</th>
-		<td>${vo.name }</td>
-		<th class="w-px100">작성일자</th>
-		<td class="w-px100">${vo.writedate }</td>
-		<th class="w-px80">조회수</th>
-		<td class="w-px60">${vo.readcnt }</td>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td class="left" colspan="5">${fn:replace(vo.content, crlf, '<br>') }</td>
-	</tr>
-	<tr>
-		<th>첨부 파일</th>
-		<td class="left" colspan="5">
-			<core:if test="${!empty vo.filename }">
-				${vo.filename }
-				<span id="preview"></span>
-				<a href="download_board?id=${vo.id }"><i class="fas fa-download font-img"></i></a>
-			</core:if>
-		</td>
-	</tr>
-</table>
-<div class="btnSet">
-	<a class="btn-fill" href="list_board">목록으로</a>
-	<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
-	<core:if test="${authUser.id eq vo.writer}"> 
-		<a class="btn-fill" onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
-	</core:if>
-	<core:if test="${authUser.id eq vo.writer }"> 
-		<a class="btn-fill" onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
-	</core:if>
-</div>
 
-<div style="margin:0 auto; padding-top:20px; width:500px;">
-	<div id="comment_regist">
-		<span class="left">댓글 작성</span>
-		<span class="right"><button class="btn-fill-s" onclick="comment_regist()">등록</button></span>
-		<textarea id="comment" style="width:99%; height:60px; margin-top:5px; resize:none;"></textarea>
+<!-- CONTAINER -->
+
+<div class="cont_view">
+	<h3>방명록 상세 조회</h3>
+	<div class="formbox">
+		<div class="pn_view">
+			<div class="title">
+				<h1>${vo.title }</h1>
+			</div>
+			<div class="source">
+				<div>
+					<span>by</span>${vo.name }
+				</div>
+				<div class="data_box d-flex">
+					<div>
+						<div colspan="5" class="left">
+							첨부파일 <span class="by">${vo.filename }</span>
+							<c:if test="${!empty vo.filename }">
+								<a class="by" href="download_notice?id=${vo.id }"
+									style='margin-left: 5px'> <i class="fa-solid fa-file"></i></a>
+							</c:if>
+						</div>
+						<%-- <c:if test="${article.file_no!=null }">
+										<!-- 첨부파일 다운로드 -->
+										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
+											${article.file_no}
+											<i class="fas fa-download font-img"></i>
+										</a>
+								</c:if> --%>
+					</div>
+					&nbsp;&nbsp;&nbsp;
+					<div>
+						<!-- day -->
+						${vo.writedate  }&nbsp;&nbsp; <i class="fa-regular fa-eye"></i>
+						${vo.readcnt }
+					</div>
+				</div>
+			</div>
+
+			<hr class="hr">
+
+			<span id="preview"></span>
+
+			<div class="content">
+				<!-- 첨부된 이미지 보여주기 -->
+				<img src="resources/${vo.filepath }" class="img">
+				<div class="txt">${fn:replace(vo.content, crlf, '<br>') }</div>
+
+			</div>
+			<hr class="hr">
+
+
+
+
+
+
+			<div class="btnSet">
+				<a class="pet_btn" href="list_board">목록으로</a>
+				<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
+				<core:if test="${authUser.id eq vo.writer}">
+					<a class="pet_btn"
+						onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
+				</core:if>
+				<core:if test="${authUser.id eq vo.writer }">
+					<a class="pet_btn"
+						onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
+				</core:if>
+			</div>
+
+			<div class="comment_container">
+				<div id="comment_regist">
+					<h3>댓글 작성</h3>
+					<div class="box">
+					<textarea id="comment" class="fcc_textarea"></textarea>
+					<span class="right"><button class="pet_btn"
+							onclick="comment_regist()">등록</button></span>
+					</div>
+					
+				</div>
+				<div id="comment_list" class="comment_list"></div>
+			</div>
+
+
+			<form method="post" action="list_board">
+				<input type="hidden" name="id" value="${vo.id }" /> <input
+					type="hidden" name="curPage" value="${board.curPage }" /> <input
+					type="hidden" name="search" value="${board.search }" /> <input
+					type="hidden" name="keyword" value="${board.keyword }" /> <input
+					type="hidden" name="viewType" value="${board.viewType }" /> <input
+					type="hidden" name="pageList" value="${board.pageList }" />
+			</form>
+			<div id="popup"
+				onclick="$('#popup, #popup-background').css('display', 'none')"></div>
+			<div id="popup-background"></div>
+
+		</div>
 	</div>
-	<div id="comment_list" style="text-align:left"></div>
 </div>
 
-
-<form method="post" action="list_board">
-	<input type="hidden" name="id" value="${vo.id }" />
-	<input type="hidden" name="curPage" value="${board.curPage }" />
-	<input type="hidden" name="search" value="${board.search }" />
-	<input type="hidden" name="keyword" value="${board.keyword }" />
-	<input type="hidden" name="viewType" value="${board.viewType }" />
-	<input type="hidden" name="pageList" value="${board.pageList }" />
-</form>
-<div id="popup" onclick ="$('#popup, #popup-background').css('display', 'none')"></div>
-<div id="popup-background"></div>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
 <script type="text/javascript">
 function go_list() {
 	$('form').submit();
@@ -119,14 +129,14 @@ function showAttachImage(id) {
 	}
 }
 
-/* if( ${!empty vo.filename} ) {
+if( ${!empty vo.filename} ) {
 	showAttachImage('#preview');
-} */
+} 
 
-/* $('#preview-img').click(function() {
+ $('#preview-img').click(function() {
 	$('#popup, #popup-background').css('display', 'block');
 	showAttachImage('#popup');
-}); */
+});
 
 function comment_regist() {
 	if(${empty authUser}) {
@@ -134,11 +144,11 @@ function comment_regist() {
 		return;	
 	}
 	
-	/* if( $("#comment").val() == "" ) {
+	if( $("#comment").val() == "" ) {
 		alert("댓글을 입력하세요!");
 		$("#comment").focus();
 		return;
-	} */
+	}
 
 	$.ajax({
 		url: "board/comment/insert",
@@ -169,5 +179,4 @@ function comment_list() {
 }
 comment_list();
 </script>
-</body>
 </html>

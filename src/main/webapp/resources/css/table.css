@@ -101,9 +101,43 @@
  /* 버튼들 */
 .buttonList {text-align: center;}
 
+/* 댓글 */
+.comment_container {padding: 0 30px;}
+.comment_container textarea {width: 100%;
+    height: 60px;
+    resize: none;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;}
+.comment_container .fcc_textarea {border: 1px solid #ccc;
+    border-radius: 5px;min-height: 60px;}    
+ .comment_container .box {display: flex;margin-top: 10px;
+    align-items: center;}  
+  .comment_container .box .pet_btn {min-height: 60px;  }
+    #comment_list {
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 12px;
+    height: auto;min-height: 40px;}
+    #comment_list > div {display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;}
+    #comment_list .text_box {display: flex;
+    flex-direction: column;}
+    #comment_list .text_box p {font-size: 14px;margin-bottom: 5px;}
+    #comment_list .text_box p span {color: #ccc;}
+    #comment_list .text_box .original {}
+    #comment_list .cm_btnSet {display: flex;}
+    #comment_list .cm_btnSet .pet_btn {height: auto;
+    margin-left: 5px;}
+/*  */
+
 
 /*-------------- MYPAGE_TABLE CSS ---------------*/
-.user_table {background:red}
+.user_table {}
+.user_table_list .table {width: 100%;}
+.user_table_list .table tr {height: 40px;text-align: justify;}
 .user_table .table {width: 100%;}
 .user_table .table tr > .left {text-align: start;}
 .user_table .table tr {border-bottom: 1px solid #f0f0f0;height: 110px;

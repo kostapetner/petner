@@ -83,6 +83,14 @@
 
 
 >>>>>>> b65ac06c6b607ddb8afffe697e91db6e083bf40e
+
+
+
+/* search */
+.ad_card .table_top .search_box {display: flex;
+    align-items: center;}
+
+
 .card-body {
 	padding: 20px;
 }
