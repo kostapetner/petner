@@ -1,13 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="cssPath"
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
-	
-
-
+<head>
+<link rel="stylesheet" href="${cssPath}/table.css">
+</head>
 <p class="list_title">board</p>
 <form id="list" method="post" action="">
 	<input type="hidden" name="curPage" value="1" />
