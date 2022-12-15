@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,14 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.petner.bean.Board;
+import com.kosta.petner.bean.BoardCommentVO;
+import com.kosta.petner.bean.BoardPage;
 import com.kosta.petner.bean.Notice;
 import com.kosta.petner.bean.NoticePage;
-import com.kosta.petner.bean.PageInfo;
-import com.kosta.petner.bean.Qna;
 import com.kosta.petner.bean.QnaPage;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.UsersDAO;
 import com.kosta.petner.service.AdminService;
+import com.kosta.petner.service.BoardService;
 import com.kosta.petner.service.CommonService;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.MypageService;
@@ -42,10 +44,13 @@ public class AdminController {
 
 	@Autowired
 	QnaPage qnaPage;
-	
+
 	@Autowired
 	NoticePage noticePage;
-	
+
+	@Autowired
+	BoardPage boardPage;
+
 	@Autowired
 	CommonService common;
 
@@ -57,6 +62,9 @@ public class AdminController {
 
 	@Autowired
 	NoticeService noticeService;
+
+	@Autowired
+	BoardService boardService;
 
 	@Autowired
 	UsersService usersService;
@@ -169,139 +177,149 @@ public class AdminController {
 		return mav;
 	}
 
-	/////////////////////// notice ///////////////////////
+	/////////////////////// ******* notice *******///////////////////////
 
 	// 공지사항 목록화면 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_list_notice")
-		public String ad_list_notice(Model model, HttpSession session, @RequestParam(defaultValue = "1") int curPage, String search,
-				String keyword) {
-			try {
-				// 공지사항 클릭 하면 admin으로 자동 로그인
-				HashMap<String, String> map = new HashMap<String, String>();
-				// HashMap : 데이터를 담을 자료 구조
-				// map.put("id", "admin");
-				// map.put("pw", "1234");
-				// session.setAttribute("login_info", users.login(map));
-				session.setAttribute("category", "no");
-				// DB에서 공지 글 목록을 조회해와 목록 화면에 출력
-				noticePage.setCurPage(curPage);
-				noticePage.setSearch(search);
-				noticePage.setKeyword(keyword);
-				model.addAttribute("notice", noticeService.notice_list(noticePage));
-				model.addAttribute("page", "admin/notice/list");
+	@RequestMapping("/ad_list_notice")
+	public String ad_list_notice(Model model, HttpSession session, @RequestParam(defaultValue = "1") int curPage,
+			String search, String keyword) {
+		try {
+			// 공지사항 클릭 하면 admin으로 자동 로그인
+			HashMap<String, String> map = new HashMap<String, String>();
+			// HashMap : 데이터를 담을 자료 구조
+			// map.put("id", "admin");
+			// map.put("pw", "1234");
+			// session.setAttribute("login_info", users.login(map));
+			session.setAttribute("category", "no");
+			// DB에서 공지 글 목록을 조회해와 목록 화면에 출력
+			noticePage.setCurPage(curPage);
+			noticePage.setSearch(search);
+			noticePage.setKeyword(keyword);
+			model.addAttribute("notice", noticeService.notice_list(noticePage));
+			model.addAttribute("page", "admin/notice/list");
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("err", e.getMessage());
-				model.addAttribute("/notice/err");
-			}
-
-			return "/layout/admin_main";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/notice/err");
 		}
 
-		// 신규 공지 글 작성 화면 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_new_notice")
-		public String ad_new_notice(Model model) {
-			model.addAttribute("page", "admin/notice/new");
-			return "/layout/admin_main";
-		}
+		return "/layout/admin_main";
+	}
+
+	// 신규 공지 글 작성 화면 요청//////////////////////////////////////////////////////
+	@RequestMapping("/ad_new_notice")
+	public String ad_new_notice(Model model) {
+		model.addAttribute("page", "admin/notice/new");
+		return "/layout/admin_main";
+	}
 
 //		//신규 공지 글 저장 처리 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_insert_notice")
-		public String ad_insert_notice(MultipartFile file, Notice vo, HttpSession session) {
-			//첨부한 파일을 서버 시스템에 업로드하는 처리
-			if( !file.isEmpty() ) {
-				vo.setFilepath(common.upload("notice", file, session));
-				vo.setFilename(file.getOriginalFilename());
-			}
-			
-			vo.setWriter( ((Users) session.getAttribute("authUser")).getId() );
-			//화면에서 입력한 정보를 DB에 저장한 후
-			noticeService.notice_insert(vo);
-			//목록 화면으로 연결
-			return "redirect:ad_list_notice";
+	@RequestMapping("/ad_insert_notice")
+	public String ad_insert_notice(MultipartFile file, Notice vo, HttpSession session) {
+		// 첨부한 파일을 서버 시스템에 업로드하는 처리
+		if (!file.isEmpty()) {
+			vo.setFilepath(common.upload("notice", file, session));
+			vo.setFilename(file.getOriginalFilename());
 		}
-		
-		// 저장된 이미지 보여주기
-		public @RequestMapping(value = "/{ad_filepath}", method = RequestMethod.GET)
-		UrlResource ad_showImage(int id,MultipartFile file,@PathVariable String filepath,HttpServletResponse response) throws
-		MalformedURLException {
-			Notice vo = noticeService.notice_detail(id);
-			
-		 	return new UrlResource("file:" + vo.getFilepath());
-		 	
-		 }
 
+		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
+		// 화면에서 입력한 정보를 DB에 저장한 후
+		noticeService.notice_insert(vo);
+		// 목록 화면으로 연결
+		return "redirect:ad_list_notice";
+	}
 
-		// 공지글 상세 화면 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_detail_notice")
-		public String ad_detail_notice(int id, Model model) {
-			try {
-				// 선택한 공지글에 대한 조회수 증가 처리
-				noticeService.notice_read(id);
+	// 저장된 이미지 보여주기
+	public @RequestMapping(value = "/{ad_filepath}", method = RequestMethod.GET) UrlResource ad_showImage(int id,
+			MultipartFile file, @PathVariable String filepath, HttpServletResponse response)
+			throws MalformedURLException {
+		Notice vo = noticeService.notice_detail(id);
 
-				// 선택한 공지글 정보를 DB에서 조회해와 상세 화면에 출력
-				model.addAttribute("vo", noticeService.notice_detail(id));
-				model.addAttribute("crlf", "\r\n");
-				model.addAttribute("notice", noticePage);
-				model.addAttribute("page", "admin/notice/detail");
+		return new UrlResource("file:" + vo.getFilepath());
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("err", e.getMessage());
-				model.addAttribute("/notice/err");
+	}
+
+	// 공지글 상세 화면 요청//////////////////////////////////////////////////////
+	@RequestMapping("/ad_detail_notice")
+	public String ad_detail_notice(int id, Model model) {
+		try {
+			// 선택한 공지글에 대한 조회수 증가 처리
+			noticeService.notice_read(id);
+
+			// 선택한 공지글 정보를 DB에서 조회해와 상세 화면에 출력
+			model.addAttribute("vo", noticeService.notice_detail(id));
+			model.addAttribute("crlf", "\r\n");
+			model.addAttribute("notice", noticePage);
+			model.addAttribute("page", "admin/notice/detail");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/notice/err");
+		}
+
+		return "/layout/admin_main";
+	} // detail()
+
+	// 첨부파일 다운로드 요청//////////////////////////////////////////////////////
+	@ResponseBody
+	@RequestMapping("/ad_download_notice")
+	public void ad_download_notice(int id, HttpSession session, HttpServletResponse response) {
+		Notice vo = noticeService.notice_detail(id);
+		common.download(vo.getFilename(), vo.getFilepath(), session, response);
+	} // download()
+
+	// 공지글 삭제 처리 요청//////////////////////////////////////////////////////
+	@RequestMapping("/ad_delete_notice")
+	public String ad_delete_notice(int id, HttpSession session) {
+		// 선택한 공지글에 첨부된 파일이 있다면 서버의 물리적 영역에서 해당 파일도 삭제한다
+		Notice vo = noticeService.notice_detail(id);
+		if (vo.getFilepath() != null) {
+			File file = new File(session.getServletContext().getRealPath("resources") + vo.getFilepath());
+			if (file.exists()) {
+				file.delete();
 			}
+		}
 
-			return "/layout/admin_main";
-		} // detail()
+		// 선택한 공지글을 DB에서 삭제한 후 목록 화면으로 연결
+		noticeService.notice_delete(id);
 
-		// 첨부파일 다운로드 요청//////////////////////////////////////////////////////
-		@ResponseBody
-		@RequestMapping("/ad_download_notice")
-		public void ad_download_notice(int id, HttpSession session, HttpServletResponse response) {
-			Notice vo = noticeService.notice_detail(id);
-			common.download(vo.getFilename(), vo.getFilepath(), session, response);
-		} // download()
+		return "redirect:ad_list_notice";
+	} // delete()
 
-		// 공지글 삭제 처리 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_delete_notice")
-		public String ad_delete_notice(int id, HttpSession session) {
-			// 선택한 공지글에 첨부된 파일이 있다면 서버의 물리적 영역에서 해당 파일도 삭제한다
-			Notice vo = noticeService.notice_detail(id);
-			if (vo.getFilepath() != null) {
-				File file = new File(session.getServletContext().getRealPath("resources") + vo.getFilepath());
-				if (file.exists()) {
-					file.delete();
+	// 공지글 수정 화면 요청//////////////////////////////////////////////////////
+	@RequestMapping("/ad_modify_notice")
+	public String ad_modify_notice(int id, Model model) {
+		// 선택한 공지글 정보를 DB에서 조회해와 수정화면에 출력
+		model.addAttribute("vo", noticeService.notice_detail(id));
+		model.addAttribute("page", "admin/notice/modify");
+		return "/layout/admin_main";
+	} // modify()
+
+	// 공지글 수정 처리 요청//////////////////////////////////////////////////////
+	@RequestMapping("/ad_update_notice")
+	public String ad_update_notice(Notice vo, MultipartFile file, HttpSession session, String attach) {
+		// 원래 공지글의 첨부 파일 관련 정보를 조회
+		Notice notice = noticeService.notice_detail(vo.getId());
+		String uuid = session.getServletContext().getRealPath("resources") + notice.getFilepath();
+
+		// 파일을 첨부한 경우 - 없었는데 첨부 / 있던 파일을 바꿔서 첨부
+		if (!file.isEmpty()) {
+			vo.setFilename(file.getOriginalFilename());
+			vo.setFilepath(common.upload("notice", file, session));
+
+			// 원래 있던 첨부 파일은 서버에서 삭제
+			if (notice.getFilename() != null) {
+				File f = new File(uuid);
+				if (f.exists()) {
+					f.delete();
 				}
 			}
 
-			// 선택한 공지글을 DB에서 삭제한 후 목록 화면으로 연결
-			noticeService.notice_delete(id);
-
-			return "redirect:ad_list_notice";
-		} // delete()
-
-		// 공지글 수정 화면 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_modify_notice")
-		public String ad_modify_notice(int id, Model model) {
-			// 선택한 공지글 정보를 DB에서 조회해와 수정화면에 출력
-			model.addAttribute("vo", noticeService.notice_detail(id));
-			model.addAttribute("page", "admin/notice/modify");
-			return "/layout/admin_main";
-		} // modify()
-
-		// 공지글 수정 처리 요청//////////////////////////////////////////////////////
-		@RequestMapping("/ad_update_notice")
-		public String ad_update_notice(Notice vo, MultipartFile file, HttpSession session, String attach) {
-			// 원래 공지글의 첨부 파일 관련 정보를 조회
-			Notice notice = noticeService.notice_detail(vo.getId());
-			String uuid = session.getServletContext().getRealPath("resources") + notice.getFilepath();
-
-			// 파일을 첨부한 경우 - 없었는데 첨부 / 있던 파일을 바꿔서 첨부
-			if (!file.isEmpty()) {
-				vo.setFilename(file.getOriginalFilename());
-				vo.setFilepath(common.upload("notice", file, session));
-
+		} else {
+			// 원래 있던 첨부 파일을 삭제됐거나 원래부터 첨부 파일이 없었던 경우
+			if (attach.isEmpty()) {
 				// 원래 있던 첨부 파일은 서버에서 삭제
 				if (notice.getFilename() != null) {
 					File f = new File(uuid);
@@ -310,64 +328,225 @@ public class AdminController {
 					}
 				}
 
+				// 원래 있던 첨부 파일을 그대로 사용하는 경우
 			} else {
-				// 원래 있던 첨부 파일을 삭제됐거나 원래부터 첨부 파일이 없었던 경우
-				if (attach.isEmpty()) {
-					// 원래 있던 첨부 파일은 서버에서 삭제
-					if (notice.getFilename() != null) {
-						File f = new File(uuid);
-						if (f.exists()) {
-							f.delete();
-						}
-					}
+				vo.setFilename(notice.getFilename());
+				vo.setFilepath(notice.getFilepath());
+			}
 
-					// 원래 있던 첨부 파일을 그대로 사용하는 경우
-				} else {
-					vo.setFilename(notice.getFilename());
-					vo.setFilepath(notice.getFilepath());
+		}
+
+		// 화면에서 변경한 정보를 DB에 저장한 후 상세 화면으로 연결
+		noticeService.notice_update(vo);
+
+		return "redirect:ad_detail_notice?id=" + vo.getId();
+	} // update()
+
+	// 공지글 답글 쓰기 화면
+	// 요청=============================================================================================
+	@RequestMapping("/ad_reply_notice")
+	public String ad_reply_notice(Model model, int id) {
+		// 원글의 정보를 답글 쓰기 화면에서 알 수 있도록 한다.
+		model.addAttribute("vo", noticeService.notice_detail(id));
+		model.addAttribute("page", "admin/notice/reply");
+		return "/layout/admin_main";
+	} // reply()
+
+	// 공지글 신규 답글 저장 처리
+	// 요청=============================================================================================
+	@RequestMapping("/ad_reply_insert_notice")
+	public String ad_reply_insert_notice(Notice vo, HttpSession session, MultipartFile file) {
+		if (!file.isEmpty()) {
+			vo.setFilename(file.getOriginalFilename());
+			vo.setFilepath(common.upload("notice", file, session));
+		}
+		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
+
+		// 화면에서 입력한 정보를 DB에 저장한 후 목록화면으로 연결
+		noticeService.notice_reply_insert(vo);
+		return "redirect:ad_list_notice";
+	} // reply_insert()
+
+///////////////////////******* board *******///////////////////////
+
+	// 방명록 목록 화면 요청================================================================
+	@RequestMapping("/ad_list_board")
+	public String ad_list_board(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage,
+			String search, String keyword, @RequestParam(defaultValue = "10") int pageList,
+			@RequestParam(defaultValue = "list") String viewType) {
+		try {
+			// DB에서 방명록 정보를 조회해와 목록 화면에 출력
+			session.setAttribute("category", "bo");
+			boardPage.setCurPage(curPage);
+			boardPage.setSearch(search);
+			boardPage.setKeyword(keyword);
+			boardPage.setPageList(pageList);
+			boardPage.setViewType(viewType);
+			model.addAttribute("board", boardService.board_list(boardPage));
+			model.addAttribute("page", "admin/board/list");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/notice/err");
+		}
+
+		return "/layout/admin_main";
+	} // list()
+
+	// 방명록 신규 화면 요청================================================================
+	@RequestMapping("/ad_new_board")
+	public String ad_new_board(Model model) {
+		// 방명록 글쓰기 화면으로 연결
+		model.addAttribute("page", "admin/board/new");
+		return "/layout/admin_main";
+	} // board()
+
+	// 신규 방명록 저장 처리
+	// 요청================================================================
+	@RequestMapping(value = "/ad_insert_board", method = { RequestMethod.GET, RequestMethod.POST })
+	public String ad_insert_board(Board vo, MultipartFile file, HttpSession session) {
+		// 화면에서 입력한 정보를 DB에 저장한 후 목록 화면으로 연결
+		if (!file.isEmpty()) {
+			vo.setFilename(file.getOriginalFilename());
+			vo.setFilepath(common.upload("board", file, session));
+		}
+		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
+		boardService.board_insert(vo);
+		return "redirect:ad_list_board";
+	} // insert()
+
+	// 방명록 상세 화면
+	// 요청====================================================================
+	@RequestMapping("/ad_detail_board")
+	public String ad_detail_board(int id, Model model) {
+		try {
+			// 선택한 방명록 글을 DB에서 조회해와 상세 화면에 출력
+			boardService.board_read(id);
+			model.addAttribute("vo", boardService.board_detail(id));
+			model.addAttribute("crlf", "\r\n");
+			model.addAttribute("board", boardPage);
+			model.addAttribute("page", "admin/board/detail");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", e.getMessage());
+			model.addAttribute("/notice/err");
+		}
+		return "/layout/admin_main";
+	} // detail()
+
+	// 방명록 상세 화면
+	// 요청====================================================================
+	@ResponseBody
+	@RequestMapping("/ad_download_board")
+	public void ad_download_board(int id, HttpSession session, HttpServletResponse response) {
+		// 해당 글의 첨부 파일 정보를 조회해와 다운로드한다.
+		Board vo = boardService.board_detail(id);
+		common.download(vo.getFilename(), vo.getFilepath(), session, response);
+	} // download()
+
+	// 방명록 수정 화면
+	// 요청====================================================================
+	@RequestMapping("/ad_modify_board")
+	public String ad_modify_board(int id, Model model) {
+		// 선택한 방명록 글의 정보를 DB에서 조회해와 수정 화면에 출력
+		model.addAttribute("vo", boardService.board_detail(id));
+		model.addAttribute("page", "admin/board/modify");
+		return "/layout/admin_main";
+	} // modify()
+
+	// 방명록 수정 화면
+	// 요청====================================================================
+	@RequestMapping("/ad_update_board")
+	public String ad_update_board(Board vo, MultipartFile file, HttpSession session, String attach, Model model) {
+		// 화면에서 입력한 정보를 DB에 변경, 저장한 후 상세 화면으로 연결
+		Board board = boardService.board_detail(vo.getId());
+		String uuid = session.getServletContext().getRealPath("resources") + board.getFilepath();
+
+		// 파일을 첨부한 경우 - 없었는데 새로 첨부, 있었는데 바꿔 첨부
+		if (!file.isEmpty()) {
+			vo.setFilename(file.getOriginalFilename());
+			vo.setFilepath(common.upload("board", file, session));
+
+			if (board.getFilename() != null) {
+				File f = new File(uuid);
+				if ((f.exists())) {
+					f.delete();
 				}
-
 			}
-
-			// 화면에서 변경한 정보를 DB에 저장한 후 상세 화면으로 연결
-			noticeService.notice_update(vo);
-
-			return "redirect:ad_detail_notice?id=" + vo.getId();
-		} // update()
-
-		// 공지글 답글 쓰기 화면
-		// 요청=============================================================================================
-		@RequestMapping("/ad_reply_notice")
-		public String ad_reply_notice(Model model, int id) {
-			// 원글의 정보를 답글 쓰기 화면에서 알 수 있도록 한다.
-			model.addAttribute("vo", noticeService.notice_detail(id));
-			model.addAttribute("page", "admin/notice/reply");
-			return "/layout/admin_main";
-		} // reply()
-
-		// 공지글 신규 답글 저장 처리
-		// 요청=============================================================================================
-		@RequestMapping("/ad_reply_insert_notice")
-		public String ad_reply_insert_notice(Notice vo, HttpSession session, MultipartFile file) {
-			if (!file.isEmpty()) {
-				vo.setFilename(file.getOriginalFilename());
-				vo.setFilepath(common.upload("notice", file, session));
+		} else {
+			// 파일 첨부가 없는 경우 - if 없었고, else 있었는데 그대로 사용하는 경우
+			if (attach.isEmpty()) {
+				File f = new File(uuid);
+				if ((f.exists())) {
+					f.delete();
+				}
+			} else {
+				vo.setFilename(board.getFilename());
+				vo.setFilepath(board.getFilepath());
 			}
-			vo.setWriter(((Users) session.getAttribute("authUser")).getId());
+		}
+		boardService.board_update(vo);
 
-			// 화면에서 입력한 정보를 DB에 저장한 후 목록화면으로 연결
-			noticeService.notice_reply_insert(vo);
-			return "redirect:ad_list_notice";
-		} // reply_insert()
-	
-	
-	
-	
-	
-	//////////////////////////////////////////////////////
-	
-	
-	
+		// 기존 방법
+		// return "redirect:detail.bo?id=" + vo.getId();
+
+		// 다른 방법
+//			model.addAttribute("url", "detail_board");
+		model.addAttribute("url", "redirect:ad_detail_board?id=\" + vo.getId()");
+		model.addAttribute("id", vo.getId());
+		return "redirect:/ad_detail_board?id+ vo.getId()";
+	} // update()
+
+	// 방명록 수정 화면
+	// 요청====================================================================
+	@RequestMapping("/ad_delete_board")
+	public String ad_delete_board(int id, Model model) {
+		// 선택한 글을 DB에서 삭제한 후 목록 화면으로 연결
+		boardService.board_delete(id);
+		model.addAttribute("url", "list_board");
+		model.addAttribute("id", id);
+		model.addAttribute("board", boardPage);
+		model.addAttribute("page", "admin/board/redirect");
+		return "/layout/admin_main";
+	} // delete()
+
+	// 댓글 저장 처리
+	// 요청====================================================================
+	@ResponseBody
+	@RequestMapping("/ad_board/comment/insert")
+	public boolean ad_comment_insert(BoardCommentVO vo, HttpSession session) {
+		// 화면에서 입력한 정보를 DB에 저장한다.
+		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
+		return boardService.board_comment_insert(vo) > 0 ? true : false;
+	} // comment_insert()
+
+	// 댓글 목록 조회
+	// 요청====================================================================
+	@RequestMapping("/ad_board/comment/{pid}")
+	public String ad_comment_list(@PathVariable int pid, Model model) {
+		// DB에서 댓글 목록을 조회해와 댓글 목록 화면에 출력
+		model.addAttribute("list", boardService.board_comment_list(pid));
+		model.addAttribute("crlf", "\r\n");
+		model.addAttribute("lf", "\n"); // lf의 형태로 라인피드가 저장될 수도 있어서 윗라인이 적용이 안될경우 이 코드도 작성한다.
+
+		return "board/comment/list";
+	} // comment_list()
+
+	// 댓글 변경 저장 처리 요청
+	@ResponseBody
+	@RequestMapping(value = "/ad_board/comment/update", produces = "application/text; charset=utf-8")
+	public String ad_comment_update(@RequestBody BoardCommentVO vo) {
+		return boardService.board_comment_update(vo) > 0 ? "성공" : "실패";
+	} // comment_update()
+
+	// 댓글 삭제 처리 요청
+	// ResponseBody : 화면(jsp)으로 연결이 아니라 호출한쪽으로 돌아갈때 사용하는 어노테이션
+	@ResponseBody
+	@RequestMapping("/ad_board/comment/delete/{id}")
+	public void ad_comment_delete(@PathVariable int id) {
+		boardService.board_comment_delete(id);
+	} // comment_delete()
+
 	// 관리자 공지사항 글쓰기 화면 이동
 //	@RequestMapping(value = "/ad_noticewriteform", method = RequestMethod.GET)
 //	public String ad_noticewriteform(Model model) {
@@ -532,89 +711,88 @@ public class AdminController {
 
 	/////////////////////// qna ///////////////////////
 
-	// qna_list 정보 불러오기
-	@RequestMapping(value = "/ad_qnaList", method = { RequestMethod.GET, RequestMethod.POST })
-	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,String search, String keyword,
-			Model model) {
-		PageInfo pageInfo = new PageInfo();
-		try {
-			qnaPage.setSearch(search);
-			qnaPage.setKeyword(keyword);
-			List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
-			model.addAttribute("articleList", articleList);
-			model.addAttribute("pageInfo", pageInfo);
-			model.addAttribute("page", "/admin/qna/listform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("err", e.getMessage());
-			model.addAttribute("/qna/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// qna_글쓰기 화면 이동
-	@RequestMapping(value = "/ad_qnawriteform", method = RequestMethod.GET)
-	public String qnawriteform(Model model) {
-
-		model.addAttribute("page", ".admin/qna/writeform");
-		model.addAttribute("title", "글쓰기");
-		return "/layout/admin_main";
-	}
-
-	// qna_글쓰기 DB insert
-	@RequestMapping(value = "/ad_qnawrite", method = RequestMethod.POST)
-	public String qnawrite(MultipartFile file, @ModelAttribute Qna qna, Model model, HttpSession session)
-			throws Exception {
-
-		// 첨부한 파일을 서버 시스템에 업로드하는 처리
-		if (!file.isEmpty()) {
-			qna.setFilepath(common.upload("qna", file, session));
-			qna.setFile_no(file.getOriginalFilename());
-		}
-
-		// 화면에서 입력한 정보를 DB에 저장한 후
-		qnaService.resistQna(qna);
-		// 목록 화면으로 연결
-		return "redirect:ad_qnaList";
-	}
-
-	// 관리자 qna 뷰페이지 디테일
-	@RequestMapping(value = "/ad_qnadetail", method = RequestMethod.GET)
-	String ad_qnadetail(@RequestParam("qna_no") Integer qnaNum, String server_filename,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
-		try {
-			// 조회수 증가
-			qnaService.qna_read(qnaNum);
-			Qna qna = qnaService.getQna(qnaNum);
-			model.addAttribute("article", qna);
-			model.addAttribute("page", page);
-			model.addAttribute("page", "admin/qna/viewform");
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("/notice/err");
-		}
-		return "/layout/admin_main";
-	}
-
-	// 관리자 qna 삭제
-	@RequestMapping(value = "/ad_qnadelete", method = RequestMethod.POST)
-	public ModelAndView ad_qnadelete(@RequestParam("qna_no") Integer qnaNum,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		System.out.println("Controller:" + qnaNum);
-		ModelAndView mav = new ModelAndView();
-		try {
-			adminService.deleteQna(qnaNum);
-			mav.addObject("page", page);
-			mav.setViewName("redirect:/ad_qnaList");
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("err", e.getMessage());
-			mav.setViewName("/notice/err");
-		}
-		return mav;
-	}
-	
-	
-	/////////////////////// qna.end
+//	// qna_list 정보 불러오기
+//	@RequestMapping(value = "/ad_qnaList", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String qnaList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+//			String search, String keyword, Model model) {
+//		PageInfo pageInfo = new PageInfo();
+//		try {
+//			qnaPage.setSearch(search);
+//			qnaPage.setKeyword(keyword);
+//			List<Qna> articleList = qnaService.getQnaList(page, pageInfo);
+//			model.addAttribute("articleList", articleList);
+//			model.addAttribute("pageInfo", pageInfo);
+//			model.addAttribute("page", "/admin/qna/listform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("err", e.getMessage());
+//			model.addAttribute("/qna/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// qna_글쓰기 화면 이동
+//	@RequestMapping(value = "/ad_qnawriteform", method = RequestMethod.GET)
+//	public String qnawriteform(Model model) {
+//
+//		model.addAttribute("page", ".admin/qna/writeform");
+//		model.addAttribute("title", "글쓰기");
+//		return "/layout/admin_main";
+//	}
+//
+//	// qna_글쓰기 DB insert
+//	@RequestMapping(value = "/ad_qnawrite", method = RequestMethod.POST)
+//	public String qnawrite(MultipartFile file, @ModelAttribute Qna qna, Model model, HttpSession session)
+//			throws Exception {
+//
+//		// 첨부한 파일을 서버 시스템에 업로드하는 처리
+//		if (!file.isEmpty()) {
+//			qna.setFilepath(common.upload("qna", file, session));
+//			qna.setFile_no(file.getOriginalFilename());
+//		}
+//
+//		// 화면에서 입력한 정보를 DB에 저장한 후
+//		qnaService.resistQna(qna);
+//		// 목록 화면으로 연결
+//		return "redirect:ad_qnaList";
+//	}
+//
+//	// 관리자 qna 뷰페이지 디테일
+//	@RequestMapping(value = "/ad_qnadetail", method = RequestMethod.GET)
+//	String ad_qnadetail(@RequestParam("qna_no") Integer qnaNum, String server_filename,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model) {
+//		try {
+//			// 조회수 증가
+//			qnaService.qna_read(qnaNum);
+//			Qna qna = qnaService.getQna(qnaNum);
+//			model.addAttribute("article", qna);
+//			model.addAttribute("page", page);
+//			model.addAttribute("page", "admin/qna/viewform");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("/notice/err");
+//		}
+//		return "/layout/admin_main";
+//	}
+//
+//	// 관리자 qna 삭제
+//	@RequestMapping(value = "/ad_qnadelete", method = RequestMethod.POST)
+//	public ModelAndView ad_qnadelete(@RequestParam("qna_no") Integer qnaNum,
+//			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//		System.out.println("Controller:" + qnaNum);
+//		ModelAndView mav = new ModelAndView();
+//		try {
+//			adminService.deleteQna(qnaNum);
+//			mav.addObject("page", page);
+//			mav.setViewName("redirect:/ad_qnaList");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			mav.addObject("err", e.getMessage());
+//			mav.setViewName("/notice/err");
+//		}
+//		return mav;
+//	}
+//
+//	/////////////////////// qna.end
 
 }

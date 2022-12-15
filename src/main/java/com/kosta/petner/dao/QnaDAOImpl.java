@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.Qna;
+import com.kosta.petner.bean.QnaPage;
 
 @Repository
 public class QnaDAOImpl implements QnaDAO {
@@ -15,54 +16,46 @@ public class QnaDAOImpl implements QnaDAO {
 	SqlSessionTemplate sqlSession;
 
 	@Override
-	public void insertQna(Qna qna) throws Exception {
-		sqlSession.insert("mapper.qna.insertQna", qna);
+	public void qna_insert(Qna qna) {
+		sqlSession.insert("mapper.qna.insert", qna);
 	}
 
 	@Override
-	public Integer selectMaxQnaNum() throws Exception {
-		return sqlSession.selectOne("mapper.qna.selectMaxQnaNum");
+	public List<Qna> qna_list() {
+		return sqlSession.selectList("mapper.qna.list");
 	}
 
 	@Override
-	public List<Qna> selectQnaList(Integer row) throws Exception {
-		return sqlSession.selectList("mapper.qna.selectQnaList", row);
+	public Qna qna_detail(int id) {
+		return sqlSession.selectOne("mapper.qna.detail", id);
 	}
 
 	@Override
-	public Integer selectQnaCount() throws Exception {
-		return sqlSession.selectOne("mapper.qna.selectQnaCount");
+	public void qna_update(Qna qna) {
+		sqlSession.update("mapper.qna.update", qna);
 	}
 
 	@Override
-	public Qna selectQna(Integer qna_no) throws Exception {
-		return sqlSession.selectOne("mapper.qna.selectQna", qna_no);
+	public void qna_delete(int id) {
+		sqlSession.delete("mapper.qna.delete", id);
 	}
 
 	@Override
-	public void updateQna(Qna qna) throws Exception {
-		sqlSession.update("mapper.qna.updateQna", qna);
+	public void qna_read(int id) {
+		sqlSession.update("mapper.qna.read", id);
 	}
 
 	@Override
-	public void updateQnaReReq(Qna qna) throws Exception {
-		sqlSession.update("mapper.qna.updateQnaReReq", qna);
+	public QnaPage qna_list(QnaPage qnaPage) {
+		qnaPage.setTotalList((Integer) sqlSession.selectOne("mapper.qna.totalList", qnaPage));
+		qnaPage.setList(sqlSession.selectList("mapper.qna.list", qnaPage));
+
+		return qnaPage;
 	}
 
 	@Override
-	public void deleteQna(Integer qnaNum) throws Exception {
-		sqlSession.update("mapper.qna.deleteQna", qnaNum);
+	public void qna_reply_insert(Qna qna) {
+		sqlSession.insert("mapper.qna.reply_insert", qna);
 	}
 
-	// 조회수 증가
-	@Override
-	public void qna_read(int qna_no) throws Exception {
-		sqlSession.update("mapper.qna.read", qna_no);
-		
-	}
-
-	@Override
-	public void updateFileNoToQna(Qna qna) {
-		sqlSession.update("mapper.qna.updateFileNoToQna", qna);
-	}
 }

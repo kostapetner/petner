@@ -14,22 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Component
 public class Qna {
-	private int qna_no;
-	private String user_id;
-	private String qna_pass;
-	private String qna_title;
-	private String qna_content;
-	private String filepath;
-	private String file_no;
-	private int qna_re_ref;
-	private int qna_re_lev;
-	private int qna_re_seq;
-	private int qna_hit;
-	private Date reg_date;
+private int id, readcnt, no, root, step, indent;
+	
+	private Integer file_no;
+
+	private String title, content, writer, filename, filepath, name;
+	
+	private Date writedate;
+	
+	private String server_filename;
 	
 	private MultipartFile imageFile;
-
-	
-	
 	
 }

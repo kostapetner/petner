@@ -102,13 +102,13 @@ public class AdminServiceImpl implements AdminService {
 		noticeDAO.notice_read(notice_id);
 	}
 	
-	@Override
-	public void deleteQna(Integer qnaNum) throws Exception {
-		Qna qna = getQna(qnaNum);
-		System.out.println("Service:"+qnaNum);
-		System.out.println("Service:"+qna);
-		qnaDAO.deleteQna(qnaNum);
-	}
+//	@Override
+//	public void deleteQna(Integer qnaNum) throws Exception {
+//		Qna qna = getQna(qnaNum);
+//		System.out.println("Service:"+qnaNum);
+//		System.out.println("Service:"+qna);
+//		qnaDAO.deleteQna(qnaNum);
+//	}
 
 	private Qna getQna(Integer qnaNum) {
 		// TODO Auto-generated method stub
@@ -147,6 +147,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void deleteNotice(Integer noticeNum) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteQna(Integer QnaNum) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

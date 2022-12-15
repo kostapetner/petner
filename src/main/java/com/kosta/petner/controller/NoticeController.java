@@ -94,7 +94,7 @@ public class NoticeController {
 	}
 	
 	// 저장된 이미지 보여주기
-	public @RequestMapping(value = "/{filepath}", method = RequestMethod.GET)
+	public @RequestMapping(value = "/{notice_filepath}", method = RequestMethod.GET)
 	UrlResource showImage(int id,MultipartFile file,@PathVariable String filepath,HttpServletResponse response) throws
 	MalformedURLException {
 		Notice vo = noticeService.notice_detail(id);

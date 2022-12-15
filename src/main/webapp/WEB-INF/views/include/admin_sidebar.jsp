@@ -107,6 +107,8 @@
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 								<li><a href="./ad_list_notice"
 									class="link-dark d-inline-flex text-decoration-none rounded">공지사항 관리</a></li>
+									<li><a href="./ad_list_board"
+									class="link-dark d-inline-flex text-decoration-none rounded">게시판 관리</a></li>
 									<li><a href="./ad_qnaList"
 									class="link-dark d-inline-flex text-decoration-none rounded">QNA 관리</a></li>
 								<li><a href="#"
