@@ -120,7 +120,7 @@
 							'<input type="hidden" name=user_id value= "${authUser.id}"/>' +
 							'<input type="hidden" name=another_nickname value= "${userInfo.nickname}"/>' +
 							'<input type="hidden" name=another_id value= "${userInfo.id}"/>' +				
-							'<button type="submit" class="btn btn-outline-secondary btn_position" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>' +
+							'<button type="submit" class="btn btn-outline-secondary btn_position"><i class="fa-solid fa-comment-dots"></i></button>' +
 							'</form>';
 							str +='</div>';
 							str+='</li>';

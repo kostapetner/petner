@@ -48,7 +48,7 @@ display: none;
 }
 .chatIcon{
 	display:inline-block;vertical-align:middle;	
-	background-color: yellow;
+	background-color: orange;
 	border-radius: 50%;
 }
 .listTitle{
@@ -150,30 +150,23 @@ text-align: left;
         <div style="display:inline-block;" class="listTitle">Petner Chat</div>
     </div>    
     <!-- 채팅 리스트 / 채팅 방 OPEN / CLOSE -->
-      <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
+     
         <script>
-    
-         $(document).on("click", ".chatTitle", function(){                // 채팅 Icon 클릭 시,
-            if($('.chatContainer').hasClass("display-none")){           // if ) 채팅방이 열려있지 않을 때,
-                $('.chatListContainer').toggleClass('display-none');    // 리스트를 연다.
-            }else{                                                      // else ) 채팅방이 열려있다면,
-                $('.chatContainer').toggleClass('display-none');        // 채팅방을 닫는다.
-                websocket.close();
-            }
-             
-             if(!$('.chatListContainer').hasClass('display-none')){         // 채팅 리스트가 닫혀 있을 때
-                getRoomList();                                            // 채팅 방 목록을 불러온다.
-             }
-         });
+        $(function(){
+        	  getRoomList();
+        	});
+        
+        
          
          $(document).on("click", ".btnImgclose", function(){                // X 버튼 클릭 시,
-             $('.chatContainer').toggleClass('display-none');           // 채팅방을 닫는다.
+             $('.chatContainer').hide();           // 채팅방을 닫는다.
+             $('.chatListContainer').show();
              websocket.close();                                            // socket 연결 종료
          });
          
          $(document).on("click", ".btnImgdown", function(){                 // - 버튼 클릭 시,
-             $('.chatContainer').toggleClass('display-none');           // 채팅방을 닫고,
-             $('.chatListContainer').toggleClass('display-none');       // 리스트를 연다.
+             $('.chatContainer').hide();           // 채팅방을 닫고,
+             $('.chatListContainer').show();       // 리스트를 연다.
              websocket.close();                                            // socket 연결 종료
          });
     </script>
@@ -216,7 +209,7 @@ text-align: left;
     </div>
  
     <!-- 채팅 리스트 -->
-    <div class="chatListContainer font_jua display-none">
+    <div class="chatListContainer">
         <div class="chatList">
             <!-- 동적 생성 -->
         </div>
@@ -389,8 +382,8 @@ text-align: left;
         
         // 채팅 방 열어주기
         $(document).on("click", ".enterRoomList",function(){
-             $(".chatContainer").toggleClass("display-none");
-             $(this).parent().parent().toggleClass("display-none");
+             $(".chatContainer").show();
+             $(this).parent().parent().hide();
              // 이름 추가
              $("#setName").html($(this).children('div').html());
              // 사진 추가
