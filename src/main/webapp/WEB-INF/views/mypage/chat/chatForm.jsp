@@ -156,8 +156,6 @@ text-align: left;
         	  getRoomList();
         	});
         
-        
-         
          $(document).on("click", ".btnImgclose", function(){                // X 버튼 클릭 시,
              $('.chatContainer').hide();           // 채팅방을 닫는다.
              $('.chatListContainer').show();
@@ -165,7 +163,7 @@ text-align: left;
          });
          
          $(document).on("click", ".btnImgdown", function(){                 // - 버튼 클릭 시,
-             $('.chatContainer').hide();           // 채팅방을 닫고,
+        	     $('.chatContainer').hide();           // 채팅방을 닫고,
              $('.chatListContainer').show();       // 리스트를 연다.
              websocket.close();                                            // socket 연결 종료
          });
