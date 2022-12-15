@@ -12,45 +12,46 @@ import com.kosta.petner.dao.NoticeDAO;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
-	@Autowired private NoticeDAO dao;
+	@Autowired
+	NoticeDAO noticeDao;
 	
 	@Override
-	public void notice_insert(Notice vo) {
-		dao.notice_insert(vo);
+	public void notice_insert(Notice notice) {
+		noticeDao.notice_insert(notice);
 	}
 
 	@Override
 	public List<Notice> notice_list() {
-		return dao.notice_list();
+		return noticeDao.notice_list();
 	}
 
 	@Override
 	public Notice notice_detail(int id) {
-		return dao.notice_detail(id);
+		return noticeDao.notice_detail(id);
 	}
 
 	@Override
-	public void notice_update(Notice vo) {
-		dao.notice_update(vo);
+	public void notice_update(Notice notice) {
+		noticeDao.notice_update(notice);
 	}
 
 	@Override
 	public void notice_delete(int id) {
-		dao.notice_delete(id);
+		noticeDao.notice_delete(id);
 	}
 
 	@Override
 	public void notice_read(int id) {
-		dao.notice_read(id);
+		noticeDao.notice_read(id);
 	}
 
 	@Override
-	public NoticePage notice_list(NoticePage page) {
-		return dao.notice_list(page);
+	public NoticePage notice_list(NoticePage noticePage) {
+		return noticeDao.notice_list(noticePage);
 	}
 
 	@Override
-	public void notice_reply_insert(Notice vo) {
-		dao.notice_reply_insert(vo);
+	public void notice_reply_insert(Notice notice) {
+		noticeDao.notice_reply_insert(notice);
 	}
 }

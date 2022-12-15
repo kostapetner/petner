@@ -13,7 +13,7 @@
 	1. 반드시 method는 post이어야만 한다.
 	2. enctype을 지정한다. ▶ enctype='multipart/form-data'
 -->
-<form action="update_notice" method="post" enctype="multipart/form-data">
+<form action="ad_update_notice" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="id" value="${vo.id }"/>
 	<input type="hidden" name="attach" />
 	<table>
@@ -40,7 +40,7 @@
 </form>
 <div class="btnSet">
 	<a class="btn-fill" onclick="if( necessary() ) { $('[name=attach]').val($('#file-name').text()); $('form').submit(); }">저장</a>
-	<a class="btn-empty" href="detail.no?id=${vo.id }">취소</a>
+	<a class="btn-empty" href="ad_detail_notice?id=${vo.id }">취소</a>
 	<!-- <a class="btn-empty" href="javascript:history.go(-1)">취소</a> -->
 </div>
 

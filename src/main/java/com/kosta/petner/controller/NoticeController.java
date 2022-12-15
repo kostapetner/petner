@@ -24,7 +24,7 @@ import com.kosta.petner.bean.NoticePage;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.CommonService;
 import com.kosta.petner.service.FileService;
-import com.kosta.petner.service.NoticeServiceImpl;
+import com.kosta.petner.service.NoticeService;
 import com.kosta.petner.service.UsersService;
 
 @Controller
@@ -33,9 +33,8 @@ public class NoticeController {
 	ServletContext servletContext;
 	@Autowired
 	FileService fileService;
-
 	@Autowired
-	NoticeServiceImpl service;
+	NoticeService noticeService;
 	@Autowired
 	UsersService usersService;
 	@Autowired
@@ -59,7 +58,7 @@ public class NoticeController {
 			noticePage.setCurPage(curPage);
 			noticePage.setSearch(search);
 			noticePage.setKeyword(keyword);
-			model.addAttribute("notice", service.notice_list(noticePage));
+			model.addAttribute("notice", noticeService.notice_list(noticePage));
 			model.addAttribute("page", "notice/list");
 
 		} catch (Exception e) {
@@ -89,7 +88,7 @@ public class NoticeController {
 		
 		vo.setWriter( ((Users) session.getAttribute("authUser")).getId() );
 		//화면에서 입력한 정보를 DB에 저장한 후
-		service.notice_insert(vo);
+		noticeService.notice_insert(vo);
 		//목록 화면으로 연결
 		return "redirect:list_notice";
 	}
@@ -98,7 +97,7 @@ public class NoticeController {
 	public @RequestMapping(value = "/{filepath}", method = RequestMethod.GET)
 	UrlResource showImage(int id,MultipartFile file,@PathVariable String filepath,HttpServletResponse response) throws
 	MalformedURLException {
-		Notice vo = service.notice_detail(id);
+		Notice vo = noticeService.notice_detail(id);
 		
 	 	return new UrlResource("file:" + vo.getFilepath());
 	 	
@@ -110,10 +109,10 @@ public class NoticeController {
 	public String detail(int id, Model model) {
 		try {
 			// 선택한 공지글에 대한 조회수 증가 처리
-			service.notice_read(id);
+			noticeService.notice_read(id);
 
 			// 선택한 공지글 정보를 DB에서 조회해와 상세 화면에 출력
-			model.addAttribute("vo", service.notice_detail(id));
+			model.addAttribute("vo", noticeService.notice_detail(id));
 			model.addAttribute("crlf", "\r\n");
 			model.addAttribute("notice", noticePage);
 			model.addAttribute("page", "notice/detail");
@@ -131,7 +130,7 @@ public class NoticeController {
 	@ResponseBody
 	@RequestMapping("/download_notice")
 	public void download(int id, HttpSession session, HttpServletResponse response) {
-		Notice vo = service.notice_detail(id);
+		Notice vo = noticeService.notice_detail(id);
 		common.download(vo.getFilename(), vo.getFilepath(), session, response);
 	} // download()
 
@@ -139,7 +138,7 @@ public class NoticeController {
 	@RequestMapping("/delete_notice")
 	public String delete(int id, HttpSession session) {
 		// 선택한 공지글에 첨부된 파일이 있다면 서버의 물리적 영역에서 해당 파일도 삭제한다
-		Notice vo = service.notice_detail(id);
+		Notice vo = noticeService.notice_detail(id);
 		if (vo.getFilepath() != null) {
 			File file = new File(session.getServletContext().getRealPath("resources") + vo.getFilepath());
 			if (file.exists()) {
@@ -148,7 +147,7 @@ public class NoticeController {
 		}
 
 		// 선택한 공지글을 DB에서 삭제한 후 목록 화면으로 연결
-		service.notice_delete(id);
+		noticeService.notice_delete(id);
 
 		return "redirect:list_notice";
 	} // delete()
@@ -157,7 +156,7 @@ public class NoticeController {
 	@RequestMapping("/modify_notice")
 	public String modify(int id, Model model) {
 		// 선택한 공지글 정보를 DB에서 조회해와 수정화면에 출력
-		model.addAttribute("vo", service.notice_detail(id));
+		model.addAttribute("vo", noticeService.notice_detail(id));
 		model.addAttribute("page", "notice/modify");
 		return "/layout/main";
 	} // modify()
@@ -166,7 +165,7 @@ public class NoticeController {
 	@RequestMapping("/update_notice")
 	public String update(Notice vo, MultipartFile file, HttpSession session, String attach) {
 		// 원래 공지글의 첨부 파일 관련 정보를 조회
-		Notice notice = service.notice_detail(vo.getId());
+		Notice notice = noticeService.notice_detail(vo.getId());
 		String uuid = session.getServletContext().getRealPath("resources") + notice.getFilepath();
 
 		// 파일을 첨부한 경우 - 없었는데 첨부 / 있던 파일을 바꿔서 첨부
@@ -202,7 +201,7 @@ public class NoticeController {
 		}
 
 		// 화면에서 변경한 정보를 DB에 저장한 후 상세 화면으로 연결
-		service.notice_update(vo);
+		noticeService.notice_update(vo);
 
 		return "redirect:detail_notice?id=" + vo.getId();
 	} // update()
@@ -212,7 +211,7 @@ public class NoticeController {
 	@RequestMapping("/reply_notice")
 	public String reply(Model model, int id) {
 		// 원글의 정보를 답글 쓰기 화면에서 알 수 있도록 한다.
-		model.addAttribute("vo", service.notice_detail(id));
+		model.addAttribute("vo", noticeService.notice_detail(id));
 		model.addAttribute("page", "notice/reply");
 		return "/layout/main";
 	} // reply()
@@ -228,7 +227,7 @@ public class NoticeController {
 		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
 
 		// 화면에서 입력한 정보를 DB에 저장한 후 목록화면으로 연결
-		service.notice_reply_insert(vo);
+		noticeService.notice_reply_insert(vo);
 		return "redirect:list_notice";
 	} // reply_insert()
 }

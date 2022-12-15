@@ -51,7 +51,7 @@
 		<th>작성일자</th>
 		<th>첨부파일</th>
 	</tr> -->
-	<c:forEach items="${notice.list }" var="vo">
+	<c:forEach items="${notice.list}" var="vo">
 		<tr style="cursor:pointer;">
 			<td>
 				<!-- 1.box -->
@@ -65,8 +65,8 @@
 					<h2>
 						<c:forEach var="i" begin="1" end="${vo.indent }">
 							<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
-							<span class="notice_indent">
-							<c:if test="detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}답변</c:if></span>&nbsp;&nbsp;
+							<span class="notice_indent">Re
+							<c:if test="detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 						</c:forEach>
 						<a href="detail_notice?id=${vo.id }&curPage=${notice.curPage }" >${vo.title }</a>
 					</h2>
@@ -138,7 +138,7 @@ $(function(){
 
 function go_detail(id) {
 	$('[name=id]').val(id);
-	$('form').attr('action', 'detail.no');
+	$('form').attr('action', 'detail_notice');
 	$('form').submit();	
 }
 </script>
