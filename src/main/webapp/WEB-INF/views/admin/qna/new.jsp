@@ -28,9 +28,9 @@
 		<!-- CONTAINER -->
 		<div class="container w90">
 			<div class="">
-				<p class="list_title">신규 공지 글</p>
+				<p class="list_title">신규 qna</p>
 				<div class="formbox">
-					<form action="insert_notice" method="post" class="pn_write"
+					<form action="insert_qna" method="post" class="pn_write"
 						enctype="multipart/form-data">
 
 						<div class="pn_view">
@@ -62,10 +62,8 @@
 									<p>첨부 파일</p>
 									<div>
 										<label> <input type="file" name="file"
-											id="attach-file" /> 
-											<i class="fa-solid fa-file"></i>
-											<%-- <img src="${imgPath}/select.png"
-											class="file-img" /> --%>
+											id="attach-file" /> <img src="${imgPath}/select.png"
+											class="file-img" />
 										</label> <span id="file-name"></span>
 										<!-- 첨부파일 이미지 영역 -->
 										<span id="preview"></span> <span id="delete-file"
@@ -77,8 +75,8 @@
 							</div>
 							<hr class="hr">
 							<div class="btnSet">
-								<a class="pet_btn" onclick="if(necessary()) $('form').submit()">저장</a>
-								<a class="pet_btn" href="list_notice">취소</a>
+								<a class="btn" onclick="if(necessary()) $('form').submit()">저장</a>
+								<a class="btn" href="list_notice">취소</a>
 							</div>
 						</div>
 					</form>

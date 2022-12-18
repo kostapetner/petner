@@ -11,6 +11,13 @@
 <c:if test="${not empty authUser}">
     <!-- 관리자 일때 -->
 	<c:if test="${authUser.user_type >= 9}">
+	
+	<c:import url='/WEB-INF/views/admin/notice/list.jsp' />
+	<c:import url='/WEB-INF/views/admin/board/list.jsp' />
+	<c:import url='/WEB-INF/views/admin/qna/list.jsp' />
+	
+	
+	
 
 		<!-- ********** admin main container ********** -->
 		<div class="card ad_card mb-4" style="margin-top: 30px;">
@@ -33,6 +40,8 @@
 				<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 			</div>
 		</div>
+		
+		
 		<!-- --------- 현황 --------- -->
 
 		<!-- ********** 미처리 현황 ********** -->

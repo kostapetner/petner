@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,35 +47,29 @@
 					</div>
 				</div>
 			</div>
-
 			<hr class="hr">
-
-			<span id="preview"></span>
-
 			<div class="content">
 				<!-- 첨부된 이미지 보여주기 -->
-				<img src="resources/${vo.filepath }" class="img">
+							<c:if test="${!empty vo.filename }">
+								<div class="preview">
+									<img src="resources/${vo.filepath }" class="img3" style="width: 100%;" />
+								</div>
+							</c:if>
 				<div class="txt">${fn:replace(vo.content, crlf, '<br>') }</div>
-
 			</div>
 			<hr class="hr">
-
-
-
-
-
 
 			<div class="btnSet">
 				<a class="pet_btn" href="list_board">목록으로</a>
 				<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
-				<core:if test="${authUser.id eq vo.writer}">
+				<c:if test="${authUser.id eq vo.writer}">
 					<a class="pet_btn"
 						onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
-				</core:if>
-				<core:if test="${authUser.id eq vo.writer }">
+				</c:if>
+				<c:if test="${authUser.id eq vo.writer }">
 					<a class="pet_btn"
 						onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
-				</core:if>
+				</c:if>
 			</div>
 
 			<div class="comment_container">
