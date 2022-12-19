@@ -29,6 +29,14 @@ h2 {
 	text-align: center;
 }
 </style>
+<script type="text/javascript">
+$( document ).ready( function() {
+	$("#golist").click(function(){
+		$("#imform").submit();
+	});
+});
+
+</script>
 </head>
 
 <body>
@@ -37,6 +45,7 @@ h2 {
 		<div class="container w90">
 			<div class="">
 				<p class="list_title">돌봐줄 동물 찾기</p>
+				<form id="imform" action="${pageContext.request.contextPath}/findPet" method="post">
 				<div class="pn_view">
 					<div class="title">
 						<h1>${cs.request_title }</h1>
@@ -79,14 +88,15 @@ h2 {
 						</div>
 					</div>
 					<hr>
-					<div id="commandList">
+					<!-- <div id="commandList">
 						<div class="d-grid gap-2 d-md-block ad_button">
-							<a class="admin_btn" href="${pageContext.request.contextPath}/findPet?zipcode=${cs.zipcode}&addr=${cs.addr}">
+							<a class="admin_btn" id="golist" onclick="srchVal();" href="#" >
 								<button class="btn btn-outline-secondary" type="button">목록</button>
 							</a>
 						</div>
-					</div>
+					</div> -->
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
