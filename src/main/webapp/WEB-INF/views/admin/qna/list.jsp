@@ -6,6 +6,11 @@
 	value="${pageContext.request.contextPath}/resources/css" />
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
+	<c:set var="pluginsPath" value="${pageContext.request.contextPath}/resources/plugins"/>
+	
+	<!-- font-awesome -->
+<link rel="stylesheet" href="${pluginsPath}/font-awesome/all.min.css">
+<script src="${pluginsPath}/font-awesome/all.min.js"></script>
 
 <!-- 세션있을때  -->
 <c:if test="${not empty authUser}">
@@ -37,8 +42,9 @@
 								value="${qna.keyword }" name="keyword"></li>
 							<li><a type="button" class="btn btn-outline-secondary"
 								onclick="$('form').submit()">검색</a></li>
-
-							<c:if test="${authUser.user_type >= 9}">
+						</ul>
+						<ul>
+						<c:if test="${authUser.user_type >= 9}">
 								<a type="button" class="btn btn-outline-secondary"
 									href="ad_new_notice">글쓰기</a>
 							</c:if>
@@ -75,13 +81,12 @@
 											<td class="col-2">${vo.writedate}</td>
 											<td class="col-1">${vo.root}</td>
 											<td class="col-1"><c:if test="${!empty vo.filename }">
-													<a href="ad_download_qna?id=${vo.id }"> <%-- <img
-													title="${vo.filename }" class="file-img"
-													src="img/attach.png" /> --%> file ok
+													<a href="ad_download_qna?id=${vo.id }"> 
+													<i class="fa-solid fa-file"></i>
 													</a>
 												</c:if></td>
 											<td class="col-1 d-flex-end" style="text-align: end;"><input
-												type="checkbox" name="notice_no" value="${vo.id}"></td>
+												type="checkbox" name="id" value="${vo.id}"></td>
 
 										</div>
 									</tr>
@@ -111,25 +116,6 @@
 								onclick="go_page(${notice.totalPage })">마지막</a></li>
 						</ul>
 					</nav>
-
-					<div class="btnSet">
-						<div class="page_list">
-							<button class="page_first" onclick="go_page(1)">처음</button>
-
-							<!-- step : 지정하지 않아도 디폴트 1 -->
-							<c:forEach var="no" begin="${qna.beginPage }"
-								end="${qna.endPage }" step="1">
-								<c:if test="${no eq qna.curPage}">
-									<button class="page_on">${no }</button>
-								</c:if>
-
-								<c:if test="${no ne qna.curPage }">
-									<button class="page_off" onclick="go_page(${no })">${no }</button>
-								</c:if>
-							</c:forEach>
-							<button class="page_last" onclick="go_page(${qna.totalPage })">마지막</button>
-						</div>
-					</div>
 				</form>
 
 			</div>

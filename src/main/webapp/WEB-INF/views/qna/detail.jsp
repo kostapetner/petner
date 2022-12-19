@@ -33,13 +33,6 @@
 												<i class="fa-solid fa-file"></i></a>
 										</c:if>
 									</div>
-									<%-- <c:if test="${article.file_no!=null }">
-										<!-- 첨부파일 다운로드 -->
-										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
-											${article.file_no}
-											<i class="fas fa-download font-img"></i>
-										</a>
-								</c:if> --%>
 								</div>
 								&nbsp;&nbsp;&nbsp;
 								<div>
@@ -55,7 +48,11 @@
 						
 						<div class="content">
 						<!-- 첨부된 이미지 보여주기 -->
-						<img src="resources/${vo.filepath }" class="img">
+							<c:if test="${!empty vo.filename }">
+								<div class="preview">
+									<img src="resources/${vo.filepath }" class="img3" style="width: 100%;" />
+								</div>
+							</c:if>
 							<div class="txt">
 							${fn:replace(vo.content, crlf, '<br>') }
 							</div>

@@ -44,19 +44,29 @@
 		<ul>
 			<li class="q_list">
 				<div class="text">
-					질문1<i class="fa-solid fa-chevron-up"></i>
+					어떻게 가입하나요?<i class="fa-solid fa-chevron-up"></i>
 				</div>
 				<ul class="hide">
-					<li>질문답변 !!!!!!</li>
+					<li>홈페이지에서 오른쪽 상단 로그인 버튼 클릭후<br>
+					로그인화면에서 하단의 회원가입을 클릭해 회원가입 할수있습니다</li>
 				</ul>
 			</li>
 
 			<li class="q_list">
 				<div class="text">
-					질문2<i class="fa-solid fa-chevron-up"></i>
+					비밀번호를 잃어버렸어요.<i class="fa-solid fa-chevron-up"></i>
 				</div>
 				<ul class="hide">
-					<li>질문답변 !!!!!!</li>
+					<li>마이페이지 - 나의정보 에서 비밀번호 변경하기 버튼을 클릭후 비밀번호를 변경하실수있습니다.</li>
+				</ul>
+			</li>
+			<li class="q_list">
+				<div class="text">
+					펫시터 찾는 방법을 알고싶어요!<i class="fa-solid fa-chevron-up"></i>
+				</div>
+				<ul class="hide">
+					<li>메인상단 펫시터 찾기 메뉴를 클릭후<br>
+					원하시는 펫시터 조건들을 클릭후 채팅하시면 됩니다 :)</li>
 				</ul>
 			</li>
 		</ul>
@@ -98,11 +108,14 @@
 
 				<c:forEach items="${qna.list}" var="vo">
 					<tr style="cursor: pointer;">
-						<td class="qns_list d-flex">
+						<td class="qna_list d-flex">
 						<!-- 1.box -->
 						<div class="box1">
 							<p class="user_by">
 								<span class="by">by</span>&nbsp;${vo.name }
+							</p>
+							<p>
+							${vo.writedate }
 							</p>
 						</div>
 						<!-- 제목, 내용 -->
@@ -117,36 +130,6 @@
 							</h2>
 						</div>
 						</td>
-
-
-
-
-
-
-
-						
-
-
-						
-
-
-						</td>
-						<%-- <td>${vo.no }</td>
-			<td>
-				<c:forEach var="i" begin="1" end="${vo.indent }">
-					${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" }	
-				</c:forEach>
-				<a href="detail_notice?id=${vo.id }&curPage=${notice.curPage }" >${vo.title }</a>
-			</td>
-			<td>${vo.name }</td>
-			<td>${vo.writedate }</td>
-			<td>
-				<c:if test="${!empty vo.filename }">
-					<a href="download_notice?id=${vo.id }">
-						<img title="${vo.filename }" class="file-img" src="img/attach.png" />
-					</a>
-				</c:if>
-			</td> --%>
 					</tr>
 				</c:forEach>
 			</table>

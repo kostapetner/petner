@@ -163,9 +163,11 @@
 
 .qna_table .table {width: 100%;}
 .qna_table .table .qna_list {display: flex;
-    padding: 20px;
-    border-bottom: 1px solid #CCB;
+    align-items: center;
+        padding: 20px 0px;
+    border-bottom: 1px solid #CCc;
 }
+.qna_table .table .qna_list .box1 {width:15%;}
 
 
 

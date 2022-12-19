@@ -21,47 +21,31 @@
 					<input type="hidden" name="curPage" value="1" /> <input
 						type="hidden" name="id" />
 					<div class="table_top">
-							<!-- 검색 -->
-							<ul class="search_box">
-								<li><select name="search" class="search form-select form-select-sm">
-										<option class="option_box" value="all"
-											${board.search eq 'all' ? 'selected' : '' }>전체</option>
-										<option class="option_box" value="title"
-											${board.search eq 'title' ? 'selected' : '' }>제목</option>
-										<option class="option_box" value="content"
-											${board.search eq 'content' ? 'selected' : '' }>내용</option>
-										<option class="option_box" value="writer"
-											${board.search eq 'writer' ? 'selected' : '' }>작성자</option>
-								</select></li>
-								<li><input type="search" name="keyword" class="form-control me-2" /></li>
-								<li>
-									<button class="btn btn-outline-secondary" onclick="$('form').submit()">검색</button>
-								</li>
-							</ul>
+						<!-- 검색 -->
+						<ul class="search_box">
+							<li><select name="search"
+								class="search form-select form-select-sm">
+									<option class="option_box" value="all"
+										${board.search eq 'all' ? 'selected' : '' }>전체</option>
+									<option class="option_box" value="title"
+										${board.search eq 'title' ? 'selected' : '' }>제목</option>
+									<option class="option_box" value="content"
+										${board.search eq 'content' ? 'selected' : '' }>내용</option>
+									<option class="option_box" value="writer"
+										${board.search eq 'writer' ? 'selected' : '' }>작성자</option>
+							</select></li>
+							<li><input type="search" name="keyword"
+								class="form-control me-2" /></li>
+							<li>
+								<button class="btn btn-outline-secondary"
+									onclick="$('form').submit()">검색</button>
+							</li>
+						</ul>
 
-							<ul class="option_box">
-								<li><select name="pageList" class="w-px80"
-									onchange="$('[name=curPage]').val(1); $('form').submit()">
-										<option value="10" ${board.pageList eq 10 ? 'selected' : '' }>10개씩</option>
-										<option value="20" ${board.pageList eq 20 ? 'selected' : '' }>20개씩</option>
-										<option value="30" ${board.pageList eq 30 ? 'selected' : '' }>30개씩</option>
-								</select></li>
-								<li><select name="viewType" class="w-px100"
-									onchange="$('form').submit()">
-										<option value="list"
-											${board.viewType eq 'list' ? 'selected' : '' }>리스트
-											형태</option>
-										<option value="grid"
-											${board.viewType eq 'grid' ? 'selected' : '' }>바둑판
-											형태</option>
-								</select></li>
-								<!-- 로그인되어 있으면 글쓰기 가능 -->
-								<c:if test="${!empty authUser}">
-									<li>
-										<!-- 글쓰기 버튼 --> <a class="btn btn-outline-secondary" href="ad_new_board">글쓰기</a>
-									</li>
-								</c:if>
-							</ul>
+						<ul>
+							<!-- 글쓰기 버튼 --> <a class="btn btn-outline-secondary"
+							href="ad_new_board">글쓰기</a>
+						</ul>
 					</div>
 				</form>
 
@@ -88,7 +72,9 @@
 										<td class="col-2">${vo.name }</td>
 										<td class="col-2">${vo.writedate }</td>
 										<td class="col-1"><c:if test="${!empty vo.filename }">
-												<img src="img/attach.png" class="file-img" />
+												<a href="ad_download_notice?id=${vo.id }"> <i
+													class="fa-solid fa-file"></i>
+												</a>
 											</c:if></td>
 										<td class="col-1">${vo.readcnt}</td>
 									</tr>
@@ -96,51 +82,28 @@
 							</tbody>
 						</table>
 					</c:if>
-
-					<%-- <c:if test="${board.viewType eq 'grid' }">
-						<ul class="grid row" style="-bs-gap: .25rem 1rem;">
-							<c:forEach items="${board.list }" var="vo">
-								<li class="col-4 card">
-									<div>
-										<a onclick="go_detail(${vo.id})">${vo.title }</a>
-									</div>
-									<div>${vo.name }</div>
-									<div>
-										${vo.writedate } <span>${empty vo.filename ? '' : '<img src="img/attach.png" class="file-img" />' }</span>
-									</div>
-									<div>${vo.readcnt}</div>
-								</li>
-							</c:forEach>
-						</ul>
-					</c:if> --%>
 				</div>
 
+				<div class="btnSet">
+					<div class="page_list">
+						<button class="page_first" onclick="go_page(1)">처음</button>
 
-<div class="btnSet">
-	<div class="page_list">
-		<button class="page_first" onclick="go_page(1)">처음</button>
+						<!-- step : 지정하지 않아도 디폴트 1 -->
+						<c:forEach var="no" begin="${board.beginPage }"
+							end="${board.endPage }" step="1">
+							<c:if test="${no eq board.curPage}">
+								<button class="page_on">${no }</button>
+							</c:if>
 
-		<!-- step : 지정하지 않아도 디폴트 1 -->
-		<c:forEach var="no" begin="${board.beginPage }"
-			end="${board.endPage }" step="1">
-			<c:if test="${no eq board.curPage}">
-				<button class="page_on">${no }</button>
-			</c:if>
-
-			<c:if test="${no ne board.curPage }">
-				<button class="page_off" onclick="go_page(${no })">${no }</button>
-			</c:if>
-		</c:forEach>
-		<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
-	</div>
-</div>
-
-
-
-
+							<c:if test="${no ne board.curPage }">
+								<button class="page_off" onclick="go_page(${no })">${no }</button>
+							</c:if>
+						</c:forEach>
+						<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
+					</div>
+				</div>
 			</div>
 		</div>
-
 
 		<!-- 관리자 일때.end -->
 	</c:if>
