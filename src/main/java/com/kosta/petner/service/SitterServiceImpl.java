@@ -51,4 +51,8 @@ public class SitterServiceImpl implements SitterService {
 	public void updateFileNoToUsers(SitterInfo sitterInfo) {
 		sitterDAO.updateFileNoToUsers(sitterInfo);
 	}
+
+	public List<CareService> getAllPetServiceList() {
+		return sitterDAO.getAllPetServiceList();
+	}
 }

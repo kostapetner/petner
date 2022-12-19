@@ -149,6 +149,11 @@ public class SitterDAOImpl implements SitterDAO {
 		return sqlSession.selectOne("mapper.sitter.findPetSearchCount", map);
 	}
 
+	@Override
+	public List<CareService> getAllPetServiceList() {
+		return sqlSession.selectList("mapper.sitter.getAllPetServiceList");
+	}
+
 	
 
 }

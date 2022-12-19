@@ -63,7 +63,7 @@ public class FindSitterController {
 			//System.out.println(daysKo);
 			
 		}
-		System.out.println("====뿅AFTER======:"+availSitterList);
+		//System.out.println("====뿅AFTER======:"+availSitterList);
 		/*
 		 * 리스트의 수만큼 반복 돌면서 mon, tue > 월, 화 바꾼다.*/
 		
@@ -76,7 +76,7 @@ public class FindSitterController {
 			Users userInfo = usersService.getUserByUserNo(user_no);
 			model.addAttribute("userInfo", userInfo);
 		}
-				
+		System.out.println("list"+availSitterList);
 		model.addAttribute("dataList", availSitterList);
 		model.addAttribute("title", "펫시터찾기");
 		model.addAttribute("page", "main/find/findSitter");
@@ -93,7 +93,7 @@ public class FindSitterController {
 		try {
 			//리스트 불러오기
 			sitterSearchList = ownerService.findSitterSearch(findVO);
-			System.out.println("====뿅======:"+sitterSearchList);
+			System.out.println("====뿅anjsep======:"+sitterSearchList);
 			
 			List<Map<String, Object>> availSitterList = sitterSearchList; 
 			 

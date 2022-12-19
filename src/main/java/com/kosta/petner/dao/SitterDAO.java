@@ -40,4 +40,7 @@ public interface SitterDAO {
 	 * 내용: 검색조건에 따른 게시글 수
 	 */
 	int findPetSearchCount(Find findVO);
+	
+	// careService List 전체
+	List<CareService> getAllPetServiceList();
 }
