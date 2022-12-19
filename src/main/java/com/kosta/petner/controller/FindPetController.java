@@ -50,9 +50,6 @@ public class FindPetController {
 		return user_no;
 	}
 
-	// 돌봐줄 동물 찾기 페이지
-	
-
 	// 돌봐줄 동물 찾기 검색
 	// 검색조건 : 날짜, 서비스, 동물종류, 보호자 성별, (현재위치), 펫이름
 	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.GET)
@@ -148,6 +145,14 @@ public class FindPetController {
 	// 동물찾기 테스트 조다솜 뷰 ajax로 해야함
 	@RequestMapping(value = "/findPetTest", method = RequestMethod.GET)
 	String findPettest(HttpSession session, HttpServletRequest request, Model model) {
+		try {
+			int user_no = getLoginUserNo(session);
+			System.out.println("지금 보는 user_no"+user_no);
+		}catch(Exception e){
+			//e.printStackTrace();
+			System.out.println("null은 어떻게 해결하는게 좋을까");
+			
+		}
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPettest");
 		return "/layout/main";
@@ -158,14 +163,7 @@ public class FindPetController {
 	public JSONResult getPetJson(HttpSession session, Model model) {
 		// @ModelAttribute CateVo cateVo, BindingResult result, 
 		// 보고있는 사람의 zipcode 필요 => 기본 지도 해놓을거라 실제로 DB를 가져오는 부분
-		try {
-			int user_no = getLoginUserNo(session);
-			System.out.println("지금 보는 user_no"+user_no);
-		}catch(Exception e){
-			//e.printStackTrace();
-			System.out.println("null은 어떻게 해결하는게 좋을까");
-			
-		}
+		
 		List<CareService> petList = sitterService.getAllPetServiceList();
 		System.out.println("리스트나와라gg"+petList);
 		//List cateList = blogService.getCateList(userNo);
