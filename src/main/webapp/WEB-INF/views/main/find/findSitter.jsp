@@ -72,7 +72,7 @@
 				    	,"zipcode":zipcode
 				  }),
 				success : function(data) {
-					//console.log(data);
+					console.log(data);
 					var str = '';
 					if(data.length == 0){
 						$("#card_list").empty();
@@ -406,7 +406,7 @@
 		<div class="f_row">
 			<p class="filter_title">필요한 서비스</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="service" value="visit"><span>방문</span>
+				<label class="fcCbox1"><input type="checkbox" name="service" value="visit"><span>방문</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="walk"><span>산책</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="shower"><span>목욕</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="service" value="education"><span>교육</span></label>

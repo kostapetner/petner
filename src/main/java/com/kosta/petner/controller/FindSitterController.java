@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
-import com.kosta.petner.bean.Find;
+import com.kosta.petner.bean.FindArr;
+import com.kosta.petner.bean.FindArr;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.OwnerService;
 import com.kosta.petner.service.UsersService;
@@ -88,7 +89,7 @@ public class FindSitterController {
 	//검색조건 : 성별, 서비스, 동물종류, 요일
 	@ResponseBody
 	@RequestMapping(value = "/findSitter/findSitterSearch", method= RequestMethod.POST)
-	public List<Map<String, Object>> findSitterSearch(Model model, @RequestBody Find findVO) {
+	public List<Map<String, Object>> findSitterSearch(Model model, @RequestBody FindArr findVO) {
 		List<Map<String, Object>> sitterSearchList = null;
 		try {
 			//리스트 불러오기

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
+import com.kosta.petner.bean.FindArr;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
@@ -52,7 +53,7 @@ public interface OwnerService {
 	 * 작성자: 김혜경
 	 * 내용: 펫시터 찾기 ajax검색
 	 */
-	List<Map<String, Object>> findSitterSearch(Find findVO);
+	List<Map<String, Object>> findSitterSearch(FindArr findVO);
 
 	
 	
