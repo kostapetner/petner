@@ -67,7 +67,6 @@
 				<th class="left">제목</th>
 				<th>작성자</th>
 				<th>작성일자</th>
-				<th>첨부 파일</th>
 				<th>조회수</th>
 			</tr>
 			<c:forEach items="${board.list }" var="vo">
@@ -76,11 +75,6 @@
 					<td class="left"><a onclick="go_detail(${vo.id})">${vo.title }</a></td>
 					<td>${vo.name }</td>
 					<td>${vo.writedate }</td>
-					<td>
-						<c:if test="${!empty vo.filename }">
-							<img src="img/attach.png" class="file-img"/>
-						</c:if>
-					</td>
 					<td>${vo.readcnt}</td>
 				</tr>
 			</c:forEach>

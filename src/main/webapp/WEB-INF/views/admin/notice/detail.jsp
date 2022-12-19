@@ -1,19 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>detail JSP</title>
-</head>
-<body>
-	<div id="wrapper">
-		<!-- CONTAINER -->
-		<div class="container w90">
-			<div class="">
-				<p class="list_title">공지사항 detail</p>
+
+<c:set var="cssPath"
+	value="${pageContext.request.contextPath}/resources/css" />
+<c:set var="imgPath"
+	value="${pageContext.request.contextPath}/resources/images" />
+
+
+<!-- 세션있을때  -->
+<c:if test="${not empty authUser}">
+	<!-- 관리자 일때 -->
+	<c:if test="${authUser.user_type >= 9}">
+
+		<!-- 공지사항 리스트 -->
+		<div class="card ad_card mb-4">
+			<div class="card-body">
+				<h2 class="card-title">공지사항 detail</h2>
 				<div class="formbox">
 					<div class="pn_view">
 						<div class="title">
@@ -55,7 +59,7 @@
 						
 						<div class="content">
 						<!-- 첨부된 이미지 보여주기 -->
-						<img src="resources/${vo.filepath }" class="img">
+						<img src="${pageContext.request.contextPath}/resources/notice/${vo.filepath }" class="img3" style="width: 100%;">
 							<div class="txt">
 							${fn:replace(vo.content, crlf, '<br>') }
 							</div>
@@ -83,6 +87,16 @@
 			</div>
 		</div>
 
-	</div>
-</body>
-</html>
+	<!-- 관리자 일때.end -->
+	</c:if>
+
+	<!-- 관리자 아닐때 -->
+	<c:if test="${authUser.user_type < 9}">
+		<c:import url='/WEB-INF/views/include/not_admin.jsp' />
+	</c:if>
+</c:if>
+
+<!-- 세션없을때 -->
+<c:if test="${empty authUser}">
+	<c:import url='/WEB-INF/views/include/not_users.jsp' />
+</c:if>

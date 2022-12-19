@@ -1,7 +1,6 @@
 package com.kosta.petner.controller;
 
 import java.io.File;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,45 +15,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.Board;
 import com.kosta.petner.bean.BoardCommentVO;
 import com.kosta.petner.bean.BoardPage;
-import com.kosta.petner.bean.Qna;
 import com.kosta.petner.bean.Users;
-import com.kosta.petner.service.BoardServiceImpl;
+import com.kosta.petner.service.BoardService;
 import com.kosta.petner.service.CommonService;
 
 @Controller
 public class BoardController {
 	@Autowired
-	BoardServiceImpl service;
+	BoardService boardService;
 	@Autowired
 	BoardPage boardPage;
 	@Autowired
 	CommonService common;
 
-//	//방명록 목록 화면 요청================================================================
-//	@RequestMapping("/list_board")
-//	public String list(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage,
-//			String search, String keyword, @RequestParam(defaultValue = "10") int pageList, 
-//			@RequestParam(defaultValue = "list") String viewType) {
-//		//DB에서 방명록 정보를 조회해와 목록 화면에 출력
-//		session.setAttribute("category", "bo");
-//		boardPage.setCurPage(curPage);
-//		boardPage.setSearch(search);
-//		boardPage.setKeyword(keyword);
-//		boardPage.setPageList(pageList);
-//		boardPage.setViewType(viewType);
-//		
-//		model.addAttribute("page", service.board_list(boardPage));
-//		return "/board/list";
-//	} //list()
-
 	// 방명록 목록 화면 요청================================================================
 	@RequestMapping("/list_board")
-	public String list(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage, String search,
+	public String list_board(HttpSession session, Model model, @RequestParam(defaultValue = "1") int curPage, String search,
 			String keyword, @RequestParam(defaultValue = "10") int pageList,
 			@RequestParam(defaultValue = "list") String viewType) {
 		try {
@@ -65,7 +45,7 @@ public class BoardController {
 			boardPage.setKeyword(keyword);
 			boardPage.setPageList(pageList);
 			boardPage.setViewType(viewType);
-			model.addAttribute("board", service.board_list(boardPage));
+			model.addAttribute("board", boardService.board_list(boardPage));
 			model.addAttribute("page", "board/list");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,7 +58,7 @@ public class BoardController {
 
 	// 방명록 신규 화면 요청================================================================
 	@RequestMapping("/new_board")
-	public String board(Model model) {
+	public String new_board(Model model) {
 		// 방명록 글쓰기 화면으로 연결
 		model.addAttribute("page", "board/new");
 		return "/layout/mypage_default";
@@ -87,25 +67,25 @@ public class BoardController {
 	// 신규 방명록 저장 처리
 	// 요청================================================================
 	@RequestMapping(value = "/insert_board", method = { RequestMethod.GET, RequestMethod.POST })
-	public String insert(Board vo, MultipartFile file, HttpSession session) {
+	public String insert_board(Board vo, MultipartFile file, HttpSession session) {
 		// 화면에서 입력한 정보를 DB에 저장한 후 목록 화면으로 연결
 		if (!file.isEmpty()) {
 			vo.setFilename(file.getOriginalFilename());
 			vo.setFilepath(common.upload("board", file, session));
 		}
 		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
-		service.board_insert(vo);
+		boardService.board_insert(vo);
 		return "redirect:list_board";
 	} // insert()
 
 	// 방명록 상세 화면
 	// 요청====================================================================
 	@RequestMapping("/detail_board")
-	public String detail(int id, Model model) {
+	public String detail_board(int id, Model model) {
 		try {
 			// 선택한 방명록 글을 DB에서 조회해와 상세 화면에 출력
-			service.board_read(id);
-			model.addAttribute("vo", service.board_detail(id));
+			boardService.board_read(id);
+			model.addAttribute("vo", boardService.board_detail(id));
 			model.addAttribute("crlf", "\r\n");
 			model.addAttribute("board", boardPage);
 			model.addAttribute("page", "board/detail");
@@ -121,18 +101,18 @@ public class BoardController {
 	// 요청====================================================================
 	@ResponseBody
 	@RequestMapping("/download_board")
-	public void download(int id, HttpSession session, HttpServletResponse response) {
+	public void download_board(int id, HttpSession session, HttpServletResponse response) {
 		// 해당 글의 첨부 파일 정보를 조회해와 다운로드한다.
-		Board vo = service.board_detail(id);
+		Board vo = boardService.board_detail(id);
 		common.download(vo.getFilename(), vo.getFilepath(), session, response);
 	} // download()
 
 	// 방명록 수정 화면
 	// 요청====================================================================
 	@RequestMapping("/modify_board")
-	public String modify(int id, Model model) {
+	public String modify_board(int id, Model model) {
 		// 선택한 방명록 글의 정보를 DB에서 조회해와 수정 화면에 출력
-		model.addAttribute("vo", service.board_detail(id));
+		model.addAttribute("vo", boardService.board_detail(id));
 		model.addAttribute("page", "board/modify");
 		return "/layout/mypage_default";
 	} // modify()
@@ -140,9 +120,9 @@ public class BoardController {
 	// 방명록 수정 화면
 	// 요청====================================================================
 	@RequestMapping("/update_board")
-	public String update(Board vo, MultipartFile file, HttpSession session, String attach, Model model) {
+	public String update_board(Board vo, MultipartFile file, HttpSession session, String attach, Model model) {
 		// 화면에서 입력한 정보를 DB에 변경, 저장한 후 상세 화면으로 연결
-		Board board = service.board_detail(vo.getId());
+		Board board = boardService.board_detail(vo.getId());
 		String uuid = session.getServletContext().getRealPath("resources") + board.getFilepath();
 
 		// 파일을 첨부한 경우 - 없었는데 새로 첨부, 있었는데 바꿔 첨부
@@ -168,7 +148,7 @@ public class BoardController {
 				vo.setFilepath(board.getFilepath());
 			}
 		}
-		service.board_update(vo);
+		boardService.board_update(vo);
 
 		// 기존 방법
 		// return "redirect:detail.bo?id=" + vo.getId();
@@ -183,9 +163,9 @@ public class BoardController {
 	// 방명록 수정 화면
 	// 요청====================================================================
 	@RequestMapping("/delete_board")
-	public String delete(int id, Model model) {
+	public String delete_board(int id, Model model) {
 		// 선택한 글을 DB에서 삭제한 후 목록 화면으로 연결
-		service.board_delete(id);
+		boardService.board_delete(id);
 		model.addAttribute("url", "list_board");
 		model.addAttribute("id", id);
 		model.addAttribute("board", boardPage);
@@ -200,7 +180,7 @@ public class BoardController {
 	public boolean comment_insert(BoardCommentVO vo, HttpSession session) {
 		// 화면에서 입력한 정보를 DB에 저장한다.
 		vo.setWriter(((Users) session.getAttribute("authUser")).getId());
-		return service.board_comment_insert(vo) > 0 ? true : false;
+		return boardService.board_comment_insert(vo) > 0 ? true : false;
 	} // comment_insert()
 
 	// 댓글 목록 조회
@@ -208,7 +188,7 @@ public class BoardController {
 	@RequestMapping("/board/comment/{pid}")
 	public String comment_list(@PathVariable int pid, Model model) {
 		// DB에서 댓글 목록을 조회해와 댓글 목록 화면에 출력
-		model.addAttribute("list", service.board_comment_list(pid));
+		model.addAttribute("list", boardService.board_comment_list(pid));
 		model.addAttribute("crlf", "\r\n");
 		model.addAttribute("lf", "\n"); // lf의 형태로 라인피드가 저장될 수도 있어서 윗라인이 적용이 안될경우 이 코드도 작성한다.
 
@@ -219,7 +199,7 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/board/comment/update", produces = "application/text; charset=utf-8")
 	public String comment_update(@RequestBody BoardCommentVO vo) {
-		return service.board_comment_update(vo) > 0 ? "성공" : "실패";
+		return boardService.board_comment_update(vo) > 0 ? "성공" : "실패";
 	} // comment_update()
 
 	// 댓글 삭제 처리 요청
@@ -227,6 +207,6 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("/board/comment/delete/{id}")
 	public void comment_delete(@PathVariable int id) {
-		service.board_comment_delete(id);
+		boardService.board_comment_delete(id);
 	} // comment_delete()
 } // class

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +27,7 @@
 						<div colspan="5" class="left">
 							첨부파일 <span class="by">${vo.filename }</span>
 							<c:if test="${!empty vo.filename }">
-								<a class="by" href="download_notice?id=${vo.id }"
+								<a class="by" href="ad_download_notice?id=${vo.id }"
 									style='margin-left: 5px'> <i class="fa-solid fa-file"></i></a>
 							</c:if>
 						</div>
@@ -47,29 +47,35 @@
 					</div>
 				</div>
 			</div>
+
 			<hr class="hr">
+
+			<span id="preview"></span>
+
 			<div class="content">
 				<!-- 첨부된 이미지 보여주기 -->
-							<c:if test="${!empty vo.filename }">
-								<div class="preview">
-									<img src="resources/${vo.filepath }" class="img3" style="width: 100%;" />
-								</div>
-							</c:if>
+				<img src="resources/${vo.filepath }" class="img">
 				<div class="txt">${fn:replace(vo.content, crlf, '<br>') }</div>
+
 			</div>
 			<hr class="hr">
 
+
+
+
+
+
 			<div class="btnSet">
-				<a class="pet_btn" href="list_board">목록으로</a>
+				<a class="pet_btn" href="ad_list_board">목록으로</a>
 				<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
-				<c:if test="${authUser.id eq vo.writer}">
+				<core:if test="${authUser.id eq vo.writer}">
 					<a class="pet_btn"
 						onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
-				</c:if>
-				<c:if test="${authUser.id eq vo.writer }">
+				</core:if>
+				<core:if test="${authUser.id eq vo.writer }">
 					<a class="pet_btn"
 						onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
-				</c:if>
+				</core:if>
 			</div>
 
 			<div class="comment_container">
@@ -86,7 +92,7 @@
 			</div>
 
 
-			<form method="post" action="list_board">
+			<form method="post" action="ad_list_board">
 				<input type="hidden" name="id" value="${vo.id }" /> <input
 					type="hidden" name="curPage" value="${board.curPage }" /> <input
 					type="hidden" name="search" value="${board.search }" /> <input

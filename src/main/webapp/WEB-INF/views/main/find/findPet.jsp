@@ -18,10 +18,9 @@
 </head>
 <script>
 $(document).ready(function() {
+	//viewForm에서 목록으로 갈 때 내주변찾기 검색값 유지
 	var qszipcode = $("#qszipcode").val();
-	console.log("처음찍히는 qszipcode:  "+qszipcode);
 	var qsaddrp = $("#qsaddrp").val();
-	console.log("처음찍히는 qsaddrp:  "+qsaddrp);
 	if(qszipcode != 1){
 		$("#zipcodeP").text("["+qszipcode+"]");
         $("#zipcode").val(qszipcode);
@@ -74,10 +73,22 @@ $(document).ready(function() {
 					searchAjax();
 				}
 	}).data('datepicker');
-	
 	var serviceArr = [];
 	var petKindArr = []; 
 	var genderArr = [];
+	
+	arr = serviceArr.toString().split(',');
+    var servicearrLen = arr.length;
+	var cnt = arr.length;
+
+	for(var i=0; i<cnt; i++){
+	  $('input:checkbox[name=service]').each(function(){
+	    if( arr[i].indexOf(this.value) > -1 ){ //현재 라인 배열에 값 존재여부 조건문 수정
+	    this.checked = true;
+	    }
+	  });
+	}
+    
 	//서비스
 	$(document).on("click", "input[name=service]", function () {
 		serviceArr = [];
@@ -109,30 +120,81 @@ $(document).ready(function() {
 	    searchAjax();
 	});
 	var addr = [];
+	
 	function searchAjax(){
+		var result = get_query();
+		
 		//날짜, 서비스, 동물종류, 보호자성별, 위치, 펫이름 검색
-		var st_date = $('#date_start').val();
-		var end_date = $('#date_end').val();
-		var service = serviceArr;
-		var pet_kind = petKindArr;
-		var gender = genderArr;
+		var st_date='';
+		var end_date='';
+		var service='';
+		var pet_kind='';
+		var gender='';
+		
+		if(!result.st_date){
+			st_date = $('#date_start').val();
+		}else{
+			st_date = result.st_date;
+		}
+		
+		if(!result.end_date){
+			end_date = $('#date_end').val();
+		}else{
+			end_date = result.end_date;
+		}
+		
+		if(!result.service){
+			service = serviceArr;
+		}else{
+			service = result.service;
+			$("input:checkbox[value="+service+"]").prop("checked", true);
+		}
+		
+		if(!result.pet_kind){
+			pet_kind = petKindArr;
+		}else{
+			pet_kind = result.pet_kind;
+			$("input:checkbox[value="+pet_kind+"]").prop("checked", true);  
+		}
+		
+		if(!result.gender){
+			gender = genderArr;
+		}else{
+			gender = result.gender;
+			$("input:checkbox[value="+gender+"]").prop("checked", true);  
+		}
+		
 		var zipcode = $("#zipcode").val();
 		var addrP = $("#addrP").text();
 		
+		var params='';
+		if(st_date){
+			params += "st_date="+st_date;
+		}
+		if(end_date){
+			params += "&end_date="+end_date; 
+		}
+		if(service){
+			params += "&service="+service; 
+		}
+		if(pet_kind){
+			params += "&pet_kind="+pet_kind;
+		}
+		if(gender){
+			params += "&gender="+gender;
+		}
+		if(zipcode){
+			params += "&zipcode="+zipcode; 
+		}
+		if(addrP){
+			params += "&addrP="+addrP;
+		}
+		
 		//contentType: "application/json",
+		jQuery.ajaxSettings.traditional = true;
  		$.ajax({
-			url : "${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch",
-			type : "POST",
-			dataType: "json",
-			contentType: "application/json",
-			data:JSON.stringify({
-					 "st_date":st_date
-			    	,"end_date":end_date
-			    	,"service":service
-			    	,"pet_kind":pet_kind
-			    	,"gender":gender
-			    	,"zipcode":zipcode
-			  }),
+			url : "${pageContext.servletContext.contextPath}/findPet/viewForm/findPetSearch?"+params,
+			type : "GET",
 			success : function(data) {
 				console.log(data);
 				var str = '';
@@ -163,7 +225,7 @@ $(document).ready(function() {
 						str +='</div>';
 						<!-- 동물사진 -->
 						str +='<div class="img_area" style="width: 357px; height: 200px">';
-						str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'?zipcode='+ zipcode +'&addr='+addrP+' ">';
+						str +='<a href="${pageContext.request.contextPath}/findPet/viewForm/'+item.SERVICE_NO+'" target="_blank">';
 						if(item.FILE_NO == null){
 							str +='<img src="/petner/resources/images/header_logo.png" alt="이미지">';  
 						}else{
@@ -359,7 +421,17 @@ $(document).ready(function() {
 		firstMap();
 	}	
 });//ready
-
+	//쿼리스트링 파라미터가져오기
+	function get_query(){
+	    var url = document.location.href;
+	    var qs = url.substring(url.indexOf('?') + 1).split('&');
+	    for(var i = 0, result = {}; i < qs.length; i++){
+	        qs[i] = qs[i].split('=');
+	        result[qs[i][0]] = decodeURIComponent(qs[i][1]);
+	    }
+	    return result;
+	}
+	
 	$(window).scroll(function(){
 		//var scrollValue = $(document).scrollTop(); 
 		//console.log(scrollValue);

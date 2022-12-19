@@ -1,7 +1,9 @@
 package com.kosta.petner.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +51,13 @@ public class SitterDAOImpl implements SitterDAO {
 		sqlSession.update("mapper.sitter.updateFileNoToUsers", sitterInfo);
 	}
 
-	/* 날짜:22.11.30
+	/* 날짜:22.12.16
 	 * 작성자: 김혜경
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	@Override
 	public List<CareService> findPetSearch(Find findVO) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		//st_date
 		if(findVO.getSt_date() != null && !findVO.getSt_date().equals("")) {
 			map.put("st_date",findVO.getSt_date());
@@ -66,23 +68,32 @@ public class SitterDAOImpl implements SitterDAO {
 		if(findVO.getEnd_date() != null && !findVO.getEnd_date().equals("")) {
 			map.put("end_date",findVO.getEnd_date());
 		}else {
-			System.out.println("st_date null입니다.");
+			System.out.println("end_date null입니다.");
 		}
 		//service
 		if(findVO.getService() != null && !findVO.getService().equals("")) {
-			map.put("serviceArray",findVO.getService());
+			for(int i = 0; i < findVO.getService().length() ; i++) {
+				String[] value = findVO.getService().split(",");
+				map.put("serviceArray", value );
+			}
 		}else {
 			System.out.println("서비스 null입니다.");
 		}
 		//pet_kind
 		if(findVO.getPet_kind() != null && !findVO.getPet_kind().equals("")) {
-			map.put("petKindArray",findVO.getPet_kind());
+			for(int i = 0; i < findVO.getPet_kind().length() ; i++) {
+				String[] value = findVO.getPet_kind().split(",");
+				map.put("petKindArray", value );
+			}
 		}else {
 			System.out.println("동물종류 null입니다.");
 		}
 		//gender
 		if(findVO.getGender() != null && !findVO.getGender().equals("")) {
-			map.put("genderArray",findVO.getGender());
+			for(int i = 0; i < findVO.getGender().length() ; i++) {
+				String[] value = findVO.getGender().split(",");
+				map.put("genderArray", value );
+			}
 		}else {
 			System.out.println("성별 null입니다.");
 		}

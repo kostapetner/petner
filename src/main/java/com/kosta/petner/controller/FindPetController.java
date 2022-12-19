@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +28,6 @@ import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.SitterService;
 import com.kosta.petner.service.UsersService;
-
 @Controller
 public class FindPetController {
 
@@ -52,31 +49,47 @@ public class FindPetController {
 			@RequestParam(value = "addr", required = false) String addr, Find findPetVO, HttpServletRequest request) {
 		// user의 DB에 저장된 값 가져오기
 		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
-		if (users == null) {
-			System.out.println("null");
-		} else {
-			Integer user_no = users.getUser_no();
-			Users userInfo = usersService.getUserByUserNo(user_no);
-			model.addAttribute("userInfo", userInfo);
-		}
-		model.addAttribute("qszipcode", qszipcode);
-		model.addAttribute("qsaddrp", addr);
-		model.addAttribute("title", "돌봐줄 동물 찾기");
-		model.addAttribute("page", "main/find/findPet");
+		
 		return "/layout/main";
 	}
 
 	// 돌봐줄 동물 찾기 검색
 	// 검색조건 : 날짜, 서비스, 동물종류, 보호자 성별, (현재위치), 펫이름
-	@ResponseBody
-	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method = RequestMethod.POST)
-	public List<CareService> findPetSearch(Model model, @RequestBody Find findVO) {
-		System.out.println("findPetSearch 들어오ㅘㅅ앋");
+	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.GET)
+	public List<CareService> findPetSearch(Model model, HttpServletRequest request) {
+		System.out.println("findPetSearch controller");
 		List<CareService> petSearchList = null;
 		try {
-			// 리스트 불러오기
+			System.out.println("======request.getParameter======");
+			String st_date = request.getParameter("st_date");
+			String end_date = request.getParameter("end_date");
+			String service = request.getParameter("service");
+			String pet_kind = request.getParameter("pet_kind");
+			String gender = request.getParameter("gender");
+			String zipcode = request.getParameter("zipcode");
+			String addrP = request.getParameter("addrP");
+			
+			System.out.println("st_date:  "+st_date);
+			System.out.println("end_date:  "+end_date);
+			System.out.println("service:  "+service);
+			System.out.println("pet_kind:  "+pet_kind);
+			System.out.println("gender:  "+gender);
+			System.out.println("zipcode:  "+zipcode);
+			System.out.println("addrP:  "+addrP);
+			System.out.println("=============================");
+			
+			//리스트 불러오기
+			Find findVO = new Find();
+			findVO.setSt_date(st_date);
+			findVO.setEnd_date(end_date);
+			findVO.setService(service);
+			findVO.setPet_kind(pet_kind);
+			findVO.setGender(gender);
+			findVO.setZipcode(zipcode);
+			findVO.setAddr(addrP);
+			System.out.println("findPetSearch controller findVO:  "+findVO);
+			
 			petSearchList = sitterService.findPetSearch(findVO);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,17 +119,27 @@ public class FindPetController {
 		}
 	}
 
-	// 돌봐줄 동물 찾기 게시글에 따른 viewForm
-	@RequestMapping(value = "/findPet/viewForm/{serviceNo}", method = RequestMethod.GET)
-	String findPet(Model model, @PathVariable String serviceNo,
-			@RequestParam(value = "zipcode", required = false) String zipcode,
-			@RequestParam(value = "addr", required = false) String addr) {
+	
+		
+	//돌봐줄 동물 찾기 게시글에 따른 viewForm
+	@RequestMapping(value = "/findPet/viewForm/{serviceNo}", method= RequestMethod.GET)
+	String findPet(Model model, @PathVariable String serviceNo, @RequestParam(value="zipcode", required=false) String zipcode 
+					,@RequestParam(value="addr", required=false) String addr, @RequestParam(value="st_date", required=false) String st_date, @RequestParam(value="end_date", required=false) String end_date
+					,@RequestParam(value="service", required=false) String service, @RequestParam(value="pet_kind", required=false) String pet_kind, @RequestParam(value="gender", required=false) String gender) {
+		
 		CareService careService = new CareService();
 		Integer service_no = Integer.parseInt(serviceNo);
 		careService = sitterService.getViewForm(service_no);
-		careService.setZipcode(zipcode);
-		careService.setAddr(addr);
+		
 		model.addAttribute("cs", careService);
+		model.addAttribute("zipcode", zipcode);
+		model.addAttribute("st_date", st_date);
+		model.addAttribute("end_date", end_date);
+		model.addAttribute("service", service);
+		model.addAttribute("pet_kind", pet_kind);
+		model.addAttribute("gender", gender);
+		model.addAttribute("addr", addr);
+		 
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPetViewForm");
 		return "/layout/main";
@@ -144,4 +167,5 @@ public class FindPetController {
 		return JSONResult.success(petList);
 		
 	}
+
 }

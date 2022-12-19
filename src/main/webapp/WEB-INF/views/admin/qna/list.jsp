@@ -15,8 +15,8 @@
 		<!-- 공지사항 리스트 -->
 		<div class="card ad_card mb-4">
 			<div class="card-body">
-				<h2 class="card-title">공지사항 글 목록</h2>
-				<form method="post" action="ad_list_notice" id="list">
+				<h2 class="card-title">qna 글 목록</h2>
+				<form method="post" action="ad_list_qna" id="list">
 					<input type="hidden" name="curPage" value="1" />
 
 					<div class="table_top">
@@ -24,17 +24,17 @@
 						<ul class="search_box">
 							<li><select name="search" class="search form-select">
 									<option class="option_box" value="all"
-										${notice.search eq 'all' ? 'selected' : '' }>전체</option>
+										${qna.search eq 'all' ? 'selected' : '' }>전체</option>
 									<option class="option_box" value="title"
-										${notice.search eq 'title' ? 'selected' : '' }>제목</option>
+										${qna.search eq 'title' ? 'selected' : '' }>제목</option>
 									<option class="option_box" value="content"
-										${notice.search eq 'content' ? 'selected' : '' }>내용</option>
+										${qna.search eq 'content' ? 'selected' : '' }>내용</option>
 									<option class="option_box" value="writer"
-										${notice.search eq 'writer' ? 'selected' : '' }>작성자</option>
+										${qna.search eq 'writer' ? 'selected' : '' }>작성자</option>
 							</select></li>
 							<li><input class="form-control me-2" type="search"
 								placeholder="Search" aria-label="Search"
-								value="${notice.keyword }" name="keyword"></li>
+								value="${qna.keyword }" name="keyword"></li>
 							<li><a type="button" class="btn btn-outline-secondary"
 								onclick="$('form').submit()">검색</a></li>
 
@@ -59,23 +59,23 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${notice.list}" var="vo">
+								<c:forEach items="${qna.list}" var="vo">
 									<tr style="cursor: pointer;">
 										<div class="row">
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
 													<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
-													<span class="notice_indent">Re <c:if
-															test="ad_detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
+													<span class="qna_indent">Re <c:if
+															test="ad_detail_qna?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a
-												href="ad_detail_notice?id=${vo.id }&curPage=${notice.curPage }">${vo.title }</a>
+												href="ad_detail_qna?id=${vo.id }&curPage=${notice.curPage }">${vo.title }</a>
 											</td>
 											<td class="col-2">${vo.writer}</td>
 											<td class="col-2">${vo.writedate}</td>
 											<td class="col-1">${vo.root}</td>
 											<td class="col-1"><c:if test="${!empty vo.filename }">
-													<a href="ad_download_notice?id=${vo.id }"> <%-- <img
+													<a href="ad_download_qna?id=${vo.id }"> <%-- <img
 													title="${vo.filename }" class="file-img"
 													src="img/attach.png" /> --%> file ok
 													</a>
@@ -96,13 +96,13 @@
 							<li class="page-item"><a class="page-link page_first"
 								onclick="go_page(1)">처음</a></li>
 							<!-- step : 지정하지 않아도 디폴트 1 -->
-							<c:forEach var="no" begin="${notice.beginPage }"
-								end="${notice.endPage }" step="1">
-								<c:if test="${no eq notice.curPage}">
+							<c:forEach var="no" begin="${qna.beginPage }"
+								end="${qna.endPage }" step="1">
+								<c:if test="${no eq qna.curPage}">
 									<li class="page-item"><a class="page-link page_on">${no }</a></li>
 								</c:if>
 
-								<c:if test="${no ne notice.curPage }">
+								<c:if test="${no ne qna.curPage }">
 									<li class="page-item"><a class="page-link page_off"
 										onclick="go_page(${no })">${no }</a></li>
 								</c:if>
@@ -117,17 +117,17 @@
 							<button class="page_first" onclick="go_page(1)">처음</button>
 
 							<!-- step : 지정하지 않아도 디폴트 1 -->
-							<c:forEach var="no" begin="${notice.beginPage }"
-								end="${notice.endPage }" step="1">
-								<c:if test="${no eq notice.curPage}">
+							<c:forEach var="no" begin="${qna.beginPage }"
+								end="${qna.endPage }" step="1">
+								<c:if test="${no eq qna.curPage}">
 									<button class="page_on">${no }</button>
 								</c:if>
 
-								<c:if test="${no ne notice.curPage }">
+								<c:if test="${no ne qna.curPage }">
 									<button class="page_off" onclick="go_page(${no })">${no }</button>
 								</c:if>
 							</c:forEach>
-							<button class="page_last" onclick="go_page(${notice.totalPage })">마지막</button>
+							<button class="page_last" onclick="go_page(${qna.totalPage })">마지막</button>
 						</div>
 					</div>
 				</form>
@@ -157,7 +157,7 @@ $(function(){
 
 function go_detail(id) {
 	$('[name=id]').val(id);
-	$('form').attr('action', 'ad_detail_notice');
+	$('form').attr('action', 'ad_detail_qna');
 	$('form').submit();	
 }
 </script>
@@ -165,7 +165,7 @@ function go_detail(id) {
 <script>
 function go_page(no) {
 	$('[name=curPage]').val(no);
-	$('[name=keyword]').val('${notice.keyword}');
+	$('[name=keyword]').val('${qna.keyword}');
 	$('#list').submit();
 }
 
