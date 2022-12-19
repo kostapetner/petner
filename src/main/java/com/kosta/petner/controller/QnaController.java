@@ -94,7 +94,7 @@ public class QnaController {
 		}
 		
 		// 저장된 이미지 보여주기
-		public @RequestMapping(value = "/{qna_filepath}", method = RequestMethod.GET)
+		public @RequestMapping(value = "/resources/qna/{qna_filepath}", method = RequestMethod.GET)
 		UrlResource showImage(int id,MultipartFile file,@PathVariable String filepath,HttpServletResponse response) throws
 		MalformedURLException {
 			Qna vo = qnaService.qna_detail(id);

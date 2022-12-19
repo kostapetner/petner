@@ -55,7 +55,7 @@
 						
 						<div class="content">
 						<!-- 첨부된 이미지 보여주기 -->
-						<img src="resources/${vo.filepath }" class="img">
+						<img src="${pageContext.request.contextPath}/resources/qna/${vo.filepath }" class="img">
 							<div class="txt">
 							${fn:replace(vo.content, crlf, '<br>') }
 							</div>

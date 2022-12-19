@@ -59,7 +59,7 @@
 						
 						<div class="content">
 						<!-- 첨부된 이미지 보여주기 -->
-						<img src="resources/${vo.filepath }" class="img3" style="width: 100%;">
+						<img src="${pageContext.request.contextPath}/resources/notice/${vo.filepath }" class="img3" style="width: 100%;">
 							<div class="txt">
 							${fn:replace(vo.content, crlf, '<br>') }
 							</div>
