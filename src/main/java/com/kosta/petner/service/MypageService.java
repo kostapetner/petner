@@ -3,7 +3,9 @@ package com.kosta.petner.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 
@@ -32,6 +34,10 @@ public interface MypageService {
 	
 	// 파일 가져오기
 	String getFile(Integer file_no);
+	
+	//내가 쓴 리뷰 리스트
+	List<Review> writtenReviewList(Integer page, PageInfo pageInfo) throws Exception;
+	
 	
 	
 } 

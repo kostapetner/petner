@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.MypageSession;
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
@@ -43,7 +45,7 @@ public class MyPageController {
 
 	@Autowired
 	ServletContext servletContext;
-	
+
 	@Autowired
 	FileService fileServie;
 
@@ -67,7 +69,7 @@ public class MyPageController {
 		int user_no = mypageSession.getUser_no();
 		return user_no;
 	}
-	
+
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String main(HttpSession session, Model model) {
 
@@ -82,11 +84,9 @@ public class MyPageController {
 		model.addAttribute("title", "나의정보보기");
 		model.addAttribute("member", users);
 		model.addAttribute("count", cnt);
-		
+
 		return "/layout/mypage_default";
 	}
-
-
 
 	// 정보 수정페이지
 	@RequestMapping("/mypage/myinfoEdit")
@@ -101,7 +101,6 @@ public class MyPageController {
 		return "/layout/mypage_default";
 	}
 
-
 	// 나의정보업데이트
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
 	public String myinfoUpdate(HttpSession session, @ModelAttribute Users users, BindingResult result, Model model) {
@@ -115,8 +114,7 @@ public class MyPageController {
 
 		return "redirect:/mypage";
 	}
-	
-	
+
 	// 내가 펫시터일 경우의 컨트롤러=================================================
 	@RequestMapping(value = "/mypage/mySitterInfo", method = RequestMethod.GET)
 	public String mySitterInfo(HttpSession session, Model model) {
@@ -181,7 +179,7 @@ public class MyPageController {
 
 		return "/layout/mypage_default";
 	}
-	
+
 	// 시터정보수정
 	@RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.GET)
 	public String mySitterInfoEdit(HttpSession session, Model model) {
@@ -195,50 +193,47 @@ public class MyPageController {
 		model.addAttribute("title", "나의펫시터정보수정");
 		return "/layout/mypage_default";
 	}
+
 	// 시터정보 업데이트
 	@RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.POST)
-	public String mySitterInfoUpdata(HttpSession session, @ModelAttribute SitterInfo sitterInfo, BindingResult result, Model model) throws IllegalStateException, IOException {
-		System.out.println( "시터정보없데이트===== file_no?:"+sitterInfo.getFile_no());
+	public String mySitterInfoUpdata(HttpSession session, @ModelAttribute SitterInfo sitterInfo, BindingResult result,
+			Model model) throws IllegalStateException, IOException {
+		System.out.println("시터정보없데이트===== file_no?:" + sitterInfo.getFile_no());
 		mypageService.updateMySitterInfo(sitterInfo);
-		
-		if(sitterInfo.getImageFile().isEmpty()== false) { 
-			//이미지도 수정한경우 파일테이블 업데이트해야하고 파일을 올려야함
-			System.out.println("이미지파일 처리할게 있음"+sitterInfo.getImageFile().getOriginalFilename());
-			
-			MultipartFile file = sitterInfo.getImageFile(); //파일 자체를 가져옴
+
+		if (sitterInfo.getImageFile().isEmpty() == false) {
+			// 이미지도 수정한경우 파일테이블 업데이트해야하고 파일을 올려야함
+			System.out.println("이미지파일 처리할게 있음" + sitterInfo.getImageFile().getOriginalFilename());
+
+			MultipartFile file = sitterInfo.getImageFile(); // 파일 자체를 가져옴
 			// 서버에 올라갈 랜덤한 파일 이름을 만든다
 			String generatedString = RandomStringUtils.randomAlphanumeric(10);
 			String filename = file.getOriginalFilename();
-			int idx = filename.lastIndexOf(".");//확장자 위치
+			int idx = filename.lastIndexOf(".");// 확장자 위치
 			String ext = filename.substring(filename.lastIndexOf("."));
-			String real_filename = filename.substring(0, idx);//확장자분리
+			String real_filename = filename.substring(0, idx);// 확장자분리
 			String server_filename = real_filename + generatedString + ext;
-			
-			String path = servletContext.getRealPath("/resources/upload/");//업로드 할 폴더 경로
+
+			String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
 			File fileLocation = new File(path);
-			File destFile = new File(path+server_filename);
+			File destFile = new File(path + server_filename);
 			file.transferTo(destFile);
-			
-			FileVO fileVo  = new FileVO();
+
+			FileVO fileVo = new FileVO();
 			int file_no = sitterInfo.getFile_no();
-			
+
 			fileVo.setFile_no(file_no);
-			fileVo.setOrigin_filename(filename);//파일의 이름을 넣어주기위해 따로 설정
+			fileVo.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
 			fileVo.setServer_filename(server_filename);
-			
-			
+
 			fileServie.updateSitterImage(fileVo);
 		}
 		// 이미지 변경이 있을 경우에만 파일테이블의 파일이름도 업데이트 하기
-		//int user_no = getLoginUserNo(session);
-		
-		
-		
-		
+		// int user_no = getLoginUserNo(session);
+
 		return "redirect:/mypage/mySitterInfo";
-	
+
 	}
-	
 
 	// 내가 보호자일일 경우의 컨트롤러=================================================
 	// 내 반려동물 정보 가져오기
@@ -280,48 +275,88 @@ public class MyPageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if(fis != null) {
+			if (fis != null) {
 				try {
 					fis.close();
-				} catch (Exception e) {} 
+				} catch (Exception e) {
+				}
 			}
 		}
 	}
 
-	//리뷰작성페이지
-	@RequestMapping("/mypage/writeform")
-	public String myReview(HttpSession session, Model model) {
+	// 카카오 1:1채팅으로 이동
+	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
+	public String kaChat() {
+		return "mypage/kaChat";
+	}
 
+	// 리뷰 리스트
+	@RequestMapping(value = "/mypage/review/myReviewList", method = { RequestMethod.GET, RequestMethod.POST })
+	public String myReviewList(Model model,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		// 페이징
+		PageInfo pageInfo = new PageInfo();
+
+		model.addAttribute("page", "mypage/review/reviewList");
+		model.addAttribute("title", "리뷰 작성 가능한 글");
+		return "/layout/mypage_default";
+	}
+
+	// 리뷰작성페이지
+	@RequestMapping("/mypage/review/writeform")
+	public String writefrom(HttpSession session, Model model) {
 		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+		int user_no = getLoginUserNo(session);
 
 		model.addAttribute("page", "mypage/review/writeform");
 		model.addAttribute("title", "리뷰쓰기");
 		return "/layout/mypage_default";
 	}
 
-	
-	//카카오 1:1채팅으로 이동
-	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
-	public String kaChat() {
-		return "mypage/kaChat";
+	// 리뷰 수정 페이지
+	@RequestMapping("/mypage/review/modifyform")
+	public String modifyfrom(HttpSession session, Model model) {
+		String id = getLoginUserId(session);
+		Users users = mypageService.getMyinfo(id);
+		int user_no = getLoginUserNo(session);
+
+		model.addAttribute("page", "mypage/review/modifyform");
+		model.addAttribute("title", "리뷰수정");
+		return "/layout/mypage_default";
 	}
-	
-	
-	
-	
 
 	// 내가 작성한 리뷰 리스트
-	@RequestMapping("/mypage/review/acquireReviewList")
+
+	@RequestMapping("/mypage/review/writtenReviewList")
 	public String acquireReviewList(HttpSession session, Model model) {
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
 
-		model.addAttribute("page", "mypage/review/acquireReviewList");
+		model.addAttribute("page", "mypage/review/writtenReviewList");
 		model.addAttribute("title", "작성한 리뷰");
 		model.addAttribute("member", users);
 		return "/layout/mypage_default";
 	}
 
+	/*
+	 * @RequestMapping(value = "/mypage/review/writtenReviewList", method = {
+	 * RequestMethod.GET, RequestMethod.POST }) public String
+	 * writtenReviewList(Model model,
+	 * 
+	 * @RequestParam(value = "page", required = false, defaultValue = "1") Integer
+	 * page) throws Exception {
+	 * 
+	 * PageInfo pageInfo = new PageInfo();
+	 * 
+	 * List<Review> myReviewList = mypageService.writtenReviewList(page, pageInfo);
+	 * model.addAttribute("myReviewList", myReviewList);
+	 * model.addAttribute("pageInfo", pageInfo); model.addAttribute("title",
+	 * "내가 쓴 리뷰"); model.addAttribute("page", "mypage/review/writtenReviewList");
+	 * return "/layout/mypage_default";
+	 * 
+	 * }
+	 */
 	// 내가 받은 리뷰 리스트
 	@RequestMapping("/mypage/review/receiveReviewList")
 	public String receiveReviewList(HttpSession session, Model model) {
@@ -333,13 +368,30 @@ public class MyPageController {
 		model.addAttribute("member", users);
 		return "/layout/mypage_default";
 	}
+
+	//리뷰 작성
+	@RequestMapping(value="/mypage/review/reviewWrite",
+	  method=RequestMethod.POST) 
+	public ModelAndView reviewWrite(@ModelAttribute Review review) { 
+		ModelAndView mav = new ModelAndView(); 
+		
+		try {
+			
+			if(!file.isEmpty()) {
+				File destFile = new File(path+file.getOriginalFilename());
+				file.transferTo(destFile);
+				review.setBoard_file(file.getOriginalFilename());
+			}
+			
+			mav.setViewName("redirect:/boardList");
+		}catch(Exception e) {
+			e.printStackTrace();
+			mav.setViewName("/board/err");
+		}
+		return mav;
+	}
+	 
 	
 	
-	/*
-	 * @RequestMapping(value="/mypage/review/reviewWrite",
-	 * method=RequestMethod.POST) ModelAndView reviewWrite(@ModelAttribute Review
-	 * review) { ModelAndView mav = new ModelAndView(); String path =
-	 * servletContext.getRealPath(); //파일업로드 }
-	 */
 
 }

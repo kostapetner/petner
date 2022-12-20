@@ -102,11 +102,10 @@ textarea {
 			<section id="commandCell">
 				<div class="d-grid gap-2 d-md-block">
 
-					<button type="submit" class="pet_btn btn-outline-secondary">
-					<a
-						href="${pageContext.request.contextPath}/mypage/review/myReviewList">수정</a></button>
 					<button type="submit" class="pet_btn btn-outline-secondary"><a
-						href="${pageContext.request.contextPath}/mypage/review/myReviewList">취소</a></button>
+						href="${pageContext.request.contextPath}/mypage/review/writtenReviewList">등록</a></button>
+					<button type="reset" class="pet_btn btn-outline-secondary"><a
+						href="${pageContext.request.contextPath}/mypage/review/writtenReviewList">다시쓰기</a></button>
 				</div>
 			</section>
 		</form>

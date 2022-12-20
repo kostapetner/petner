@@ -35,15 +35,53 @@
 		<id property="file_no" column="file_no"/>
 	</resultMap>
 	
-	<select id="selectBoardList"
-		resultType="com.kosta.petner.bean.Review" parameterType="Integer">
+	<!-- 내가 작성한 리뷰 갯수 조회 -->
+	<select id="writtenReviewConunt" resultType="Integer">
 		<![CDATA[
-			select reviewNo, reviewActiveUser, reviewPassiveUser, title, content, rating, reviewDate,
-				reviewActiveUserId, reviewPassiveUserId, profileName
-			from (select row_number() over (order by board_re_ref desc, board_re_seq asc) num, B.*
-				from board B order by board_re_ref desc, board_re_seq asc)
-			where num between #{row} and #{row}+9
+			select Count(review_no) 
+			from review
+			where review_passive_user = #{reviewPassiveUser}
 		]]>
 	</select>
+	
+	<!-- 내가 받은 리뷰 갯수 조회 -->
+	<select id="passiveReviewCount" resultType="Integer">
+		<![CDATA[
+			select Count(review_no) 
+			from review
+			where review_active_user = #{reviewActiveUser}
+		]]>
+	</select>
+	
+	<!-- 내가 작성한 리뷰 리스트 -->
+	<select id="writtenReviewList"
+		resultType="com.kosta.petner.bean.Review" parameterType="Integer">
+		<![CDATA[
+			select review_No, review_Active_User, review_Passive_User, title, content, rating, review_Date
+			from review
+			where review_active_user = #{reviewActiveUser}
+			and review_no between #{row} and #{row}+5;
+		]]>
+		<!-- 63번째줄 이대로 쓰면 페이징 제대로 처리안됨 구현 잘 생각하기 -->
+	</select>
+	
+	<!-- 내가 받은 리뷰 리스트 -->
+	<select id="passiveReviewList"
+		resultType="com.kosta.petner.bean.Review" parameterType="Integer">
+		<![CDATA[
+			select review_No, review_Active_User, review_Passive_User, title, content, rating, review_Date
+			from review
+			where review_active_user = #{reviewPassiveUser}
+			and review_no between #{row} and #{row}+5;
+		]]>
+		<!-- 74번째줄 이대로 쓰면 페이징 제대로 처리안됨 구현 잘 생각하기 -->
+	</select>
+	
+	<update id="updateReview" parameterType="com.kosta.petner.bean.Review" >
+		<![CDATA[
+			update review set title=#{title}, content=#{content}, rating=#{rating}
+			where review_no=#{review_no}
+		]]>
+	</update>
 	
 </mapper>
