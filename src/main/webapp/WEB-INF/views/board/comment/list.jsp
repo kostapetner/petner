@@ -6,6 +6,27 @@
 	${status.index eq 0 ? '<hr>' : '' }
 	<hr class="hr">
 	<div data-id="${vo.id }"> <!-- data-* 속성 : 특별한 조작 없이 HTML 요소에 추가 정보를 저장할 수 있게 해주는 속성 -->
+		<%-- ${vo.name } [${vo.writedate }] --%>
+		<div class="text_box">
+			<p>${vo.name } <span>[${vo.writedate }]</span></p>
+			
+		</div>
+		
+		<div class="original">${fn:replace(fn:replace(vo.content, lf, '<br>' ), crlf, '<br>') }</div>
+		<div class="modify" style="display:none; margin-top:6px;"></div>
+		
+		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
+			<span style="float:right;top: 10px;
+    position: absolute;
+    right: 0px;">
+				<a class="pet_btn btn-modify-save">수정</a>
+				<a class="pet_btn btn-delete-cancel">삭제</a>
+			</span>
+		</core:if>
+		<%-- <div class="original">${fn:replace(fn:replace(vo.content, lf, '<br>' ), crlf, '<br>') }</div>
+		<div class="modify" style="display:none; margin-top:6px;"></div> --%>
+	</div>
+	<%-- <div data-id="${vo.id }"> <!-- data-* 속성 : 특별한 조작 없이 HTML 요소에 추가 정보를 저장할 수 있게 해주는 속성 -->
 		
 		<div class="text_box">
 			<p>${vo.name } <span>[${vo.writedate }]</span></p>
@@ -19,7 +40,7 @@
 			</div>
 		</core:if>
 		<div class="modify" style="display:none; margin-top:6px;"></div>
-	</div>
+	</div> --%>
 	<hr>
 </core:forEach>
 <script>
@@ -33,7 +54,7 @@ $('.btn-modify-save').on('click', function(){
 		$div.children('.modify').css('height', $div.children('.original').height()-6); 
 
 		//줄바꿈 태그 변환
-		var tag = "<textarea style='width:99%; height:90%; resize:none'>" + $div.children('.original').html().replace(/<br>/g, '\n') + "</textarea>";
+		var tag = "<textarea style='width:calc(100% - 120px);min-height: 20px; height:100%; resize:none'>" + $div.children('.original').html().replace(/<br>/g, '\n') + "</textarea>";
 		$div.children('.modify').html(tag);
 		display($div, 'm');
 	} else {

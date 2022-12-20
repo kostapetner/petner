@@ -7,8 +7,7 @@
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
 <head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/table.css">
+<link rel="stylesheet" href="${cssPath}/table.css">
 </head>
 <style>
 .q_list {
@@ -40,9 +39,8 @@
 	<div id="wrapper">
 		<!-- CONTAINER -->
 		<div class="container w90">
-			<div class="">
 				<p class="list_title">QNA</p>
-
+<div class="formbox">
 				<!-- Questions list -->
 				<h3>자주하는 질문</h3>
 
@@ -112,10 +110,10 @@
 						</div>
 					</form>
 					<div class="qna_table">
-						<table class="table table-hover">
+						<table class="table table-hover" style='width: 100%;'>
 
 							<c:forEach items="${qna.list}" var="vo">
-								<tr style="cursor: pointer;">
+								<tr style="cursor: pointer;" onClick="location.href='detail_qna?id=${vo.id }&curPage=${qna.curPage }'">
 									<td class="qna_list d-flex">
 										<!-- 1.box -->
 										<div class="box1">
@@ -131,7 +129,7 @@
 													<span class="qna_indent">Re <c:if
 															test="detail_qna?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 						</c:forEach>
-												<a href="detail_qna?id=${vo.id }&curPage=${qna.curPage }">${vo.title }</a>
+						${vo.title }
 											</h2>
 										</div>
 									</td>

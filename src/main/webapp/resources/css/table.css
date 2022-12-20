@@ -103,11 +103,13 @@
 
 /* 댓글 */
 .comment_container {padding: 0 30px;}
-.comment_container textarea {width: 100%;
-    height: 60px;
+.comment_container textarea {
+	
+	width:calc(100% - 120px);
+    min-height: 60px;
     resize: none;
     padding: 5px;
-    border: 1px solid;
+    border: 1px solid #ccc;
     border-radius: 5px;}
 .comment_container .fcc_textarea {border: 1px solid #ccc;
     border-radius: 5px;min-height: 60px;}    
@@ -119,10 +121,15 @@
     margin-top: 10px;
     padding: 12px;
     height: auto;min-height: 40px;}
-    #comment_list > div {display: flex;
+    #comment_list > div {
+    padding: 10px 0px;
+    position: relative;
+    
+    /* display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0px;}
+    padding: 10px 0px; */
+    }
     #comment_list .text_box {display: flex;
     flex-direction: column;}
     #comment_list .text_box p {font-size: 14px;margin-bottom: 5px;}
@@ -194,7 +201,7 @@
 /*-------------- qna_TABLE CSS ---------------*/
 
 
-.qna_table .table {width: 100%;}
+.qna_table > table {width: 100%;}
 .qna_table .table .qna_list {display: flex;
     align-items: center;
         padding: 20px 0px;

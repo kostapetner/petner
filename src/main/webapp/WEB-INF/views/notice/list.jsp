@@ -49,7 +49,7 @@
 					<div class="user_table">
 						<table class="table table-hover">
 							<c:forEach items="${notice.list}" var="vo">
-								<tr style="cursor: pointer;">
+								<tr style="cursor: pointer;" onClick="location.href='detail_notice?id=${vo.id }&curPage=${notice.curPage }'">
 									<td>
 										<!-- 1.box -->
 										<div class="box1">
@@ -64,12 +64,10 @@
 										<div class="box2">
 											<h2>
 												<c:forEach var="i" begin="1" end="${vo.indent }">
-													<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
 													<span class="notice_indent">Re <c:if
 															test="detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 						</c:forEach>
-												<a
-													href="detail_notice?id=${vo.id }&curPage=${notice.curPage }">${vo.title }</a>
+													${vo.title }
 											</h2>
 											<p class="content">${vo.content}</p>
 										</div> <!-- 이미지 있을때 -->

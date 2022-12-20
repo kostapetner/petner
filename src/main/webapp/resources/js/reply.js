@@ -249,7 +249,7 @@ $(function() {
 	var attach = this.files[0];
 	if( attach ) {
 		if( isImage(attach.name) ) {
-			var img = "<img id='preview-img' class='file-img' src='' style='border-radius:50%'/>";
+			var img = "<img id='preview-img' class='file-img' src=''/>";
 			$('#preview').html(img);
 
 			var reader = new FileReader();

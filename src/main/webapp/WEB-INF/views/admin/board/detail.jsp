@@ -79,7 +79,7 @@
 							</c:if>
 							<c:if test="${authUser.id eq vo.writer }">
 								<a class="btn btn-outline-secondary" type="button"
-									onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
+									onclick="if( confirm('정말 삭제하시겠습니까?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
 							</c:if>
 						</div>
 

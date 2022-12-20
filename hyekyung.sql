@@ -11,6 +11,12 @@ INCREMENT BY 1
 START WITH 1 
 NOCACHE;
 
+--service_no시퀀스
+CREATE SEQUENCE service_no_seq 
+INCREMENT BY 1
+START WITH 1 
+NOCACHE;
+
 ----create문----
 --반려동물 정보 등록
 CREATE TABLE pet_info(
@@ -89,3 +95,4 @@ INSERT INTO bd_no values('펫사진',5);
 --12/20수정사항
 --sitter_info 테이블의 zipcode컬럼 NUMBER>varchar2(50)로 수정
 --care_service 테이블의 zipcode컬럼 NUMBER>varchar2(50)로 수정
+--service_no 시퀀스 추가
