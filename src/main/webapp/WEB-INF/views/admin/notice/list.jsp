@@ -60,13 +60,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${notice.list}" var="vo">
+								<c:forEach items="${notice.list}" var="vo" end="9">
 									<tr style="cursor: pointer;">
 										<div class="row">
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
-													<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
 													<span class="notice_indent">Re <c:if
 															test="ad_detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a

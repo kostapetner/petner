@@ -14,8 +14,8 @@
 		
 		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
 			<div class="cm_btnSet">
-				<a class="pet_btn btn-modify-save">수정</a>
-				<a class="pet_btn btn-delete-cancel">삭제</a>
+				<a class="btn btn-outline-secondary btn-modify-save" type="button">수정</a>
+				<a class="btn btn-outline-secondary btn-delete-cancel" type="button">삭제</a>
 			</div>
 		</core:if>
 		<div class="modify" style="display:none; margin-top:6px;"></div>
