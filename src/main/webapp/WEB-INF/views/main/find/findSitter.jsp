@@ -113,15 +113,9 @@
 							str +='</div>';
 							str +='</div>';
 							str +='<div class="icons">';
+							str +='<a href="#" title="채팅하기" class="transition02 chat" onclick="return chatting();"><i class="fa-solid fa-comment-dots" ></i></a>';
 							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
 							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
-							str +='<form action= "createChat.do" method="post">'+
-							'<input type="hidden" name=user_nickname value= "${authUser.nickname}"/>' +
-							'<input type="hidden" name=user_id value= "${authUser.id}"/>' +
-							'<input type="hidden" name=another_nickname value= "${userInfo.nickname}"/>' +
-							'<input type="hidden" name=another_id value= "${userInfo.id}"/>' +				
-							'<button type="submit" class="btn btn-outline-secondary btn_position"><i class="fa-solid fa-comment-dots"></i></button>' +
-							'</form>';
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
@@ -337,6 +331,11 @@
     $(".modal_box, .modal_mask"). remove();
     // $(".modal_mask"). remove();
   }
+  
+  
+  function chatting() {
+	  document.getElementById('CreateChat').submit();
+	  }
 </script>
 
 <style>
@@ -469,5 +468,15 @@
 	</div>
 	
 </div>
+
+<!--  카드리스트의 값을 보내야 되는데 못보내는 중... -->
+<form action= "createChat.do" method="post" id="CreateChat">
+							<input type="text" name=user_nickname value= "${authUser.nickname}"/>
+							<input type="text" name=user_id value= "${authUser.id}"/>
+							<input type="text" name=another_nickname value= "${data[i].nickname}"/>
+							<input type="text" name=another_id value=" ${data[i].id}"/>				
+							</form>
+
+
 
 <div class="go_top"><i class="fa-solid fa-arrow-up-long"></i></div>

@@ -221,7 +221,7 @@
 							<li>
 								<p class="first_menu">고객센터</p>
 								<div class="second_menu">
-									<a href="#">1:1문의</a>
+									<a href="${pageContext.request.contextPath}/kaChat">1:1문의</a>
 								</div>
 							</li>
 						</ul>

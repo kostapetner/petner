@@ -27,6 +27,11 @@
 		    }
 		}
 		.desc{text-align:center; margin-bottom:45px;}
+		
+		.kakao-talk-channel-chat-button {
+		margin:auto;
+		padding: 100px;
+		}
 		</style>
 		
 		<div id="kakao-talk-channel-chat-button"></div>

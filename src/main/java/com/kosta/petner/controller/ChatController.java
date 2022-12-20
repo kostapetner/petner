@@ -137,7 +137,7 @@ public class ChatController {
     * @throws IOException
     */
    @RequestMapping("chatRoomList.do")
-   public void createChat(ChatRoom room, ChatMessage message, String user_id, HttpServletResponse response) throws JsonIOException, IOException{
+   public void createChat(ChatRoom room, ChatMessage message, String user_id, HttpServletResponse response, Model model) throws JsonIOException, IOException{
        List<ChatRoom> cList = cService.chatRoomList(user_id);
        
        for(int i = 0; i < cList.size(); i++) {
@@ -146,7 +146,8 @@ public class ChatController {
            int count = cService.selectUnReadCount(message);
            cList.get(i).setUnReadCount(count);
        }
-       
+       System.out.println(cList);
+       model.addAttribute("cList", cList);
        response.setContentType("application/json; charset=utf-8");
 
        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

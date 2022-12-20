@@ -14,6 +14,8 @@
 <title>Petner Chat</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap');
+
 .display-none {
 	display: none;
 }
@@ -43,7 +45,8 @@
 }
 
 .chatTop {
-	  padding: 15px;
+
+    padding: 10px;
     height: 50px;
     border-bottom: 1px solid #ddd;
     display: flex;
@@ -60,8 +63,10 @@
 }
 
 .listTitle {
-	font-size: 30px;
-	text-align: center;
+	font-size: 70px;
+	font-family: 'Dongle', sans-serif;
+	color: #FFB432;
+	padding: 10px;
 }
 
 #loginOn{
@@ -127,11 +132,17 @@ textarea {
 }
 
 .chatTitle {
+	padding: 20px;
 	margin: auto;
-	width: 400px;
-	border-radius: 10px;
-	cursor: pointer;
+    width: 400px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 
 .chatList>div {
 	border: 1px solid #ddd;
@@ -140,7 +151,35 @@ textarea {
 	display: flex;
 	align-items: center;
 	gap: 20px;
+	margin: 5px;
+	-webkit-box-shadow: 2px 5px 17px 3px rgba(186, 186, 186, 0.51);
+	
 }
+
+
+.chatList>div:hover {
+	background:	#FAAB78;
+    
+    cursor: pointer;
+}
+
+
+.chatMiddle::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+
+.chatMiddle::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #FAAB78; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+.chatMiddle::-webkit-scrollbar-track {
+    background: rgba(200, 100, 20, .1);  /*스크롤바 뒷 배경 색상*/
+}
+
+
 </style>
 <body>
 	<!-- HEADER BASIC -->
@@ -150,14 +189,14 @@ textarea {
 		<div class="chatIcon">
 			<img src="resources/images/paw.png" class="chat_main">
 		</div>
-		<div style="display: inline-block;" class="listTitle">Petner
-			Chat</div>
+		<div class="listTitle"> Petner Chat</div>
 	</div>
 	<!-- 채팅 리스트 / 채팅 방 OPEN / CLOSE -->
 
 	<script>
 		$(function() {
 			getRoomList();
+			
 		});
 
 		$(document).on("click", ".btnImgclose", function() { // X 버튼 클릭 시,
@@ -171,21 +210,29 @@ textarea {
 			$('.chatListContainer').show(); // 리스트를 연다.
 			websocket.close(); // socket 연결 종료
 		});
+		
+		$(document).on("click", ".chatTitle", function() { // - 버튼 클릭 시,
+			window.location.reload();
+			$('.chatContainer').hide(); // 채팅방을 닫고,
+			$('.chatListContainer').show(); // 리스트를 연다.
+			websocket.close(); // socket 연결 종료
+		});
+		
+		
 	</script>
 	<!-- 채팅 창 -->
 	<div class="chatContainer display-none">
 		<div class="chatTop">
 			<div id="loginOn">
-				<img class="profile_img" id="setPic">
-				<!-- src 사진 경로 동적 생성 -->
+				<img class="profile_img" id="setPic">	<!-- src 사진 경로 동적 생성 -->
 				<span class="name_container font_noto" id="setName"><!-- 이름 동적 생성 --></span>
 			</div>
 
-			<div>
+			<div class = "two_btn">
+				<img src="resources/images/chat-minus.png"
+						style="width: 20px; cursor: pointer;" class="btnImgdown">
 				<img src="resources/images/chat-close.png"
-					style="width: 20px; cursor: pointer;" class="btnImgclose"> <img
-					src="resources/images/chat-minus.png"
-					style="width: 20px; cursor: pointer;" class="btnImgdown">
+					style="width: 20px; cursor: pointer;" class="btnImgclose"> 				
 			</div>
 		</div>
 		
@@ -252,7 +299,7 @@ textarea {
 									}
 								}
 							});
-
+							
 							$chatWrap = $(".chatList");
 							$chatWrap.html("");
 
@@ -321,6 +368,17 @@ textarea {
 										$divs = $("<div class='userNameId'>")
 												.text(data[i].user_nickname);
 									}
+									
+									if(data[i].another_pic == 0) {
+										$img = $("<img class='profile_img'>")
+										.attr(
+												"src",
+												"${imgPath}/"
+														+ "noimg.webp");
+									}
+									
+									
+									
 
 									// 읽지 않은 메세지가 0이 아닐 때
 									if (data[i].unReadCount != 0) {
