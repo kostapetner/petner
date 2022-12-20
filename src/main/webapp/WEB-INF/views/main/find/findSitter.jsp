@@ -90,7 +90,7 @@
 						$("#card_list").empty();
 						$.each(data, function(i, item) { // 데이터 =item
 							str +='<ul>';
-							str +='<li>';
+							str +='<li user_no="'+item.USER_NO+'">';
 							str +='<div class="data">';
 							<!-- 이미지영역 -->
 							str +='<div class="img_area">';
@@ -397,7 +397,7 @@
 		<div class="f_row">
 			<p class="filter_title">펫시터 성별</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="gender" value="women"><span>여성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="female"><span>여성펫시터</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="gender" value="male"><span>남성펫시터</span></label>
 			</div>
 		</div>
@@ -470,7 +470,7 @@
 </div>
 
 <!--  카드리스트의 값을 보내야 되는데 못보내는 중... -->
-<form action= "createChat.do" method="post" id="CreateChat">
+<%-- <form action= "createChat.do" method="post" id="CreateChat">
 							<input type="text" name=user_nickname value= "${authUser.nickname}"/>
 							<input type="text" name=user_id value= "${authUser.id}"/>
 							<input type="text" name=another_nickname value= "${data[i].nickname}"/>
@@ -480,3 +480,4 @@
 
 
 <div class="go_top"><i class="fa-solid fa-arrow-up-long"></i></div>
+ --%>
