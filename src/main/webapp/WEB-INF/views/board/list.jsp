@@ -66,52 +66,12 @@
 							</div>
 						</div>
 
-
-						<%-- 				<div class="user_table_list">
-					<c:if test="${board.viewType eq 'list' }">
-						<table class="table">
-							<tr>
-								<th>번호</th>
-								<th class="left">제목</th>
-								<th>작성자</th>
-								<th>작성일자</th>
-								<th>조회수</th>
-							</tr>
-							<c:forEach items="${board.list }" var="vo">
-								<tr>
-									<td>${vo.no }</td>
-									<td class="left"><a onclick="go_detail(${vo.id})">${vo.title }</a></td>
-									<td>${vo.name }</td>
-									<td>${vo.writedate }</td>
-									<td>${vo.readcnt}</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</c:if>
-
-					<c:if test="${board.viewType eq 'grid' }">
-						<ul class="grid row" style="-bs-gap: .25rem 1rem;">
-							<c:forEach items="${board.list }" var="vo">
-								<li class="col-4 card">
-									<div>
-										<a onclick="go_detail(${vo.id})">${vo.title }</a>
-									</div>
-									<div>${vo.name }</div>
-									<div>
-										${vo.writedate } <span>${empty vo.filename ? '' : '<img src="img/attach.png" class="file-img" />' }</span>
-									</div>
-									<div>${vo.readcnt}</div>
-								</li>
-							</c:forEach>
-						</ul>
-					</c:if>
-				</div> --%>
-
 						<c:if test="${board.viewType eq 'list' }">
 							<div class="user_table">
 								<table class="table table-hover">
 									<c:forEach items="${board.list}" var="vo">
-										<tr style="cursor: pointer;">
+										<tr style="cursor: pointer;"
+											onClick="location.href='detail_board?id=${vo.id }&curPage=${board.curPage }'">
 											<td>
 												<!-- 1.box -->
 												<div class="box1">
@@ -124,9 +84,7 @@
 													</p>
 												</div> <!-- 제목, 내용 -->
 												<div class="box2">
-													<h2>
-														<a onclick="go_detail(${vo.id})">${vo.title }</a>
-													</h2>
+													<h2>${vo.title }</h2>
 													<p class="content">${vo.content}</p>
 												</div> <!-- 이미지 있을때 -->
 												<div class="box3" id="box3">
@@ -140,7 +98,6 @@
 													<c:if test="${empty vo.filename }">
 														<div class="preview_no"></div>
 													</c:if>
-
 												</div>
 											</td>
 										</tr>
@@ -151,76 +108,53 @@
 
 
 						<c:if test="${board.viewType eq 'grid' }">
-
 							<div class="user_table_grid">
-
 								<div class="grid_box">
-								<c:forEach items="${board.list}" var="vo">
-									<div class="item">
-										
-
+									<c:forEach items="${board.list}" var="vo">
+										<div class="item" style="cursor: pointer;"
+											onClick="location.href='detail_board?id=${vo.id }&curPage=${board.curPage }'">
 											<!-- 이미지 있을때 -->
 											<div class="img_box">
 												<c:if test="${!empty vo.filename }">
 													<div class="preview">
-														<img src="resources/${vo.filepath }" class="img3" style='width: 100%;object-fit: cover;height: 120px;margin-bottom: 15px;' />
+														<img src="resources/${vo.filepath }" class="img3"
+															style='width: 100%; object-fit: cover; height: 120px; margin-bottom: 15px;' />
 													</div>
 												</c:if>
 												<!-- 업로드한 이미지 없을때 -->
 												<c:if test="${empty vo.filename }">
-													<div class="preview_no" style='display: flex;justify-content: center;'>
-														<img src="${imgPath }/header_logo.png" style='object-fit: cover;height: 90px;padding: 15px;margin-bottom: 15px;'/>
+													<div class="preview_no"
+														style='display: flex; justify-content: center;'>
+														<img src="${imgPath }/header_logo.png"
+															style='object-fit: cover; height: 90px; padding: 15px; margin-bottom: 15px;' />
 													</div>
 												</c:if>
-
 											</div>
 
-
-											
 											<!-- 제목, 내용 -->
 											<div class="box2">
 												<h2>
 													<a onclick="go_detail(${vo.id})">${vo.title }grid</a>
 												</h2>
-												
 											</div>
-											
+
 											<!-- 1.box -->
-											<div class="box1" style='display: flex;
-    justify-content: space-between;position: absolute;
-    bottom: 20px;'>
+											<div class="box1"
+												style='display: flex; justify-content: space-between; position: absolute; bottom: 20px;'>
 												<p class="user_by">
 													<span class="by">by</span>&nbsp;${vo.name }
 												</p>
 												<p class="day">${vo.writedate }</p>
-												
 											</div>
-											
-									</div>
+										</div>
 									</c:forEach>
-									
 								</div>
-
 							</div>
-
-
-
 						</c:if>
+					</form>
 				</div>
-
-
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-
 
 		<div class="btnSet">
 			<div class="page_list">
@@ -240,21 +174,11 @@
 				<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
 			</div>
 		</div>
-
-		</form>
-	</div>
-	</div>
-	</div>
 	</div>
 
 </body>
 
 <script type="text/javascript">
-/* $(function(){
-	$('#data-list ul').css('height', 
-			( ( $('.grid li').length % 5 > 0 ? 1 : 0 ) + Math.floor($('.grid li').length / 5) )
-			 * $('.grid li').outerHeight(true) - 20);
-}) */
 
 function go_detail(id) {
 	$('[name=id]').val(id);

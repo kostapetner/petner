@@ -8,11 +8,15 @@
 <meta charset="UTF-8">
 <title>board detail jsp</title>
 </head>
+<body>
+<div id="wrapper">
+		<!-- CONTAINER -->
+		<div class="container w90">
+<p class="list_title">이벤트</p>
 
 <!-- CONTAINER -->
 
-<div class="cont_view">
-	<h3>방명록 상세 조회</h3>
+
 	<div class="formbox">
 		<div class="pn_view">
 			<div class="title">
@@ -68,7 +72,7 @@
 				</c:if>
 				<c:if test="${authUser.id eq vo.writer }">
 					<a class="pet_btn"
-						onclick="if( confirm('정말 삭제?') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
+						onclick="if( confirm('정말 삭제하시겠습니까??') ) { $('form').attr('action', 'delete_board'); $('form').submit(); } ">삭제</a>
 				</c:if>
 			</div>
 
@@ -101,6 +105,8 @@
 		</div>
 	</div>
 </div>
+</div>
+</body>
 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/reply.js"></script>
