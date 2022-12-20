@@ -59,6 +59,12 @@ public class ChatServiceImpl implements ChatService {
 		return chatDAO.updateCount(message);
 	}
 
+	@Override
+	public void deleteRoom(String room_id) {
+		chatDAO.deleteRoom(room_id);
+		
+	}
+
 
 }
 			

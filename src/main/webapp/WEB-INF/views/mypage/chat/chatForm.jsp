@@ -179,6 +179,53 @@ textarea {
     background: rgba(200, 100, 20, .1);  /*스크롤바 뒷 배경 색상*/
 }
 
+.modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+	  display: none;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0,.5);
+	}
+
+  .modal.show {
+    display: block;
+  }
+
+  .modal_body {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+
+    width: 280px;
+    height: 100px;
+
+    padding: 40px;
+
+   
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+  transform: translateX(-50%) translateY(-50%);
+}
+
+ .modal_btn {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+
+  width: 280px;
+  height: 100px;
+
+  padding: 40px;
+  
+
+ } 
+
+
 
 </style>
 <body>
@@ -192,16 +239,44 @@ textarea {
 		<div class="listTitle"> Petner Chat</div>
 	</div>
 	<!-- 채팅 리스트 / 채팅 방 OPEN / CLOSE -->
-
 	<script>
 		$(function() {
 			getRoomList();
 			
 		});
+		
+		$(document).on("click", ".btnImgclose", function() {
+			$(".modal").show();
+			$(".profile_img").hide();
+		});
+		
+		$(document).on("click", "#close_btn", function() {
+			$(".modal").hide();
+			$(".profile_img").show();
+		})
+		$(document).on("click", "#x_button", function() {
+			$(".modal").hide();
+			$(".profile_img").show();
+		})
+		
 
-		$(document).on("click", ".btnImgclose", function() { // X 버튼 클릭 시,
-			$('.chatContainer').hide(); // 채팅방을 닫는다.
-			$('.chatListContainer').show();
+
+		$(document).on("click", "#exit_btn", function() { // X 버튼 클릭 시,
+		
+			$.ajax({
+	   			type:"post",
+	   			url:"http://localhost:8088/petner/deleteRoom",
+	   			data:{room_id:room_id},   //id(key):id(value)
+	   			success:function(data,textStatus) {
+	   				window.location.reload();
+
+	   				$('.chatContainer').hide();
+	 			$('.chatListContainer').show(); 
+	   				}	
+	   				
+	   			
+			}) //ajax 끝
+			
 			websocket.close(); // socket 연결 종료
 		});
 
@@ -211,7 +286,7 @@ textarea {
 			websocket.close(); // socket 연결 종료
 		});
 		
-		$(document).on("click", ".chatTitle", function() { // - 버튼 클릭 시,
+		$(document).on("click", ".chatTitle", function() { // 배너 클릭 시,
 			window.location.reload();
 			$('.chatContainer').hide(); // 채팅방을 닫고,
 			$('.chatListContainer').show(); // 리스트를 연다.
@@ -220,6 +295,22 @@ textarea {
 		
 		
 	</script>
+	<!-- 모달창 -->
+	  <div class="modal">
+				<div class="modal_body">
+						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
+							<p style="color: #FF9614; ">Petner &#128062</p>
+						
+							<p id="modal_msg" style="padding: 15px 0px 0px 15px;" >채팅방을 나갈시 메세지가 복원되지 않습니다. 그래도 나가게시겠습니까?</p>
+						
+						<div class="modal_btn">
+						<button class="pet_btn" id="exit_btn" style= "background-color:#B4B4DC;">나가기</button>
+						<button class="pet_btn" id="close_btn" style= "background-color:#FF9614;">취소</button>
+						</div>
+				</div>				
+   		  </div>
+	
+	
 	<!-- 채팅 창 -->
 	<div class="chatContainer display-none">
 		<div class="chatTop">
@@ -231,7 +322,7 @@ textarea {
 			<div class = "two_btn">
 				<img src="resources/images/chat-minus.png"
 						style="width: 20px; cursor: pointer;" class="btnImgdown">
-				<img src="resources/images/chat-close.png"
+				<img src="resources/images/chat-close.png" id="ask_close"
 					style="width: 20px; cursor: pointer;" class="btnImgclose"> 				
 			</div>
 		</div>

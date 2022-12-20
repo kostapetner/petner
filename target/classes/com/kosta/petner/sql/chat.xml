@@ -70,13 +70,10 @@
         WHERE room_id = #{room_id} AND user_id != #{user_id} AND UNREADCOUNT = 1
     </update>
     
-    <delete id="deleteRoom">
-    	delete from chatMessage 
-    	where room_id = {room_id}
-    	delete from chatRoom 
-    	where room_id = {room_id}
-	
-    
+    <delete id="deleteRoom" parameterType="String">
+  		
+	   DELETE FROM CHATROOM  WHERE room_id = #{room_id}
+      
     </delete>
     
 </mapper>

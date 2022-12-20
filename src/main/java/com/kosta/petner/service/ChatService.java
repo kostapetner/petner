@@ -66,5 +66,8 @@ public interface ChatService {
      * @return
      */
     int updateCount(ChatMessage message);
+    
+    //방, 메세지삭제
+    void deleteRoom(String room_id);
  
 }
