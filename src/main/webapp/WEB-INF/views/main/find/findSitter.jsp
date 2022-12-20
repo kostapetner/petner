@@ -397,7 +397,7 @@
 		<div class="f_row">
 			<p class="filter_title">펫시터 성별</p>
 			<div class="select_box">
-				<label class="fcCbox1"><input type="checkbox" name="gender" value="women"><span>여성펫시터</span></label>
+				<label class="fcCbox1"><input type="checkbox" name="gender" value="female"><span>여성펫시터</span></label>
 				<label class="fcCbox1"><input type="checkbox" name="gender" value="male"><span>남성펫시터</span></label>
 			</div>
 		</div>

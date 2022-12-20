@@ -95,8 +95,8 @@
 					,nickname
 					,u.gender
 			FROM care_service cs
-			left join PET_INFO pif on cs.pet_no = pif.pet_no
-			left join users u on cs.user_no = u.user_no
+			inner join PET_INFO pif on cs.pet_no = pif.pet_no
+			inner join users u on cs.user_no = u.user_no
 			<where>
 				<!-- 우편번호 -->
 			    <if test="zipcode != null and zipcode != ''">
