@@ -37,13 +37,6 @@
 												<i class="fa-solid fa-file"></i></a>
 										</c:if>
 									</div>
-									<%-- <c:if test="${article.file_no!=null }">
-										<!-- 첨부파일 다운로드 -->
-										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
-											${article.file_no}
-											<i class="fas fa-download font-img"></i>
-										</a>
-								</c:if> --%>
 								</div>
 								&nbsp;&nbsp;&nbsp;
 								<div>
@@ -59,7 +52,11 @@
 						
 						<div class="content">
 						<!-- 첨부된 이미지 보여주기 -->
-						<img src="${pageContext.request.contextPath}/resources/notice/${vo.filepath }" class="img3" style="width: 100%;">
+						<c:if test="${!empty vo.filename }">
+								<div class="preview">
+									<img src="resources/${vo.filepath }" class="img3" style="width: 100%;" />
+								</div>
+							</c:if>
 							<div class="txt">
 							${fn:replace(vo.content, crlf, '<br>') }
 							</div>
@@ -69,17 +66,17 @@
 						<hr class="hr">
 
 						<div class="btnSet">
-							<a class="pet_btn"
-								href="list_notice">목록으로</a>
+							<a class="btn btn-outline-secondary" type="button"
+								href="ad_list_notice">목록으로</a>
 							<!-- 관리자인 경우 수정/삭제 가능 -->
 							<c:if test="${authUser.user_type >= 9}">
-								<a class="pet_btn" href='ad_modify_notice?id=${vo.id }'>수정</a>
-								<a class="pet_btn"
+								<a class="btn btn-outline-secondary" type="button" href='ad_modify_notice?id=${vo.id }'>수정</a>
+								<a class="btn btn-outline-secondary" type="button"
 									onclick="if(confirm('정말 삭제하시겠습니까?')) {href='ad_delete_notice?id=${vo.id }' }">삭제</a>
 							</c:if>
 							<!-- 로그인이 된 경우 답글 쓰기 가능 -->
 							<c:if test="${!empty authUser}">
-								<a class="pet_btn" href="ad_reply_notice?id=${vo.id }">답글 쓰기</a>
+								<a class="btn btn-outline-secondary" type="button" href="ad_reply_notice?id=${vo.id }">답글 쓰기</a>
 							</c:if>
 						</div>
 					</div>
