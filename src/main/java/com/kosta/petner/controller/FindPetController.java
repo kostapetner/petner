@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +23,7 @@ import org.springframework.web.util.WebUtils;
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.JSONResult;
+import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.SitterService;
@@ -42,6 +42,12 @@ public class FindPetController {
 
 	@Autowired
 	SitterService sitterService;
+	
+	public int getLoginUserNo(HttpSession session) {
+		MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
+		int user_no = mypageSession.getUser_no();
+		return user_no;
+	}
 
 	//돌봐줄 동물 찾기 페이지
 	@RequestMapping(value = "/findPet", method= {RequestMethod.POST, RequestMethod.GET})
@@ -175,10 +181,15 @@ public class FindPetController {
 
 	// 동물찾기 테스트 조다솜 뷰 ajax로 해야함
 	@RequestMapping(value = "/findPetTest", method = RequestMethod.GET)
-	String findPettest(Model model, HttpServletRequest request) {
-		System.out.println("TEST");
-		// 나의 주소값이 없을 경우 ( 로그인한 경우가 아니면 where절 에 zip 코드 없이 그냥 다 보여준다
-		
+	String findPettest(HttpSession session, HttpServletRequest request, Model model) {
+		try {
+			int user_no = getLoginUserNo(session);
+			System.out.println("지금 보는 user_no"+user_no);
+		}catch(Exception e){
+			//e.printStackTrace();
+			System.out.println("null은 어떻게 해결하는게 좋을까");
+			
+		}
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPettest");
 		return "/layout/main";
@@ -188,9 +199,10 @@ public class FindPetController {
 	@RequestMapping("/findPetTest/getJsonData") // ajax로 뷰 렌더링할것임
 	public JSONResult getPetJson(HttpSession session, Model model) {
 		// @ModelAttribute CateVo cateVo, BindingResult result, 
-		// 보고있는 사람의 zipcode 필요 => 기본 지도 해놓을거라 
+		// 보고있는 사람의 zipcode 필요 => 기본 지도 해놓을거라 실제로 DB를 가져오는 부분
+		
 		List<CareService> petList = sitterService.getAllPetServiceList();
-		System.out.println("리스트나와라"+petList);
+		System.out.println("리스트나와라gg"+petList);
 		//List cateList = blogService.getCateList(userNo);
 		return JSONResult.success(petList);
 		
