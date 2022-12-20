@@ -33,8 +33,8 @@
 		padding: 100px;
 		}
 		</style>
-		
 		<div id="kakao-talk-channel-chat-button"></div>
+		
 		
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 		<script type='text/javascript'>
@@ -66,7 +66,7 @@
 
 					</div>
 				</div>
-		
+					
 		
 		
 				<!-- FOOTER BASIC -->

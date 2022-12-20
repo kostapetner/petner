@@ -41,7 +41,7 @@
 	<!-- 메인=> 펫시터찾기 일가능한시터정보보 모두 가져오기 221130_DSC-->
 	<select id="getAllAvailSitter" resultType="Map">
 		<![CDATA[
-			SELECT u.NAME, u.NICKNAME, si.* 
+			SELECT u.NAME, u.NICKNAME, u.ID, si.* 
 			FROM SITTER_INFO si, USERS u 
 			WHERE si.USER_NO = u.USER_NO
 			ORDER BY u.USER_NO DESC 
@@ -179,7 +179,7 @@
 	
 	<!-- 펫시터 찾기 검색 -->
 	<select id="findSitterSearch" parameterType="hashMap" resultType="hashMap">
-			SELECT si.*, u.gender, u.nickname
+			SELECT si.*, u.gender, u.nickname, u.id
 			FROM SITTER_INFO si
 			left join users u on si.user_no = u.user_no
 			<where>
