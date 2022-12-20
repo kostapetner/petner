@@ -128,7 +128,7 @@ $(document).ready(function(){
 	</c:if>
 	<c:if test="${not empty petInfo}">
 		<h3 class="form_title fs24">펫케어 서비스 신청</h3>
-		<form action="/petner/mypage/myService/requireServiceForm" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
+		<form action="${pageContext.request.contextPath}/mypage/myService/requireServiceForm" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
 			<!-- 선택한 pet_no보내기 -->
 			<input type="hidden" name="pet_no"/>
 			<!-- 펫 선택 -->
