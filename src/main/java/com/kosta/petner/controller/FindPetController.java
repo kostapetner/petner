@@ -24,7 +24,6 @@ import org.springframework.web.util.WebUtils;
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
 import com.kosta.petner.bean.JSONResult;
-import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
 import com.kosta.petner.service.SitterService;
@@ -43,15 +42,50 @@ public class FindPetController {
 
 	@Autowired
 	SitterService sitterService;
-	
-	public int getLoginUserNo(HttpSession session) {
-		MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
-		int user_no = mypageSession.getUser_no();
-		return user_no;
-	}
 
-	// 돌봐줄 동물 찾기 검색
-	// 검색조건 : 날짜, 서비스, 동물종류, 보호자 성별, (현재위치), 펫이름
+	//돌봐줄 동물 찾기 페이지
+	@RequestMapping(value = "/findPet", method= {RequestMethod.POST, RequestMethod.GET})
+	String findPet(Model model, @RequestParam(value="zipcode", required=false, defaultValue ="1") String qszipcode,
+					@RequestParam(value="addr", required=false) String addr, Find findPetVO, HttpServletRequest request) {
+		//user의 DB에 저장된 값 가져오기
+		Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
+		if(users == null) {
+			System.out.println("findPet authUser null");
+		}else {
+			Integer user_no = users.getUser_no();
+			Users userInfo = usersService.getUserByUserNo(user_no);
+			model.addAttribute("userInfo", userInfo);
+		}
+		
+		//viewForm에서 넘어온 값 확인
+		System.out.println("*******findPet request.getParameter******");
+		String st_date = request.getParameter("st_date");
+		String end_date = request.getParameter("end_date");
+		String service = request.getParameter("service");
+		String pet_kind = request.getParameter("pet_kind");
+		String gender = request.getParameter("gender");
+		String zipcode = request.getParameter("zipcode");
+		String addrP = request.getParameter("addrP");
+		
+		System.out.println("st_date:  "+st_date);
+		System.out.println("end_date:  "+end_date);
+		System.out.println("service:  "+service);
+		System.out.println("pet_kind:  "+pet_kind);
+		System.out.println("gender:  "+gender);
+		System.out.println("zipcode:  "+zipcode);
+		System.out.println("addrP:  "+addrP);
+		System.out.println("**********************************************");
+		
+		model.addAttribute("qszipcode", qszipcode);
+		model.addAttribute("qsaddrp", addr);
+		model.addAttribute("title", "돌봐줄 동물 찾기");
+		model.addAttribute("page", "main/find/findPet");
+		return "/layout/main";
+	}
+	
+	//돌봐줄 동물 찾기 검색
+	//검색조건 : 날짜, 서비스, 동물종류, 보호자 성별, (현재위치), 펫이름
+	@ResponseBody
 	@RequestMapping(value = "/findPet/viewForm/findPetSearch", method= RequestMethod.GET)
 	public List<CareService> findPetSearch(Model model, HttpServletRequest request) {
 		System.out.println("findPetSearch controller");
@@ -92,11 +126,11 @@ public class FindPetController {
 		}
 		return petSearchList;
 	}
-
-	// 게시글 사진 화면에 띄우기
+	
+	//게시글 사진 화면에 띄우기
 	@RequestMapping(value = "/findPet/{fileNo}", method = RequestMethod.GET)
 	public void viewCareServiceImages(@PathVariable String fileNo, HttpServletResponse response) {
-		String path = servletContext.getRealPath("/resources/upload/");
+	String path = servletContext.getRealPath("/resources/upload/");
 		FileInputStream fis = null;
 		try {
 			Integer file_no = Integer.parseInt(fileNo);
@@ -107,16 +141,13 @@ public class FindPetController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (fis != null) {
+			if(fis != null) {
 				try {
 					fis.close();
-				} catch (Exception e) {
-				}
+				} catch (Exception e) {} 
 			}
 		}
 	}
-
-	
 		
 	//돌봐줄 동물 찾기 게시글에 따른 viewForm
 	@RequestMapping(value = "/findPet/viewForm/{serviceNo}", method= RequestMethod.GET)
@@ -144,15 +175,10 @@ public class FindPetController {
 
 	// 동물찾기 테스트 조다솜 뷰 ajax로 해야함
 	@RequestMapping(value = "/findPetTest", method = RequestMethod.GET)
-	String findPettest(HttpSession session, HttpServletRequest request, Model model) {
-		try {
-			int user_no = getLoginUserNo(session);
-			System.out.println("지금 보는 user_no"+user_no);
-		}catch(Exception e){
-			//e.printStackTrace();
-			System.out.println("null은 어떻게 해결하는게 좋을까");
-			
-		}
+	String findPettest(Model model, HttpServletRequest request) {
+		System.out.println("TEST");
+		// 나의 주소값이 없을 경우 ( 로그인한 경우가 아니면 where절 에 zip 코드 없이 그냥 다 보여준다
+		
 		model.addAttribute("title", "돌봐줄 동물 찾기");
 		model.addAttribute("page", "main/find/findPettest");
 		return "/layout/main";
@@ -162,10 +188,9 @@ public class FindPetController {
 	@RequestMapping("/findPetTest/getJsonData") // ajax로 뷰 렌더링할것임
 	public JSONResult getPetJson(HttpSession session, Model model) {
 		// @ModelAttribute CateVo cateVo, BindingResult result, 
-		// 보고있는 사람의 zipcode 필요 => 기본 지도 해놓을거라 실제로 DB를 가져오는 부분
-		
+		// 보고있는 사람의 zipcode 필요 => 기본 지도 해놓을거라 
 		List<CareService> petList = sitterService.getAllPetServiceList();
-		System.out.println("리스트나와라gg"+petList);
+		System.out.println("리스트나와라"+petList);
 		//List cateList = blogService.getCateList(userNo);
 		return JSONResult.success(petList);
 		
