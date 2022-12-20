@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
+import com.kosta.petner.bean.FindArr;
 import com.kosta.petner.bean.PetInfo;
 
 @Repository
@@ -95,7 +96,7 @@ public class OwnerDAOImpl implements OwnerDAO {
 	 * 내용: 펫시터 찾기 ajax검색(성별, 서비스, 동물종류, 요일)
 	 */
 	@Override
-	public List<Map<String, Object>> findSitterSearch(Find findVO) {
+	public List<Map<String, Object>> findSitterSearch(FindArr findVO) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//gender
 		if(findVO.getGender() != null && !findVO.getGender().equals("")) {
@@ -132,13 +133,6 @@ public class OwnerDAOImpl implements OwnerDAO {
 		}
 		return sqlSession.selectList("mapper.owner.findSitterSearch", map);
 	}
-
-
-	
-
-
-	
-	
 	
 
 }

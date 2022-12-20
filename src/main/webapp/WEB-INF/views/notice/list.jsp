@@ -76,7 +76,7 @@
 				<div class="box3" id="box3">
 					<c:if test="${!empty vo.filename }">
 					<div class="preview">
-						<img src="resources/${vo.filepath }" class="img3" />
+						<img src="resources/${vo.filepath }" class="img3" style='widht:100%'/>
 					</div>
 					</c:if>
 					<!-- 업로드한 이미지 없을때 -->

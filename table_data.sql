@@ -1,64 +1,78 @@
-CREATE TABLE notice (
-	notice_no NUMBER ,
-	user_id	VARCHAR2(50),
-	notice_title VARCHAR2(50),
-	notice_content VARCHAR2(50),
-	file_no	VARCHAR2(50),
-	reg_date date,
-	notice_hit NUMBER,
-	notice_re_ref number,
-	notice_re_lev number,
-	notice_re_seq number
+CREATE TABLE notice(
+    id          NUMBER CONSTRAINT notice_id_pk PRIMARY KEY,
+    title       VARCHAR2(300) NOT NULL,
+    content     VARCHAR2(4000) NOT NULL,
+    writer      VARCHAR2(20) NOT NULL,
+    writedate   DATE DEFAULT SYSDATE,
+    readcnt     NUMBER DEFAULT 0,
+    file_no		VARCHAR2(300),
+    filename    VARCHAR2(300),
+    filepath    VARCHAR2(300),
+    root        NUMBER,
+    step        NUMBER default 0,
+    indent      NUMBER default 0 
 );
+ALTER TABLE notice
+ADD(root NUMBER, step NUMBER DEFAULT 0, indent NUMBER DEFAULT 0);
 
+UPDATE notice SET root = id;
 
-INSERT INTO notice (notice_no, user_id, notice_title, notice_content,file_no)
-VALUES (notice_seq.nextval, 'admin', '타이틀', '글내용테스트' , 'file_no');
-
-
+ALTER TRIGGER trg_notice DISABLE;
 
 DROP table notice;
 
 DROP SEQUENCE notice_seq;
 
+CREATE SEQUENCE seq_notice
+START WITH 1 INCREMENT BY 1;
 
-SELECT * FROM notice;
-
-CREATE SEQUENCE notice_seq
-INCREMENT BY 1 
-START WITH 1 ;
-
-
-
-
-
-CREATE TABLE qna (
-	qna_no NUMBER ,
-	user_id	VARCHAR2(50),
-	qna_title VARCHAR2(50),
-	qna_content VARCHAR2(50),
-	file_no	VARCHAR2(50),
-	reg_date date,
-	qna_hit NUMBER,
-	qna_re_ref number,
-	qna_re_lev number,
-	qna_re_seq number
+CREATE OR REPLACE TRIGGER trg_notice
+    BEFORE INSERT ON notice
+    FOR EACH ROW
+BEGIN
+    SELECT seq_notice.NEXTVAL INTO:NEW.id FROM dual;
+END;
+-- qna 완료 ==================================================
+--qna 테이블 생성
+CREATE TABLE qna(
+    id          NUMBER CONSTRAINT qna_id_pk PRIMARY KEY,
+    title       VARCHAR2(300) NOT NULL,
+    content     VARCHAR2(4000) NOT NULL,
+    writer      VARCHAR2(20) NOT NULL,
+    writedate   DATE DEFAULT SYSDATE,
+    readcnt     NUMBER DEFAULT 0,
+    file_no    VARCHAR2(300),
+    filename    VARCHAR2(300),
+    filepath    VARCHAR2(300),
+    root        NUMBER,
+    step        NUMBER default 0,
+    indent      NUMBER default 0 
 );
+CREATE SEQUENCE seq_qna
+START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_qna
+    BEFORE INSERT ON qna
+    FOR EACH ROW
+BEGIN
+    SELECT seq_qna.NEXTVAL INTO:NEW.id FROM dual;
+END;
 
 
-INSERT INTO qna (qna_no, user_id, qna_title, qna_content,file_no)
-VALUES (qna_seq.nextval, 'admin', '마지막글', '글내용테스트' , 'file_no');
+INSERT INTO qna (id, title, content, writer)
+VALUES (1, '첫 글 테스트', 'ㅁㄴㅇㄻㄴㅇㄹ', '관리자');
 
-DROP table qna;
 
-DROP SEQUENCE qna_seq;
+INSERT INTO qna(title, content, writer, writedate, filepath, filename)
+SELECT title, content, writer, writedate, filepath, filename FROM qna;
 
+UPDATE qna SET root = id;
+
+ALTER TRIGGER trg_qna DISABLE;
+
+COMMIT;
 
 SELECT * FROM qna;
-
-CREATE SEQUENCE qna_seq
-INCREMENT BY 1 
-START WITH 1 ;
 
 
 -- board 완료 ==================================================
@@ -96,7 +110,7 @@ CREATE OR REPLACE TRIGGER trg_board
 BEGIN
 	SELECT seq_board.NEXTVAL INTO :new.id FROM dual;
 END;
-/
+
 
 COMMIT;
 

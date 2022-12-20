@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 *, .btn {font-size:12px}
 /* ***** admin header ***** */
 .admin_header { align-items: center; padding-right: 25px; }
@@ -13,8 +11,6 @@
     justify-content: start;
     margin-top: 7px;
     }
-    
-    
 /**************/
 
 /* 게시물 뷰 */
@@ -49,7 +45,24 @@
     .btn-toggle:hover, .btn-toggle:focus {width:100%}
 }
 
+/* table_top */
+.table_top {display: flex;}
 
+.paging .pagination .page-item {padding:0px;}
+
+/*  search  */
+.search_box {display: flex;
+    justify-content: flex-end;
+    align-items: center;padding: 0;}
+
+  .search_box .pet_btn {margin-left:6px}
+  .search_box option {padding: 4px;
+  font-size: 14px;
+  color: #fff;
+  background: #272822;}
+.option_box {display: flex;
+    justify-content: flex-end;
+    align-items: center;}
 
 /* ***** not_admin 관리자가 아닐때 ***** */
 .not_admin {
@@ -81,8 +94,6 @@
 }
 /**************/
 
-
->>>>>>> b65ac06c6b607ddb8afffe697e91db6e083bf40e
 
 
 
@@ -343,9 +354,6 @@ header {
 .ad_button .admin_btn:hover {
     color: #FFF;
 }
-
-
-
 
 /* ***** user detail page ***** */
 .user_detail li { display:flex }

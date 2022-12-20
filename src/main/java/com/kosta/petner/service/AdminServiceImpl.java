@@ -1,13 +1,8 @@
 package com.kosta.petner.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kosta.petner.bean.Notice;
-import com.kosta.petner.bean.PageInfo;
-import com.kosta.petner.bean.Qna;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.NoticeDAO;
 import com.kosta.petner.dao.QnaDAO;
@@ -97,57 +92,63 @@ public class AdminServiceImpl implements AdminService {
 //	}
 	
 	// 조회수 증가
-	@Override
-	public void notice_read(int notice_id) throws Exception {
-		noticeDAO.notice_read(notice_id);
-	}
+//	@Override
+//	public void notice_read(int notice_id) throws Exception {
+//		noticeDAO.notice_read(notice_id);
+//	}
 	
-	@Override
-	public void deleteQna(Integer qnaNum) throws Exception {
-		Qna qna = getQna(qnaNum);
-		System.out.println("Service:"+qnaNum);
-		System.out.println("Service:"+qna);
-		qnaDAO.deleteQna(qnaNum);
-	}
+//	@Override
+//	public void deleteQna(Integer qnaNum) throws Exception {
+//		Qna qna = getQna(qnaNum);
+//		System.out.println("Service:"+qnaNum);
+//		System.out.println("Service:"+qna);
+//		qnaDAO.deleteQna(qnaNum);
+//	}
 
-	private Qna getQna(Integer qnaNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void resistNotice(Notice notice) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Notice> getNoticeList(int page, PageInfo pageInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Notice getNotice(Integer noticeNum) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void modifyNotice(Notice notice) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void noticeReply(Notice notice) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteNotice(Integer noticeNum) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+//	private Qna getQna(Integer qnaNum) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void resistNotice(Notice notice) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public List<Notice> getNoticeList(int page, PageInfo pageInfo) throws Exception {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Notice getNotice(Integer noticeNum) throws Exception {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void modifyNotice(Notice notice) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void noticeReply(Notice notice) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void deleteNotice(Integer noticeNum) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void deleteQna(Integer QnaNum) throws Exception {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

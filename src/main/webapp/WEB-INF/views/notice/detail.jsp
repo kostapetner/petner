@@ -29,22 +29,15 @@
 										첨부파일 <span class="by">${vo.filename }</span>
 										<c:if test="${!empty vo.filename }">
 											<a class="by" href="download_notice?id=${vo.id }"
-												style='margin-left: 5px'>
-												<i class="fa-solid fa-file"></i></a>
+												style='margin-left: 5px'> <i class="fa-solid fa-file"></i></a>
 										</c:if>
 									</div>
-									<%-- <c:if test="${article.file_no!=null }">
-										<!-- 첨부파일 다운로드 -->
-										첨부파일 <a href="qna_download?qnaNum=${article.qna_no}">
-											${article.file_no}
-											<i class="fas fa-download font-img"></i>
-										</a>
-								</c:if> --%>
 								</div>
 								&nbsp;&nbsp;&nbsp;
 								<div>
 									<!-- day -->
-									${vo.writedate  }&nbsp;&nbsp; <i class="fa-regular fa-eye"></i> ${vo.readcnt }
+									${vo.writedate  }&nbsp;&nbsp; <i class="fa-regular fa-eye"></i>
+									${vo.readcnt }
 								</div>
 							</div>
 						</div>
@@ -52,21 +45,20 @@
 						<hr class="hr">
 
 						<span id="preview"></span>
-						
+
 						<div class="content">
-						<!-- 첨부된 이미지 보여주기 -->
-						<img src="resources/${vo.filepath }" class="img">
-							<div class="txt">
-							${fn:replace(vo.content, crlf, '<br>') }
-							</div>
-						
+							<!-- 첨부된 이미지 보여주기 -->
+							<c:if test="${!empty vo.filename }">
+								<div class="preview">
+									<img src="resources/${vo.filepath }" class="img3" style="width: 100%;" />
+								</div>
+							</c:if>
+							<div class="txt">${fn:replace(vo.content, crlf, '<br>') }</div>
 						</div>
 
 						<hr class="hr">
-
 						<div class="btnSet">
-							<a class="pet_btn"
-								href="list_notice">목록으로</a>
+							<a class="pet_btn" href="list_notice">목록으로</a>
 							<!-- 관리자인 경우 수정/삭제 가능 -->
 							<c:if test="${authUser.user_type >= 9}">
 								<a class="pet_btn" href='modify_notice?id=${vo.id }'>수정</a>

@@ -76,23 +76,6 @@
 							</ul>
 						</div>
 					</li>
-					<li class="mb-2">
-						<button
-							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-							data-bs-toggle="collapse" data-bs-target="#orders-collapse"
-							aria-expanded="false">
-							<span data-feather="layers" class="align-text-bottom"></span>
-							미처리현황
-						</button>
-						<div class="collapse" id="orders-collapse">
-							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">신고접수처리</a></li>
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">1:1문의</a></li>
-							</ul>
-						</div>
-					</li>
 
 					<!-- <li class="border-top my-3"></li> -->
 					<li class="mb-2">
@@ -107,7 +90,9 @@
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 								<li><a href="./ad_list_notice"
 									class="link-dark d-inline-flex text-decoration-none rounded">공지사항 관리</a></li>
-									<li><a href="./ad_qnaList"
+									<li><a href="./ad_list_board"
+									class="link-dark d-inline-flex text-decoration-none rounded">게시판 관리</a></li>
+									<li><a href="./ad_list_qna"
 									class="link-dark d-inline-flex text-decoration-none rounded">QNA 관리</a></li>
 								<li><a href="#"
 									class="link-dark d-inline-flex text-decoration-none rounded">리뷰 관리</a></li>

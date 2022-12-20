@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
+import com.kosta.petner.bean.FindArr;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
@@ -99,7 +100,7 @@ public class OwnerServiceImpl implements OwnerService {
 	 * 내용: 펫시터 찾기 ajax검색
 	 */
 	@Override
-	public List<Map<String, Object>> findSitterSearch(Find findVO) {
+	public List<Map<String, Object>> findSitterSearch(FindArr findVO) {
 		return ownerDAO.findSitterSearch(findVO);
 	}
 

@@ -8,14 +8,7 @@
 
 <head>
 <link rel="stylesheet" href="${cssPath}/table.css">
-<style type="text/css">
-textarea {
-	width: 100%;
-	border: 1px solid #ced4da;
-	border-radius: 0.375rem;
-	max-height: 150px;
-}
-</style>
+
 </head>
 <h3>방명록 글쓰기</h3>
 <form action="insert_board" method="post" enctype="multipart/form-data" class="pn_write">
@@ -50,7 +43,7 @@ textarea {
 				<div>
 					<label> 
 					<input type="file" name="file" id="attach-file" />
-						<img src="${imgPath}/select.png" class="file-img" />
+						<i class="fa-solid fa-file"></i>
 					</label> 
 					<span id="file-name"></span>
 					<!-- 첨부파일 이미지 영역 -->
@@ -80,7 +73,7 @@ textarea {
 						var attach = this.files[0];
 						if (attach) {
 							if (isImage(attach.name)) {
-								var img = "<img id='preview-img' class='file-img' src='' style='border-radius:50%'/>";
+								var img = "<img id='preview-img' class='file-img' src=''/>";
 								$('#preview').html(img);
 
 								var reader = new FileReader();

@@ -46,3 +46,29 @@ function Zipcode() {
 		}
 	}).open();
 }
+
+
+// ajax common
+function getJsonData(strURL, objPara){
+  var objData;
+  $.ajax({
+      type: "POST",
+      url : strURL,
+      data : objPara,
+      cache: false,
+      async : false,
+      dataType:'json',
+      success : function(data, textStatus, jqXHR){ 
+				objData = data; 
+ 			},
+      error : function(xhr, error){ //xmlHttpRequest?
+					console.error("완전error: "+ error);
+			}
+  });
+  return objData;
+};
+
+function AddComma(num){
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+};

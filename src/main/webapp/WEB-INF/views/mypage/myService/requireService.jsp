@@ -4,7 +4,6 @@
 	.profile_upload_small .img{
 		width:75px; height:75px;
 	}
-	
 	.petSelected:after{
 	content: "\f058";
     font-family: "Font Awesome 5 Free";
@@ -120,143 +119,152 @@ $(document).ready(function(){
 </script>
 
 <div class="content">
-	<h3 class="form_title fs24">펫케어 서비스 신청</h3>
-	<form action="/petner/mypage/myService/requireServiceFrom" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
-		<!-- 선택한 pet_no보내기 -->
-		<input type="hidden" name="pet_no"/>
-		<!-- 펫 선택 -->
-		<div class="f_row">
-			<p class="fc_title">펫을 선택해주세요</p>
-			<div class="profile_upload_small">
-				<c:forEach var="petInfo" items="${petInfo}">
-					<div class="prof_img_small" id="img_small">
-						<a class="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
-						<input type="hidden" value="${petInfo.pet_no}">
+	<c:if test="${empty petInfo}">
+		<div>
+			<p class="mb25">등록된 반려동물 정보가 없어요.</p>
+			<a href="${pageContext.request.contextPath}/petForm" class="pet_btn">반려동물
+				정보 등록하기</a>
+		</div>
+	</c:if>
+	<c:if test="${not empty petInfo}">
+		<h3 class="form_title fs24">펫케어 서비스 신청</h3>
+		<form action="/petner/mypage/myService/requireServiceFrom" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
+			<!-- 선택한 pet_no보내기 -->
+			<input type="hidden" name="pet_no"/>
+			<!-- 펫 선택 -->
+			<div class="f_row">
+				<p class="fc_title">펫을 선택해주세요</p>
+				<div class="profile_upload_small">
+					<c:forEach var="petInfo" items="${petInfo}">
+						<div class="prof_img_small" id="img_small">
+							<a class="petImg"><img src="${pageContext.request.contextPath}/${petInfo.pet_no}" id="rep" class="img_wrap img"></a>
+							<input type="hidden" value="${petInfo.pet_no}">
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			<!-- 카드형 리스트 -->
+			<div class="f_row">
+				<div class="card_list_type" id="card_list_type">
+					<table>
+						<tr>
+							<td colspan="2">
+								<div class="img_area">
+									<img id="pet_img_area" >
+								</div>
+							</td>
+						</tr>
+						<tr class="tr-left">
+							<td class="pdr40">이름</td>
+							<td class="td-inner" >
+								<input type="text" id="petInfo_name" name="pet_name" readonly>
+							</td>
+						</tr>
+						<tr class="tr-left">
+							<td class="pdr40">성별</td>
+							<td class="td-inner">
+								<input type="text" id="petInfo_gender" name="pet_gender" readonly>
+							</td>
+						</tr>
+						<tr class="tr-left">
+							<td class="pdr40">종류</td>
+							<td class="td-inner">
+								<input type="text" id="petInfo_specie" name="pet_specie" readonly>
+							</td>
+						</tr>
+						<tr class="tr-left">
+							<td class="pdr40">체중</td>
+							<td class="td-inner">
+								<input type="text" id="petInfo_weight" name="pet_weight" readonly>kg
+							</td>
+						</tr>
+						<tr class="tr-left" style="border-top:1px #777 dotted">
+							<td class="pdr40" width="30%">중성화</td>
+							<td class="td-inner" width="70%">
+								<input type="text" id="petInfo_neutral" name="pet_neutral" readonly>
+							</td>
+						</tr>
+					</table>
+					<div style="padding: 20px 0px;">
+						<p class="p-style">특이사항</p>
+						<P class="p-style-content">
+						<textarea id="textareaId" name="pet_info" readonly></textarea>
+						</P>
 					</div>
-				</c:forEach>
-			</div>
-		</div>
-		<!-- 카드형 리스트 -->
-		<div class="f_row">
-			<div class="card_list_type" id="card_list_type">
-				<table>
-					<tr>
-						<td colspan="2">
-							<div class="img_area">
-								<img id="pet_img_area" >
-							</div>
-						</td>
-					</tr>
-					<tr class="tr-left">
-						<td class="pdr40">이름</td>
-						<td class="td-inner" >
-							<input type="text" id="petInfo_name" name="pet_name" readonly>
-						</td>
-					</tr>
-					<tr class="tr-left">
-						<td class="pdr40">성별</td>
-						<td class="td-inner">
-							<input type="text" id="petInfo_gender" name="pet_gender" readonly>
-						</td>
-					</tr>
-					<tr class="tr-left">
-						<td class="pdr40">종류</td>
-						<td class="td-inner">
-							<input type="text" id="petInfo_specie" name="pet_specie" readonly>
-						</td>
-					</tr>
-					<tr class="tr-left">
-						<td class="pdr40">체중</td>
-						<td class="td-inner">
-							<input type="text" id="petInfo_weight" name="pet_weight" readonly>kg
-						</td>
-					</tr>
-					<tr class="tr-left" style="border-top:1px #777 dotted">
-						<td class="pdr40" width="30%">중성화</td>
-						<td class="td-inner" width="70%">
-							<input type="text" id="petInfo_neutral" name="pet_neutral" readonly>
-						</td>
-					</tr>
-				</table>
-				<div style="padding: 20px 0px;">
-					<p class="p-style">특이사항</p>
-					<P class="p-style-content">
-					<textarea id="textareaId" name="pet_info" readonly></textarea>
-					</P>
 				</div>
 			</div>
-		</div>
+			
+			<div class="f_row">
+				<p class="tip">보호자가 펫시터에게 요청하고 싶은 사항을 입력해주세요</p>
+			</div>
+			
+			<!-- 지역 -->
+			<div class="f_row">
+				<p class="fc_title">지역</p>
+				<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}"/>
+				<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}"/>
+				<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}"/>
+			</div>
 		
-		<div class="f_row">
-			<p class="tip">보호자가 펫시터에게 요청하고 싶은 사항을 입력해주세요</p>
-		</div>
-		
-		<!-- 지역 -->
-		<div class="f_row">
-			<p class="fc_title">지역</p>
-			<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}"/>
-			<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}"/>
-			<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}"/>
-		</div>
-	
-		<!-- 날짜 -->
-	 	<div class="f_row">
-	 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
-	      <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
-	      <input type="text" class="date-picker" id="date_end" name="end_date">
-	    </div>  
-		
-		<!-- 서비스 -->
-		<div class="f_row">
-			<p class="fc_title">요청하실 서비스를 선택해 주세요</p>
-			<p class="pb12 select_all">
-				<label class="fcCbox1"><input type="checkbox" id="service_chkAll"><span>전체선택</span></label>
-			</p>
-			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="방문관리"><span>방문관리</span>
-			</label> 
-			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="산책"><span>산책</span>
-			</label>
-			<label class="fcCbox2 mr12">
-				<input type="checkbox" name="service" value="목욕"><span>목욕</span>
-			</label>
-			<label class="fcCbox2">
-				<input type="checkbox" name="service" value="교육"><span>교육</span>
-			</label>
-		</div>
-		
-		<!-- 금액 -->
-		<div class="f_row">
-			<p class="fc_title">해당 요청서의 금액을 책정해주세요</p>
-			<input type="text" name="request_money" style="width:96%; min-width: auto; margin-top: 10px;"/>원
-		</div>
-		
-		<!-- 요쳥사항 -->
-		<div class="f_row">
-			<p class="fc_title">요청서의 제목을 입력해주세요</p>
-			<input type="text" name="request_title" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="제목" value=""/>
-		</div>
-		<div class="f_row">
-			<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
-			<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
-			<textarea class="fcc_textarea" name="request_detail"></textarea>
-		</div>
-		
-		<!-- 사진 업로드 -->
-		<div class="f_row profile_upload">
-			<p class="fc_title">반려동물의 사진을 올려주세요</p>
-			<div class="profile_upload_square">
-				<div class="prof_img">
-					<img id="requestPetImg"> <br>
-					<label for="file" class="pet_btn edit_btn"> 
-						<i class="fa-solid fa-pen" id="pen"></i>
-					</label> 
-					<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+			<!-- 날짜 -->
+		 	<div class="f_row">
+		 		<p class="fc_title">가능한 날짜를 선택해주세요</p>
+		      <input type="text" class="date-picker" id="date_start" name="st_date">&nbsp;~&nbsp;
+		      <input type="text" class="date-picker" id="date_end" name="end_date">
+		    </div>  
+			
+			<!-- 서비스 -->
+			<div class="f_row">
+				<p class="fc_title">요청하실 서비스를 선택해 주세요</p>
+				<p class="pb12 select_all">
+					<label class="fcCbox1"><input type="checkbox" id="service_chkAll"><span>전체선택</span></label>
+				</p>
+				<label class="fcCbox2 mr12">
+					<input type="checkbox" name="service" value="방문관리"><span>방문관리</span>
+				</label> 
+				<label class="fcCbox2 mr12">
+					<input type="checkbox" name="service" value="산책"><span>산책</span>
+				</label>
+				<label class="fcCbox2 mr12">
+					<input type="checkbox" name="service" value="목욕"><span>목욕</span>
+				</label>
+				<label class="fcCbox2">
+					<input type="checkbox" name="service" value="교육"><span>교육</span>
+				</label>
+			</div>
+			
+			<!-- 금액 -->
+			<div class="f_row">
+				<p class="fc_title">해당 요청서의 금액을 책정해주세요</p>
+				<input type="text" name="request_money" style="width:96%; min-width: auto; margin-top: 10px;"/>원
+			</div>
+			
+			<!-- 요쳥사항 -->
+			<div class="f_row">
+				<p class="fc_title">요청서의 제목을 입력해주세요</p>
+				<input type="text" name="request_title" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="제목" value=""/>
+			</div>
+			<div class="f_row">
+				<p class="fc_title">요청하실 사항을 자세히 입력해주세요</p>
+				<p class="tip">예) 노견이라 산책을 짧게해주세요, 다른 강아지를 좋아하지 않아요</p>
+				<textarea class="fcc_textarea" name="request_detail"></textarea>
+			</div>
+			
+			<!-- 사진 업로드 -->
+			<div class="f_row profile_upload">
+				<p class="fc_title">반려동물의 사진을 올려주세요</p>
+				<div class="profile_upload_square">
+					<div class="prof_img">
+						<img id="requestPetImg"> <br>
+						<label for="file" class="pet_btn edit_btn"> 
+							<i class="fa-solid fa-pen" id="pen"></i>
+						</label> 
+						<input type="file" id="file" name="imageFile" hidden="hidden"></input>
+					</div>
 				</div>
 			</div>
-		</div>
-		
-		<span class="pet_btn submit_btn transition02">서비스 신청하기</span>
-	</form>
+			
+			<span class="pet_btn submit_btn transition02">서비스 신청하기</span>
+		</form>
+	</c:if>
 </div>

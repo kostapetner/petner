@@ -1,6 +1,7 @@
 package com.kosta.petner.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kosta.petner.bean.CareService;
 import com.kosta.petner.bean.Find;
@@ -27,4 +28,6 @@ public interface SitterService {
 	 * 내용: 돌봐줄 동물 찾기 검색
 	 */
 	List<CareService> findPetSearch(Find findVO);
+	// ajax 구현중
+	List<CareService> getAllPetServiceList();
 }

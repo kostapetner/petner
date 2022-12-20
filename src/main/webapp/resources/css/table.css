@@ -88,10 +88,10 @@
     height: auto;
     display: flex;
     flex-direction: column; }
-  .pn_view .content .img { max-width: 100%;height: auto;width: auto;margin-bottom: 30px;}
+  .pn_view .content .preview > img.img3 {    width: 100%; max-width: 100%;height: auto;width: auto;margin-bottom: 30px;}
   .pn_view .content .txt {min-height: 100px;}
   .pn_view .content .file_box { display: flex; }
-  .pn_view .content .file_box p { margin-right: 8px; }
+  .pn_view .content .file_box p { margin-right: 15px; }
   .pn_view .content .file_box label > img {width:20px}
   .pn_view .content .file_box div { display: flex; }
   .pn_view #image_preview img { width: auto; max-height: 350px; }
@@ -156,3 +156,20 @@
 .user_table .table tr td .box3 .preview_no {display: flex; width: 110px; height: 110px; background: #e0e0e0;}
 .user_table .table tr td .box3 .img3 {display: flex; width: 110px; height: 110px;}
 .user_table .table tr td .box3 {width: 110px; height: 110px;}
+
+
+/*-------------- qna_TABLE CSS ---------------*/
+
+
+.qna_table .table {width: 100%;}
+.qna_table .table .qna_list {display: flex;
+    align-items: center;
+        padding: 20px 0px;
+    border-bottom: 1px solid #CCc;
+}
+.qna_table .table .qna_list .box1 {width:15%;}
+
+
+
+
+

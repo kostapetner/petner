@@ -62,8 +62,10 @@
 									<p>첨부 파일</p>
 									<div>
 										<label> <input type="file" name="file"
-											id="attach-file" /> <img src="${imgPath}/select.png"
-											class="file-img" />
+											id="attach-file" /> 
+											<i class="fa-solid fa-file"></i>
+											<%-- <img src="${imgPath}/select.png"
+											class="file-img" /> --%>
 										</label> <span id="file-name"></span>
 										<!-- 첨부파일 이미지 영역 -->
 										<span id="preview"></span> <span id="delete-file"
@@ -75,8 +77,8 @@
 							</div>
 							<hr class="hr">
 							<div class="btnSet">
-								<a class="btn" onclick="if(necessary()) $('form').submit()">저장</a>
-								<a class="btn" href="list_notice">취소</a>
+								<a class="pet_btn" onclick="if(necessary()) $('form').submit()">저장</a>
+								<a class="pet_btn" href="list_notice">취소</a>
 							</div>
 						</div>
 					</form>
