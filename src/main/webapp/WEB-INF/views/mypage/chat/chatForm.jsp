@@ -274,8 +274,7 @@ textarea {
 
 		function getRoomList() {
 			// 채팅 방 목록 가져오기
-			$
-					.ajax({
+			$.ajax({
 						url : "chatRoomList.do",
 						data : {
 							user_id : "${authUser.id}"

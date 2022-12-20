@@ -4,6 +4,7 @@
 <script>
 	$(document).ready(function() {
 		
+		
 		var serviceArr = [];
 		var petKindArr = []; 
 		var genderArr = [];
@@ -122,6 +123,7 @@
 							str +='<div class="text_area">';
 							str +='<div class="row1">';
 							str +='<p><span class="nick">'+ item.NICKNAME +'</span></p>';
+							str +='<p><span class="id">'+ item.ID +'</span></p>';
 							str +='</div>';
 							str +='<div class="row2">';
 							str +='<p><a href="#">팔로워<span class="f_val">122</span></a></p>';
@@ -132,17 +134,26 @@
 							str +='<div class="see_info">펫시터 소개보기</div>';
 							str +='</div>';
 							str +='<div class="row4">'+item.SITTER_INFO+'</div>';
+						
+						
 							str +='</div>';
 							str +='</div>';
 							str +='<div class="icons">';
-							str +='<a href="#" title="채팅하기" class="transition02 chat" onclick="return chatting();"><i class="fa-solid fa-comment-dots" ></i></a>';
+							str+= '<form action="createChat.do" method="POST" >';
+							str+= '<input type="hidden" id="user_nickname" name="user_nickname" value= "${authUser.nickname}"/>';
+							str+= '<input type="hidden" id="user_id" name="user_id" value= "${authUser.id}"/>';
+							str+= '<input type="hidden" id="another_nickname" name="another_nickname" value="'+item.NICKNAME+'"/>';
+							str+= '<input type="hidden" id="another_id" name="another_id" value="'+item.ID+'"/>';	
+							str+= '<button type="submit" id="chatting"><i class="fa-solid fa-comment-dots"></i></button>';
 							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
 							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
+							str+= '</form>';	
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
 							str+='<input type="hidden" id="ajaxAddr" value="'+item.ADDR+'">';
 							addr.push(item.ADDR);
+						
 						});
 						$("#card_list").append(str);
 					}
@@ -354,10 +365,7 @@
     // $(".modal_mask"). remove();
   }
   
-  
-  function chatting() {
-	  document.getElementById('CreateChat').submit();
-	  }
+    	  
 </script>
 
 <style>
@@ -508,14 +516,14 @@
 </div>
 
 <!--  카드리스트의 값을 보내야 되는데 못보내는 중... -->
-<%-- <form action= "createChat.do" method="post" id="CreateChat">
+<%--  <form action= "createChat.do" method="post" id="CreateChat">
 							<input type="text" name=user_nickname value= "${authUser.nickname}"/>
 							<input type="text" name=user_id value= "${authUser.id}"/>
-							<input type="text" name=another_nickname value= "${data[i].nickname}"/>
-							<input type="text" name=another_id value=" ${data[i].id}"/>				
+							<input type="text" name=another_nickname value= "${dataList.nickname}"/>
+							<input type="text" name=another_id value=" ${dataList.id}"/>				
 							</form>
-
+ --%>
 
 
 <div class="go_top"><i class="fa-solid fa-arrow-up-long"></i></div>
- --%>
+ 

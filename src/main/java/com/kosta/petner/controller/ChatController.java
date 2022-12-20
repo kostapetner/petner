@@ -146,7 +146,7 @@ public class ChatController {
            int count = cService.selectUnReadCount(message);
            cList.get(i).setUnReadCount(count);
        }
-       System.out.println(cList);
+       System.out.println("방목록:" +cList);
        model.addAttribute("cList", cList);
        response.setContentType("application/json; charset=utf-8");
 
