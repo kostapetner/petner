@@ -17,7 +17,7 @@
 	<!-- 관리자 일때 -->
 	<c:if test="${authUser.user_type >= 9}">
 
-		<!-- 공지사항 리스트 -->
+		<!-- qna 리스트 -->
 		<div class="card ad_card mb-4">
 			<div class="card-body">
 				<h2 class="card-title">qna 글 목록</h2>
@@ -71,11 +71,10 @@
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
-													<%-- ${i eq vo.indent ? "<img src = 'img/re.gif' />" : "&nbsp;&nbsp;" } --%>
 													<span class="qna_indent">Re <c:if
 															test="ad_detail_qna?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a
-												href="ad_detail_qna?id=${vo.id }&curPage=${notice.curPage }">${vo.title }</a>
+												href="ad_detail_qna?id=${vo.id }&curPage=${qna.curPage }">${vo.title }</a>
 											</td>
 											<td class="col-2">${vo.writer}</td>
 											<td class="col-2">${vo.writedate}</td>

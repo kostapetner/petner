@@ -51,7 +51,9 @@
 		});
 		
 		var addr = [];
+		
 		function searchAjax(){
+			
 			// 성별, 서비스, 동물종류, 요일
 			var gender = genderArr;
 			var service = serviceArr;
@@ -73,7 +75,7 @@
 				    	,"zipcode":zipcode
 				  }),
 				success : function(data) {
-					console.log(data);
+					console.log("data"+data);
 					var str = '';
 					if(data.length == 0){
 						$("#card_list").empty();
@@ -89,7 +91,27 @@
 						$("#card_list").append(str);
 					}else{
 						$("#card_list").empty();
+						var days_ko = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+						var days_en = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+						
+						var dayStr;
+						
 						$.each(data, function(i, item) { // 데이터 =item
+							dayStr = item.WORK_DAY; // mon,wed
+							strArr = dayStr.split(","); // 배열로 변환
+							console.log("strArr"+strArr); //배열크기만큼 돌면서 인덱스 가져와서 글자 바꿈
+							
+							for(var i in strArr){
+							    
+							    var idx = days_en.indexOf(strArr[i]);
+							    console.log("idxforstrArr["+strArr[i]+"]:"+idx);//02
+							    
+							    strArr[i] = days_ko[idx]
+							    
+							}
+							
+							console.log("요일"+strArr)
+							
 							str +='<ul>';
 							str +='<li user_no="'+item.USER_NO+'">';
 							str +='<div class="data">';
@@ -108,8 +130,8 @@
 							str +='<p><a href="#">팔로잉<span class="f_val">122</span></a></p>';
 							str +='</div>';
 							str +='<div class="row3">';	
-							str +='<span>'+item.WORK_DAY+'</span>';
-							str +='<span class="see_info">펫시터자기소개</span>';
+							str +='<span class="days">'+strArr+'</span>';
+							str +='<div class="see_info">펫시터 소개보기</div>';
 							str +='</div>';
 							str +='<div class="row4">'+item.SITTER_INFO+'</div>';
 						
@@ -352,6 +374,24 @@
 	.heart:hover{color:var(--red)}
 	.follow:hover{color:#6198db}
 	.chat:hover{color:var(--orange)}
+	
+	.card_list_type li .data .row3{
+		background-color:#fff;
+	}
+	.days{
+	  background: #e0e0f0;
+    padding: 6px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: inline-block;
+    color: #6f8693;}
+  
+  .see_info{    
+  	text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 15px;
+   }
 	.row4{
 		display:none;
 	  max-width: 520px;
@@ -387,13 +427,11 @@
   .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
   #centerAddr {display:block;margin-top:2px;font-weight: normal;}
   .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-  
-  
-/*  .btn_position {
-  position: absolute;
-  top:1270px;
-  left:1090px;
-  }  */
+	
+	.card_list_type li .img_area{
+		box-shadow: 0px 0px 5px 1px rgba(239 239 239 / 75%);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(239 239 239 / 75%);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(239 239 239 / 75%)}
 </style>
 
 <!-- CONTAINER -->

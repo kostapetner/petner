@@ -67,14 +67,14 @@ public class QnaController {
 				model.addAttribute("err", e.getMessage());
 				model.addAttribute("/notice/err");
 			}
-			return "/layout/mypage_default";
+			return "/layout/main";
 		}
 
 		// 신규 qna 글 작성 화면 요청//////////////////////////////////////////////////////
 		@RequestMapping("/new_qna")
 		public String qna(Model model) {
 			model.addAttribute("page", "qna/new");
-			return "/layout/mypage_default";
+			return "/layout/main";
 		}
 
 		//신규 qna 글 저장 처리 요청//////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ public class QnaController {
 				model.addAttribute("err", e.getMessage());
 				model.addAttribute("/notice/err");
 			}
-			return "/layout/mypage_default";
+			return "/layout/main";
 		} // detail()
 
 		// 첨부파일 다운로드 요청//////////////////////////////////////////////////////
@@ -208,7 +208,7 @@ public class QnaController {
 			// 원글의 정보를 답글 쓰기 화면에서 알 수 있도록 한다.
 			model.addAttribute("vo", qnaService.qna_detail(id));
 			model.addAttribute("page", "qna/reply");
-			return "/layout/mypage_default";
+			return "/layout/main";
 		} // reply()
 
 		// 공지글 신규 답글 저장 처리

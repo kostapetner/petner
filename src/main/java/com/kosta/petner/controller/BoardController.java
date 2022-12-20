@@ -53,7 +53,7 @@ public class BoardController {
 			model.addAttribute("/notice/err");
 		}
 
-		return "/layout/mypage_default";
+		return "/layout/main";
 	} // list()
 
 	// 방명록 신규 화면 요청================================================================
@@ -61,7 +61,7 @@ public class BoardController {
 	public String new_board(Model model) {
 		// 방명록 글쓰기 화면으로 연결
 		model.addAttribute("page", "board/new");
-		return "/layout/mypage_default";
+		return "/layout/main";
 	} // board()
 
 	// 신규 방명록 저장 처리
@@ -94,7 +94,7 @@ public class BoardController {
 			model.addAttribute("err", e.getMessage());
 			model.addAttribute("/notice/err");
 		}
-		return "/layout/mypage_default";
+		return "/layout/main";
 	} // detail()
 
 	// 방명록 상세 화면
@@ -114,7 +114,7 @@ public class BoardController {
 		// 선택한 방명록 글의 정보를 DB에서 조회해와 수정 화면에 출력
 		model.addAttribute("vo", boardService.board_detail(id));
 		model.addAttribute("page", "board/modify");
-		return "/layout/mypage_default";
+		return "/layout/main";
 	} // modify()
 
 	// 방명록 수정 화면
@@ -170,7 +170,7 @@ public class BoardController {
 		model.addAttribute("id", id);
 		model.addAttribute("board", boardPage);
 		model.addAttribute("page", "board/redirect");
-		return "/layout/mypage_default";
+		return "/layout/main";
 	} // delete()
 
 	// 댓글 저장 처리

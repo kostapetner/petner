@@ -181,7 +181,7 @@
 	<select id="findSitterSearch" parameterType="hashMap" resultType="hashMap">
 			SELECT si.*, u.gender, u.nickname, u.id
 			FROM SITTER_INFO si
-			left join users u on si.user_no = u.user_no
+			inner join users u on si.user_no = u.user_no
 			<where>
 				<!-- 우편번호 -->
 			    <if test="zipcode != null and zipcode != ''">

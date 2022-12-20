@@ -47,7 +47,7 @@
 							href="ad_new_board">글쓰기</a>
 						</ul>
 					</div>
-				</form>
+				
 
 
 
@@ -68,11 +68,15 @@
 								<c:forEach items="${board.list }" var="vo">
 									<tr style="cursor: pointer;">
 										<td class="col-1">${vo.no }</td>
-										<td class="col-4"><a onclick="go_detail(${vo.id})">${vo.title }</a></td>
+										<td class="col-4">
+										<a
+												href="ad_detail_board?id=${vo.id }&curPage=${board.curPage }">${vo.title }</a>
+										<%-- <a onclick="go_detail(${vo.id})">${vo.title }</a> --%>
+										</td>
 										<td class="col-2">${vo.name }</td>
 										<td class="col-2">${vo.writedate }</td>
 										<td class="col-1"><c:if test="${!empty vo.filename }">
-												<a href="ad_download_notice?id=${vo.id }"> <i
+												<a href="ad_download_board?id=${vo.id }"> <i
 													class="fa-solid fa-file"></i>
 												</a>
 											</c:if></td>
@@ -84,7 +88,7 @@
 					</c:if>
 				</div>
 
-				<div class="btnSet">
+				<%-- <div class="btnSet">
 					<div class="page_list">
 						<button class="page_first" onclick="go_page(1)">처음</button>
 
@@ -101,7 +105,34 @@
 						</c:forEach>
 						<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
 					</div>
-				</div>
+				</div> --%>
+				
+				<nav aria-label="Page navigation example" class="paging">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link page_first"
+								onclick="go_page(1)">처음</a></li>
+							<!-- step : 지정하지 않아도 디폴트 1 -->
+							<c:forEach var="no" begin="${board.beginPage }"
+								end="${board.endPage }" step="1">
+								<c:if test="${no eq board.curPage}">
+									<li class="page-item"><a class="page-link page_on">${no }</a></li>
+								</c:if>
+
+								<c:if test="${no ne board.curPage }">
+									<li class="page-item"><a class="page-link page_off"
+										onclick="go_page(${no })">${no }</a></li>
+								</c:if>
+							</c:forEach>
+							<li class="page-item">
+							<%-- <a class="page-link page_last"
+								href="${board.totalPage }">마지막</a> --%>
+							<a class="page-link page_last"
+								onclick="go_page(${board.totalPage })">마지막</a>
+								
+								</li>
+						</ul>
+					</nav>
+					</form>
 			</div>
 		</div>
 

@@ -370,3 +370,17 @@ header {
 .user_table .type_box > div.admin10 { background:#ffb9b9 }
 .user_table .type_box > div.admin9 { background:#ffe0c0 }
 .user_table .type_box > div.admin1 { background:#d6fff2 }
+
+
+
+/* detail btnSet > btn */
+.btnSet {display: flex;
+    justify-content: center;}
+    .btnSet .btn {margin-right: 5px;}
+    .btnSet .btn:last-child {margin: 0px;}
+    
+.comment_container .box textarea {width:calc(100% - 46px);border: 1px solid #ccc;border-radius: 5px;}
+.comment_container .box {display: flex;
+    justify-content: space-between;
+    align-items: center;}
+    .comment_container {padding:20px;}

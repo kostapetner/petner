@@ -12,6 +12,7 @@ CREATE TABLE notice(
     step        NUMBER default 0,
     indent      NUMBER default 0 
 );
+
 ALTER TABLE notice
 ADD(root NUMBER, step NUMBER DEFAULT 0, indent NUMBER DEFAULT 0);
 
@@ -74,7 +75,6 @@ COMMIT;
 
 SELECT * FROM qna;
 
-
 -- board 완료 ==================================================
 create table tbl_attach ( 
   uuid varchar2(100) not null,
@@ -110,7 +110,6 @@ CREATE OR REPLACE TRIGGER trg_board
 BEGIN
 	SELECT seq_board.NEXTVAL INTO :new.id FROM dual;
 END;
-
 
 COMMIT;
 
