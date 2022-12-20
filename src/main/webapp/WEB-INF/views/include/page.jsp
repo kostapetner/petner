@@ -23,38 +23,6 @@
 	</core:if>
 </div>
 
-<style>
-.page_on, .page_off, .page_next, .page_last, .page_first, .page_prev {
-	display: inline-block;
-	line-height: 30px;
-	margin: 0;		
-}
-
-.page_on, .page_off {
-	min-width:22px;
-	padding: 0 5px 2px;
-}
-
-.page_next, .page_last, .page_first, .page_prev {
-	text-indent: -99999999px;
-	border: 1px solid #d0d0d0;
-	width: 30px;
-}
-
-.page_on {
-	border: 1px solid gray;
-	background-color: gray;
-	color:#FFF;
-	font-weight: bold;
-}
-
-.page_next { background: url("img/page_next.jpg") center no-repeat; }
-.page_last { background: url("img/page_last.jpg") center no-repeat; }
-.page_prev { background: url("img/page_prev.jpg") center no-repeat; }
-.page_first { background: url("img/page_first.jpg") center no-repeat; }
-
-</style>
-
 <script>
 function go_page(no) {
 	$('[name=curPage]').val(no);

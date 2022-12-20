@@ -16,6 +16,13 @@ $(document).ready(function(){
     $(".float_mymenu").fadeToggle("200");
   })
 
+	/*  //채팅방 띄우기 2022.11.30 최동인  
+  	$("#chat").on('click',function(e){
+		e.preventDefault();
+		window.open("${pageContext.request.contextPath}/chat","chat","width=500, height=800, top=200, left=200");
+        // 경로, 파일, 너비, 높이, 위치 지정
+	}) */
+ 
    
    
   }) // jquery ENDS
@@ -35,7 +42,7 @@ $(document).ready(function(){
       <ul>
         <li><a href="${pageContext.request.contextPath}/findSitter">펫시터 찾기</a></li>
         <li><a href="${pageContext.request.contextPath}/findPet">돌봐줄 동물 찾기</a></li>
-        <li><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></li>
+        <li><a href="${pageContext.request.contextPath}/list_notice">공지사항</a></li>
       </ul>
     </nav>
     <div class="login_menu">
@@ -48,7 +55,7 @@ $(document).ready(function(){
       </c:if>
       <!-- 세션있을때  -->
       <c:if test="${not empty authUser}">
-        <li class="in_session"><a class="heart transition02" href="#"><i class="fa-solid fa-comment-dots"></i></a></li>
+        <li class="in_session"><a class="heart transition02" href="${pageContext.request.contextPath}/chat" id = "chat"><i class="fa-solid fa-comment-dots"></i></a></li>
         <li class="in_session"><a class="alert transition02" href="#"><i class="fa-solid fa-bell"></i></a></li>
         <li class="in_session mypage"><a a class="my transition02" href="#"><i class="fa-solid fa-user"></i> </a></li>
 			</c:if>

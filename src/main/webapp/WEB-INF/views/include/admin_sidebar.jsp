@@ -12,6 +12,26 @@
 			class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="flex-shrink-0 p-3">
 
+				<div class="admin_header d-md-none">
+					<!-- 세션있을때  -->
+					<c:if test="${not empty authUser}">
+						<!-- 관리자 일때 -->
+						<c:if test="${authUser.user_type >= 9}">
+						<div>관리자 <span>${authUser.name}</span> 님 환영합니다.</div>
+						</c:if>
+						<div class="sidebar_btn">
+							<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/">서비스 메인</a></button>
+							<button class="header_btn"><a class="nav-link px-3" href="${pageContext.request.contextPath}/logout">Sign out</a></button>
+			      		</div>
+			      	</c:if>
+			      	
+					<!-- 세션없을때 로그인 -->
+			      	<c:if test="${empty authUser}">
+			        	<li><a class="login" href="${pageContext.request.contextPath}/gologin">로그인</a></li> 
+			      	</c:if>
+			      	<hr>
+      			</div>
+      			
 
 				<ul class="list-unstyled ps-0">
 					<li class="mb-2">
@@ -56,23 +76,6 @@
 							</ul>
 						</div>
 					</li>
-					<li class="mb-2">
-						<button
-							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-							data-bs-toggle="collapse" data-bs-target="#orders-collapse"
-							aria-expanded="false">
-							<span data-feather="layers" class="align-text-bottom"></span>
-							미처리현황
-						</button>
-						<div class="collapse" id="orders-collapse">
-							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">신고접수처리</a></li>
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">1:1문의</a></li>
-							</ul>
-						</div>
-					</li>
 
 					<!-- <li class="border-top my-3"></li> -->
 					<li class="mb-2">
@@ -85,10 +88,14 @@
 						</button>
 						<div class="collapse" id="table-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-								<li><a href="./ad_noticeList"
-									class="link-dark d-inline-flex text-decoration-none rounded">공지사항관리</a></li>
+								<li><a href="./ad_list_notice"
+									class="link-dark d-inline-flex text-decoration-none rounded">공지사항 관리</a></li>
+									<li><a href="./ad_list_board"
+									class="link-dark d-inline-flex text-decoration-none rounded">게시판 관리</a></li>
+									<li><a href="./ad_list_qna"
+									class="link-dark d-inline-flex text-decoration-none rounded">QNA 관리</a></li>
 								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">리뷰관리</a></li>
+									class="link-dark d-inline-flex text-decoration-none rounded">리뷰 관리</a></li>
 							</ul>
 						</div>
 					</li>

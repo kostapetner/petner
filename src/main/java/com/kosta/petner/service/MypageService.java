@@ -36,8 +36,16 @@ public interface MypageService {
 	String getFile(Integer file_no);
 	
 	//내가 쓴 리뷰 리스트
-	List<Review> writtenReviewList(Integer page, PageInfo pageInfo) throws Exception;
+	List<Review> writtenReviewList(Integer page, PageInfo pageInfo);
 	
+	// 나의 반려동물 한마리 가져오기
+	PetInfo getMyPetByPetNo(Map<String, Object> param);
 	
+	// 반려동물 정보수정하기
+	int updateMyPetInfo(PetInfo petInfo);
+	
+	// 반려동물 삭제하기
+	int deletePet(int pet_no);
+
 	
 } 

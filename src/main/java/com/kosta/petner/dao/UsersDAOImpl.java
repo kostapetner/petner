@@ -35,6 +35,7 @@ public class UsersDAOImpl implements UsersDAO{
 	@Override
 	public Users loginById(Users users) {
 		Users vo = sqlSession.selectOne("mapper.users.loginById", users);
+		//로그인시 고유의 채널룸을 만든다??
 		
 		return vo;
 	}
@@ -141,7 +142,7 @@ public class UsersDAOImpl implements UsersDAO{
 	}
 	//id로 회원정보 전체조회
 	@Override
-	public Users inquiryOfUserById(String id) throws Exception {
+	public Users inquiryOfUserById(String id){
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.users.selectId");
 	}

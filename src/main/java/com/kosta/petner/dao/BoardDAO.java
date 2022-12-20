@@ -3,15 +3,30 @@ package com.kosta.petner.dao;
 import java.util.List;
 
 import com.kosta.petner.bean.Board;
-
+import com.kosta.petner.bean.BoardCommentVO;
+import com.kosta.petner.bean.BoardPage;
 
 public interface BoardDAO {
-	void insertBoard(Board board) throws Exception;
-	Integer selectMaxBoardNum() throws Exception;
-	List<Board> selectBoardList(Integer row) throws Exception;
-	Integer selectBoardCount() throws Exception;
-	Board selectBoard(Integer board_num) throws Exception;	
-	void updateBoard(Board board) throws Exception;
-	void updateBoardReReq(Board board) throws Exception;
-	void deleteBoard(Integer boardNum) throws Exception;
+
+	int board_insert(Board board);
+
+	BoardPage board_list(BoardPage boardPage);
+
+	Board board_detail(int id);
+
+	void board_read(int id);
+
+	int board_update(Board board);
+
+	int board_delete(int id);
+
+	int board_comment_insert(BoardCommentVO boardVo);
+
+	List<BoardCommentVO> board_comment_list(int pid);
+
+	int board_comment_update(BoardCommentVO boardVo);
+
+	int board_comment_delete(int id);
+	
+	
 }

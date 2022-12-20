@@ -36,7 +36,7 @@ CREATE TABLE sitter_info(
 	,pet_specie 	varchar2(50)
 	,work_day 		varchar2(50)
 	,service 		varchar2(50)
-	,zipcode		NUMBER
+	,zipcode		varchar2(50)
 	,addr			varchar2(500)
 	,addr_detail	varchar2(500)
 	,sitter_info 	varchar2(500)
@@ -52,7 +52,7 @@ CREATE TABLE care_service(
 	 service_no		NUMBER
 	,user_no		NUMBER
 	,pet_no			NUMBER
-	,zipcode		NUMBER
+	,zipcode		varchar2(50)
 	,addr			varchar2(500)
 	,addr_detail	varchar2(500)
 	,service 		varchar2(50)
@@ -83,3 +83,9 @@ INSERT INTO bd_no values('유저프로필',3);
 INSERT INTO bd_no values('시터프로필',4);
 INSERT INTO bd_no values('펫사진',5);
 
+
+
+
+--12/20수정사항
+--sitter_info 테이블의 zipcode컬럼 NUMBER>varchar2(50)로 수정
+--care_service 테이블의 zipcode컬럼 NUMBER>varchar2(50)로 수정

@@ -10,9 +10,12 @@ import lombok.NoArgsConstructor;
 public class Find {
 	private String st_date;
 	private String end_date;
-	private String[] service;
-	private String[] pet_kind;
-	private String[] gender;
-	private String keyword;
+	private String service;
+	private String pet_kind;
+	private String gender;
+	private String day;
+	private String zipcode;
+	private String addr;
+	
 
 }

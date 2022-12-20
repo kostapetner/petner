@@ -19,7 +19,8 @@
 							 addr, 
 							 addr_detail, 
 							 user_level, 
-							 user_auth)
+							 user_auth,
+							 file_no)
 				values(seq_user_no.nextval, 
 							#{user_type}, 
 							#{id},
@@ -33,7 +34,8 @@
 							#{addr}, 
 							#{addr_detail},
 							'BRONZE',
-							 1)					
+							 1,
+							 0)					
 		]]>
 	</insert>
 
@@ -44,18 +46,6 @@
 	select * from users where id =#{id}
 	]]>
 	</select>
-	
-
-	<!--  유저리스트_ 2022.11.16 홍시원 
-	<select id="selectUserList" resultMap="com.kosta.petner.bean.Users">
-		SELECT * FROM CHATUSER ORDER BY nickname
-	</select>
- -->
-
-	<!-- 유저리스트_ 2022.11.16 홍시원 -->
-	<!-- <select id="selectUserList" resultMap="com.kosta.petner.bean.Users"> 
-		SELECT * FROM CHATUSER ORDER BY nickname </select> -->
-
 
 	<select id="getUserByUserNo" parameterType="Integer"
 		resultType="com.kosta.petner.bean.Users">
@@ -154,7 +144,7 @@
 			values(seq_user_no.nextval,
 					#{email},
 					#{nickname},
-					#{email},
+					#{email},	
 					'BRONZE',
 					2,
 					sysdate)
@@ -170,26 +160,26 @@
 		    where id = #{id}		    
 		]]>
 	</select>
-	<update id="updateMyinfo"
-		parameterType="com.kosta.petner.bean.Users">
-	<![CDATA[
-	    update users 
-	    set nickname = #{nickname,jdbcType=VARCHAR},
-	    		email = #{email},
-	    		zipcode = #{zipcode},
-	    		addr = #{addr},
-	    		addr_detail = #{addr_detail}	    		
-	    where id = #{id,jdbcType=VARCHAR}
-	    
-	]]>
+	
+	<update id="updateMyinfo"	parameterType="com.kosta.petner.bean.Users">
+		<![CDATA[
+		    update users 
+		    set nickname = #{nickname,jdbcType=VARCHAR},
+		    		email = #{email},
+		    		zipcode = #{zipcode},
+		    		addr = #{addr},
+		    		addr_detail = #{addr_detail},
+		    		file_no = #{file_no, jdbcType=VARCHAR}
+		    where id = #{id,jdbcType=VARCHAR}
+		    
+		]]>
 	</update>
 
 
 	<select id="getMyAllInfo" parameterType="int"
 		resultType="com.kosta.petner.bean.MypageSession">
 		<![CDATA[
-		   	SELECT 	u.USER_NO, u.FILE_NO, u.FILE_NO, u.ID , u.NICKNAME, u.USER_TYPE, u.user_auth, 
-				ft.SERVER_FILENAME
+		   	SELECT 	u.USER_NO, u.FILE_NO, u.FILE_NO, u.ID , u.NICKNAME, u.USER_TYPE, u.user_auth, ft.SERVER_FILENAME
 				FROM USERS u
 				LEFT JOIN FILE_TB ft ON u.FILE_NO = ft.FILE_NO 
 				WHERE u.USER_NO = #{user_no}    

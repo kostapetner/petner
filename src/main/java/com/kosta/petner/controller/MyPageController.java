@@ -1,15 +1,18 @@
 package com.kosta.petner.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -17,21 +20,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.FileVO;
+import com.kosta.petner.bean.JSONResult;
 import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
-import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
@@ -40,14 +42,13 @@ import com.kosta.petner.service.OwnerService;
 
 //나의정보출력/수정관리/리뷰
 @Controller
-
 public class MyPageController {
 
 	@Autowired
 	ServletContext servletContext;
 
 	@Autowired
-	FileService fileServie;
+	FileService fileService;
 
 	@Autowired
 	MypageService mypageService;
@@ -70,6 +71,23 @@ public class MyPageController {
 		return user_no;
 	}
 
+	public int getLoginUserFileNo(HttpSession session) {
+		MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
+		int file_no = mypageSession.getFile_no();
+		return file_no;
+	}
+
+	// 프로필상단에서 사진수정 ajax
+//	@ResponseBody 
+//	@RequestMapping("/mypage/profileImgEdit")
+//	public JSONResult profileImgEdit(@RequestParam Map<String, Object> param, HttpSession session, Model model) {
+//		//file_tb에 user_no=와 board_no 5인것이 없다면 insert, 있다면 update처리 
+//		String id = (String) param.get("user_no");
+//		System.out.println("ajax를 해보자"+id);
+//		return JSONResult.success("성공d");
+//	} 
+
+	// 가시성이 private이면 빨간꼬리가 안생김 왜일까 aop는 어쨋든 체크를 다 하긴 함
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String main(HttpSession session, Model model) {
 
@@ -91,7 +109,6 @@ public class MyPageController {
 	// 정보 수정페이지
 	@RequestMapping("/mypage/myinfoEdit")
 	public String myinfoEdit(HttpSession session, Model model) {
-
 		String id = getLoginUserId(session);
 		Users users = mypageService.getMyinfo(id);
 
@@ -103,9 +120,88 @@ public class MyPageController {
 
 	// 나의정보업데이트
 	@RequestMapping(value = "/mypage/myinfoEdit", method = RequestMethod.POST)
-	public String myinfoUpdate(HttpSession session, @ModelAttribute Users users, BindingResult result, Model model) {
+	public String myinfoUpdate(HttpSession session, @ModelAttribute Users users, BindingResult result, Model model)
+			throws IllegalStateException, IOException {
+		/*
+		 * 서버에 파일올리고 파일 번호 가져옴 파일넘버가 0이라면 인서트 실행 아니라면 업데이트 둘다 서버에 파일은 올림
+		 */
+		System.out.println("form정보" + users);
+		int user_no = getLoginUserNo(session);
 
-		mypageService.updateMyinfo(users);
+		int file_no_chk = getLoginUserFileNo(session);
+		// System.out.print("유저에서 파일있나 확인"+file_no_chk);
+
+		// file_no=0이면 insert ( 파일테이블에), 아니면 업데이트 user정보 업데이트는 동일함 서버에 이미지 올리는것도 동일
+		System.out.println("거지같네"+users.getImageFile().isEmpty());
+		
+		if (users.getImageFile().isEmpty() == false) {
+			System.out.println("멀티파트있음");
+			// 파일
+			MultipartFile file = users.getImageFile(); // 파일 자체를 가져옴
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");// 확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);// 확장자분리
+			String server_filename = real_filename + generatedString + ext;
+
+			if (!file.isEmpty()) {
+				// 1.폴더생성
+				FileVO fileVO = new FileVO();
+				String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
+				File fileLocation = new File(path);
+				File destFile = new File(path + server_filename);
+				System.out.println(destFile);
+				if (fileLocation.exists()) {
+					System.out.println("이미 폴더가 생성되어 있습니다.");
+					file.transferTo(destFile);
+				} else {
+					try {
+						Path directoryPath = Paths.get(path);
+						System.out.println(directoryPath);
+						Files.createDirectory(directoryPath);// 폴더생성
+						System.out.println("폴더가 생성되었습니다.");
+						file.transferTo(destFile);
+					} catch (Exception e) {
+						e.getStackTrace();
+					}
+				}
+
+				// 2. 파일정보 파일테이블에 넣기
+				fileVO.setUser_no(user_no);
+				fileVO.setBoard_no(5);
+				fileVO.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
+				fileVO.setServer_filename(server_filename);
+
+				// 파일정보 인서트 || 업데이트
+				if (file_no_chk == 0) {
+					System.out.println("인서트할꺼고" + fileVO);
+					fileService.insertFile(fileVO);
+
+				} else {
+					fileVO.setFile_no(file_no_chk);
+					System.out.println("업데이트함gg" + fileVO);
+					fileService.updateFileInfo(fileVO);
+				}
+				// 유저서비스에 업데이트할 넘버
+				int file_no_to_update = fileService.getFileNo(server_filename);
+				System.out.println("file_no_to_update?" + file_no_to_update);
+				users.setFile_no(file_no_to_update);
+			} 
+				
+				
+			
+
+		}else {
+			users.setFile_no(file_no_chk);
+			System.out.println("멀티파트없는것같음 누른적없음"+file_no_chk);
+		}
+		
+		
+		
+		System.out.println("밖에서바뀌는가?" + users);
+		mypageService.updateMyinfo(users); // 유저테이블정보업데이트
 
 		// 세션수정해해함
 		MypageSession mypageSession = (MypageSession) session.getAttribute("mypageSession");
@@ -174,6 +270,7 @@ public class MyPageController {
 			model.addAttribute("data", sitterInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("시터정보없음===");
 			model.addAttribute("page", "mypage/sitter/mySitterInfo");
 		}
 
@@ -198,7 +295,6 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/mySitterInfoEdit", method = RequestMethod.POST)
 	public String mySitterInfoUpdata(HttpSession session, @ModelAttribute SitterInfo sitterInfo, BindingResult result,
 			Model model) throws IllegalStateException, IOException {
-		System.out.println("시터정보없데이트===== file_no?:" + sitterInfo.getFile_no());
 		mypageService.updateMySitterInfo(sitterInfo);
 
 		if (sitterInfo.getImageFile().isEmpty() == false) {
@@ -215,7 +311,7 @@ public class MyPageController {
 			String server_filename = real_filename + generatedString + ext;
 
 			String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
-			File fileLocation = new File(path);
+			// File fileLocation = new File(path);
 			File destFile = new File(path + server_filename);
 			file.transferTo(destFile);
 
@@ -226,10 +322,10 @@ public class MyPageController {
 			fileVo.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
 			fileVo.setServer_filename(server_filename);
 
-			fileServie.updateSitterImage(fileVo);
+			fileService.updateFileInfo(fileVo);
+
 		}
 		// 이미지 변경이 있을 경우에만 파일테이블의 파일이름도 업데이트 하기
-		// int user_no = getLoginUserNo(session);
 
 		return "redirect:/mypage/mySitterInfo";
 
@@ -239,10 +335,7 @@ public class MyPageController {
 	// 내 반려동물 정보 가져오기
 	@RequestMapping(value = "/mypage/myPetInfo", method = RequestMethod.GET)
 	public String myPetInfo(HttpSession session, Model model) {
-		Users sessionInfo = (Users) session.getAttribute("authUser");
-		int user_no = sessionInfo.getUser_no();
-
-		String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
+		int user_no = getLoginUserNo(session);
 
 		try {
 			// 1이상이기 때문에 리스트로 받아야함
@@ -252,46 +345,95 @@ public class MyPageController {
 			model.addAttribute("page", "mypage/owner/myPetInfo");
 			model.addAttribute("title", "나의반려동물");
 			model.addAttribute("data", petInfo);
-			model.addAttribute("path", path);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("반려동물정보없어!!!");
+			System.out.println("반려동물정보없음");
 			model.addAttribute("page", "mypage/owner/myPetInfo");
 		}
 		return "/layout/mypage_default";
 	}
 
-	// 마이페이지에 필요한 사진가져오기
-	@RequestMapping(value = "/getImg/{fileNo}", method = RequestMethod.GET)
-	public void viewImages(@PathVariable String fileNo, HttpServletResponse response) {
-		String path = servletContext.getRealPath("/resources/upload/");
-		FileInputStream fis = null;
-		try {
-			Integer file_no = Integer.parseInt(fileNo);
-			String server_filename = mypageService.getFile(file_no);
-			fis = new FileInputStream(path + server_filename);
-			OutputStream out = response.getOutputStream();
-			FileCopyUtils.copy(fis, out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (Exception e) {
-				}
-			}
-		}
+	// 나의반려동물 수정페이지
+	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.GET)
+	public String myPetInfoEdit(HttpSession session, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		int user_no = getLoginUserNo(session);
+		int pet_no = Integer.parseInt(request.getParameter("petNo"));
+
+		// pet_no && user_no 일치하는 정보만 하나만 가져올경우 임의로 접근가능
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("pet_no", pet_no);
+		param.put("user_no", user_no);
+
+		PetInfo petInfo = mypageService.getMyPetByPetNo(param);
+		// System.out.println("동물한마리정보DATA: " + petInfo);
+
+		model.addAttribute("data", petInfo);
+		model.addAttribute("page", "mypage/owner/myPetInfoEdit");
+		model.addAttribute("title", "반려동물정보수정");
+
+		return "/layout/mypage_default";
 	}
 
-	// 카카오 1:1채팅으로 이동
-	@RequestMapping(value = "/kaChat", method = RequestMethod.GET)
-	public String kaChat() {
-		return "mypage/kaChat";
+	// 마이펫정보 수정
+	@RequestMapping(value = "/mypage/myPetInfoEdit", method = RequestMethod.POST)
+	public String myPetInfoUpdate(HttpSession session, @ModelAttribute PetInfo petInfo, BindingResult result,
+			Model model) throws IllegalStateException, IOException {
+
+		int user_no = getLoginUserNo(session);
+		petInfo.setUser_no(user_no);
+		System.out.println("펫폼수정할꺼야=============" + petInfo);
+
+		mypageService.updateMyPetInfo(petInfo);
+
+		if (petInfo.getImageFile().isEmpty() == false) {
+			// 이미지도 수정한경우 파일테이블 업데이트해야하고 파일을 올려야함
+			System.out.println("이미지파일 처리할게 있음" + petInfo.getImageFile().getOriginalFilename());
+
+			MultipartFile file = petInfo.getImageFile(); // 파일 자체를 가져옴
+
+			// 서버에 올라갈 랜덤한 파일 이름을 만든다
+			String generatedString = RandomStringUtils.randomAlphanumeric(10);
+			String filename = file.getOriginalFilename();
+			int idx = filename.lastIndexOf(".");// 확장자 위치
+			String ext = filename.substring(filename.lastIndexOf("."));
+			String real_filename = filename.substring(0, idx);// 확장자분리
+			String server_filename = real_filename + generatedString + ext;
+
+			String path = servletContext.getRealPath("/resources/upload/");// 업로드 할 폴더 경로
+			File fileLocation = new File(path);
+			File destFile = new File(path + server_filename);
+			file.transferTo(destFile);
+
+			FileVO fileVo = new FileVO();
+			int file_no = petInfo.getFile_no();
+
+			fileVo.setFile_no(file_no);
+			fileVo.setOrigin_filename(filename);// 파일의 이름을 넣어주기위해 따로 설정
+			fileVo.setServer_filename(server_filename);
+
+			fileService.updateFileInfo(fileVo);
+		}
+
+		return "redirect:/mypage/myPetInfo";
 	}
+
+	// 마이펫 삭제
+	@RequestMapping(value = "/mypage/myPetDel", method = RequestMethod.GET)
+	public String myPetDel(HttpSession session, HttpServletRequest request) {
+
+		int pet_no = Integer.parseInt(request.getParameter("petNo"));
+
+		mypageService.deletePet(pet_no);
+
+		return "redirect:/mypage/myPetInfo";
+	}
+
 
 	// 리뷰 리스트
-	@RequestMapping(value = "/mypage/review/myReviewList", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/mypage/review/myReviewList", method =  RequestMethod.GET)
 	public String myReviewList(Model model,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 		// 페이징
@@ -369,6 +511,7 @@ public class MyPageController {
 		return "/layout/mypage_default";
 	}
 
+	/*
 	//리뷰 작성
 	@RequestMapping(value="/mypage/review/reviewWrite",
 	  method=RequestMethod.POST) 
@@ -383,15 +526,13 @@ public class MyPageController {
 				review.setBoard_file(file.getOriginalFilename());
 			}
 			
-			mav.setViewName("redirect:/boardList");
+			mav.setViewName("redirect:/reviewWrite");
 		}catch(Exception e) {
 			e.printStackTrace();
-			mav.setViewName("/board/err");
 		}
 		return mav;
-	}
+	}*/
 	 
-	
 	
 
 }

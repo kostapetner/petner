@@ -5,28 +5,29 @@
 
 
 <style>
-   .mypet_card{max-width: 520px;}
-   .mypet_card img{width:100%; height:auto;}
+   .mypet_card{max-width: 460px;}
+   .mypet_card img{width:100%; height: inherit;}
    .mypet_card li{
      padding: 28px;
-     margin-top: 40px;
-     border-radius: 5px;
-     border:1px solid #ddd
-    /*  box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75);
+     margin-top:20px;
+     border-radius: 10px;
+     background:#fefefe;
+     /* border:1px solid #ddd; */
+    	box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75);
      -webkit-box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75);
-     -moz-box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75); */
+     -moz-box-shadow: 1px 1px 5px 2px rgba(222,222,222,0.75);
    }
    
-   .mypet_card .edit{text-align:right; padding-bottom:15px}
+   .mypet_card .edit{text-align:right; padding-bottom:5px}
    .mypet_card .pet_img{
      background-color: tan;
-     width: 130px;
-     height: 130px;
+     width: 140px;
+     height: 140px;
      margin: 0 auto;
      background-color: grey;
      border-radius: 50%;
      overflow: hidden;
-     margin-bottom:45px;
+     margin-bottom:40px;
    }
    .mypet_card .text_info > *:not(:last-child){
      padding-bottom:15px;
@@ -68,7 +69,9 @@
 		<ul class="mypet_card">
 			<c:forEach items="${data}" var="data">
 				<li pet_no="${data.pet_no}">
-					<p class="edit "><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></p>
+					<p class="edit ">
+						<a href="${pageContext.request.contextPath}/mypage/myPetInfoEdit?petNo=${data.pet_no}"><i class="fa-regular fa-pen-to-square"></i></a>
+					</p>
 					<div class="pet_img">
 						<img src="${pageContext.request.contextPath}/${data.pet_no}" alt="동물이미지">
 					</div>

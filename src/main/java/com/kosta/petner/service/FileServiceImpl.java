@@ -28,11 +28,10 @@ public class FileServiceImpl implements FileService {
 	}
 	
 	
-	//시터이미지 정보 업데이트
+	// 파일테이블 업데이트 파일번호로
 	@Override
-	public void updateSitterImage(FileVO fileVo) {
-		fileDAO.updateSitterImage(fileVo);
-		
+	public void updateFileInfo(FileVO fileVo) {
+		fileDAO.updateFileInfo(fileVo);
 	}
 
 }

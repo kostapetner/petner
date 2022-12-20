@@ -55,7 +55,7 @@ public class OwnerController {
 	UsersService usersService;
 	
 	//펫 정보등록 페이지
-	@RequestMapping(value = "/petForm", method = RequestMethod.GET)
+	public @RequestMapping(value = "/petForm", method = RequestMethod.GET)
 	String petForm(Model model) {
 		model.addAttribute("title", "펫정보등록");
 		model.addAttribute("page", "mypage/petForm");
@@ -111,7 +111,7 @@ public class OwnerController {
 				petInfo.setFile_no(file_no);
 
 				ownerService.regist(petInfo);
-				mav.setViewName("redirect:/");
+				mav.setViewName("redirect:/mypage/myPetInfo");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,7 +182,6 @@ public class OwnerController {
 			Users users = (Users) WebUtils.getSessionAttribute(request, "authUser");
 			Integer user_no = users.getUser_no();
 			careService.setUser_no(user_no);
-//			careService.setStatus("매칭중");
 			
 			// 파일
 			MultipartFile file = careService.getImageFile(); //파일 자체를 가져옴
@@ -226,7 +225,6 @@ public class OwnerController {
 				//3-1. server_filname에 맞는 file_no가져오기
 				Integer file_no = fileService.getFileNo(server_filename);
 				careService.setFile_no(file_no);
-
 				ownerService.insertRequireServiceFrom(careService);
 				mav.setViewName("redirect:/mypage");
 			}

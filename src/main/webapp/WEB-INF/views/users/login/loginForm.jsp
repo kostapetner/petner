@@ -42,7 +42,7 @@
         position: absolute;
         top: 0;
         left: 0;
-
+		
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0,.5);
@@ -88,17 +88,30 @@
 
 
 <script>
-$(document).ready(function(){
-	$("#close_btn").click(function(){
-		$(".modal").hide();
-	})
-	$("#x_button").click(function(){
-		$(".modal").hide();
-	})
+		$(document).ready(function(){
+			$("#close_btn").click(function(){
+				$(".modal").hide();
+			})
+			$("#x_button").click(function(){
+				$(".modal").hide();
+			})
+
+			
+		})
+
+		//뒤로가기 모달창 뜨지마라
+	window.history.pushState({page: 1}, "", "");	
+	window.onpopstate = function(event) {
+	  // "event" object seems to contain value only when the back button is clicked
+	  // and if the pop state event fires due to clicks on a button
+	  // or a link it comes up as "undefined" 
 	
-})
+	  if(event){
+		  $(".modal").hide();  }
+	 
+	}
 
-
+	
 	
 
 	
@@ -135,15 +148,14 @@ $(document).ready(function(){
 		   <div class="modal">
 				<div class="modal_body">
 						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
-							<p style="color: #FF9614; ">[Petner]&#128062</p>
+							<p style="color: #FF9614; ">Petner &#128062</p>
 							<p style="text-decoration: none;">	&#128531 ${message} </p>
 							
 						<div class="modal_btn">
 							<button class="pet_btn" id="close_btn" style= "background-color:#FF9614;">닫기</button>
 						</div>
-				</div>
-				
-    </div>
+				</div>				
+   		  </div>
 		</c:if>
 	</div>
 	<div class="info_area">

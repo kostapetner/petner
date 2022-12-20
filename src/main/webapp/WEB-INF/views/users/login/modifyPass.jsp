@@ -16,7 +16,7 @@
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
 	.submit_btn{position: relative; top:150px; width:200px;}
-	.flex_col {position:absolute; top:42%; left:42%;}
+	.flex_col {position:absolute; top:32%; left:42%;}
 </style>
   <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
   <script>
@@ -74,6 +74,7 @@
 				<h3 class="form_title">회원정보조회 실패</h3>
 				<div class="desc">
 					<p class="mb10" style="color: #FFA6CF;">🤔 아이디와 비밀번호를 다시 확인해주세요! 🤔</p>
+					<a href="${pageContext.request.contextPath}/checkPass"><p style="margin: 180px;">&#8592 돌아가기</p></a>
 					</div>
 					</c:when>
 					<c:otherwise>

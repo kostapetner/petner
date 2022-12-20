@@ -2,6 +2,7 @@ package com.kosta.petner.bean;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -11,19 +12,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Component
 public class Notice {
-	private Integer notice_no;
-	private String user_id;
-	private String notice_pass;
-	private String notice_title;
-	private String notice_content;
+	private int id, readcnt, no, root, step, indent;
+	
 	private Integer file_no;
-	private Integer notice_re_ref;
-	private Integer notice_re_lev;
-	private Integer notice_re_seq;
-	private Integer notice_hit;
-	private Date reg_date;
 
+	private String title, content, writer, filename, filepath, name;
+	
+	private Date writedate;
+	
+	private String server_filename;
+	
 	private MultipartFile imageFile;
+	
+	
 
 }

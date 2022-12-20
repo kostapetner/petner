@@ -7,51 +7,66 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.Board;
-
+import com.kosta.petner.bean.BoardCommentVO;
+import com.kosta.petner.bean.BoardPage;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 
 	@Autowired
-	SqlSessionTemplate sqlSession;
-
+	private SqlSessionTemplate sqlSession;
+	
 	@Override
-	public void insertBoard(Board board) throws Exception {
-		sqlSession.insert("mapper.board.insertBoard", board);
+	public int board_insert(Board board) {
+		return sqlSession.insert("mapper.board.insert", board);
 	}
 
 	@Override
-	public Integer selectMaxBoardNum() throws Exception {
-		return sqlSession.selectOne("mapper.board.selectMaxBoardNum");
+	public BoardPage board_list(BoardPage boardPage) {
+		boardPage.setTotalList((Integer) sqlSession.selectOne("mapper.board.total", boardPage));
+		boardPage.setList(sqlSession.selectList("mapper.board.list", boardPage));
+		return boardPage;
 	}
 
 	@Override
-	public List<Board> selectBoardList(Integer row) throws Exception {
-		return sqlSession.selectList("mapper.board.selectBoardList", row);
+	public Board board_detail(int id) {
+		return sqlSession.selectOne("mapper.board.detail", id);
 	}
 
 	@Override
-	public Integer selectBoardCount() throws Exception {
-		return sqlSession.selectOne("mapper.board.selectBoardCount");
+	public void board_read(int id) {
+		sqlSession.update("mapper.board.read", id);
 	}
 
 	@Override
-	public Board selectBoard(Integer board_num) throws Exception {
-		return sqlSession.selectOne("mapper.board.selectBoard", board_num);
+	public int board_update(Board board) {
+		return sqlSession.update("mapper.board.update", board);
 	}
 
 	@Override
-	public void updateBoard(Board board) throws Exception {
-		sqlSession.update("mapper.board.updateBoard", board);
+	public int board_delete(int id) {
+		return sqlSession.delete("mapper.board.delete", id);
 	}
 
 	@Override
-	public void updateBoardReReq(Board board) throws Exception {
-		sqlSession.update("mapper.board.updateBoardReReq", board);
+	public int board_comment_insert(BoardCommentVO boardVo) {
+		return sqlSession.insert("mapper.board.comment_insert", boardVo);
 	}
 
 	@Override
-	public void deleteBoard(Integer boardNum) throws Exception {
-		sqlSession.update("mapper.board.deleteBoard", boardNum);
+	public List<BoardCommentVO> board_comment_list(int pid) {
+		return sqlSession.selectList("mapper.board.comment_list", pid);
 	}
+
+	@Override
+	public int board_comment_update(BoardCommentVO boardVo) {
+		return sqlSession.update("mapper.board.comment_update", boardVo);
+	}
+
+	@Override
+	public int board_comment_delete(int id) {
+		return sqlSession.delete("mapper.board.comment_delete", id);
+	}
+	
+	
 }

@@ -111,9 +111,26 @@ $(document).ready(function(){
 })
 </script>
 <div class="content_view">
-	<p class="list_title">신청한서비스보기</p>
-	<div class="list_count" id="csListCount" >${csListCount}개</div>
-	<c:forEach var="csList" items="${csList}" varStatus="status">
+	<p class="list_title">요청한 서비스 보기</p>
+	<c:if test="${csListCount < 1}">
+		<div class="card_list_type_B">
+			<ul>
+				<li>
+					<div class="data1">
+						<!-- 텍스트정보 영역 -->
+						<div class="text_area" style="width: 100%">
+							<div class="hire_detail">
+								<p>요청한 서비스가 없습니다.</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</c:if>
+	<c:if test="${csListCount > 0}">
+		<div class="list_count" id="csListCount" >${csListCount}개</div>
+		<c:forEach var="csList" items="${csList}" varStatus="status">
 		<!-- 카드형 리스트 B : 보호자가 신청한 서비스  -->
 		<div class="card_list_type_B">
 			<ul>
@@ -155,34 +172,36 @@ $(document).ready(function(){
 				</li>
 			</ul>
 		</div>
-	</c:forEach>
-	<!-- 페이징 -->
-	<ul class="pagination">
-		<c:choose>
-			<c:when test="${pageInfo.page<=1}">
-				<li class="prev"><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
-			</c:when>
-			<c:otherwise>
-				<li class="prev"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page-1}"><i class="fa-solid fa-chevron-left"></i></a></li>
-			</c:otherwise>
-		</c:choose>
-	
-		<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+		</c:forEach>
+		<!-- 페이징 -->
+		<ul class="pagination">
 			<c:choose>
-				<c:when test="${pageInfo.page==i }"><li class="on"><a href="#">${i}</a></li></c:when>
+				<c:when test="${pageInfo.page<=1}">
+					<li class="prev"><a href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+				</c:when>
 				<c:otherwise>
-					<li><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${i}">${i}</a></li>
+					<li class="prev"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page-1}"><i class="fa-solid fa-chevron-left"></i></a></li>
 				</c:otherwise>
 			</c:choose>
-		</c:forEach>
+		
+			<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+				<c:choose>
+					<c:when test="${pageInfo.page==i }"><li class="on"><a href="#">${i}</a></li></c:when>
+					<c:otherwise>
+						<li><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${i}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		
+			<c:choose>
+				<c:when test="${pageInfo.page>=pageInfo.maxPage }">
+					<li class="next"><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="next"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</c:if>
 	
-		<c:choose>
-			<c:when test="${pageInfo.page>=pageInfo.maxPage }">
-				<li class="next"><a href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
-			</c:when>
-			<c:otherwise>
-				<li class="next"><a href="${pageContext.request.contextPath}/mypage/myService/requireServiceList?page=${pageInfo.page+1}"><i class="fa-solid fa-chevron-right"></i></a></li>
-			</c:otherwise>
-		</c:choose>
-	</ul>
 </div>

@@ -114,9 +114,12 @@ public class UsersController {
 				
 				//ID 비밀번호와 대조해서 로그인성공 (암호화 된 비밀번호랑 대조)
 				Users authUser = usersService.login(users);
+				
 				if(authUser != null && bcryptPasswordEncoder.matches(users.getPassword(), authUser.getPassword())) {
-					System.out.println(authUser);
+					//System.out.println(authUser);
 					session.setAttribute("authUser", authUser);
+					session.setAttribute("uid", users.getId());
+					
 					returnURL = "redirect:/";
 					
 		            // 1. 로그인이 성공하면, 그 다음으로 로그인 폼에서 쿠키가 체크된 상태로 로그인 요청이 왔는지를 확인한다.
@@ -210,27 +213,15 @@ public class UsersController {
 			
 		//이메일로 비밀번호 찾기
 		@RequestMapping(value = "/findPass", method = RequestMethod.POST)
-		public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response, Model model) throws Exception{
-			System.out.println("id:" + users.getId());
-			System.out.println("Email:" + users.getEmail());
-			Users vo = usersDAO.selectId(users.getId());
-			
-			if(usersDAO.selectId(users.getId()) == null) {
-				model.addAttribute("check", 1);
-				model.addAttribute("message", "아이디 정보가 일치하지 않습니다.");
-			
-			// 가입된 이메일이 아니면
-			} else if(!users.getEmail().equals(vo.getEmail()))  {
-				model.addAttribute("check", 2);
-				model.addAttribute("message", "이메일 정보가 일치하지 않습니다.");
-			}else {
-				usersService.findPass(users);
-				model.addAttribute("check", 3);
-				model.addAttribute("message", "이메일로 임시비밀번호가 발송되었습니다.");
-				
-			}
+				public void findPwPOST(@ModelAttribute Users users, HttpServletResponse response) throws Exception{
+					System.out.println("id:" + users.getId());
+					System.out.println("Email:" + users.getEmail());
+					
+					usersService.findPass(response, users);
+				}
+
 			 
-		}
+		
 		
 		//비밀번호변경으로이동
 		@RequestMapping(value="/checkPass", method=RequestMethod.GET)
@@ -293,6 +284,8 @@ public class UsersController {
  
 			return "redirect:/";
 		}
+		
+	
 	
 	}
 	

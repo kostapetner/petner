@@ -7,57 +7,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.Notice;
+import com.kosta.petner.bean.NoticePage;
 
 @Repository
 public class NoticeDAOImpl implements NoticeDAO {
-
+	
 	@Autowired
-	SqlSessionTemplate sqlSession;
-
+	private SqlSessionTemplate sqlSession;
+	
 	@Override
-	public void insertNotice(Notice notice) throws Exception {
-		sqlSession.insert("mapper.notice.insertNotice", notice);
+	public void notice_insert(Notice notice) {
+		sqlSession.insert("mapper.notice.insert", notice);
 	}
 
 	@Override
-	public Integer selectMaxNoticeNum() throws Exception {
-		return sqlSession.selectOne("mapper.notice.selectMaxNoticeNum");
+	public List<Notice> notice_list() {
+		return sqlSession.selectList("mapper.notice.list");
 	}
 
 	@Override
-	public List<Notice> selectNoticeList(Integer row) throws Exception {
-		return sqlSession.selectList("mapper.notice.selectNoticeList", row);
+	public Notice notice_detail(int id) {
+		return sqlSession.selectOne("mapper.notice.detail",id);
 	}
 
 	@Override
-	public Integer selectNoticeCount() throws Exception {
-		return sqlSession.selectOne("mapper.notice.selectNoticeCount");
+	public void notice_update(Notice notice) {
+		sqlSession.update("mapper.notice.update", notice);
 	}
 
 	@Override
-	public Notice selectNotice(Integer notice_no) throws Exception {
-		return sqlSession.selectOne("mapper.notice.selectNotice", notice_no);
+	public void notice_delete(int id) {
+		sqlSession.delete("mapper.notice.delete", id);
 	}
 
 	@Override
-	public void updateNotice(Notice notice) throws Exception {
-		sqlSession.update("mapper.notice.updateNotice", notice);
+	public void notice_read(int id) {
+		sqlSession.update("mapper.notice.read", id);
 	}
 
 	@Override
-	public void updateNoticeReReq(Notice notice) throws Exception {
-		sqlSession.update("mapper.notice.updateNoticeReReq", notice);
-	}
-
-	@Override
-	public void deleteNotice(Integer noticeNum) throws Exception {
-		sqlSession.update("mapper.notice.deleteNotice", noticeNum);
-	}
-
-	// 조회수 증가
-	@Override
-	public void notice_read(int notice_no) throws Exception {
-		sqlSession.update("mapper.notice.read", notice_no);
+	public NoticePage notice_list(NoticePage noticePage) {
+		noticePage.setTotalList((Integer) sqlSession.selectOne("mapper.notice.totalList", noticePage));
+		noticePage.setList(sqlSession.selectList("mapper.notice.list", noticePage));
 		
+		return noticePage;
 	}
+
+	@Override
+	public void notice_reply_insert(Notice notice) {
+		sqlSession.insert("mapper.notice.reply_insert", notice);
+	}
+
 }

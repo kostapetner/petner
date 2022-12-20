@@ -8,7 +8,7 @@
   	<a href="${pageContext.request.contextPath}/mypage/myinfoEdit" class="icon">
   		<i class="fa-solid fa-pen-to-square"></i>
   	</a>
-  	<a href="#" class="pet_btn pass_btn">비밀번호 변경하기</a>
+  	<a href="${pageContext.request.contextPath}/checkPass" class="pet_btn pass_btn">비밀번호 변경하기</a>
   </p>
   <div class="data">
     <p><span class="key">이름</span><span class="value">${member.name}</span></p>
