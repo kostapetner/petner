@@ -87,14 +87,15 @@ $( document ).ready( function() {
 							</c:if>
 						</div>
 					</div>
-					<hr>
-					<!-- <div id="commandList">
+					<br>
+					<div id="commandList">
 						<div class="d-grid gap-2 d-md-block ad_button">
-							<a class="admin_btn" id="golist" onclick="srchVal();" href="#" >
-								<button class="btn btn-outline-secondary" type="button">목록</button>
+							<a class="admin_btn" href="#" >
+								<button class="btn btn-outline-secondary" type="button">채팅하기</button>
 							</a>
 						</div>
-					</div> -->
+					</div>
+					<hr>
 				</div>
 				</form>
 			</div>
