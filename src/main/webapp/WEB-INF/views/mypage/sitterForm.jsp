@@ -22,7 +22,6 @@
 			<div class="profile_upload">
 				<div class="prof_img">
 					<img src="${imgPath}/noimg.webp" id="rep2" class="img_wrap img"> 
-					<!-- <img id="rep2" class="img_wrap img"/> <br> -->
 					<label for="file" class="pet_btn edit_btn">
 						<i class="fa-solid fa-pen" id="pen"></i>
 					</label>
@@ -112,7 +111,7 @@
 
 		<div class="f_row">
 			<p class="fc_title">자기소개를 간단하게 해주세요. 펫시터 경험을 써주셔도 좋아요</p>
-			<textarea name="sitter_info" id="" class="fcc_textarea"></textarea>
+			<textarea name="sitter_info"class="fcc_textarea"></textarea>
 		</div>
 
 		<span class="pet_btn submit_btn transition02">펫시터정보등록하기</span>
@@ -120,29 +119,52 @@
 </div>
 <script>
 $(document).ready(function() {
-	console.log("시터폼");
 	//이미지 미리보기
-	$(function() {
-		$('#sitterForm #file').change(function(event) {
-			let reader = new FileReader();
-			reader.onload = function(e) {
-				$('#rep2').attr('src', e.target.result);
-			};
-			reader.readAsDataURL(event.target.files[0]);	
-		});
-	})
+	var eTarget = '';
+	$('#sitterForm #file').change(function(event) {
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			$('#rep2').attr('src', e.target.result);
+			eTarget = e.target.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);	
+	});
 	
 	//------------- 체크박스 전체선택 시작 ---------------
-	//활동가능 요일
+	
+	//케어가능한 반려동물 종류
+	var pet_kindArr = [];
+	$("input[name=pet_kind]").click(function() {
+		pet_kindArr = [];
+		$("input[name='pet_kind']:checked").each(function(e){
+			var value = $(this).val();
+			pet_kindArr.push(value);        
+		});
+		console.log(pet_kindArr);
+	});
+	
+	//활동가능요일
+	var dayArr = [];
 	$("#day_chkAll").click(function() {
+		dayArr = [];
 		if($("#day_chkAll").is(":checked")) {
 			$("input[name=work_day]").prop("checked", true);
+			$("input[name='work_day']:checked").each(function(e){
+				var value = $(this).val();
+				dayArr.push(value);        
+			});
+			console.log("222 "+dayArr);
 		}else{
 			$("input[name=work_day]").prop("checked", false);
 		}
 	});
-	
 	$("input[name=work_day]").click(function() {
+		dayArr = [];
+		$("input[name='work_day']:checked").each(function(e){
+			var value = $(this).val();
+			dayArr.push(value);        
+		});
+		console.log(dayArr);
 		var total = $("input[name=work_day]").length;
 		var checked = $("input[name=work_day]:checked").length;
 		
@@ -152,24 +174,57 @@ $(document).ready(function() {
 	});
 	
 	//제공가능서비스
+	var serviceArr = [];
 	$("#service_chkAll").click(function() {
+		serviceArr = [];
 		if($("#service_chkAll").is(":checked")) {
 			$("input[name=service]").prop("checked", true);
+			$("input[name='service']:checked").each(function(e){
+				var value = $(this).val();
+			    serviceArr.push(value);        
+			});
+			console.log("222 "+serviceArr);
 		}else{
 			$("input[name=service]").prop("checked", false);
 		}
 	});
-	
 	$("input[name=service]").click(function() {
+		serviceArr = [];
+		$("input[name='service']:checked").each(function(e){
+			var value = $(this).val();
+		    serviceArr.push(value);        
+		});
+		console.log(serviceArr);
 		var total = $("input[name=service]").length;
 		var checked = $("input[name=service]:checked").length;
-		
 		if(total != checked){
 			$("#service_chkAll").prop("checked", false);
 		}else $("#service_chkAll").prop("checked", true); 
 	});
 	//------------- 체크박스 전체선택 끝 ----------------
 	$(".submit_btn").click(function() {
+		if(!eTarget){
+			alert("프로필 사진을 올려주세요.");
+			return false;
+		}
+		//array
+		if(pet_kindArr.length < 1){
+			alert("케어가능한 반려동물의 종류를 선택해주세요.");
+			return false;
+		}
+		if(dayArr.length < 1){
+			alert("요일을 선택해주세요.");
+			return false;
+		}
+		if(serviceArr.length < 1){
+			alert("제공 가능한 서비스를 선택해주세요.");
+			return false;
+		}
+		if(!$("textarea[name=sitter_info]").val()){
+			alert("자기소개를 해주세요.");
+			return false;
+		}
+		
 		$("#sitterForm").submit();
 	})
 });
