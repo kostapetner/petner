@@ -27,8 +27,15 @@
    .desc{text-align:center; margin-bottom:35px;}
    .find_id{width:120px !important; text-align:center;}
    .flex_between{flex-wrap:nowrap}
-   .id_email{position:absolute; top:32%; left:42%;}
-   .submit_btn{position: relative; top:200px; width:200px; right:1%}
+   .id_email{   
+   		 width: 260px;
+    	margin: 0 auto;
+    	}
+   .submit_btn{
+   		width: 200px;
+		line-height: 30px;
+		margin: auto;
+		}
 </style>
 <body>
    <div id="wrapper">
