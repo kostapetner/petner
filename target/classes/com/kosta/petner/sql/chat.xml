@@ -71,9 +71,12 @@
     </update>
     
     <delete id="deleteRoom" parameterType="String">
-  		
-	   DELETE FROM CHATROOM  WHERE room_id = #{room_id}
-      
+  	<![CDATA[
+  	{CALL DECLARE BEGIN
+	   DELETE FROM CHATROOM  WHERE room_id = #{room_id};
+	   DELETE FROM CHATMESSAGE WHERE room_id = #{room_id};
+      END}
+      ]]>
     </delete>
     
 </mapper>

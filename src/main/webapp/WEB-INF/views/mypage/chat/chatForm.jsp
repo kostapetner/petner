@@ -301,7 +301,7 @@ textarea {
 						<button class="" id="x_button" style= "color: black; cursor:pointer; background-color:white; margin: -35px 50px 0px 300px; position:absolute ">❌</button>
 							<p style="color: #FF9614; ">Petner &#128062</p>
 						
-							<p id="modal_msg" style="padding: 15px 0px 0px 15px;" >채팅방을 나갈시 메세지가 복원되지 않습니다. 그래도 나가게시겠습니까?</p>
+							<p id="modal_msg" style="padding: 15px 0px 0px 15px;" >채팅방을 나갈시 메세지가 복원되지 않습니다. 그래도 나가시겠습니까?</p>
 						
 						<div class="modal_btn">
 						<button class="pet_btn" id="exit_btn" style= "background-color:#B4B4DC;">나가기</button>
