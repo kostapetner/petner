@@ -6,72 +6,73 @@
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
 
-<head>
-<link rel="stylesheet" href="${cssPath}/table.css">
-<style type="text/css">
-textarea {
-	width: 100%;
-	border: 1px solid #ced4da;
-	border-radius: 0.375rem;
-	max-height: 150px;
-}
-</style>
-</head>
-<h3>방명록 글쓰기</h3>
-<form action="ad_insert_board" method="post" enctype="multipart/form-data" class="pn_write">
-	<div class="pn_view">
-		<div class="row user_id">
-			<div>
-				<span class="by">by</span>
-				<div>${authUser.name }</div>
-			</div>
+<!-- 세션있을때  -->
+<c:if test="${not empty authUser}">
+	<!-- 관리자 일때 -->
+	<c:if test="${authUser.user_type >= 9}">
+		<!-- 공지사항 리스트 -->
+		<div class="card ad_card mb-4">
+			<div class="card-body">
+				<h2 class="card-title">이벤트 글쓰기</h2>
+				<div class="formbox">
+					<form action="ad_insert_board" method="post"
+						enctype="multipart/form-data" class="pn_write">
+						<div class="pn_view">
+							<div class="title">
+								<h1>
+									<input type="text" name="title" class="need" title="제목"
+										placeholder="제목을 입력하세요." />
+								</h1>
+							</div>
+							<div class="source">
+								<div>
+									<span>by</span>${authUser.name }
+								</div>
+							</div>
+							<hr class="hr">
+							<span id="preview"></span>
+							<div class="content">
+								<!-- 사진영역 -->
+								<div id="image_preview">
+									<span id="preview"></span>
+								</div>
+								<div>
+									<textarea class="fcc_textarea" name="content" class="need"
+										title="내용" placeholder="내용을 입력하세요"></textarea>
+								</div>
 
-		</div>
-		<hr class="hr">
-		<!-- title 제목 -->
-		<div class="title">
-			<input type="text" name="title" class="need" title="제목"
-				placeholder="제목을 입력하세요." />
-		</div>
-		<hr class="hr">
-		<div class="content">
-			<!-- 사진영역 -->
-			<div id="image_preview">
-				<span id="preview"></span>
-			</div>
-			<div>
-				<textarea class="fcc_textarea" name="content" class="need" title="내용"
-					placeholder="내용을 입력하세요"></textarea>
-			</div>
-
-			<!-- 첨부 파일 영역 -->
-			<div class="file_box">
-				<p>첨부 파일</p>
-				<div>
-					<label> 
-					<input type="file" name="file" id="attach-file" />
-						<img src="${imgPath}/select.png" class="file-img" />
-					</label> 
-					<span id="file-name"></span>
-					<!-- 첨부파일 이미지 영역 -->
-					<span id="preview"></span> 
-					<span id="delete-file"
-						style="color: red; margin-left: 20px;"> <i
-						class="fas fa-times font-img"></i>
-					</span>
+								<div class="file_box">
+									<p>첨부 파일</p>
+									<div>
+										<label> <input type="file" name="file"
+											id="attach-file" /> <i class="fa-solid fa-file"></i>
+										</label> <span id="file-name"></span>
+										<!-- 첨부파일 이미지 영역 -->
+										<span id="preview"></span> <span id="delete-file"
+											style="color: red; margin-left: 20px;"> <i
+											class="fas fa-times font-img"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<hr class="hr">
+							<div class="btnSet">
+								<button type="submit" class="btn"
+									onclick="if( necessary() ){ $('form').submit() }">저장</button>
+								<a class="btn" href="ad_list_board">취소</a>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-		<hr class="hr">
-
-	</div>
-
-	<div class="btnSet">
-		<button type="submit" class="btn"
-			onclick="if( necessary() ){ $('form').submit() }">저장</button>
-		<a class="btn" href="ad_list_board">취소</a>
-	</div>
-</form>
+		<!-- 관리자 일때.end -->
+	</c:if>
+	<!-- 관리자 아닐때 -->
+	<c:if test="${authUser.user_type < 9}">
+		<c:import url='/WEB-INF/views/include/not_admin.jsp' />
+	</c:if>
+</c:if>
 <script type="text/javascript">
 	$('#attach-file')
 			.on(

@@ -16,7 +16,7 @@
 		<!-- 공지사항 리스트 -->
 		<div class="card ad_card mb-4">
 			<div class="card-body">
-				<h2 class="card-title">게시판 글 목록</h2>
+				<h2 class="card-title">이벤트 글 목록</h2>
 				<form id="list" method="post" action="">
 					<input type="hidden" name="curPage" value="1" /> <input
 						type="hidden" name="id" />

@@ -46,7 +46,7 @@
 						<ul>
 						<c:if test="${authUser.user_type >= 9}">
 								<a type="button" class="btn btn-outline-secondary"
-									href="ad_new_notice">글쓰기</a>
+									href="ad_new_qna">글쓰기</a>
 							</c:if>
 						</ul>
 					</div>
@@ -71,7 +71,9 @@
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
-													<span class="qna_indent">Re <c:if
+													<span class="qna_indent">
+													<i class="fa-solid fa-arrow-right"></i> 
+													<c:if
 															test="ad_detail_qna?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a
 												href="ad_detail_qna?id=${vo.id }&curPage=${qna.curPage }">${vo.title }</a>

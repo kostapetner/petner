@@ -66,7 +66,9 @@
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
-													<span class="notice_indent">Re <c:if
+													<span class="notice_indent">
+													<i class="fa-solid fa-arrow-right"></i>
+													<c:if
 															test="ad_detail_notice?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a
 												href="ad_detail_notice?id=${vo.id }&curPage=${notice.curPage }">${vo.title }</a>

@@ -16,7 +16,7 @@
 		<!-- board 리스트 -->
 		<div class="card ad_card mb-4">
 			<div class="card-body">
-				<h2 class="card-title">board detail</h2>
+				<h2 class="card-title">이벤트 detail</h2>
 
 				<div class="formbox">
 					<div class="pn_view">
@@ -49,8 +49,6 @@
 
 						<hr class="hr">
 
-						<span id="preview"></span>
-
 						<div class="content">
 							<!-- 첨부된 이미지 보여주기 -->
 							<c:if test="${!empty vo.filename }">
@@ -64,18 +62,13 @@
 						</div>
 						<hr class="hr">
 
-
-
-
-
-
 						<div class="btnSet">
 							<a class="btn btn-outline-secondary" type="button"
 								href="ad_list_board">목록으로</a>
 							<!-- 작성자로 로그인한 경우만 수정/삭제 가능, 관리자는 삭제 가능 -->
 							<c:if test="${authUser.id eq vo.writer}">
 								<a class="btn btn-outline-secondary" type="button"
-									onclick="$('form').attr('action', 'modify_board'); $('form').submit()">수정</a>
+									onclick="$('form').attr('action', 'ad_modify_board'); $('form').submit()">수정</a>
 							</c:if>
 							<c:if test="${authUser.id eq vo.writer }">
 								<a class="btn btn-outline-secondary" type="button"

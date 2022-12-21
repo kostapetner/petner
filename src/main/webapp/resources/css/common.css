@@ -454,3 +454,7 @@
 	 overflow: hidden;
 	 text-overflow: ellipsis;
   }
+  
+  .main_comm {float:right;top: 10px;
+    position: absolute;
+    right: 0px;}

@@ -12,7 +12,7 @@
 			<div class="original">${fn:replace(fn:replace(vo.content, lf, '<br>' ), crlf, '<br>') }</div>
 		</div>
 		
-		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
+		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 dddd사용자가 작성한 댓글 수정/삭제 기능 -->
 			<div class="cm_btnSet">
 				<a class="btn btn-outline-secondary btn-modify-save" type="button">수정</a>
 				<a class="btn btn-outline-secondary btn-delete-cancel" type="button">삭제</a>

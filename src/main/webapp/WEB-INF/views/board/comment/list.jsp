@@ -16,9 +16,7 @@
 		<div class="modify" style="display:none; margin-top:6px;"></div>
 		
 		<core:if test="${authUser.id eq vo.writer }"><!-- 로그인한 사용자가 작성한 댓글 수정/삭제 기능 -->
-			<span style="float:right;top: 10px;
-    position: absolute;
-    right: 0px;">
+			<span class="ad_comm main_comm">
 				<a class="pet_btn btn-modify-save">수정</a>
 				<a class="pet_btn btn-delete-cancel">삭제</a>
 			</span>
