@@ -102,18 +102,51 @@
 <script>
 $(document).ready(function(){
 	//이미지 미리보기
-	$(function() {
-		$('#file').change(function(event) {
-			let reader = new FileReader();
-			reader.onload = function(e) {
-				$('#rep').attr('src', e.target.result);
-			};
-			reader.readAsDataURL(event.target.files[0]);	
-		});
-	})
+	var eTarget = '';
+	$('#file').change(function(event) {
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			$('#rep').attr('src', e.target.result);
+			eTarget = e.target.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);	
+	});
  
+	var pet_kindArr = [];
+	$("input[name=pet_kind]").click(function() {
+		pet_kindArr = [];
+		var value = $(this).val();
+		pet_kindArr.push(value);        
+	});
+	
+	
 	//submit 
 	$(".submit_btn").click(function(){
+		var radioGender = $("input[name=pet_gender]:checked").val();
+		var radioNeutral = $("input[name=pet_neutral]:checked").val();
+		
+		if(pet_kindArr.length < 1){
+			alert("반려동물의 종류를 선택해주세요.");
+			return false;
+		}
+		if( !$("input[name=pet_specie]").val() || !$("input[name=pet_name]").val() || !$("input[name=pet_age]").val() || 
+			!$("input[name=pet_weight]").val() || !$("textarea[name=pet_info]").val()){
+				alert("빠진 항목들이 없는지 다시 한번 확인해주세요.");
+				return false;
+		}
+		if(typeof radioGender == "undefined" || radioGender == "" || radioGender == null){
+			alert("반려동물의 성별을 알려주세요.");
+			return false;
+		}
+		if(typeof radioNeutral == "undefined" || radioNeutral == "" || radioNeutral == null){
+			alert("반려동물의 중성화 여부를 알려주세요.");
+			return false;
+		}
+		if(!eTarget){
+			alert("반려동물의 사진을 올려주세요.");
+			return false;
+		}
+		
 	  $("#petForm").submit();
 	})
 });
