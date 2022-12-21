@@ -47,24 +47,37 @@ $(document).ready(function(){
 	      });
 	  }
 	}).data('datepicker');
-
-	//체크박스 전체선택 활동가능 요일
+	
+	var serviceArr = [];
+	//체크박스 전체선택 요청서비스
 	$("#service_chkAll").click(function() {
+		serviceArr = [];
 		if($("#service_chkAll").is(":checked")) {
 			$("input[name=service]").prop("checked", true);
+			$("input[name='service']:checked").each(function(e){
+				var value = $(this).val();
+			    serviceArr.push(value);        
+			});
 		}else{
 			$("input[name=service]").prop("checked", false);
 		}
 	});
+	
 	$("input[name=service]").click(function() {
-		var total = $("input[name=service]").length;
+		serviceArr = [];
+		$("input[name='service']:checked").each(function(e){
+			var value = $(this).val();
+		    serviceArr.push(value);        
+		});
+		console.log(serviceArr);
+		var serviceTotal = $("input[name=service]").length;
 		var checked = $("input[name=service]:checked").length;
-		
-		if(total != checked){
+		if(serviceTotal != checked){
 			$("#service_chkAll").prop("checked", false);
 		}else $("#service_chkAll").prop("checked", true); 
 	});
-	//--------------------펫 선택시 정보 불러오기-------------------------
+	
+	//펫 선택시 정보 불러오기
 	$(document)
 		.on("click", "a.petImg", function () {
 			$("#card_list_type").show();
@@ -102,17 +115,34 @@ $(document).ready(function(){
 		});//on
 	
 		//이미지 미리보기
+		var eTarget = '';
 		$('#file').change(function(event) {
 			let reader = new FileReader();
 			reader.onload = function(e) {
 				$('#requestPetImg').attr('src', e.target.result);
+				eTarget = e.target.result;
 			};
 			reader.readAsDataURL(event.target.files[0]);	
 		});
 		
-		
 	//submit 
 	$(".submit_btn").click(function(){
+		if($('input[name=pet_no]').val() == 0){
+			alert("펫을 선택해주세요");
+			return false;
+		}
+		if(!$('.date-picker').val() || !$("input[name=request_money]").val() || !$("input[name=request_title]").val() || !$("textarea[name=request_detail]").val()){
+			alert("빠진 항목들이 없는지 다시 한번 확인해주세요.");
+			return false;
+		}
+		if(serviceArr.length < 1){
+			alert("서비스를 선택해주세요.");
+			return false;
+		}
+		if(!eTarget){
+			alert("반려동물의 사진을 올려주세요.");
+			return false;
+		}
 	  $("#requireServiceFrom").submit();
 	});
 });
@@ -122,15 +152,14 @@ $(document).ready(function(){
 	<c:if test="${empty petInfo}">
 		<div>
 			<p class="mb25">등록된 반려동물 정보가 없어요.</p>
-			<a href="${pageContext.request.contextPath}/petForm" class="pet_btn">반려동물
-				정보 등록하기</a>
+			<a href="${pageContext.request.contextPath}/petForm" class="pet_btn">반려동물 정보 등록하기</a>
 		</div>
 	</c:if>
 	<c:if test="${not empty petInfo}">
 		<h3 class="form_title fs24">펫케어 서비스 신청</h3>
 		<form action="${pageContext.request.contextPath}/mypage/myService/requireServiceForm" method="POST" id="requireServiceFrom" class="mypage_form" enctype="multipart/form-data">
 			<!-- 선택한 pet_no보내기 -->
-			<input type="hidden" name="pet_no"/>
+			<input type="hidden" name="pet_no" id="pet_no"/>
 			<!-- 펫 선택 -->
 			<div class="f_row">
 				<p class="fc_title">펫을 선택해주세요</p>
@@ -195,7 +224,7 @@ $(document).ready(function(){
 			</div>
 			
 			<div class="f_row">
-				<p class="tip">보호자가 펫시터에게 요청하고 싶은 사항을 입력해주세요</p>
+				<p class="tip">보호자가 펫시터에게 요청하고 싶은 사항을 입력해주세요. (모든 사항은 필수입니다.)</p>
 			</div>
 			
 			<!-- 지역 -->
@@ -252,7 +281,7 @@ $(document).ready(function(){
 			
 			<!-- 사진 업로드 -->
 			<div class="f_row profile_upload">
-				<p class="fc_title">반려동물의 사진을 올려주세요</p>
+				<p class="fc_title">서비스 요청할 때 보여질 반려동물 사진을 올려주세요!</p>
 				<div class="profile_upload_square">
 					<div class="prof_img">
 						<img id="requestPetImg"> <br>

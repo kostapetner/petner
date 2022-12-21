@@ -38,61 +38,71 @@
 
 <head>
 <style>
-	#findId input[type=text]{width:100%;}
-	.desc{text-align:center; margin-bottom:35px;}
-	.find_id{width:120px !important; text-align:center;}
-	.flex_between{flex-wrap:nowrap}
-	.id_email{position:absolute; top:32%; left:42%;}
-	.two_btn{position: relative; top:180px; width:200px; line-height: 30px; left:27%;}
-
-  .modal {
-        position: absolute;
-        top: 0;
-        left: 0;
+	#findId input[type=text] {
+		width: 100%;
+	}
+	
+	.desc {
+		text-align: center;
+		margin-bottom: 35px;
+	}
+	
+	.find_id {
+		width: 120px !important;
+		text-align: center;
+	}
+	
+	.flex_between {
+		flex-wrap: nowrap
+	}
+	
+	.two_btn {
+		width: 200px;
+		line-height: 30px;
+		margin: auto;
+	}
+	.id_email{
+	    width: 260px;
+    	margin: 0 auto;
+    }
+	
+	.modal {
+		position: absolute;
+		top: 0;
+		left: 0;
 		display: none;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0,.5);
-      }
-
-      .modal.show {
-        display: block;
-      }
-
-      .modal_body {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-
-        width: 280px;
-        height: 100px;
-
-        padding: 40px;
-
-       
-
-        background-color: rgb(255, 255, 255);
-        border-radius: 10px;
-        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-        transform: translateX(-50%) translateY(-50%);
-      }
-      
-       .modal_btn {
-        position: absolute;
-        top: 50%;
-        left: 70%;
-		
-        width: 280px;
-        height: 100px;
-
-        padding: 40px;
-        
-
-       } 
-
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, .5);
+	}
+	
+	.modal.show {
+		display: block;
+	}
+	
+	.modal_body {
+		position: absolute;
+		top: 30%;
+		left: 50%;
+		width: 280px;
+		height: 100px;
+		padding: 40px;
+		background-color: rgb(255, 255, 255);
+		border-radius: 10px;
+		box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+		transform: translateX(-50%) translateY(-50%);
+	}
+	
+	.modal_btn {
+		position: absolute;
+		top: 50%;
+		left: 70%;
+		width: 280px;
+		height: 100px;
+		padding: 40px;
+	}
 </style>
-	<c:import url='/WEB-INF/views/include/common_head.jsp'/>
+<c:import url='/WEB-INF/views/include/common_head.jsp'/>
 	<title>비밀번호 찾기</title>
 </head>
 <body>
@@ -109,17 +119,18 @@
 					<p class="tip">아이디와 이메일 정보를 입력해주세요.</p>
 				</div>
 				<div class="id_email">
-				<div class="f_row" style="width:20px;">
-					<p class="fc_title">아이디</p>
-					<input type="text" placeholder="아이디" name="id" id="id" />
-				</div>
-				<div class="f_row">
-					<p class="fc_title">이메일</p>
-					<div class="flex_between">
-						<input type="text" placeholder="E-mail" name="email" id="email" class="mr12"/>
+					<div class="f_row">
+						<p class="fc_title">아이디</p>
+						<input type="text" placeholder="아이디" name="id" id="id" />
+					</div>					
+					<div class="f_row">
+						<p class="fc_title">이메일</p>
+						<div class="flex_between">
+							<input type="text" placeholder="E-mail" name="email" id="email" class="mr12"/>
+						</div>
 					</div>
 				</div>
-				</div>
+				
 				<div class=two_btn>
 				<div class="f_row" style="text-align:center;">
 					<button type="button" id="findBtn" class="pet_btn submit_btn transition02">이메일 전송</button>
