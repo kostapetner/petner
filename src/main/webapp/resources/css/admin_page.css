@@ -13,9 +13,6 @@
     }
 /**************/
 
-.ad_comm {   position: relative;
-    right: 0px;
-    bottom: 0px;}
 
 /* 게시물 뷰 */
 /* 게시물 뷰 - top */
@@ -395,7 +392,8 @@ header {
 .user_table .type_box > div.admin10 { background:#ffb9b9 }
 .user_table .type_box > div.admin9 { background:#ffe0c0 }
 .user_table .type_box > div.admin1 { background:#d6fff2 }
-
+.user_table .type_box > div.admin2 {background:#fffbad}
+.user_table .type_box > div.admin0 {background:#838383; color:#fff;}
 
 
 /* detail btnSet > btn */

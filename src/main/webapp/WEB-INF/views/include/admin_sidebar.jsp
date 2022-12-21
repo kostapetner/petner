@@ -54,7 +54,7 @@
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 								<li><a href="./admin_user"
 									class="link-dark d-inline-flex text-decoration-none rounded">회원정보관리</a></li>
-								<li><a href="#"
+								<li><a href="./black_user"
 									class="link-dark d-inline-flex text-decoration-none rounded">블랙리스트</a></li>
 							</ul>
 						</div>
@@ -77,8 +77,7 @@
 									class="link-dark d-inline-flex text-decoration-none rounded">이벤트 관리</a></li>
 									<li><a href="./ad_list_qna"
 									class="link-dark d-inline-flex text-decoration-none rounded">QNA 관리</a></li>
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">리뷰 관리</a></li>
+								
 							</ul>
 						</div>
 					</li>

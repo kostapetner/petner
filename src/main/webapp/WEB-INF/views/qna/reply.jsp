@@ -20,7 +20,7 @@
 		<!-- CONTAINER -->
 		<div class="container w90">
 			<div class="">
-				<p class="list_title">신규 공지 글</p>
+				<p class="list_title">답글 qna 글</p>
 				<div class="formbox">
 
 					<form action="reply_insert_qna" method="post" class="pn_write" enctype="multipart/form-data">

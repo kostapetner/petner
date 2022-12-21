@@ -240,7 +240,7 @@
 	<!-- 유진 타입 업데이트 -->
 	<update id="updateUserType" parameterType="com.kosta.petner.bean.Users">
 		<![CDATA[
-			update USERS set user_type = #{user_type , jdbcType=INTEGER}, nickname = #{nickname, jdbcType=VARCHAR}, user_level = #{user_level, jdbcType=VARCHAR} where user_no = #{user_no}
+			update USERS set user_auth = #{user_auth , jdbcType=INTEGER}, nickname = #{nickname, jdbcType=VARCHAR}, user_level = #{user_level, jdbcType=VARCHAR} where user_no = #{user_no}
 		]]>
 	</update>
 

@@ -19,24 +19,33 @@ textarea {
 	$(document)
 			.ready(
 					function() {
-						var user_type = '${users.user_type}';
+						var user_auth = '${users.user_auth}';
 
-						if (user_type <= 8) {
-							$("input:checkbox[name='user_type']:checkbox[value='1']")
+						if (user_auth == 10) {
+							$("input:checkbox[name='user_auth']:checkbox[value='10']")
 							.attr("checked", true);
-						} else {
-							$("input:checkbox[name='user_type']:checkbox[value='9']")
+						} else if (user_auth == 9) {
+							$("input:checkbox[name='user_auth']:checkbox[value='9']")
+							.attr("checked", true);
+						} else if (user_auth == 2) {
+							$("input:checkbox[name='user_auth']:checkbox[value='2']")
+							.attr("checked", true);
+						} else if (user_auth == 1) {
+							$("input:checkbox[name='user_auth']:checkbox[value='1']")
+							.attr("checked", true);
+						} else if (user_auth == 0) {
+							$("input:checkbox[name='user_auth']:checkbox[value='0']")
 							.attr("checked", true);
 						}
 					}
 			);
 	/* 체크박스 하나만 선택되게 하기 */
-	function checkOnlyOne(element) {
+	function checkOnlyOne1(element) {
 		  
-		  const checkboxes 
-		      = document.getElementsByName("user_type");
+		  const checkboxes1 
+		      = document.getElementsByName("user_auth");
 		  
-		  checkboxes.forEach((cb) => {
+		  checkboxes1.forEach((cb) => {
 		    cb.checked = false;
 		  })
 		  
@@ -45,7 +54,7 @@ textarea {
 	
 	$(document).ready(function(){
 		// 체크
-		let tyep_kind = '${users.user_type}';
+		let tyep_kind = '${users.user_auth}';
 		tyep_kind = tyep_kind.split(',');
 		console.log(tyep_kind);
 		
@@ -113,16 +122,33 @@ textarea {
 				</li>
 				<li>
 					<p>회원구분 :</p>
-					<p>${users.user_type}</p>
+					<p>${users.user_auth}</p>
 						<!-- user_type 체크박스 -->
 					<div class="form-inline">
-							<label>
-								<input type="checkbox" name="user_type"
-								value="1" onclick="checkOnlyOne(this)" placeholder="${users.user_type}">일반회원</label> 
-							<label>
+								<label>
 								<input
-								type="checkbox" name="user_type" value="9"
-								onclick="checkOnlyOne(this)"  placeholder="${users.user_type}">관리자</label>
+								type="checkbox" name="user_auth" value="10"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">최고관리자</label>
+							
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="9"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">관리자</label>
+								
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="0"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">블랙</label>
+								
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="2"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">카카오</label>
+								
+								<label>
+								<input 
+								type="checkbox" name="user_auth" value="1" 
+								onclick="checkOnlyOne1(this)" placeholder="${users.user_auth}">일반회원</label> 
 					</div>
 				</li>
 				<li>

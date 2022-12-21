@@ -3,7 +3,8 @@
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <core:forEach items="${list }" var="vo" varStatus="status"> 
 	<!-- varStatus 인덱스값 찾아갈때 사용하는 속성 -->
-	${status.index eq 0 ? '<hr>' : '' }
+	<%-- ${status.index eq 0 ? '<hr>' : '' } --%>
+	${status.index eq 0 ? '' : '' }
 	<hr class="hr">
 	<div data-id="${vo.id }"> <!-- data-* 속성 : 특별한 조작 없이 HTML 요소에 추가 정보를 저장할 수 있게 해주는 속성 -->
 		<%-- ${vo.name } [${vo.writedate }] --%>
@@ -21,8 +22,7 @@
 				<a class="pet_btn btn-delete-cancel">삭제</a>
 			</span>
 		</core:if>
-		<%-- <div class="original">${fn:replace(fn:replace(vo.content, lf, '<br>' ), crlf, '<br>') }</div>
-		<div class="modify" style="display:none; margin-top:6px;"></div> --%>
+		
 	</div>
 	<%-- <div data-id="${vo.id }"> <!-- data-* 속성 : 특별한 조작 없이 HTML 요소에 추가 정보를 저장할 수 있게 해주는 속성 -->
 		
@@ -39,7 +39,7 @@
 		</core:if>
 		<div class="modify" style="display:none; margin-top:6px;"></div>
 	</div> --%>
-	<hr>
+	
 </core:forEach>
 <script>
 

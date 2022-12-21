@@ -60,8 +60,7 @@
 									<th scope="col">작성자</th>
 									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
-									<th scope="col">첨부파일</th>
-									<th scope="col" style="text-align: end;">삭제</th>
+									<th scope="col" style="text-align: end;">첨부파일</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -69,7 +68,7 @@
 									<tr style="cursor: pointer;">
 										<div class="row">
 											<td class="col-1">${vo.id}</td>
-											<td class="col-4"><c:forEach var="i" begin="1"
+											<td class="col-5"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
 													<span class="qna_indent">
 													<i class="fa-solid fa-arrow-right"></i> 
@@ -80,14 +79,13 @@
 											</td>
 											<td class="col-2">${vo.writer}</td>
 											<td class="col-2">${vo.writedate}</td>
-											<td class="col-1">${vo.root}</td>
-											<td class="col-1"><c:if test="${!empty vo.filename }">
+											<td class="col-1">${vo.readcnt}</td>
+											<td class="col-1" style="text-align: center;"><c:if test="${!empty vo.filename }">
 													<a href="ad_download_qna?id=${vo.id }"> 
 													<i class="fa-solid fa-file"></i>
 													</a>
 												</c:if></td>
-											<td class="col-1 d-flex-end" style="text-align: end;"><input
-												type="checkbox" name="id" value="${vo.id}"></td>
+											
 
 										</div>
 									</tr>
@@ -95,7 +93,7 @@
 							</tbody>
 						</table>
 					</div>
-					<button type="submit" class="btn btn-outline-secondary">삭제</button>
+					<!-- <button type="submit" class="btn btn-outline-secondary">삭제</button> -->
 
 					<nav aria-label="Page navigation example" class="paging">
 						<ul class="pagination">

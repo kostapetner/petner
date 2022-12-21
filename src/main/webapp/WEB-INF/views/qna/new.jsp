@@ -17,12 +17,6 @@
 <title>new JSP</title>
 </head>
 <body>
-	<!-- 
- - 파일 첨부 시 form 반드시 갖고 있어야 할 속성 
-	1. 반드시 method는 post이어야만 한다.
-	2. enctype을 지정한다. ▶ enctype='multipart/form-data'
-
--->
 
 	<div id="wrapper">
 		<!-- CONTAINER -->
@@ -62,8 +56,8 @@
 									<p>첨부 파일</p>
 									<div>
 										<label> <input type="file" name="file"
-											id="attach-file" /> <img src="${imgPath}/select.png"
-											class="file-img" />
+											id="attach-file" />
+											<i class="fa-solid fa-file"></i>
 										</label> <span id="file-name"></span>
 										<!-- 첨부파일 이미지 영역 -->
 										<span id="preview"></span> <span id="delete-file"
@@ -75,8 +69,8 @@
 							</div>
 							<hr class="hr">
 							<div class="btnSet">
-								<a class="btn" onclick="if(necessary()) $('form').submit()">저장</a>
-								<a class="btn" href="list_notice">취소</a>
+								<a class="pet_btn" onclick="if(necessary()) $('form').submit()">저장</a>
+								<a class="pet_btn" href="list_notice">취소</a>
 							</div>
 						</div>
 					</form>
