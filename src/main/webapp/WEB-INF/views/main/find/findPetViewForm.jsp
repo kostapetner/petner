@@ -88,10 +88,10 @@ $( document ).ready( function() {
 					</div>
 					<br>
 				<form action= "${pageContext.request.contextPath}/createChat.do" method="post">
-				<input type="text" name="user_nickname" value= "${authUser.nickname}"/>
-				<input type="text" name="user_id" value= "${authUser.id}"/>			
-				<input type="text" name="another_nickname" value= "${cs.nickname}"/>
-				<input type="text" name="another_id" value= "${cs.id}"/>
+				<input type="hidden" name="user_nickname" value= "${authUser.nickname}"/>
+				<input type="hidden" name="user_id" value= "${authUser.id}"/>			
+				<input type="hidden" name="another_nickname" value= "${cs.nickname}"/>
+				<input type="hidden" name="another_id" value= "${cs.id}"/>
 				<div id="chat">
 				<button type="submit" class="btn btn-outline-secondary" value="채팅하기">채팅하기 <i class="fa-solid fa-comment-dots" style="padding: 2px;"></i></button>
 				</div>

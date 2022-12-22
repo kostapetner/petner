@@ -33,3 +33,11 @@ CREATE SEQUENCE seq_chatmessage_id START WITH 1 INCREMENT BY 1;
 
 SELECT * FROM chatRoom;
 SELECT * FROM chatMessage;
+
+----drop-------------------
+
+DROP TABLE chatRoom;
+DROP TABLE chatMessage;
+
+DROP SEQUENCE seq_chatroom_id;
+DROP SEQUENCE seq_chatmessage_id;

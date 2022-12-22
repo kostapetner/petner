@@ -181,17 +181,7 @@ textarea {
 			<button type="submit" class="btn btn-outline-secondary" style="display:inline-block;">
 				회원정보 변경
 				</button>
-				<!-- 특정대상과 채팅방 만들기  -->
-				</form>
-				<form action= "createChat.do" method="post" style='position: relative;
-    top: -27.5px;
-    left: 88px;'>
-				<input type="hidden" name=user_nickname value= "${authUser.nickname}"/>
-				<input type="hidden" name=user_id value= "${authUser.id}"/>			
-				<input type="hidden" name=another_nickname value= "${users.nickname}"/>
-				<input type="hidden" name=another_id value= "${users.id}"/>
-			
-				<button type="submit" class="btn btn-outline-secondary" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>
-				</form>
+			</form>
+	
 	</div>
 </div>

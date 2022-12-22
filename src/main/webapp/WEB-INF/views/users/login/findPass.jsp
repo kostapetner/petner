@@ -57,8 +57,9 @@
 	}
 	
 	.two_btn {
+		padding: 20px;
 		width: 200px;
-		line-height: 30px;
+		line-height: 20px;
 		margin: auto;
 	}
 	.id_email{

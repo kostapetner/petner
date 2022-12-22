@@ -57,6 +57,7 @@
     <select id="chatRoomList" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM
         WHERE user_id = #{user_id} OR another_id = #{user_id}
+        order by room_id desc
     </select>
     
     <select id="selectUnReadCount" parameterType="com.kosta.petner.bean.ChatMessage" resultType="int">

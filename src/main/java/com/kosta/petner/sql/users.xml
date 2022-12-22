@@ -140,14 +140,16 @@
 					email,
 					user_level,
 					user_auth, 
-					joindate)
+					joindate,
+					file_no)
 			values(seq_user_no.nextval,
 					#{email},
 					#{nickname},
 					#{email},	
 					'BRONZE',
 					2,
-					sysdate)
+					sysdate,
+					0)
 			]]>
 	</insert>
 
