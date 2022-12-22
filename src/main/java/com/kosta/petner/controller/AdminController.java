@@ -128,24 +128,24 @@ public class AdminController {
 		}
 		return "/layout/admin_main";
 	}
-	
+
 	// 관리자페이지 black 회원정보 관리 화면
-		@RequestMapping(value = "/black_user", method = RequestMethod.GET)
-		String black_user(HttpSession session, Model model) {
+	@RequestMapping(value = "/black_user", method = RequestMethod.GET)
+	String black_user(HttpSession session, Model model) {
 
-			try {
+		try {
 
-				List list = usersDAO.selectAllUsers();
-				model.addAttribute("list", list);
-				model.addAttribute("page", "admin/ad_user_black");
-				model.addAttribute("title", "회원정보 관리");
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("err", "전체 회원정보 조회 실패");
-				model.addAttribute("page", "err");
-			}
-			return "/layout/admin_main";
+			List list = usersDAO.selectAllUsers();
+			model.addAttribute("list", list);
+			model.addAttribute("page", "admin/ad_user_black");
+			model.addAttribute("title", "회원정보 관리");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("err", "전체 회원정보 조회 실패");
+			model.addAttribute("page", "err");
 		}
+		return "/layout/admin_main";
+	}
 
 	// 관리자 유저 디테일 화면조회 이동
 	@RequestMapping(value = "/ad_detailForm", method = RequestMethod.GET)
@@ -156,7 +156,7 @@ public class AdminController {
 		model.addAttribute("page", "admin/ad_detail");
 		return "/layout/admin_main";
 	}
-	
+
 	// 관리자 유저 서비스 정보 화면 이동 (펫시터, 보호자일경우 펫등록정보등등 )
 //		@RequestMapping(value = "/ad_ServiceForm", method = RequestMethod.GET)
 //		public String ad_ServiceForm(@RequestParam("user_no") Integer user_no, Model model) throws Exception {
@@ -298,18 +298,47 @@ public class AdminController {
 //				file.delete();
 //			}
 //		}
-//
 //		// 선택한 공지글을 DB에서 삭제한 후 목록 화면으로 연결
 //		noticeService.notice_delete(id);
-//
 //		return "redirect:ad_list_notice";
 //	} // delete()
-	
-	//공지사항 다중삭제 2022.12.21 김혜경
+
+	// 공지사항 다중삭제 2022.12.21 김혜경
 	@ResponseBody
 	@RequestMapping(value = "/delNotice", method = RequestMethod.POST)
-	public void delNotice(@RequestParam(value="noArr[]") ArrayList<String> noArr, Notice notice) {
+	public void delNotice(@RequestParam(value = "noArr[]") ArrayList<String> noArr, Notice notice) {
 		noticeService.delNotice(noArr);
+		// 선택한 공지글에 첨부된 파일이 있다면 서버의 물리적 영역에서 해당 파일도 삭제한다
+		if (notice.getFilepath() != null) {
+			File file = new File(session.getServletContext().getRealPath("resources") + notice.getFilepath());
+			if (file.exists()) {
+				file.delete();
+			}
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/delQna", method = RequestMethod.POST)
+	public void delQna(@RequestParam(value = "noArr[]") ArrayList<String> noArr, Qna qna) {
+		qnaService.delQna(noArr);
+		if (qna.getFilepath() != null) {
+			File file = new File(session.getServletContext().getRealPath("resources") + qna.getFilepath());
+			if (file.exists()) {
+				file.delete();
+			}
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/delBoard", method = RequestMethod.POST)
+	public void delBoard(@RequestParam(value = "noArr[]") ArrayList<String> noArr, Board board) {
+		boardService.delBoard(noArr);
+		if (board.getFilepath() != null) {
+			File file = new File(session.getServletContext().getRealPath("resources") + board.getFilepath());
+			if (file.exists()) {
+				file.delete();
+			}
+		}
 	}
 
 	// 공지글 수정 화면 요청
@@ -351,13 +380,11 @@ public class AdminController {
 						f.delete();
 					}
 				}
-
 				// 원래 있던 첨부 파일을 그대로 사용하는 경우
 			} else {
 				vo.setFilename(notice.getFilename());
 				vo.setFilepath(notice.getFilepath());
 			}
-
 		}
 
 		// 화면에서 변경한 정보를 DB에 저장한 후 상세 화면으로 연결

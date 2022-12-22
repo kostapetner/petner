@@ -61,14 +61,15 @@
 									<th scope="col">작성자</th>
 									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
-									<th scope="col">첨부 파일</th>
+									<th scope="col">첨부파일</th>
+									<th scope="col" style="text-align: end;">삭제</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${board.list }" var="vo">
 									<tr style="cursor: pointer;">
 										<td class="col-1">${vo.no }</td>
-										<td class="col-5">
+										<td class="col-4">
 										<a
 												href="ad_detail_board?id=${vo.id }&curPage=${board.curPage }">${vo.title }</a>
 										<%-- <a onclick="go_detail(${vo.id})">${vo.title }</a> --%>
@@ -82,32 +83,16 @@
 													class="fa-solid fa-file"></i>
 												</a>
 											</c:if></td>
+											<td class="col-1 d-flex-end" style="text-align: end;">
+										<input type="checkbox" name="table_no" value="${vo.id}"></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</c:if>
 				</div>
+				<button type="submit" class="btn btn-outline-secondary" id="delBtn">삭제</button>
 
-				<%-- <div class="btnSet">
-					<div class="page_list">
-						<button class="page_first" onclick="go_page(1)">처음</button>
-
-						<!-- step : 지정하지 않아도 디폴트 1 -->
-						<c:forEach var="no" begin="${board.beginPage }"
-							end="${board.endPage }" step="1">
-							<c:if test="${no eq board.curPage}">
-								<button class="page_on">${no }</button>
-							</c:if>
-
-							<c:if test="${no ne board.curPage }">
-								<button class="page_off" onclick="go_page(${no })">${no }</button>
-							</c:if>
-						</c:forEach>
-						<button class="page_last" onclick="go_page(${board.totalPage })">마지막</button>
-					</div>
-				</div> --%>
-				
 				<nav aria-label="Page navigation example" class="paging">
 						<ul class="pagination">
 							<li class="page-item"><a class="page-link page_first"
@@ -125,18 +110,14 @@
 								</c:if>
 							</c:forEach>
 							<li class="page-item">
-							<%-- <a class="page-link page_last"
-								href="${board.totalPage }">마지막</a> --%>
 							<a class="page-link page_last"
 								onclick="go_page(${board.totalPage })">마지막</a>
-								
 								</li>
 						</ul>
 					</nav>
 					</form>
 			</div>
 		</div>
-
 		<!-- 관리자 일때.end -->
 	</c:if>
 
@@ -151,14 +132,44 @@
 	<c:import url='/WEB-INF/views/include/not_users.jsp' />
 </c:if>
 
-<!--  -->
-
 <script type="text/javascript">
 $(function(){
 	$('#data-list ul').css('height', 
 			( ( $('.grid li').length % 5 > 0 ? 1 : 0 ) + Math.floor($('.grid li').length / 5) )
 			 * $('.grid li').outerHeight(true) - 20);
-})
+
+//
+//삭제 체크박스 12.21 hyekyung
+	var noArr = [];
+	$("input[name=table_no]").click(function() {
+		noArr = [];
+		//$("input[name=service]").prop("checked", true);
+		$("input[name='table_no']:checked").each(function(e){
+			var value = $(this).val();
+			noArr.push(value);        
+		});
+	});
+	//삭제 체크박스 12.21 hyekyung
+	$("#delBtn").click(function(){
+		console.log("noArr "+noArr);
+		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/delBoard",
+			type : "POST",
+		    data: {"noArr":noArr},
+			success : function() {
+				alert("삭제완료");
+				document.location.reload(true);
+			},
+			error : function(xhr, error) {
+				console.error("error : " + error);
+			}
+		});
+	})
+//
+
+
+
+});
 
 function go_detail(id) {
 	$('[name=id]').val(id);

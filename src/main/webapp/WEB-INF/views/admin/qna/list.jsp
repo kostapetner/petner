@@ -60,15 +60,15 @@
 									<th scope="col">작성자</th>
 									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
-									<th scope="col" style="text-align: end;">첨부파일</th>
+									<th scope="col">첨부파일</th>
+									<th scope="col" style="text-align: end;">삭제</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${qna.list}" var="vo">
 									<tr style="cursor: pointer;">
-										<div class="row">
 											<td class="col-1">${vo.id}</td>
-											<td class="col-5"><c:forEach var="i" begin="1"
+											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
 													<span class="qna_indent">
 													<i class="fa-solid fa-arrow-right"></i> 
@@ -85,15 +85,14 @@
 													<i class="fa-solid fa-file"></i>
 													</a>
 												</c:if></td>
-											
-
-										</div>
+											<td class="col-1 d-flex-end" style="text-align: end;">
+										<input type="checkbox" name="table_no" value="${vo.id}"></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</div>
-					<!-- <button type="submit" class="btn btn-outline-secondary">삭제</button> -->
+					<button type="submit" class="btn btn-outline-secondary" id="delBtn">삭제</button>
 
 					<nav aria-label="Page navigation example" class="paging">
 						<ul class="pagination">
@@ -138,7 +137,38 @@ $(function(){
 	$('#data-list ul').css('height', 
 			( ( $('.grid li').length % 5 > 0 ? 1 : 0 ) + Math.floor($('.grid li').length / 5) )
 			 * $('.grid li').outerHeight(true) - 20);
-})
+	
+	//
+	
+	//삭제 체크박스 12.21 hyekyung
+	var noArr = [];
+	$("input[name=table_no]").click(function() {
+		noArr = [];
+		$("input[name='table_no']:checked").each(function(e){
+			var value = $(this).val();
+			noArr.push(value);        
+		});
+	});
+	//삭제 체크박스 12.21 hyekyung
+	$("#delBtn").click(function(){
+		console.log("noArr "+noArr);
+		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/delQna",
+			type : "POST",
+		    data: {"noArr":noArr},
+			success : function() {
+				alert("삭제완료");
+				document.location.reload(true);
+			},
+			error : function(xhr, error) {
+				console.error("error : " + error);
+			}
+		});
+	})
+	
+	//
+	
+});
 
 function go_detail(id) {
 	$('[name=id]').val(id);

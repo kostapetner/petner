@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kosta.petner.bean.Qna;
@@ -15,4 +16,7 @@ public interface QnaService {
 		void qna_delete(int id); //공지글 삭제
 		void qna_read(int id); //조회수 증가 처리
 		void qna_reply_insert(Qna qna); //답글 저장
+		
+		//qna 다중삭제
+		void delQna(ArrayList<String> noArr);
 }

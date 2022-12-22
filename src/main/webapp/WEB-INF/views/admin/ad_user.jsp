@@ -18,7 +18,7 @@
 				
 				<!--  -->
 <ul class="nav tabs clearfix" data-tabgroup="first-tab-group">
-  <li class="nav-item"><a href="#tab1" class="active nav-link">Tab 1 all</a></li>
+  <li class="nav-item"><a href="#tab1" class="active nav-link">All</a></li>
   <li class="nav-item"><a href="#tab2" class="nav-link">관리자</a></li>
   <li class="nav-item"><a href="#tab3" class="nav-link">카카오</a></li>
   <li class="nav-item"><a href="#tab4" class="nav-link">일반</a></li>

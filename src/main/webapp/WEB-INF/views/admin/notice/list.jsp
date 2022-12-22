@@ -55,15 +55,15 @@
 									<th scope="col">작성자</th>
 									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
-									<th scope="col" style="text-align: end;">첨부파일</th>
-									<!-- <th scope="col" style="text-align: end;">삭제</th> -->
+									<th scope="col">첨부파일</th>
+									<th scope="col" style="text-align: end;">삭제</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${notice.list}" var="vo" end="9">
 									<tr style="cursor: pointer;">
 										<td class="col-1">${vo.id}</td>
-										<td class="col-5"><c:forEach var="i" begin="1"
+										<td class="col-4"><c:forEach var="i" begin="1"
 												end="${vo.indent }">
 												<span class="notice_indent">
 												<i class="fa-solid fa-arrow-right"></i>
@@ -81,8 +81,7 @@
 												</a>
 											</c:if></td>
 										<td class="col-1 d-flex-end" style="text-align: end;">
-										
-										<input type="checkbox" name="notice_no" value="${vo.id}"></td>
+										<input type="checkbox" name="table_no" value="${vo.id}"></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -135,10 +134,10 @@ $(function(){
 
 	//삭제 체크박스 12.21 hyekyung
 	var noArr = [];
-	$("input[name=notice_no]").click(function() {
+	$("input[name=table_no]").click(function() {
 		noArr = [];
 		//$("input[name=service]").prop("checked", true);
-		$("input[name='notice_no']:checked").each(function(e){
+		$("input[name='table_no']:checked").each(function(e){
 			var value = $(this).val();
 			noArr.push(value);        
 		});
@@ -151,7 +150,7 @@ $(function(){
 			type : "POST",
 		    data: {"noArr":noArr},
 			success : function() {
-				alert("success");
+				alert("삭제완료");
 				document.location.reload(true);
 			},
 			error : function(xhr, error) {
