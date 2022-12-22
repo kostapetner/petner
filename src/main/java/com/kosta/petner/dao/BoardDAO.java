@@ -1,6 +1,5 @@
 package com.kosta.petner.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.kosta.petner.bean.Board;
@@ -28,9 +27,6 @@ public interface BoardDAO {
 	int board_comment_update(BoardCommentVO boardVo);
 
 	int board_comment_delete(int id);
-
-	void delBoard(ArrayList<String> noArr);
-
 	
 	
 }
