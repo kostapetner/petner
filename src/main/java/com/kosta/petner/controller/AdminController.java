@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -127,6 +129,24 @@ public class AdminController {
 		}
 		return "/layout/admin_main";
 	}
+	
+	// 관리자페이지 black 회원정보 관리 화면
+		@RequestMapping(value = "/black_user", method = RequestMethod.GET)
+		String black_user(HttpSession session, Model model) {
+
+			try {
+
+				List list = usersDAO.selectAllUsers();
+				model.addAttribute("list", list);
+				model.addAttribute("page", "admin/ad_user_black");
+				model.addAttribute("title", "회원정보 관리");
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("err", "전체 회원정보 조회 실패");
+				model.addAttribute("page", "err");
+			}
+			return "/layout/admin_main";
+		}
 
 	// 관리자 유저 디테일 화면조회 이동
 	@RequestMapping(value = "/ad_detailForm", method = RequestMethod.GET)
@@ -285,6 +305,9 @@ public class AdminController {
 
 		return "redirect:ad_list_notice";
 	} // delete()
+	
+	
+
 
 	// 공지글 수정 화면 요청
 	@RequestMapping("/ad_modify_notice")

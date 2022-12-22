@@ -59,28 +59,29 @@
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
 									<th scope="col">작성자</th>
-									<th scope="col">작성일자</th>
-									<th scope="col">첨부 파일</th>
+									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
+									<th scope="col">첨부 파일</th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${board.list }" var="vo">
 									<tr style="cursor: pointer;">
 										<td class="col-1">${vo.no }</td>
-										<td class="col-4">
+										<td class="col-5">
 										<a
 												href="ad_detail_board?id=${vo.id }&curPage=${board.curPage }">${vo.title }</a>
 										<%-- <a onclick="go_detail(${vo.id})">${vo.title }</a> --%>
 										</td>
 										<td class="col-2">${vo.name }</td>
 										<td class="col-2">${vo.writedate }</td>
-										<td class="col-1"><c:if test="${!empty vo.filename }">
+										
+										<td class="col-1">${vo.readcnt}</td>
+										<td class="col-1" style="text-align: center;"><c:if test="${!empty vo.filename }">
 												<a href="ad_download_board?id=${vo.id }"> <i
 													class="fa-solid fa-file"></i>
 												</a>
 											</c:if></td>
-										<td class="col-1">${vo.readcnt}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

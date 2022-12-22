@@ -55,16 +55,17 @@
 									<th scope="col">작성자</th>
 									<th scope="col">날짜</th>
 									<th scope="col">조회수</th>
-									<th scope="col">첨부파일</th>
-									<th scope="col" style="text-align: end;">삭제</th>
+									<th scope="col" style="text-align: end;">첨부파일</th>
+									<!-- <th scope="col" style="text-align: end;">삭제</th> -->
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${notice.list}" var="vo" end="9">
+								
 									<tr style="cursor: pointer;">
 										<div class="row">
 											<td class="col-1">${vo.id}</td>
-											<td class="col-4"><c:forEach var="i" begin="1"
+											<td class="col-5"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
 													<span class="notice_indent">
 													<i class="fa-solid fa-arrow-right"></i>
@@ -75,22 +76,27 @@
 											</td>
 											<td class="col-2">${vo.writer}</td>
 											<td class="col-2">${vo.writedate}</td>
-											<td class="col-1">${vo.root}</td>
-											<td class="col-1"><c:if test="${!empty vo.filename }">
+											<td class="col-1">${vo.readcnt}</td>
+											<td class="col-1" style="text-align: center;"><c:if test="${!empty vo.filename }">
 													<a href="ad_download_notice?id=${vo.id }">
 													<i class="fa-solid fa-file"></i>
 													</a>
 												</c:if></td>
-											<td class="col-1 d-flex-end" style="text-align: end;"><input
-												type="checkbox" name="notice_no" value="${vo.id}"></td>
+											<%-- <td class="col-1 d-flex-end" style="text-align: end;">
+											
+											<input
+												type="checkbox" name="notice_no" value="${vo.id}">
+												
+												</td> --%>
 
 										</div>
 									</tr>
+									
 								</c:forEach>
 							</tbody>
 						</table>
 					</div>
-					<button type="submit" class="btn btn-outline-secondary">삭제</button>
+					<!-- <button type="submit" class="btn btn-outline-secondary">삭제</button> -->
 
 					<nav aria-label="Page navigation example" class="paging">
 						<ul class="pagination">
@@ -153,4 +159,30 @@ function go_page(no) {
 
 
 
+</script>
+
+
+<script>
+//체크박스 선택 후 삭제 버튼 클릭시 이벤트 
+/* function folderDeleteClick(){
+  var checkBoxArr = []; 
+  $("input:checkbox[name='folderCheckname']:checked").each(function() {
+  checkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+  console.log(checkBoxArr);
+})
+
+  $.ajax({
+      type  : "POST",
+      url    : "<c:url value='/folderDelete.do'/>",
+      data: {
+      checkBoxArr : checkBoxArr        // folder seq 값을 가지고 있음.
+      },
+      success: function(result){
+      	console.log(result);
+      },
+      error: function(xhr, status, error) {
+      	alert(error);
+      }  
+   });
+} */
 </script>
