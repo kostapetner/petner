@@ -46,47 +46,6 @@
 			</div>
 			
 		</div>
-		<!-- FOOTER BASIC -->
-		<c:import url='/WEB-INF/views/include/footer.jsp' />
-	</div>
-</body>
-</html>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script type='text/javascript'>
-	//<![CDATA[
-		// 사용할 앱의 JavaScript 키를 설정해 주세요.
-		Kakao.init('c0e219869901ec8d8a08516bae54855c');
-		// 카카오톡 채널 1:1채팅 버튼을 생성합니다.
-		Kakao.Channel.createChatButton({
-		  container: '#kakao-talk-channel-chat-button',
-		  channelPublicId: '_QLywxj' // 카카오톡 채널 홈 URL에 명시된 ID
-		});
-	//]]>
-</script>
-			</div>
-			
-		</div>
-		
-		<!-- FOOTER BASIC -->
-		<c:import url='/WEB-INF/views/include/footer.jsp' />
-	</div>
-</body>
-</html>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script type='text/javascript'>
-	//<![CDATA[
-		// 사용할 앱의 JavaScript 키를 설정해 주세요.
-		Kakao.init('c0e219869901ec8d8a08516bae54855c');
-		// 카카오톡 채널 1:1채팅 버튼을 생성합니다.
-		Kakao.Channel.createChatButton({
-		  container: '#kakao-talk-channel-chat-button',
-		  channelPublicId: '_QLywxj' // 카카오톡 채널 홈 URL에 명시된 ID
-		});
-	//]]>
-</script>
-			</div>
-			
-		</div>
 		
 		<!-- FOOTER BASIC -->
 		<c:import url='/WEB-INF/views/include/footer.jsp' />

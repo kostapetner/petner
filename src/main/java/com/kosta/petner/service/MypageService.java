@@ -3,9 +3,7 @@ package com.kosta.petner.service;
 import java.util.List;
 import java.util.Map;
 
-import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
-import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 
@@ -35,12 +33,6 @@ public interface MypageService {
 	// 파일 가져오기
 	String getFile(Integer file_no);
 	
-	//리뷰 작성
-//	void resistReview(Review reivew);
-	
-	//내가 쓴 리뷰 리스트
-	List<Review> writtenReviewList(Integer page, PageInfo pageInfo);
-	
 	// 나의 반려동물 한마리 가져오기
 	PetInfo getMyPetByPetNo(Map<String, Object> param);
 	
@@ -49,6 +41,6 @@ public interface MypageService {
 	
 	// 반려동물 삭제하기
 	int deletePet(int pet_no);
-
+	
 	
 } 

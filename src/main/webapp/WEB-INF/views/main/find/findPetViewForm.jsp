@@ -86,7 +86,6 @@ $( document ).ready( function() {
 							</c:if>
 						</div>
 					</div>
-
 					<br>
 				<form action= "${pageContext.request.contextPath}/createChat.do" method="post">
 				<input type="hidden" name="user_nickname" value= "${authUser.nickname}"/>

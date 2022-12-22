@@ -18,6 +18,7 @@ import com.kosta.petner.bean.ChatMessage;
 import com.kosta.petner.bean.ChatRoom;
 import com.kosta.petner.bean.ChatSession;
 import com.kosta.petner.bean.Users;
+import com.kosta.petner.dao.ChatDAO;
 import com.kosta.petner.service.ChatService;
 
 
@@ -96,8 +97,8 @@ public class ChatController {
     * @return
     */
  
-   @RequestMapping(value="createChat.do", method = RequestMethod.POST)
-   public String createChat(ChatRoom room, String user_nickname, String user_id){
+   @RequestMapping(value="/createChat.do", method = RequestMethod.POST)
+   public String createChat(ChatRoom room, @RequestParam String user_nickname, @RequestParam String user_id){
        
 		/* UserMaster m = pService.getProductDetail(masterNickname); */
        
@@ -146,7 +147,7 @@ public class ChatController {
            int count = cService.selectUnReadCount(message);
            cList.get(i).setUnReadCount(count);
        }
-       System.out.println(cList);
+       System.out.println("방목록:" +cList);
        model.addAttribute("cList", cList);
        response.setContentType("application/json; charset=utf-8");
 
@@ -164,5 +165,16 @@ public class ChatController {
        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
        gson.toJson(chatSessionList,response.getWriter());
    }
+   
+   @ResponseBody
+   @RequestMapping("/deleteRoom")
+   public String deleteRoom(String room_id) {
+	   cService.deleteRoom(room_id);
+	   System.out.println(room_id + "번의방삭제");
+	   
+	  return "redirect:/";
+
+   }
+   
    
 }

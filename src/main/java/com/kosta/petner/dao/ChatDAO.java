@@ -32,6 +32,8 @@ public interface ChatDAO {
 	 
 	  //읽은 메세지 0으로 바꾸기
 	  public int updateCount(ChatMessage message);
+	  
+	  public void deleteRoom(String room_id);
 	 
 	}
 

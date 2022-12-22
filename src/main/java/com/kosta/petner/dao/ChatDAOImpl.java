@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kosta.petner.bean.ChatMessage;
 import com.kosta.petner.bean.ChatRoom;
-import com.kosta.petner.bean.Review;
 
 
 @Repository
-
 public class ChatDAOImpl implements ChatDAO{
 
 	@Autowired
@@ -62,9 +60,15 @@ public class ChatDAOImpl implements ChatDAO{
     public int updateCount(ChatMessage message) {
         return sqlSession.update("mapper.chat.updateCount", message);
     }
+
+	@Override
+	public void deleteRoom(String room_id) {
+		sqlSession.delete("mapper.chat.deleteRoom", room_id);
+	}
 	
 	
 	
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kosta.petner.bean.Board;
@@ -20,4 +21,7 @@ public interface BoardService {
 	List<BoardCommentVO> board_comment_list(int pid);
 	int board_comment_update(BoardCommentVO vo);
 	int board_comment_delete(int id);
+	
+	//board 다중삭제
+	void delBoard(ArrayList<String> noArr);
 }

@@ -67,6 +67,14 @@
 			END}
 		]]>
 	</insert>
+	
+	<!-- 공지사항 다중삭제 2022.12.21 김혜경 -->
+	<delete id="delNotice">
+		DELETE FROM notice WHERE id IN
+		<foreach item="item" index="index" collection="noArr" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>
 
 

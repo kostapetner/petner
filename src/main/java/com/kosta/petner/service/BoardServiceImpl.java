@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int board_comment_delete(int id) {
 		return boardDao.board_comment_delete(id);
+	}
+
+	@Override
+	public void delBoard(ArrayList<String> noArr) {
+		boardDao.delBoard(noArr);
 	}
 
 }

@@ -6,14 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
-import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.dao.FileDAO;
 import com.kosta.petner.dao.OwnerDAO;
-import com.kosta.petner.dao.ReviewDAO;
 import com.kosta.petner.dao.SitterDAO;
 import com.kosta.petner.dao.UsersDAO;
 
@@ -31,10 +28,6 @@ public class MypageServiceImpl implements MypageService {
 	
 	@Autowired
 	FileDAO fileDAO;
-	
-	@Autowired
-	ReviewDAO reviewDAO;
-	
 	
 	// 기본정보
 	@Override
@@ -94,22 +87,10 @@ public class MypageServiceImpl implements MypageService {
 	public int updateMyPetInfo(PetInfo petInfo) {
 		return ownerDAO.updateMyPetInfo(petInfo);
 	}
-	
 	@Override
 	public int deletePet(int pet_no) {
 		return ownerDAO.deletePet(pet_no);
 	}
-	@Override
-	public List<Review> writtenReviewList(Integer page, PageInfo pageInfo) {
-		return reviewDAO.writtenReviewList(page, pageInfo);
-	}
-	
-//	@Override
-//	public void resistReview(Review reivew) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
 	
 	
 

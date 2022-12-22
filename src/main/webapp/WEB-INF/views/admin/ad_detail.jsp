@@ -19,13 +19,66 @@ textarea {
 	$(document)
 			.ready(
 					function() {
-						var user_type = '${users.user_type}';
+						var user_auth = '${users.user_auth}';
 
-						if (user_type <= 8) {
-							$("input:checkbox[name='user_type']:checkbox[value='1']")
+						if (user_auth == 10) {
+							$("input:checkbox[name='user_auth']:checkbox[value='10']")
+							.attr("checked", true);
+						} else if (user_auth == 9) {
+							$("input:checkbox[name='user_auth']:checkbox[value='9']")
+							.attr("checked", true);
+						} else if (user_auth == 2) {
+							$("input:checkbox[name='user_auth']:checkbox[value='2']")
+							.attr("checked", true);
+						} else if (user_auth == 1) {
+							$("input:checkbox[name='user_auth']:checkbox[value='1']")
+							.attr("checked", true);
+						} else if (user_auth == 0) {
+							$("input:checkbox[name='user_auth']:checkbox[value='0']")
+							.attr("checked", true);
+						}
+					}
+			);
+	/* 체크박스 하나만 선택되게 하기 */
+	function checkOnlyOne1(element) {
+		  
+		  const checkboxes1 
+		      = document.getElementsByName("user_auth");
+		  
+		  checkboxes1.forEach((cb) => {
+		    cb.checked = false;
+		  })
+		  
+		  element.checked = true;
+		}
+	
+	$(document).ready(function(){
+		// 체크
+		let tyep_kind = '${users.user_auth}';
+		tyep_kind = tyep_kind.split(',');
+		console.log(tyep_kind);
+		
+		tyep_kind.forEach(function(e){
+		    $("input[value="+e+"]").prop("checked", true);
+		});
+	})
+</script>
+
+<script>
+	/* user_type 이 9 일 경우에 체크박스 체크되어있게 */
+	$(document)
+			.ready(
+					function() {
+						var user_level = '${users.user_level}';
+
+						if (user_level == 'Gold') {
+							$("input:checkbox[name='user_level']:checkbox[value='Gold']")
+							.attr("checked", true);
+						} else if (user_level == 'Silver') {
+							$("input:checkbox[name='user_level']:checkbox[value='Silver']")
 							.attr("checked", true);
 						} else {
-							$("input:checkbox[name='user_type']:checkbox[value='9']")
+							$("input:checkbox[name='user_level']:checkbox[value='Bronze']")
 							.attr("checked", true);
 						}
 					}
@@ -34,7 +87,7 @@ textarea {
 	function checkOnlyOne(element) {
 		  
 		  const checkboxes 
-		      = document.getElementsByName("user_type");
+		      = document.getElementsByName("user_level");
 		  
 		  checkboxes.forEach((cb) => {
 		    cb.checked = false;
@@ -45,7 +98,7 @@ textarea {
 	
 	$(document).ready(function(){
 		// 체크
-		let tyep_kind = '${users.user_type}';
+		let tyep_kind = '${users.user_level}';
 		tyep_kind = tyep_kind.split(',');
 		console.log(tyep_kind);
 		
@@ -69,16 +122,33 @@ textarea {
 				</li>
 				<li>
 					<p>회원구분 :</p>
-					<p>${users.user_type}</p>
+					<p>${users.user_auth}</p>
 						<!-- user_type 체크박스 -->
 					<div class="form-inline">
-							<label>
-								<input type="checkbox" name="user_type"
-								value="1" onclick="checkOnlyOne(this)" placeholder="${users.user_type}">일반회원</label> 
-							<label>
+								<label>
 								<input
-								type="checkbox" name="user_type" value="9"
-								onclick="checkOnlyOne(this)"  placeholder="${users.user_type}">관리자</label>
+								type="checkbox" name="user_auth" value="10"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">최고관리자</label>
+							
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="9"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">관리자</label>
+								
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="0"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">블랙</label>
+								
+								<label>
+								<input
+								type="checkbox" name="user_auth" value="2"
+								onclick="checkOnlyOne1(this)"  placeholder="${users.user_auth}">카카오</label>
+								
+								<label>
+								<input 
+								type="checkbox" name="user_auth" value="1" 
+								onclick="checkOnlyOne1(this)" placeholder="${users.user_auth}">일반회원</label> 
 					</div>
 				</li>
 				<li>
@@ -89,9 +159,10 @@ textarea {
 					<p>아이디 :</p>
 					<p>${users.id}</p>				
 				</li>
-				<li>
+				<li class="user_nickname">
 					<p>닉네임 :</p>
-					<p>${users.nickname}</p>
+					<%-- <p>${users.nickname}</p> --%>
+					<input type="text" name="nickname" value="${users.nickname}">
 				</li>
 				<li>
 					<p>이메일 :</p>
@@ -116,23 +187,27 @@ textarea {
 				<li>
 					<p>등급 :</p>
 					<p>${users.user_level}</p>
+					<div class="form-inline">
+							<label>
+								<input type="checkbox" name="user_level"
+								value="Gold" onclick="checkOnlyOne(this)" placeholder="${users.user_level}">Gold</label> 
+							<label>
+								<input
+								type="checkbox" name="user_level" value="Silver"
+								onclick="checkOnlyOne(this)"  placeholder="${users.user_level}">Silver</label>
+								<label>
+								<input
+								type="checkbox" name="user_level" value="Bronze"
+								onclick="checkOnlyOne(this)"  placeholder="${users.user_level}">Bronze</label>
+					</div>
 				</li>
 
 			</ul>
 
 			<button type="submit" class="btn btn-outline-secondary" style="display:inline-block;">
-			<%-- <a href="javascript:ad_detailmodify?user_type=${users.user_type}">회원정보 변경</a> --%>
 				회원정보 변경
 				</button>
-				<!-- 특정대상과 채팅방 만들기  -->
-				</form>
-				<form action= "createChat.do" method="post">
-				<input type="hidden" name=user_nickname value= "${authUser.nickname}"/>
-				<input type="hidden" name=user_id value= "${authUser.id}"/>			
-				<input type="hidden" name=another_nickname value= "${users.nickname}"/>
-				<input type="hidden" name=another_id value= "${users.id}"/>
-			
-				<button type="submit" class="btn btn-outline-secondary" value="채팅하기"><i class="fa-solid fa-comment-dots"></i></button>
-				</form>
+			</form>
+	
 	</div>
 </div>

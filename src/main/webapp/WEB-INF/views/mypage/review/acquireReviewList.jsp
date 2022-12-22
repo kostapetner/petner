@@ -6,14 +6,6 @@
 <c:set var="imgPath"
 	value="${pageContext.request.contextPath}/resources/images" />
 
-<style>
-.reviewdan {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-</style>
-
 <div class="content">
 	<!-- 상단 -->
 	<div></div>
@@ -22,20 +14,13 @@
 	<div class="review_content">
 		<ul class="review_box">
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -52,20 +37,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -82,20 +60,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -112,20 +83,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -142,20 +106,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -172,20 +129,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -202,20 +152,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->
@@ -232,20 +175,13 @@
 				</ul>
 			</li>
 			<li class="item">
-				<!-- review img --> <img src="${imgPath}/review_img.png" />
+				<!-- review img -->
+				<img src="${imgPath}/review_img.png" />
 				<ul class="information">
 					<!-- review text -->
 					<li><p>생후 3개월차 아기 포메 알콩이 2틀만 돌봐주실 분 구합니다! 인근 거주자 환...</p></li>
 					<!-- review day -->
-					<div class="reviewdan">
-						<li><p>2022 / 08 / 23</p></li>
-						<li>
-							<button type="submit" class="pet_btn review_btn">
-								<a
-									href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰쓰기</a>
-							</button>
-						</li>
-					</div>
+					<li><p>2022 / 08 / 23</p></li>
 					<!-- review box -->
 					<li class="box">
 						<!-- user img -->

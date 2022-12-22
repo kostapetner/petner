@@ -29,30 +29,38 @@ table {
 }
 
 textarea {
-	border: 1px solid #ced4da;
-	border-radius: 0.375rem;
-	width: 80%;
-	max-height: 400px;
-	resize: none;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+	width : 80%;
+    max-height: 400px;
+    resize: none;
 }
 
-.input-group {
-	padding-bottom: 40px
+.star_rating {
+	font-size: 0;
+	letter-spacing: -4px;
 }
 
-.input-group-text {
-	margin-bottom: 50px
+.star_rating a {
+	font-size: 22px;
+	letter-spacing: 0;
+	display: inline-block;
+	margin-left: 5px;
+	color: #ccc;
+	text-decoration: none;
 }
 
-.rate .on {
-	font-size: 20px;
-	color: #ff9966 !important;
-}
-.rate:not(.on) {
-  color: #dddddd;
-  font-size: 20px;
+.star_rating a:first-child {
+	margin-left: 0;
 }
 
+.star_rating a.on {
+	color: #777;
+}
+
+.input-group{
+ padding-bottom:40px
+}
 </style>
 
 <!-- 공지사항 글 등록 -->
@@ -65,46 +73,42 @@ textarea {
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">제 목</span> <br>
 				<br> <input type="text" class="form-control"
-					name="title" id="title" required="required"
-					aria-label="제 목" aria-describedby="addon-wrapping">
+					name="review_title" id="review_title" required="required"
+					aria-label="제 목"
+					aria-describedby="addon-wrapping">
 			</div>
 
 
 			<div class="input-group flex-nowrap">
 				<span class="input-group-text" id="addon-wrapping">내 용</span> <br>
 				<br>
-				<textarea id="content" class="fcc_textarea form-control"
-					name="content" cols="40" rows="15" required="required">
+				<textarea id="review_content" class="fcc_textarea form-control"
+					name="review_content" cols="40" rows="15" required="required">
 				</textarea>
+				<br>
+				<span class="input-group-text" id="addon-wrapping">파일첨부</span> <input
+					type="file" class="form-control" name="file" id="file_no"
+					placeholder="Username" aria-label="파일첨부"
+					aria-describedby="addon-wrapping">
 			</div>
 
-
+			
 
 
 			<div input-group flex-nowrap>
 				<span class="input-group-text" id="addon-wrapping">별 점</span><br>
-				<div class="rate-group" id="rate">
-					<p class="rate">
-						<span class="rate" id="rating1"><i class="fa-solid fa-paw"></i></span> 
-						<span class="rate" id="rating2"><i class="fa-solid fa-paw "></i></span> 
-						<span class="rate" id="rating3"><i class="fa-solid fa-paw "></i></span> 
-						<span class="rate" id="rating4"><i class="fa-solid fa-paw "></i></span> 
-						<span class="rate" id="rating5"><i class="fa-solid fa-paw "></i></span>
-					</p>
-				</div>
+				<span class="star_rating">
+					<a href="#" class="on">★</a> <a href="#" class="on">★</a> <a
+						href="#" class="on">★</a> <a href="#">★</a> <a href="#">★</a>
 				</span>
 
 
 			</div>
 
-
-
 			<section id="commandCell">
 				<div class="d-grid gap-2 d-md-block">
-
-					<button type="submit" class="pet_btn btn-outline-secondary">
-					<a
-						href="${pageContext.request.contextPath}/mypage/review/reviewwrite">등록</a></button>
+				
+					<button type="submit" class="pet_btn btn-outline-secondary">등록</button>
 					<button type="reset" class="pet_btn btn-outline-secondary">다시쓰기</button>
 				</div>
 			</section>
@@ -113,38 +117,9 @@ textarea {
 </div>
 
 <script>
-	/* $(".rate span").click(function() {
-		$(this).parent().children('span').removeClass('on');
-		$(this).addClass('on').prevAll('span').addClass('on');
+	$(".star_rating a").click(function() {
+		$(this).parent().children("a").removeClass("on");
+		$(this).addClass("on").prevAll("a").addClass("on");
 		return false;
 	});
-	 */
-	 
-	 (function () {
-		    var rateEls = document.querySelectorAll('#rate span.rate');
-		    var rate = 0;
-
-		    loop(rateEls, function (el, index) {
-		        el.addEventListener('click', function () {
-		            rating(index + 1);
-		        });
-		    });
-
-		    function loop(list, func) {
-		        Array.prototype.forEach.call(list, func);
-		    }
-
-		    function rating(score) {
-		        loop(rateEls, function (el, index) {
-		            if (index < score) {
-		                el.classList.add('on');
-		            } else {
-		                el.classList.remove('on');
-		            }
-		        });
-
-		        rate = score;
-		    }
-		})();
-	
 </script>

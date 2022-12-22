@@ -30,5 +30,6 @@ public class CareService{
 	private String server_filename;
 	private MultipartFile imageFile;
 	private String nickname;
+	private String id;
 	
 }

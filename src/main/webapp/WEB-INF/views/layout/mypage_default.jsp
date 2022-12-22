@@ -213,8 +213,8 @@
 							<li>
 								<p class="first_menu">리뷰관리</p>
 								<div class="second_menu">
-									<a href="${pageContext.request.contextPath}/mypage/review/myReviewList">리뷰 쓰기</a> 
-									<a href="${pageContext.request.contextPath}/mypage/review/writtenReviewList">내가 쓴 리뷰</a> 
+									<a href="${pageContext.request.contextPath}/mypage/review/writeform">리뷰 쓰기</a> 
+									<a href="${pageContext.request.contextPath}/mypage/review/acquireReviewList">내가 쓴 리뷰</a> 
 									<a href="${pageContext.request.contextPath}/mypage/review/receiveReviewList">내가 받은 리뷰</a>
 								</div>
 							</li>
