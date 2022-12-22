@@ -128,6 +128,24 @@ public class AdminController {
 		}
 		return "/layout/admin_main";
 	}
+	
+	// 관리자페이지 black 회원정보 관리 화면
+		@RequestMapping(value = "/black_user", method = RequestMethod.GET)
+		String black_user(HttpSession session, Model model) {
+
+			try {
+
+				List list = usersDAO.selectAllUsers();
+				model.addAttribute("list", list);
+				model.addAttribute("page", "admin/ad_user_black");
+				model.addAttribute("title", "회원정보 관리");
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("err", "전체 회원정보 조회 실패");
+				model.addAttribute("page", "err");
+			}
+			return "/layout/admin_main";
+		}
 
 	// 관리자 유저 디테일 화면조회 이동
 	@RequestMapping(value = "/ad_detailForm", method = RequestMethod.GET)
