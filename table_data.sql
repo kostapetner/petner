@@ -113,12 +113,23 @@ END;
 
 COMMIT;
 
---========================================================
-INSERT INTO board (title, content, writer, filename, filepath)
-SELECT title, content, writer, filename, filepath
-FROM board;
 
---========================================================
+-- test db
+
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (12, '테스트룰루랄라', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (13, '테스트이용', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (14, '글글', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (15, '글 테스트입니다.', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (16, '글 테스트이다', '내용내용', 'user_1',sysdate);
+
+
+
+
 CREATE TABLE board_comment (
 	id NUMBER constraint board_comment_id_pk PRIMARY KEY,
 	pid NUMBER NOT NULL, /* 원글의 아이디 */
@@ -140,7 +151,6 @@ CREATE OR REPLACE TRIGGER trg_board_comment
 BEGIN
     SELECT seq_board_comment.NEXTVAL INTO :NEW.id FROM dual;
 END;
-/
 
 COMMIT;
 -- board 완료.end ==================================================

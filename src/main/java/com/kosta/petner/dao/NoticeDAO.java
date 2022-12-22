@@ -1,5 +1,6 @@
 package com.kosta.petner.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kosta.petner.bean.Notice;
@@ -23,6 +24,8 @@ public interface NoticeDAO {
 	NoticePage notice_list(NoticePage noticePage);
 
 	void notice_reply_insert(Notice notice);
+
+	void delNotice(ArrayList<String> noArr);
 	
 	
 }
