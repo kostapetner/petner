@@ -3,61 +3,80 @@
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
                         
 <mapper namespace="mapper.board">
-	<insert id="insertBoard" parameterType="com.kosta.petner.bean.Board">
-		<![CDATA[
-			insert into board (board_num,board_name,board_subject,board_content,board_file,
-				board_re_ref, board_re_lev, board_re_seq, board_readcount, board_date)
-			values(#{board_num},#{board_name},#{board_subject},#{board_content},#{board_file, jdbcType=VARCHAR},
-				#{board_re_ref},#{board_re_lev},#{board_re_seq},#{board_readcount},sysdate)
-		]]>
+	<select id="total" resultType="integer">
+		SELECT COUNT(*) FROM board <include refid="search"/>
+	</select>
+	
+	<select id="list" resultType="com.kosta.petner.bean.Board">
+		SELECT n.*, (SELECT name FROM users WHERE users.id=writer) name
+		FROM (SELECT b.*, ROWNUM no
+	   	 	  FROM (SELECT * FROM board <include refid="search"/> ORDER by id) b
+			  ORDER BY no DESC) n
+		WHERE no BETWEEN #{beginList } AND #{endList }
+					
+	</select>
+	
+	<sql id="search">
+		<if test="search == 'title' or search == 'content'" >
+			WHERE ${search } LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test="search == 'writer'" >
+			WHERE <include refid="writer" />
+		</if>
+		<if test="search == 'all'">
+			WHERE TITLE LIKE '%' || #{keyword } || '%'
+			OR content LIKE '%' || #{keyword } || '%'
+			OR <include refid="writer" />
+		</if>
+	</sql>
+	
+	<sql id="writer">
+		writer IN (SELECT id FROM users WHERE name LIKE '%' || #{keyword } || '%')
+	</sql>
+	
+	<insert id="insert">
+		INSERT INTO board(title, content, writer, filename, filepath)
+		VALUES (#{title }, #{content}, #{writer}, #{filename, jdbcType=VARCHAR}, #{filepath, jdbcType=VARCHAR} )
 	</insert>
 	
-	<select id="selectMaxBoardNum" resultType="Integer">
-		<![CDATA[
-			select max(board_num) from board
-		]]>
-	</select>
-	
-	<select id="selectBoardList" resultType="com.kosta.petner.bean.Board" parameterType="Integer">
-		<![CDATA[
-			select board_num,board_name,board_subject,board_content,board_file,board_re_ref,
-				board_re_lev,board_re_seq,board_readcount,board_date 
-			from (select row_number() over (order by board_re_ref desc, board_re_seq asc) num, B.*
-					from board B order by board_re_ref desc, board_re_seq asc)
-			where num between #{row} and #{row}+9
-		]]>
-	</select>
-	
-	<select id="selectBoardCount" resultType="Integer">
-		<![CDATA[
-			select count(*) from board
-		]]>
-	</select>
-	
-	<select id="selectBoard" resultType="com.kosta.petner.bean.Board" parameterType="Integer">
-		<![CDATA[
-			select * from board where board_num=#{board_num}
-		]]>
-	</select>
-	
-	<update id="updateBoard" parameterType="com.kosta.petner.bean.Board">
-		<![CDATA[
-			update board set board_subject=#{board_subject}, board_content=#{board_content}
-			where board_num=#{board_num}
-		]]>
+	<update id="read">
+		UPDATE BOARD SET readcnt= readcnt + 1 WHERE id= #{id }
 	</update>
 	
-	<update id="updateBoardReReq" parameterType="com.kosta.petner.bean.Board">
-		<![CDATA[
-			update board set board_re_seq=board_re_seq+1
-			where board_re_ref=#{board_re_ref} and board_re_seq>#{board_re_seq}
-		]]>
+	<select id="detail" resultType="com.kosta.petner.bean.Board">
+		SELECT b.*, (SELECT name FROM users u WHERE u.id= b.writer) name
+		FROM board b 
+		WHERE id=#{id }
+	</select>
+	
+	<update id="update">
+		UPDATE board SET title=#{title }, content=#{content }, filename=#{filename, jdbcType=VARCHAR}, filepath=#{filepath, jdbcType=VARCHAR}
+		WHERE id=#{id }
 	</update>
 	
-	<delete id="deleteBoard" parameterType="Integer">
-		<![CDATA[
-			delete from board where board_num=#{boardNum}
-		]]>
+	<delete id="delete">
+		DELETE FROM board WHERE id=#{id}
+	</delete>
+	
+	<insert id="comment_insert">
+		INSERT INTO board_comment(content, pid, writer)
+		VALUES (#{content}, #{pid}, #{writer})
+	</insert>
+	
+	<select id="comment_list" resultType="com.kosta.petner.bean.BoardCommentVO">
+		SELECT c.*, (SELECT name FROM users u WHERE u.id=writer) name,
+				TO_CHAR(writedate, 'yyyy-mm-dd hh24:mi:ss') writedate
+		FROM board_comment c
+		WHERE pid=#{pid}
+		ORDER BY id DESC
+	</select>
+	
+	<update id="comment_update">
+		UPDATE board_comment SET content=#{content} WHERE id=#{id}
+	</update>
+	
+	<delete id="comment_delete">
+		DELETE FROM board_comment WHERE id=#{id}
 	</delete>
 </mapper>
 
