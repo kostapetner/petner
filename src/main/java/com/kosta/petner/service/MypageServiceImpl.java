@@ -104,6 +104,11 @@ public class MypageServiceImpl implements MypageService {
 		return reviewDAO.writtenReviewList(page, pageInfo);
 	}
 	
+//	@Override
+//	public void resistReview(Review reivew) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 	
 	

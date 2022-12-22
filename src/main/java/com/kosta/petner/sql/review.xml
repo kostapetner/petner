@@ -35,6 +35,16 @@
 		<id property="file_no" column="file_no"/>
 	</resultMap>
 	
+	<insert id="writeReview"
+		parameterType="com.kosta.petner.bean.Review">
+		<![CDATA[
+			insert into review(review_no, review_active_user, review_passive_user, title, content, rating
+			, review_date)
+			values(#{reviewNo}, #{reviewActiveUser}, #{reviewPassiveUser}, #{title}, #{content}
+			, #{content}, #{rating}, sysdate)
+		]]>
+	</insert>
+	
 	<!-- 내가 작성한 리뷰 갯수 조회 -->
 	<select id="writtenReviewConunt" resultType="Integer">
 		<![CDATA[

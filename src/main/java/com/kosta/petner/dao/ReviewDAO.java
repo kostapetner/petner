@@ -12,5 +12,7 @@ public interface ReviewDAO {
 	
 	//내가 쓴 게시글
 	List<Review> writtenReviewList(Integer page, PageInfo pageInfo);
-
+	
+	//리뷰작성
+	void writeReview(Review review);
 }

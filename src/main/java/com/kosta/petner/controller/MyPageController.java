@@ -25,15 +25,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.petner.bean.FileVO;
-import com.kosta.petner.bean.JSONResult;
 import com.kosta.petner.bean.MypageSession;
 import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
+import com.kosta.petner.bean.Review;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
 import com.kosta.petner.service.FileService;
@@ -132,8 +131,8 @@ public class MyPageController {
 		// System.out.print("유저에서 파일있나 확인"+file_no_chk);
 
 		// file_no=0이면 insert ( 파일테이블에), 아니면 업데이트 user정보 업데이트는 동일함 서버에 이미지 올리는것도 동일
-		System.out.println("거지같네"+users.getImageFile().isEmpty());
-		
+		System.out.println("거지같네" + users.getImageFile().isEmpty());
+
 		if (users.getImageFile().isEmpty() == false) {
 			System.out.println("멀티파트있음");
 			// 파일
@@ -188,18 +187,13 @@ public class MyPageController {
 				int file_no_to_update = fileService.getFileNo(server_filename);
 				System.out.println("file_no_to_update?" + file_no_to_update);
 				users.setFile_no(file_no_to_update);
-			} 
-				
-				
-			
+			}
 
-		}else {
+		} else {
 			users.setFile_no(file_no_chk);
-			System.out.println("멀티파트없는것같음 누른적없음"+file_no_chk);
+			System.out.println("멀티파트없는것같음 누른적없음" + file_no_chk);
 		}
-		
-		
-		
+
 		System.out.println("밖에서바뀌는가?" + users);
 		mypageService.updateMyinfo(users); // 유저테이블정보업데이트
 
@@ -431,9 +425,8 @@ public class MyPageController {
 		return "redirect:/mypage/myPetInfo";
 	}
 
-
 	// 리뷰 리스트
-	@RequestMapping(value = "/mypage/review/myReviewList", method =  RequestMethod.GET)
+	@RequestMapping(value = "/mypage/review/myReviewList", method = RequestMethod.GET)
 	public String myReviewList(Model model,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 		// 페이징
@@ -453,6 +446,27 @@ public class MyPageController {
 
 		model.addAttribute("page", "mypage/review/writeform");
 		model.addAttribute("title", "리뷰쓰기");
+		return "/layout/mypage_default";
+	}
+
+	/*
+	 * @RequestMapping(value = "/mypage/review/reviewwrite", method =
+	 * RequestMethod.POST) public String reviewWrite(HttpSession session, Model
+	 * model) { int reviewActiveUser = getLoginUserNo(session);
+	 * 
+	 * System.out.println("로그인 정보 : " + reviewActiveUser);
+	 * 
+	 * 
+	 * 
+	 * model.addAttribute("data", review); model.addAttribute("page",
+	 * "/mypage/review/reviewwrite"); model.addAttribute("title", "반려동물정보수정");
+	 * 
+	 * return null; }
+	 */
+	@RequestMapping("/mypage/review/reviewwrite")
+	public String reviewWrite(HttpSession session, Model model) {
+		model.addAttribute("page", "/mypage/review/reviewList");
+		model.addAttribute("title", "리뷰작성");
 		return "/layout/mypage_default";
 	}
 
@@ -512,27 +526,20 @@ public class MyPageController {
 	}
 
 	/*
-	//리뷰 작성
-	@RequestMapping(value="/mypage/review/reviewWrite",
-	  method=RequestMethod.POST) 
-	public ModelAndView reviewWrite(@ModelAttribute Review review) { 
-		ModelAndView mav = new ModelAndView(); 
-		
-		try {
-			
-			if(!file.isEmpty()) {
-				File destFile = new File(path+file.getOriginalFilename());
-				file.transferTo(destFile);
-				review.setBoard_file(file.getOriginalFilename());
-			}
-			
-			mav.setViewName("redirect:/reviewWrite");
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return mav;
-	}*/
-	 
-	
+	 * //리뷰 작성
+	 * 
+	 * @RequestMapping(value="/mypage/review/reviewWrite",
+	 * method=RequestMethod.POST) public ModelAndView reviewWrite(@ModelAttribute
+	 * Review review) { ModelAndView mav = new ModelAndView();
+	 * 
+	 * try {
+	 * 
+	 * if(!file.isEmpty()) { File destFile = new
+	 * File(path+file.getOriginalFilename()); file.transferTo(destFile);
+	 * review.setBoard_file(file.getOriginalFilename()); }
+	 * 
+	 * mav.setViewName("redirect:/reviewWrite"); }catch(Exception e) {
+	 * e.printStackTrace(); } return mav; }
+	 */
 
 }

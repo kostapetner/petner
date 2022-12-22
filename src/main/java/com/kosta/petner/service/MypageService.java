@@ -35,6 +35,9 @@ public interface MypageService {
 	// 파일 가져오기
 	String getFile(Integer file_no);
 	
+	//리뷰 작성
+//	void resistReview(Review reivew);
+	
 	//내가 쓴 리뷰 리스트
 	List<Review> writtenReviewList(Integer page, PageInfo pageInfo);
 	
