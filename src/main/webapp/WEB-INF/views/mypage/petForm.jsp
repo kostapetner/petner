@@ -67,12 +67,12 @@
 	<!-- 나이 -->
 	<div class="f_row">
 		<p class="fc_title">반려동물의 나이를 알려주세요</p>
-		<input type="number" name="pet_age"/>
+		<input type="number" name="pet_age" min="1"/>
 	</div>
 	<!-- 체중 -->
 	<div class="f_row weight">
 		<p class="fc_title">반려동물의 체중을 알려주세요</p>
-		<input type="number" name="pet_weight" class="mr12" style="min-width: auto; width: 228.65px;" />
+		<input type="number" name="pet_weight" class="mr12" style="min-width: auto; width: 228.65px;" min="1"/>
 		<span>Kg</span>
 	</div>
 

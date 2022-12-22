@@ -230,9 +230,9 @@ $(document).ready(function(){
 			<!-- 지역 -->
 			<div class="f_row">
 				<p class="fc_title">지역</p>
-				<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}"/>
-				<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}"/>
-				<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}"/>
+				<input type="text" name="zipcode" style="width:100px; min-width: auto;" value="${userInfo.zipcode}" readonly="readonly"/>
+				<input type="text" name="addr" style="width:356px; min-width: auto;" placeholder="주소" value="${userInfo.addr}" readonly="readonly"/>
+				<input type="text" name="addr_detail" style="width:100%; min-width: auto; margin-top: 10px;" placeholder="상세주소" value="${userInfo.addr_detail}" readonly="readonly"/>
 			</div>
 		
 			<!-- 날짜 -->

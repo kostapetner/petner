@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kosta.petner.bean.Notice;
@@ -16,4 +17,6 @@ public interface NoticeService {
 	void notice_delete(int id); //공지글 삭제
 	void notice_read(int id); //조회수 증가 처리
 	void notice_reply_insert(Notice notice); //답글 저장
+	//공지사항 다중삭제 2022.12.21 김혜경
+	void delNotice(ArrayList<String> noArr);
 }

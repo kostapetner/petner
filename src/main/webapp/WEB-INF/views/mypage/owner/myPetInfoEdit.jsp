@@ -21,8 +21,11 @@ $(document).ready(function(){
 	
 	// 삭제
 	$(".del_btn").click(function(){
-		confirm()
-		window.location.href = "${pageContext.request.contextPath}/mypage/myPetDel?petNo=${data.pet_no}";
+		if(confirm("정말 삭제하시겠습니까?") == true){
+			window.location.href = "${pageContext.request.contextPath}/mypage/myPetDel?petNo=${data.pet_no}";
+		}else{
+			return false;
+		} 
 	})
 	
 	//제출

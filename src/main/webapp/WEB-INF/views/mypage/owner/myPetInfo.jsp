@@ -95,7 +95,7 @@
 						
 						<p class="detail">
 							<span class="field">특이사항</span>
-							<span class="value">${data.pet_info}</span>
+							<span class="value" style="display:inline-block; word-break: normal;">${data.pet_info}</span>
 						</p>
 					</div>
 				</li>

@@ -239,10 +239,10 @@ $(document).ready(function() {
 						str +='<div class="content ellipsis">'+item.REQUEST_DETAIL+'</div>';
 						str +='<div class="view_info">';
 						str +='<span class="date">'+item.ST_DATE+'&nbsp;~&nbsp;'+item.END_DATE+'</span>';
-						str +='<p>';
+						/* str +='<p>';
 						str +='<span class="mr12"> <i class="fa-solid fa-comment-dots"></i>20</span>';
 						str +='<span><i class="fa-regular fa-eye"></i>13</span>';
-						str +='</p>';
+						str +='</p>'; */
 						str +='</div>';
 						str +='</div>';
 						str+='</li>';
