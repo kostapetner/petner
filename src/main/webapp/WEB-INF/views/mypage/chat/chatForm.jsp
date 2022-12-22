@@ -407,65 +407,53 @@ textarea {
 
 									// 자신이 채팅거는 입장일 때
 									if (data[i].user_id == "${authUser.id}") {
-										// 현재 상대방 로그인 상태 일 때
-										if (loginList
-												.indexOf(data[i].another_id) != -1) {
-											$div = $(
-													"<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>")
+										$div = $("<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>")
 													.attr("id", data[i].room_id)
 													.attr("another_id",
 															data[i].another_id);
-										}
-										// 현재 상대방 로그아웃 상태 일 때
-										else {
-											$div = $(
-													"<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>")
-													.attr("id", data[i].room_id)
-													.attr("another_id",
-															data[i].another_id);
-										}
+										
+										if(data[i].another_pic !=0){
 										$img = $("<img class='profile_img'>")
 												.attr(
 														"src",
 														"getImg/"
 																+ data[i].another_pic);
+										}else{
+											$img = $("<img class='profile_img'>")
+											.attr(
+													"src",
+													"${imgPath}"
+															+ "/noimg.webp");
+											
+										}
 										$divs = $("<div class='userNameId'>")
 												.text(data[i].another_nickname);
 									}
 									// 자신이 채팅 받는 입장일 때
 									else {
-										// 현재 보낸사람이 로그인 상태 일 때
-										if (loginList.indexOf(data[i].user_id) != -1) {
-											$div = $(
-													"<div class='chatList_box enterRoomList' onclick='enterRoom(this);'>")
-													.attr("id", data[i].room_id)
-													.attr("user_id",
-															data[i].user_id);
-										}
-										// 현재 보낸사람이 로그아웃 상태 일 때
-										else {
 											$div = $(
 													"<div class='chatList_box2 enterRoomList' onclick='enterRoom(this);'>")
 													.attr("id", data[i].room_id)
 													.attr("user_id",
 															data[i].user_id);
-										}
+										if( data[i].user_pic !=0){									
 										$img = $("<img class='profile_img'>")
 												.attr(
 														"src",
 														"getImg/"
 																+ data[i].user_pic);
+										}else{
+											$img = $("<img class='profile_img'>")
+											.attr(
+													"src",
+													"${imgPath}"
+															+ "/noimg.webp");
+										}
 										$divs = $("<div class='userNameId'>")
 												.text(data[i].user_nickname);
 									}
 									
-									if(data[i].another_pic == 0) {
-										$img = $("<img class='profile_img'>")
-										.attr(
-												"src",
-												"${imgPath}/"
-														+ "noimg.webp");
-									}
+								
 									
 									
 									
@@ -575,17 +563,7 @@ textarea {
 							$(this).children('img').attr('src'));
 					// 스크롤바 아래 고정
 					$('div.chatMiddle').scrollTop(
-							$('div.chatMiddle').prop('scrollHeight'));
-					// 로그인 상태 일 때 
-					if ($(this).hasClass('chatList_box')) {
-						// 점 표시
-						$('#loginOn').addClass('profile_img_Container');
-					}
-					// 로그아웃 상태 일 때
-					else {
-						// 점 빼기
-						$('#loginOn').removeClass('profile_img_Container');
-					}
+							$('div.chatMiddle').prop('scrollHeight'));				
 				});
 
 		// 웹소켓
