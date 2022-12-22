@@ -52,6 +52,7 @@
     <select id="searchChatRoom" parameterType="com.kosta.petner.bean.ChatRoom" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM
         WHERE user_id = #{user_id} AND another_id = #{another_id}
+        or user_id = #{another_id} and another_id = #{user_id}
     </select>
     
     <select id="chatRoomList" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">

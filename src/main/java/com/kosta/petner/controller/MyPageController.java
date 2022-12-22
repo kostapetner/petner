@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kosta.petner.bean.FileVO;
 import com.kosta.petner.bean.JSONResult;
 import com.kosta.petner.bean.MypageSession;
+import com.kosta.petner.bean.PageInfo;
 import com.kosta.petner.bean.PetInfo;
 import com.kosta.petner.bean.SitterInfo;
 import com.kosta.petner.bean.Users;
@@ -431,46 +432,73 @@ public class MyPageController {
 		return "redirect:/mypage/myPetInfo";
 	}
 
-	// 리뷰작성페이지
-	@RequestMapping("/mypage/writeform")
-	public String myReview(HttpSession session, Model model) {
+	// 리뷰 리스트
+		@RequestMapping(value = "/mypage/review/myReviewList", method = RequestMethod.GET)
+		public String myReviewList(Model model,
+				@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+			// 페이징
+			PageInfo pageInfo = new PageInfo();
 
-		String id = getLoginUserId(session);
+			model.addAttribute("page", "mypage/review/reviewList");
+			model.addAttribute("title", "리뷰 작성 가능한 글");
+			return "/layout/mypage_default";
+		}
 
-		model.addAttribute("page", "mypage/review/writeform");
-		model.addAttribute("title", "리뷰쓰기");
-		return "/layout/mypage_default";
-	}
+		// 리뷰작성페이지
+		@RequestMapping("/mypage/review/writeform")
+		public String writefrom(HttpSession session, Model model) {
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
+			int user_no = getLoginUserNo(session);
 
-	// 내가 작성한 리뷰 리스트
-	@RequestMapping("/mypage/review/acquireReviewList")
-	public String acquireReviewList(HttpSession session, Model model) {
-		String id = getLoginUserId(session);
-		Users users = mypageService.getMyinfo(id);
+			model.addAttribute("page", "mypage/review/writeform");
+			model.addAttribute("title", "리뷰쓰기");
+			return "/layout/mypage_default";
+		}
 
-		model.addAttribute("page", "mypage/review/acquireReviewList");
-		model.addAttribute("title", "작성한 리뷰");
-		model.addAttribute("member", users);
-		return "/layout/mypage_default";
-	}
+	@RequestMapping("/mypage/review/reviewwrite")
+		public String reviewWrite(HttpSession session, Model model) {
+			model.addAttribute("page", "/mypage/review/reviewList");
+			model.addAttribute("title", "리뷰작성");
+			return "/layout/mypage_default";
+		}
+
+		// 리뷰 수정 페이지
+		@RequestMapping("/mypage/review/modifyform")
+		public String modifyfrom(HttpSession session, Model model) {
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
+			int user_no = getLoginUserNo(session);
+
+			model.addAttribute("page", "mypage/review/modifyform");
+			model.addAttribute("title", "리뷰수정");
+			return "/layout/mypage_default";
+		}
+
+		// 내가 작성한 리뷰 리스트
+
+		@RequestMapping("/mypage/review/writtenReviewList")
+		public String acquireReviewList(HttpSession session, Model model) {
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
+
+			model.addAttribute("page", "mypage/review/writtenReviewList");
+			model.addAttribute("title", "작성한 리뷰");
+			model.addAttribute("member", users);
+			return "/layout/mypage_default";
+		}
 
 	// 내가 받은 리뷰 리스트
-	@RequestMapping("/mypage/review/receiveReviewList")
-	public String receiveReviewList(HttpSession session, Model model) {
-		String id = getLoginUserId(session);
-		Users users = mypageService.getMyinfo(id);
+		@RequestMapping("/mypage/review/receiveReviewList")
+		public String receiveReviewList(HttpSession session, Model model) {
+			String id = getLoginUserId(session);
+			Users users = mypageService.getMyinfo(id);
 
-		model.addAttribute("page", "mypage/review/receiveReviewList");
-		model.addAttribute("title", "받은 리뷰");
-		model.addAttribute("member", users);
-		return "/layout/mypage_default";
-	}
+			model.addAttribute("page", "mypage/review/receiveReviewList");
+			model.addAttribute("title", "받은 리뷰");
+			model.addAttribute("member", users);
+			return "/layout/mypage_default";
+		}
 
-	/*
-	 * @RequestMapping(value="/mypage/review/reviewWrite",
-	 * method=RequestMethod.POST) ModelAndView reviewWrite(@ModelAttribute Review
-	 * review) { ModelAndView mav = new ModelAndView(); String path =
-	 * servletContext.getRealPath(); //파일업로드 }
-	 */
 
 }
