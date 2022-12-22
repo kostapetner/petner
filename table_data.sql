@@ -103,6 +103,21 @@ BEGIN
 END;
 COMMIT;
 
+-- test db
+
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (12, '테스트룰루랄라', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (13, '테스트이용', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (14, '글글', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (15, '글 테스트입니다.', '내용내용', 'user_1',sysdate);
+INSERT INTO board (id, title, content, writer,writedate)
+VALUES (16, '글 테스트이다', '내용내용', 'user_1',sysdate);
+
+
+
 
 -- board_comment ========================================================
 CREATE TABLE board_comment (
