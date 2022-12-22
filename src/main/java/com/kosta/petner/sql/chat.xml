@@ -57,6 +57,7 @@
     <select id="chatRoomList" parameterType="string" resultType="com.kosta.petner.bean.ChatRoom">
         SELECT * FROM CHATROOM
         WHERE user_id = #{user_id} OR another_id = #{user_id}
+        order by room_id desc
     </select>
     
     <select id="selectUnReadCount" parameterType="com.kosta.petner.bean.ChatMessage" resultType="int">
@@ -69,5 +70,15 @@
         SET UNREADCOUNT = 0
         WHERE room_id = #{room_id} AND user_id != #{user_id} AND UNREADCOUNT = 1
     </update>
+    
+    <delete id="deleteRoom" parameterType="String">
+  	<![CDATA[
+  	{CALL DECLARE BEGIN
+	   DELETE FROM CHATROOM  WHERE room_id = #{room_id};
+	   DELETE FROM CHATMESSAGE WHERE room_id = #{room_id};
+      END}
+      ]]>
+    </delete>
+    
 </mapper>
 

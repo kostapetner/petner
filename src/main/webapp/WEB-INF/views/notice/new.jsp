@@ -14,16 +14,8 @@
 <script src="${pluginsPath}/font-awesome/all.min.js"></script>
 <link rel="stylesheet" href="${cssPath}/table.css">
 <meta charset="UTF-8">
-<title>new JSP</title>
 </head>
 <body>
-	<!-- 
- - 파일 첨부 시 form 반드시 갖고 있어야 할 속성 
-	1. 반드시 method는 post이어야만 한다.
-	2. enctype을 지정한다. ▶ enctype='multipart/form-data'
-
--->
-
 	<div id="wrapper">
 		<!-- CONTAINER -->
 		<div class="container w90">
@@ -64,8 +56,6 @@
 										<label> <input type="file" name="file"
 											id="attach-file" /> 
 											<i class="fa-solid fa-file"></i>
-											<%-- <img src="${imgPath}/select.png"
-											class="file-img" /> --%>
 										</label> <span id="file-name"></span>
 										<!-- 첨부파일 이미지 영역 -->
 										<span id="preview"></span> <span id="delete-file"
