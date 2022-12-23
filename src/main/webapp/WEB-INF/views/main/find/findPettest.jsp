@@ -143,19 +143,45 @@ var objData;
 
 $(document).ready(function() {
 	getPetList();
-	console.log("cocog")
+	console.log("첵첵");
 	
-	// 지도 API
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 									   mapOption = {
 									        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
 									        level: 3 // 지도의 확대 레벨
 									   };  
+	
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
+	// 지도이동 이벤트 
 	kakao.maps.event.addListener(map, 'center_changed', function() {
-	    console.log('center changed!');
-	});
+		console.log('center changedㅎㅎㅎ!');
+		// 센터의 위도경도
+		var center = map.getCenter();
+		// 이 위도 경도의 zip 코드 검색
+		console.log("센터 위도경도"+center);
+		console.log("위도"+center.getLat());
+		console.log("경도"+center.getLng());
+		
+		var geocoder = new kakao.maps.services.Geocoder();
+
+		var coord = new kakao.maps.LatLng(center.getLat(), center.getLng());
+		
+		console.log("센터 위도경도 주소ㄹㄹㄹ??"+coord);
+		
+		var callback = function(result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+		    }
+		};
+
+		geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+		
+		getPetListByLocation();
+	})
+
+	
+	
 	
 	//위로가기	
 	$(document)
@@ -171,25 +197,23 @@ $(document).ready(function() {
 	
 });//ready
 	
-function getPetList(){
-		
-	var strURL = "${pageContext.servletContext.contextPath}/findPetTest/getJsonData";
+	// json data 가져오기
+	function getPetList(){
+		var strURL = "${pageContext.servletContext.contextPath}/findPetTest/getJsonData";
+				
+		objData = getJsonData(strURL, {});
 			
-	objData = getJsonData(strURL, {});
-		
-		if(objData.result != "success"){
-			alert(objData.error_message);
-		}else{
-			rowData = objData.data;
-			renderList();
-			//console.log("rowData.data1?"+rowData);	
-    }
-		
-
+			if(objData.result != "success"){
+				alert(objData.error_message);
+			}else{
+				rowData = objData.data;
+				renderList();
+				//console.log("rowData.data1?"+rowData);	
+	    }
 	};
 	
 	
-	//
+	// 리스트 그리기
 	function renderList(){
 			var strHTML = '';
 			for ( var i in rowData){
@@ -206,10 +230,13 @@ function getPetList(){
 			}
 			//$(".find_pet_list").html(strHTML);
 			console.log(strHTML);
-			
 	}
 	
-	// 지도API
+	
+	// 지도 API
+	function getPetListByLocation(){
+		
+	}
 	
 	// 화면 상단 버튼 
 	$(window).scroll(function(){

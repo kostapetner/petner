@@ -202,29 +202,28 @@
 	</update>
 	<select id="getAllPetServiceList" resultType="hashMap">
 		<![CDATA[
-			SELECT   	 
-					 service_no
-					,cs.user_no
-					,cs.pet_no
-					,pet_kind
-					,cs.zipcode
-					,cs.addr
-					,cs.addr_detail
-					,service
-					,TO_CHAR(st_date,'YYYY/MM/DD') st_date
-					,TO_CHAR(end_date,'YYYY/MM/DD') end_date
-					,request_money
-					,request_title
-					,request_detail
-					,status
-					,TO_CHAR(reg_date,'YYYY/MM/DD') reg_date
-					,cs.file_no
-					,nickname
-					,u.gender
-			FROM care_service cs
-			left join PET_INFO pif on cs.pet_no = pif.pet_no
-			left join users u on cs.user_no = u.user_no
-			ORDER BY REG_DATE DESC
+			SELECT 
+				 cs.service_no,
+				 cs.user_no,
+				 cs.pet_no,
+				 cs.zipcode,
+				 cs.addr,
+				 cs.addr_detail, 
+				 cs.service,
+				 TO_CHAR(st_date,'YYYY/MM/DD') st_date,
+				 TO_CHAR(end_date,'YYYY/MM/DD') end_date,
+				 cs.request_money,
+				 cs.request_title,
+				 cs.request_detail,
+				 cs.status,
+				 TO_CHAR(reg_date,'YYYY/MM/DD') reg_date,
+				 cs.file_no, 
+				 u.nickname,
+				 u.gender,
+				 u.FILE_NO user_file_no
+			FROM care_service cs 
+			left join PET_INFO pif on cs.pet_no = pif.pet_no 
+			left join users u on cs.user_no = u.user_no ORDER BY REG_DATE DESC
 		]]>	
 	</select>
 </mapper>
