@@ -1,3 +1,11 @@
+.btnSet {display: flex;
+    justify-content: center;}
+.btnSet .pet_btn {margin-right: 5px;display: flex;
+    align-items: center; padding: 14px;background:#a6a6a6}
+.btnSet .pet_btn:last-child {margin:0px;}
+
+.btnSet .pet_btn:hover {background:var(--orange);}
+
 .formbox {max-width: 800px;margin: 30px auto;}
 .hr {margin: 1rem 0;
     color: inherit;
@@ -21,6 +29,8 @@
     box-sizing: border-box;}
 .pn_write .content textarea::placeholder {color:#E1E3E6; }
 
+
+#list .table_top {margin: 30px 0px;}
 
 .table_top > div {display: flex; justify-content: space-between; align-items: center;}
 /*  search  */
@@ -70,11 +80,18 @@
   .pn_view #attach-file {display: none;}
   .pn_view input, .pn_view .fcc_textarea { width: 100%; border: none; }
   .pn_view .source { display: flex; justify-content: space-between; font-size:1.4rem; margin: 20px 0px; color:#828282; }
+  .pn_view .source .data_box {display: flex; flex-direction: column; align-items: flex-end;}
   .pn_view .source span {color:#ff9113;}
   .pn_view .source .file { display: flex; }
-  .pn_view .content { min-height: 200px; }
+  .pn_view .content {min-height: 200px;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column; }
+  .pn_view .content .preview > img.img3 {    width: 100%; max-width: 100%;height: auto;width: auto;margin-bottom: 30px;}
+  .pn_view .content .txt {min-height: 100px;}
   .pn_view .content .file_box { display: flex; }
-  .pn_view .content .file_box p { margin-right: 8px; }
+  .pn_view .content .file_box p { margin-right: 15px; }
   .pn_view .content .file_box label > img {width:20px}
   .pn_view .content .file_box div { display: flex; }
   .pn_view #image_preview img { width: auto; max-height: 350px; }
@@ -85,8 +102,12 @@
 .buttonList {text-align: center;}
 
 
+
+
 /*-------------- MYPAGE_TABLE CSS ---------------*/
 .user_table {}
+.user_table_list .table {width: 100%;}
+.user_table_list .table tr {height: 40px;text-align: justify;}
 .user_table .table {width: 100%;}
 .user_table .table tr > .left {text-align: start;}
 .user_table .table tr {border-bottom: 1px solid #f0f0f0;height: 110px;
@@ -103,3 +124,55 @@
 .user_table .table tr td .box2 .content {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:580px;}
         /* 공지사항 이미지 없을때 */
 .user_table .table tr td .box3 .preview_no {display: flex; width: 110px; height: 110px; background: #e0e0e0;}
+.user_table .table tr td .box3 .img3 {display: flex; width: 110px; height: 110px;}
+.user_table .table tr td .box3 {width: 110px; height: 110px;}
+
+
+.user_table_grid .grid_box {width: 100%;
+	display: grid;
+	/* grid-template-rows: repeat(3, minmax(200px, auto)); */
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: auto;
+	grid-column-gap: 25px;
+	grid-row-gap: 25px;}
+.user_table_grid .grid_box .item {background: #FFFFFF;
+	/* shadow */
+	box-shadow: 0px 0px 10px rgba(27, 46, 94, 0.12);
+	border-radius: 16px;
+	display: flex;
+	/* justify-content: center; */
+	/*align-items: center;  */
+	padding: 20px;
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+	height: 260px;
+	flex-direction: column;}
+	
+	/* .user_table_grid .grid_box .item::before {
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+} */
+
+.user_table_grid .preview .item .img3 {width:80px; height:80px;
+	margin-bottom: 20px;}
+	
+.user_table_grid .grid_box .item .box2 > h2 {word-break: break-all;}
+.preview_no
+
+
+/*-------------- qna_TABLE CSS ---------------*/
+
+
+.qna_table > table {width: 100%;}
+.qna_table .table .qna_list {display: flex;
+    align-items: center;
+        padding: 20px 0px;
+    border-bottom: 1px solid #CCc;
+}
+.qna_table .table .qna_list .box1 {width:15%;}
+
+
+
+
+
