@@ -98,18 +98,16 @@
 						$.each(data, function(i, item) { // 데이터 =item
 							dayStr = item.WORK_DAY; // mon,wed
 							strArr = dayStr.split(","); // 배열로 변환
-							console.log("strArr"+strArr); //배열크기만큼 돌면서 인덱스 가져와서 글자 바꿈
+							//console.log("strArr"+strArr); //배열크기만큼 돌면서 인덱스 가져와서 글자 바꿈
 							
 							for(var i in strArr){
 							    
 							    var idx = days_en.indexOf(strArr[i]);
-							    console.log("idxforstrArr["+strArr[i]+"]:"+idx);//02
-							    
+							    //console.log("idxforstrArr["+strArr[i]+"]:"+idx);//02
 							    strArr[i] = days_ko[idx]
-							    
 							}
 							
-							console.log("요일"+strArr)
+							//console.log("요일"+strArr)
 							
 							str +='<ul>';
 							str +='<li user_no="'+item.USER_NO+'">';
@@ -137,7 +135,7 @@
 							str +='<div class="icons">';
 							str +='<a href="#" title="채팅하기" class="transition02 chat" onclick="return chatting();"><i class="fa-solid fa-comment-dots" ></i></a>';
 							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
-							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
+							str +='<a href="javascript:follow();" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
@@ -331,6 +329,7 @@
 		    .on("click", ".go_top", function(){
 		    	$('html, body').animate({scrollTop:0}, '200');
 		    }) 
+		   
 		
 	})
 	
@@ -353,6 +352,22 @@
     $(".modal_box, .modal_mask"). remove();
     // $(".modal_mask"). remove();
   }
+  
+	//json data 가져오기
+	function follow(){
+		console.log("팔로우를해보자")
+		//var strURL = "${pageContext.servletContext.contextPath}/findPetTest/getJsonData";
+				
+		//objData = getJsonData(strURL, {});
+			
+			if(objData.result != "success"){
+				alert(objData.error_message);
+			}else{
+				rowData = objData.data;
+				renderList();
+				//console.log("rowData.data1?"+rowData);	
+	    }
+	};
   
   
   function chatting() {
