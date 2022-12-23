@@ -144,12 +144,9 @@
 							str+= '<input type="hidden" id="another_id" name="another_id" value="'+item.ID+'"/>';	
 							str+= '<button type="submit" id="chatting"><i class="fa-solid fa-comment-dots"></i></button>';
 							str +='<a href="#" title="저장하기" class="transition02 heart"><i class="fa-solid fa-heart"></i></a>';
-<<<<<<< HEAD
 							str +='<a href="javascript:follow();" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
-=======
 							str +='<a href="#" title="팔로우하기" class="transition02 follow"><i class="fa-solid fa-user-plus"></i></a>';
 							str+= '</form>';	
->>>>>>> 034e2834ac13718845a10f722957bbc107c6b230
 							str +='</div>';
 							str+='</li>';
 							str+='</ul>';
@@ -368,7 +365,7 @@
     // $(".modal_mask"). remove();
   }
   
-<<<<<<< HEAD
+
 	//json data 가져오기
 	function follow(){
 		console.log("팔로우를해보자")
@@ -389,9 +386,6 @@
   function chatting() {
 	  document.getElementById('CreateChat').submit();
 	  }
-=======
-    	  
->>>>>>> 034e2834ac13718845a10f722957bbc107c6b230
 </script>
 
 <style>

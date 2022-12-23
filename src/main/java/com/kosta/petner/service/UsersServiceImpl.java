@@ -143,12 +143,10 @@ public class UsersServiceImpl implements UsersService {
 					// 비밀번호 변경
 					usersDAO.updatePw(users);
 					// 비밀번호 변경 메일 발송
-					sendEmail(users, "findPass");
-					
+					sendEmail(users, "findPass");				
 					out.print("임시비밀번호가 발송되었습니다.");
 					out.close();
 					System.out.println("임시비밀번호:" +pw);
-					
 					
 					//메일을 보낸 후 db에 암호화 해줌
 					String passBcrypt = bcryptPasswordEncoder.encode(pw);
