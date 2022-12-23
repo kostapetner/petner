@@ -13,6 +13,7 @@
         <div class="fms">
           <a href="/petner/mypage">마이페이지</a>
           <a href="#">팔로우/팔로워</a>
+          <a href="#">쪽지</a>
           <a href="#">내가찜한게시글</a>
           <a href="#">리뷰관리</a>
           <a href="${pageContext.request.contextPath}/kaChat">1:1문의</a>

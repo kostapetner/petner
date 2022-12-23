@@ -122,7 +122,7 @@ textarea {
 				</li>
 				<li>
 					<p>회원구분 :</p>
-					<p>${users.user_auth}</p>
+					<%-- <p>${users.user_auth}</p> --%>
 						<!-- user_type 체크박스 -->
 					<div class="form-inline">
 								<label>
