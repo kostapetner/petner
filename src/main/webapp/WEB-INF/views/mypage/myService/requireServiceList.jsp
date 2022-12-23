@@ -136,10 +136,6 @@ $(document).ready(function(){
 			<ul>
 				<li>
 					<div class="data1">
-						<!-- 이미지영역 -->
-						<div class="pet_img">
-							<img src="/petner/resources/images/header_logo.png" alt="이미지">
-						</div>
 						<!-- 텍스트정보 영역 -->
 						<div class="text_area" style="width: 100%">
 							<div class="matching_status">

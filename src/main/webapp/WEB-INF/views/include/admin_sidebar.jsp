@@ -45,23 +45,6 @@
 					<li class="mb-2">
 						<button
 							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-							data-bs-toggle="collapse" aria-expanded="false">
-							<span data-feather="layers" class="align-text-bottom"></span> 
-							<!-- <a href="./admin_authority">권한관리</a>
-							 -->
-							권한관리
-						</button>
-					</li>
-					<li class="mb-2">
-						<button
-							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-							data-bs-toggle="collapse" aria-expanded="false">
-							<span data-feather="layers" class="align-text-bottom"></span> 현황
-						</button>
-					</li>
-					<li class="mb-2">
-						<button
-							class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
 							data-bs-toggle="collapse" data-bs-target="#user-collapse"
 							aria-expanded="false">
 							<span data-feather="layers" class="align-text-bottom"></span>
@@ -71,7 +54,7 @@
 							<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 								<li><a href="./admin_user"
 									class="link-dark d-inline-flex text-decoration-none rounded">회원정보관리</a></li>
-								<li><a href="#"
+								<li><a href="./black_user"
 									class="link-dark d-inline-flex text-decoration-none rounded">블랙리스트</a></li>
 							</ul>
 						</div>
@@ -91,11 +74,10 @@
 								<li><a href="./ad_list_notice"
 									class="link-dark d-inline-flex text-decoration-none rounded">공지사항 관리</a></li>
 									<li><a href="./ad_list_board"
-									class="link-dark d-inline-flex text-decoration-none rounded">게시판 관리</a></li>
+									class="link-dark d-inline-flex text-decoration-none rounded">이벤트 관리</a></li>
 									<li><a href="./ad_list_qna"
 									class="link-dark d-inline-flex text-decoration-none rounded">QNA 관리</a></li>
-								<li><a href="#"
-									class="link-dark d-inline-flex text-decoration-none rounded">리뷰 관리</a></li>
+								
 							</ul>
 						</div>
 					</li>

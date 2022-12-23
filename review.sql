@@ -1,3 +1,5 @@
+
+
 CREATE TABLE REVIEW(
 review_no NUMBER PRIMARY KEY,
 review_active_user NUMBER NOT NULL,
@@ -9,6 +11,7 @@ review_date date,
 CONSTRAINT fk_review_active_user FOREIGN KEY(review_active_User) REFERENCES users(user_No), 
 CONSTRAINT fk_review_passive_user FOREIGN KEY(review_passive_User) REFERENCES users(user_No)
 );
+
 CREATE SEQUENCE seq_review_no INCREMENT BY 1 START WITH 1;
 
 

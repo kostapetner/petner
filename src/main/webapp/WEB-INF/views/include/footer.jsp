@@ -30,8 +30,8 @@
       <div>
         <p class="fm_title">공지사항</p>
         <div class="fms">
-          <a href="#">Q&A</a>
-          <a href="#">이벤트</a>
+          <a href="/petner/list_qna">Q&A</a>
+          <a href="/petner/list_board">이벤트</a>
         </div>
       </div>
     </div>

@@ -46,7 +46,7 @@
 						<ul>
 						<c:if test="${authUser.user_type >= 9}">
 								<a type="button" class="btn btn-outline-secondary"
-									href="ad_new_notice">글쓰기</a>
+									href="ad_new_qna">글쓰기</a>
 							</c:if>
 						</ul>
 					</div>
@@ -67,33 +67,32 @@
 							<tbody>
 								<c:forEach items="${qna.list}" var="vo">
 									<tr style="cursor: pointer;">
-										<div class="row">
 											<td class="col-1">${vo.id}</td>
 											<td class="col-4"><c:forEach var="i" begin="1"
 													end="${vo.indent }">
-													<span class="qna_indent">Re <c:if
+													<span class="qna_indent">
+													<i class="fa-solid fa-arrow-right"></i> 
+													<c:if
 															test="ad_detail_qna?id=${vo.id }?${vo.title}=${vo.title}">${vo.title}</c:if></span>&nbsp;&nbsp;
 											</c:forEach> <a
 												href="ad_detail_qna?id=${vo.id }&curPage=${qna.curPage }">${vo.title }</a>
 											</td>
 											<td class="col-2">${vo.writer}</td>
 											<td class="col-2">${vo.writedate}</td>
-											<td class="col-1">${vo.root}</td>
-											<td class="col-1"><c:if test="${!empty vo.filename }">
+											<td class="col-1">${vo.readcnt}</td>
+											<td class="col-1" style="text-align: center;"><c:if test="${!empty vo.filename }">
 													<a href="ad_download_qna?id=${vo.id }"> 
 													<i class="fa-solid fa-file"></i>
 													</a>
 												</c:if></td>
-											<td class="col-1 d-flex-end" style="text-align: end;"><input
-												type="checkbox" name="id" value="${vo.id}"></td>
-
-										</div>
+											<td class="col-1 d-flex-end" style="text-align: end;">
+										<input type="checkbox" name="table_no" value="${vo.id}"></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 					</div>
-					<button type="submit" class="btn btn-outline-secondary">삭제</button>
+					<button type="submit" class="btn btn-outline-secondary" id="delBtn">삭제</button>
 
 					<nav aria-label="Page navigation example" class="paging">
 						<ul class="pagination">
@@ -138,7 +137,38 @@ $(function(){
 	$('#data-list ul').css('height', 
 			( ( $('.grid li').length % 5 > 0 ? 1 : 0 ) + Math.floor($('.grid li').length / 5) )
 			 * $('.grid li').outerHeight(true) - 20);
-})
+	
+	//
+	
+	//삭제 체크박스 12.21 hyekyung
+	var noArr = [];
+	$("input[name=table_no]").click(function() {
+		noArr = [];
+		$("input[name='table_no']:checked").each(function(e){
+			var value = $(this).val();
+			noArr.push(value);        
+		});
+	});
+	//삭제 체크박스 12.21 hyekyung
+	$("#delBtn").click(function(){
+		console.log("noArr "+noArr);
+		$.ajax({
+			url : "${pageContext.servletContext.contextPath}/delQna",
+			type : "POST",
+		    data: {"noArr":noArr},
+			success : function() {
+				alert("삭제완료");
+				document.location.reload(true);
+			},
+			error : function(xhr, error) {
+				console.error("error : " + error);
+			}
+		});
+	})
+	
+	//
+	
+});
 
 function go_detail(id) {
 	$('[name=id]').val(id);

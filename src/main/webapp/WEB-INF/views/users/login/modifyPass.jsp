@@ -15,8 +15,15 @@
 	.desc{text-align:center; margin-bottom:45px;}
 	.find_id{width:120px !important; text-align:center;}
 	.flex_between{flex-wrap:nowrap}
-	.submit_btn{position: relative; top:150px; width:200px;}
-	.flex_col {position:absolute; top:32%; left:42%;}
+	.submit_btn{
+		width: 200px;
+		line-height: 30px;
+		margin: auto;
+		}
+	.flex_col { 
+		width: 260px;
+    	margin: 0 auto;
+    	}
 </style>
   <script src= "https://code.jquery.com/jquery-3.4.1.js"></script>
   <script>

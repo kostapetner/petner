@@ -23,7 +23,7 @@ h2 {
 	text-align: center;
 }
 
-#commandList {
+#chat {
 	margin: auto;
 	width: 700px;
 	text-align: center;
@@ -45,7 +45,6 @@ $( document ).ready( function() {
 		<div class="container w90">
 			<div class="">
 				<p class="list_title">돌봐줄 동물 찾기</p>
-				<form id="imform" action="${pageContext.request.contextPath}/findPet" method="post">
 				<div class="pn_view">
 					<div class="title">
 						<h1>${cs.request_title }</h1>
@@ -87,17 +86,23 @@ $( document ).ready( function() {
 							</c:if>
 						</div>
 					</div>
-					<hr>
-					<!-- <div id="commandList">
-						<div class="d-grid gap-2 d-md-block ad_button">
-							<a class="admin_btn" id="golist" onclick="srchVal();" href="#" >
-								<button class="btn btn-outline-secondary" type="button">목록</button>
-							</a>
-						</div>
-					</div> -->
+					<br>
+				<form action= "${pageContext.request.contextPath}/createChat.do" method="post">
+				<input type="hidden" name="user_nickname" value= "${authUser.nickname}"/>
+				<input type="hidden" name="user_id" value= "${authUser.id}"/>			
+				<input type="hidden" name="another_nickname" value= "${cs.nickname}"/>
+				<input type="hidden" name="another_id" value= "${cs.id}"/>
+				<div id="chat">
+				<button type="submit" class="btn btn-outline-secondary" value="채팅하기">채팅하기 <i class="fa-solid fa-comment-dots" style="padding: 2px;"></i></button>
 				</div>
 				</form>
+					
+					
+					
+		
+				</div>
 			</div>
+					<hr>
 		</div>
 	</div>
 </body>

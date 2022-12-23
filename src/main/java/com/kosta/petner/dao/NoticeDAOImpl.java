@@ -1,6 +1,9 @@
 package com.kosta.petner.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +59,17 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public void notice_reply_insert(Notice notice) {
 		sqlSession.insert("mapper.notice.reply_insert", notice);
+	}
+
+	@Override
+	public void delNotice(ArrayList<String> noArr) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    for(int i = 0; i < noArr.size() ; i++) {
+			ArrayList<String> value = noArr;
+			map.put("noArr", value );
+		}
+	    System.out.println("======="+map+"=======");
+		sqlSession.delete("mapper.notice.delNotice", map);
 	}
 
 }

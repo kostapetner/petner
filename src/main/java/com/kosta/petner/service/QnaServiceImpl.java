@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public void qna_reply_insert(Qna qna) {
 		qnaDAO.qna_reply_insert(qna);
+	}
+
+	@Override
+	public void delQna(ArrayList<String> noArr) {
+		qnaDAO.delQna(noArr);
 	}
 
 }

@@ -36,7 +36,9 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public int createChat(ChatRoom room) {
+		
 		return chatDAO.createChat(room);
+	
 	}
 
 	@Override
@@ -57,6 +59,12 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int updateCount(ChatMessage message) {
 		return chatDAO.updateCount(message);
+	}
+
+	@Override
+	public void deleteRoom(String room_id) {
+		chatDAO.deleteRoom(room_id);
+		
 	}
 
 

@@ -78,6 +78,14 @@
 	<delete id="comment_delete">
 		DELETE FROM board_comment WHERE id=#{id}
 	</delete>
+	
+	<!-- board 다중삭제 -->
+	<delete id="delBoard">
+		DELETE FROM board WHERE id IN
+		<foreach item="item" index="index" collection="noArr" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
 </mapper>
 
 

@@ -70,6 +70,14 @@
 		]]>
 	</insert>
 	
+	<!-- qna 다중삭제 -->
+	<delete id="delQna">
+		DELETE FROM qna WHERE id IN
+		<foreach item="item" index="index" collection="noArr" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
 </mapper>
 
 

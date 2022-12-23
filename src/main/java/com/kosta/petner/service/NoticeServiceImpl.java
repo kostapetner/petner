@@ -1,5 +1,6 @@
 package com.kosta.petner.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,11 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void notice_reply_insert(Notice notice) {
 		noticeDao.notice_reply_insert(notice);
+	}
+
+	//공지사항 다중삭제 2022.12.21 김혜경
+	@Override
+	public void delNotice(ArrayList<String> noArr) {
+		noticeDao.delNotice(noArr);
 	}
 }

@@ -174,7 +174,7 @@ public class OwnerController {
 	}
 	
 	//펫케어 서비스 신청 insert
-	@RequestMapping(value = "/mypage/myService/requireServiceFrom", method = RequestMethod.POST)
+	@RequestMapping(value = "/mypage/myService/requireServiceForm", method = RequestMethod.POST)
 	public ModelAndView requireServiceFrom(@ModelAttribute CareService careService, Model model, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		try {
