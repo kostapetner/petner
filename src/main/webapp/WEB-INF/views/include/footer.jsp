@@ -16,7 +16,7 @@
           <a href="#">쪽지</a>
           <a href="#">내가찜한게시글</a>
           <a href="#">리뷰관리</a>
-          <a href="#">1:1문의</a>
+          <a href="${pageContext.request.contextPath}/kaChat">1:1문의</a>
         </div>
       </div>
       <!-- 펫시터찾기 -->
@@ -31,8 +31,8 @@
       <div>
         <p class="fm_title">공지사항</p>
         <div class="fms">
-          <a href="#">Q&A</a>
-          <a href="#">이벤트</a>
+          <a href="/petner/list_qna">Q&A</a>
+          <a href="/petner/list_board">이벤트</a>
         </div>
       </div>
     </div>

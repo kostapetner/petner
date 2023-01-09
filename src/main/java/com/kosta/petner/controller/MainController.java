@@ -13,4 +13,7 @@ public class MainController {
 	String main(Model model) {
 		return "/main/index_main";
 	}
+	
+	
+	
 }

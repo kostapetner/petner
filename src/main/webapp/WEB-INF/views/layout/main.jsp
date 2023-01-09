@@ -13,6 +13,7 @@
   <div id="wrapper">
     <!-- HEADER BASIC -->
     <c:import url='/WEB-INF/views/include/header.jsp'/>
+    
     <!-- CONTAINER -->
     <div class="container">
      <c:import url='/WEB-INF/views/${page}.jsp'/>
@@ -20,7 +21,6 @@
 		
 		<!-- FOOTER BASIC -->
     <c:import url='/WEB-INF/views/include/footer.jsp'/>
-    
   </div>
 </body>
 </html>

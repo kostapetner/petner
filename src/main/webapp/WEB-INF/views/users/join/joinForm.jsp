@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cssPath" value="${pageContext.request.contextPath}/resources/css"/>
+<c:set var="imgPath" value="${pageContext.request.contextPath}/resources/images"/>
+
 
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<c:import url='/WEB-INF/views/include/common_head.jsp' />
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +59,7 @@
 	    return false;
 	    
 	  }if(!acceptPass.test(password)){
-			$('#checkpass-msg').text("비밀번호는 영어소문자+숫자+특수문자를 조합해야 합니다(8자 이상)").css("color", "red");
+			$('#checkpass-msg').text("비밀번호는 영어+숫자+특수문자를 조합해야 합니다(8자 이상)").css("color", "red");
 		    $("#password").focus();
 		  return false;
 		  
@@ -218,7 +222,7 @@
 	   		}
 	   		$.ajax({
 	   			type:"post",
-	   			url:"http://localhost:8088/checkId",
+	   			url:"http://localhost:8088/petner/checkId",
 	   			data:{id:id},   //id(key):id(value)
 	   			success:function(data,textStatus) {
 	   				if(data=="true") {
@@ -243,17 +247,19 @@
 
 <body>
   <div id="wrapper">
+  		<!-- HEADER BASIC -->
+		<c:import url='/WEB-INF/views/include/header.jsp' />
 
     <div class="login_form w50">      
       <h3 class="form_title">회원가입</h3>
-      <form id= "joinForm" action="/joinpet" method="POST" class="join_form" onsubmit = "return check()">
+      <form id= "joinForm" action="./joinpet" method="POST" class="join_form" onsubmit = "return check()">
       
         <div class="f_row">
-          <p class="fc_title">어쩌고저쩌고</p>
+          <p class="fc_title">&#128586 펫트너 가족되기 &#128586</p>
           <p class="tip"><i class="fa-solid fa-asterisk"></i> 회원가입후 추가로 정보를 등록할 수 있어요</p>
           <div class="flex_col">
-            <label class="fcRadio1 mb10"><input type="radio" name="userType" id="userType" value= "1" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )</span></label>
-            <label class="fcRadio1"><input type="radio" name="userType" value= "2"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
+            <label class="fcRadio1 mb10"><input type="radio" name="user_type" id="user_type" value= "2" checked><span>보호자로 등록하기 ( 펫시터를 찾고있어요 )  </span></label>
+            <label class="fcRadio1 "><input type="radio" name="user_type" value= "1"><span>펫시터로 등록하기 ( 돌봐줄 동물을 찾고있어요 )</span></label>
           </div>          
         </div>
         <!-- TEXT/PASSWORD -->
@@ -267,7 +273,7 @@
           </p>
           <p><small id="checkid-msg" class="form-error"></small></p>
         </div>
-        <div class="f_row flex_col">
+        <div class="f_row flex_col" style= "width:200px;">
           <p class="fc_title">비밀번호</p>
           <input class="mb10" type="password" name ="password" id="password" placeholder="비밀번호입력"/>
           <input type="password" name="ck_password" id="ck_password" placeholder="비밀번호확인"/>
@@ -314,10 +320,10 @@
           <p class="fc_title">주소입력</p>
           <div class="flex_col">
             <p class="mb10">
-              <input class="mr12" type="text" id="add1" name="address" readonly/><input type="button" class="pet_btn second_btn transition02" onclick="Zipcode()" value= "주소찾기"/>
+              <input class="mr12" type="text" id="add1" name="zipcode" readonly/><input type="button" class="pet_btn second_btn transition02" onclick="Zipcode()" value= "주소찾기"/>
             </p>            
-            <input class="mb10" type="text" id ="add2" name="address" readonly/>
-            <input class="mb10" type="text" id ="add3" name="address" placeholder="상세주소입력"/>
+            <input class="mb10" type="text" id ="add2" name="addr" readonly/>
+            <input class="mb10" type="text" id ="add3" name="addr_detail" placeholder="상세주소입력"/>
             <input type="hidden" id="add4" name="address" placeholder="참고항목">
              <p><small id="checkaddress-msg" class="form-error"></small></p>
           </div>
@@ -330,4 +336,7 @@
       </form>
     </div>
   </div>
+  
+		<!-- FOOTER BASIC -->
+		<c:import url='/WEB-INF/views/include/footer.jsp' />
 </body>
