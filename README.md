@@ -22,7 +22,7 @@ team project Petner !!
 * 최동인
 * 김유진
 * 홍시원
-
+ 
 
 
 ---
@@ -37,7 +37,7 @@ team project Petner !!
 
 ---
 ## 🏗 Project DB ERD
-![url_img](https://github.com/kostapetner/petner/blob/master/src/main/webapp/resources/images/erd_img.png?raw=true)
+![erd_img](https://user-images.githubusercontent.com/69137860/211261781-0813d604-9feb-4b90-abb7-a3b041eba243.png)
 
 
 
