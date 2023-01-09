@@ -20,7 +20,7 @@ team project Petner !!
 * 홍시원
 
 ### 사용한 기술
-<img src="https://img.shields.io/badge/jquery-00000?style=flat-square&logo=jqurey&logoColor=fffff"/>
+<img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=white"/>
 
 ### 기능구현
 
